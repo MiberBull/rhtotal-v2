@@ -5,8 +5,8 @@ import mx.com.axity.commons.to.totree.CompoundCustomerTO;
 import mx.com.axity.commons.to.CustomerTO;
 import mx.com.axity.commons.to.ProjectTO;
 import mx.com.axity.services.BaseTest;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -55,18 +55,18 @@ public class ClienteServiceTest extends BaseTest {
         customer.setCustomer(customerTO);
         customer.setProjectTOList(listProject);
         var isSave = this.clienteServiceTest.addOrUpdateClient(customer);
-        Assert.assertTrue(isSave);
+        Assertions.assertTrue(isSave);
     }
 
     @Test
     public void getCustomerTest() {
         var customer = this.clienteServiceTest.getCustomer(1);
-        Assert.assertNotNull(customer);
+        Assertions.assertNotNull(customer);
     }
 
     @Test
     public void testClient() {
         List<ClientTableTO> pagedClient = this.clienteServiceTest.getPagedClient(0,"","");
-        Assert.assertNotNull(pagedClient);
+        Assertions.assertNotNull(pagedClient);
     }
 }

@@ -2,7 +2,7 @@ package mx.com.axity.model;
 
 import mx.com.axity.model.annotations.ExelAnnotations;
 
-import javax.persistence.Column;
+import jakarta.persistence.Column;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;

@@ -1,7 +1,6 @@
 package mx.com.axity.web.rest;
 
 
-import io.swagger.annotations.Api;
 import mx.com.axity.commons.to.*;
 import mx.com.axity.services.facade.IFintechFacade;
 import org.apache.logging.log4j.LogManager;
@@ -16,7 +15,6 @@ import java.util.List;
 @CrossOrigin(origins = "*", allowedHeaders = "*", allowCredentials = "true")
 @RestController
 @RequestMapping("fintech")
-@Api(value = "fintech", description = "Operaciones con Fintech")
 public class FintechController {
 
     final static Logger LOG = LogManager.getLogger(FintechController.class);

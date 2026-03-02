@@ -3,8 +3,8 @@ package mx.com.axity.services.facade;
 import mx.com.axity.commons.to.LogsResponseSicoTO;
 import mx.com.axity.model.LogsResponseSicoDO;
 import mx.com.axity.services.BaseTest;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
@@ -30,7 +30,7 @@ public class LogsResponseSicoFacadeTest extends BaseTest {
         this.logsResponseSicoFacade.saveLogsResponseSicoTO(log);
 
         var objectSave = this.entityManager.find(LogsResponseSicoDO.class, log.getId());
-        Assert.assertNotNull(objectSave);
+        Assertions.assertNotNull(objectSave);
 
     }
 

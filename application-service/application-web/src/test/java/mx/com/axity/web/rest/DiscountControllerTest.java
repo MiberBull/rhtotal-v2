@@ -3,8 +3,8 @@ package mx.com.axity.web.rest;
 import mx.com.axity.commons.to.CategoryTO;
 import mx.com.axity.commons.to.SubCategoryTO;
 import mx.com.axity.web.BaseTest;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
@@ -12,19 +12,19 @@ public class DiscountControllerTest extends BaseTest {
     @Test
     public void getCategoryTest() {
         var category = this.discountFacadeTest.getCategory();
-        Assert.assertNotNull(category);
+        Assertions.assertNotNull(category);
     }
 
     @Test
     public void getSubcategoryTest() {
         var subcategory = this.discountFacadeTest.getSubcategory(1L);
-        Assert.assertNotNull(subcategory);
+        Assertions.assertNotNull(subcategory);
     }
 
     @Test
     public void getPagedDiscountTest() {
         var pagedDiscount = this.discountFacadeTest.getPagedDiscount(0,"","","","");
-        Assert.assertNotNull(pagedDiscount);
+        Assertions.assertNotNull(pagedDiscount);
     }
 
     @Test

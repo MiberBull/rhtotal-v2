@@ -2,27 +2,27 @@ package mx.com.axity.services.service;
 
 import mx.com.axity.commons.to.InsuranceTO;
 import mx.com.axity.services.BaseTest;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 
 
-@Ignore("Ya no se usan metodos")
+@Disabled("Ya no se usan metodos")
 public class InsuranceServiceTest extends BaseTest {
-    @Ignore("Ya no se usan metodos")
+    @Disabled("Ya no se usan metodos")
     @Test
     public void getInsuranceCarrierTest() {
         //var insuranceCarrier = this.insuranceServiceTest.getInsuranceCarrier();
-        //Assert.assertNotNull(insuranceCarrier);
+        //Assertions.assertNotNull(insuranceCarrier);
     }
-    @Ignore("Ya no se usan metodos")
+    @Disabled("Ya no se usan metodos")
     @Test
     public void getInsuranceTypeTest() {
         //var insuranceType = this.insuranceServiceTest.getInsuranceType();
-        //Assert.assertNotNull(insuranceType);
+        //Assertions.assertNotNull(insuranceType);
     }
-    @Ignore("Ya no se usan metodos")
+    @Disabled("Ya no se usan metodos")
     @Test
     public void saveOrUpdateInsuranceTest() {
         InsuranceTO insuranceTO = new InsuranceTO();
@@ -48,19 +48,19 @@ public class InsuranceServiceTest extends BaseTest {
         insuranceTO.setCreationDate(LocalDate.now());
         insuranceTO.setActive(Boolean.TRUE);
         //var isSave = this.insuranceServiceTest.saveOrUpdateInsurance(insuranceTO);
-        //Assert.assertTrue(isSave);
+        //Assertions.assertTrue(isSave);
     }
-    @Ignore("Ya no se usan metodos")
+    @Disabled("Ya no se usan metodos")
     @Test
     public void getInsuranceTest() {
         //var insurance = this.insuranceServiceTest.getInsurance(1);
-        //Assert.assertNotNull(insurance);
+        //Assertions.assertNotNull(insurance);
     }
 
-    @Ignore("Ya no se usan metodos")
+    @Disabled("Ya no se usan metodos")
     @Test
     public void getPagedInsuranceTest() {
         //var pagedInsurance = this.insuranceServiceTest.getPagedInsurance(0);
-        //Assert.assertNotNull(pagedInsurance);
+        //Assertions.assertNotNull(pagedInsurance);
     }
 }

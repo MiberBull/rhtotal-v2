@@ -1,7 +1,5 @@
 package mx.com.axity.commons.to;
 
-import org.apache.tomcat.jni.Local;
-
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;

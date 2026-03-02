@@ -4,7 +4,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -17,12 +16,7 @@ import org.springframework.web.client.RestTemplate;
 public class Application {
 
     public static void main(String[] args) {
-
-        ApplicationContext applicationContext = SpringApplication.run(Application.class);
-
-        for (String name : applicationContext.getBeanDefinitionNames()) {
-            System.out.println(name);
-        }
+        SpringApplication.run(Application.class, args);
     }
 
     @Bean
@@ -35,8 +29,8 @@ public class Application {
         return new RestTemplate();
     }
 
-
     @Bean(name = "appRestFintech")
-    public RestTemplate restTemplateFintech(){return new RestTemplate();}
-
+    public RestTemplate restTemplateFintech() {
+        return new RestTemplate();
+    }
 }

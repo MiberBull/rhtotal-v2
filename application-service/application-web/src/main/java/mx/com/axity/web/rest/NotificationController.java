@@ -1,6 +1,5 @@
 package mx.com.axity.web.rest;
 
-import io.swagger.annotations.Api;
 import mx.com.axity.commons.to.NotificationMobileTO;
 import mx.com.axity.commons.to.totree.BenefitsNotificationsTreeTO;
 import mx.com.axity.commons.to.totree.CountRowTO;
@@ -26,7 +25,6 @@ import java.util.List;
 @CrossOrigin(origins = "*", allowedHeaders = "*", allowCredentials = "true")
 @RestController
 @RequestMapping("notification")
-@Api(value = "notification", description = "Operaciones con Notification")
 public class NotificationController {
 
     final static Logger LOG = LogManager.getLogger(NotificationController.class);
