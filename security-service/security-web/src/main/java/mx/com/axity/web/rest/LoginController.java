@@ -1,6 +1,5 @@
 package mx.com.axity.web.rest;
 
-import io.swagger.annotations.Api;
 import mx.com.axity.commons.to.AnswerLoginMobileTO;
 import mx.com.axity.commons.to.AnswerLoginTO;
 import mx.com.axity.commons.to.resetPasswordTO;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*", allowedHeaders = "*", allowCredentials = "true")
 @RestController
 @RequestMapping("login")
-@Api(value="login", description="Operaciones con login")
 public class LoginController {
 
     final static Logger LOG = LogManager.getLogger(LoginController.class);

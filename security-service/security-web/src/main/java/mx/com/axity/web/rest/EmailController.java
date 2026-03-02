@@ -1,6 +1,5 @@
 package mx.com.axity.web.rest;
 
-import io.swagger.annotations.Api;
 import mx.com.axity.commons.to.EmailContentTO;
 import mx.com.axity.services.facade.IEmailFacade;
 import org.apache.logging.log4j.LogManager;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*", allowedHeaders = "*", allowCredentials = "true")
 @RestController
 @RequestMapping("email")
-@Api(value="email", description="Operaciones con email")
 public class EmailController {
 
     final static Logger LOG = LogManager.getLogger(EmailController.class);
