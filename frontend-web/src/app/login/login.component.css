@@ -1,0 +1,73 @@
+.logo{
+    height: 45%;
+    display: flex;
+}
+
+.progress::ng-deep .mat-progress-bar-fill::after {
+    background-color: #1099d6;
+}
+
+.image-logo{
+    margin: auto;
+    width: 229.77px;
+    height: 180px;
+}
+
+.login{
+    height: 55%;
+    background: url('../../assets/background.png');
+}
+
+.form-login{
+    display: flex;
+    flex-direction: column;
+    width: 350px;
+    margin: auto;
+    height: 100%;
+}
+
+.frist-element {
+    margin-top: 20px;
+}
+
+.login input{
+    color:white;
+}
+
+.login::ng-deep label.mat-form-field-placeholder.mat-empty {    
+    color: white;
+}
+
+.login::ng-deep input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
+    background-color: rgb(250, 255, 189) !important;
+    background-image: none !important;
+    color: rgb(0, 0, 0) !important;
+}
+
+.login::ng-deep label.mat-form-field-label {    
+    color: white;
+}
+
+.login::ng-deep .mat-form-field-underline {    
+    background-color: white;
+}
+
+.login::ng-deep .mat-form-field-ripple {    
+    background-color: white;
+}
+
+.mat-raised-button.mat-primary {
+    background-color: gray;
+}
+
+.btn-login{
+    max-width: 100px;
+    margin: auto;
+}
+
+.forget-password{
+    margin: auto;
+    text-decoration: underline;
+    color: #ffffff  ;
+    cursor: pointer;
+} 

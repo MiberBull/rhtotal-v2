@@ -1,0 +1,64 @@
+<mat-card class="card-form--wrapper">
+  <form class="container" [formGroup]="formInfo" class="custom-input">
+      <mat-form-field class="hide-id">
+        <input matInput type="text" formControlName="idProject">
+      </mat-form-field>
+      <mat-form-field>
+        <textarea matInput type="text" placeholder="Nombre" formControlName="name" required maxlength="50"></textarea>
+        <mat-error *ngIf="formInfo.get('name').value.trim() === ''">El campo es requerido</mat-error>
+        <mat-error *ngIf="formInfo.get('name').value.trim() != '' && !formInfo.get('name').valid ">Datos incorrectos</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input  matInput type="text" placeholder="RFC" formControlName="rfc" required maxlength="13" class="uppertxt">
+        <mat-error *ngIf="formInfo.get('rfc').value.trim() === ''">El campo es requerido</mat-error>
+        <mat-error *ngIf="formInfo.get('rfc').value.trim() != '' && !formInfo.get('rfc').valid">
+          Datos incorrectos
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput type="text" placeholder="Razon social" formControlName="businessName" required maxlength="50">
+        <mat-error *ngIf="formInfo.get('businessName').value.trim() === ''">El campo es requerido</mat-error>
+        <mat-error *ngIf="formInfo.get('businessName').value.trim() != '' && !formInfo.get('businessName').valid ">Datos incorrectos</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <textarea matInput type="text" placeholder="Dirección" formControlName="address" required maxlength="250"></textarea>
+        <mat-error *ngIf="formInfo.get('address').value.trim() === ''">El campo es requerido</mat-error>
+        <mat-error *ngIf="formInfo.get('address').value.trim() != '' && !formInfo.get('address').valid ">Datos incorrectos</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <textarea matInput type="text" placeholder="Contacto" formControlName="contact" required maxlength="50"></textarea>
+        <mat-error *ngIf="formInfo.get('contact').value.trim() === ''">El campo es requerido</mat-error>
+        <mat-error *ngIf="formInfo.get('contact').value.trim() != '' && !formInfo.get('contact').valid ">Datos incorrectos</mat-error>
+      </mat-form-field>
+      <div class="second-div">
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Teléfono" formControlName="phone" required maxlength="10">
+          <mat-error *ngIf="formInfo.get('phone').value === '' ">El campo es requerido</mat-error>
+          <mat-error *ngIf="formInfo.get('phone').value != '' && !formInfo.get('phone').valid">Datos incorrectos</mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Extensión" formControlName="extension" maxlength="5">
+          <mat-error *ngIf="formInfo.get('extension').value != '' && !formInfo.get('extension').valid">Datos incorrectos</mat-error>
+        </mat-form-field>
+      </div>
+      <mat-form-field>
+        <input matInput placeholder="Correo electrónico" formControlName="email" maxlength="50">
+        <mat-error *ngIf="formInfo.get('email').value != '' && !formInfo.get('email').valid">
+            Datos incorrectos
+        </mat-error> 
+      </mat-form-field>
+      <mat-form-field>
+        <textarea matInput placeholder="Información adicional" formControlName="additionalInformation" maxlength="250"></textarea>
+        <mat-error *ngIf="!formInfo.get('additionalInformation').valid">Datos incorrectos</mat-error>
+      </mat-form-field>
+      <mat-form-field *ngIf="newItem && status">
+        <mat-select placeholder="Estatus" formControlName="status" (selectionChange)="changeSelectStatus(formInfo)" required>
+          <mat-option value="A">Activo</mat-option>
+          <mat-option value="I">Inactivo</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field *ngIf="newItem && status" ng-disabled="true">
+        <input matInput placeholder="Autor" formControlName="creationUser" ng-disabled="true"  readonly/>
+      </mat-form-field>
+  </form>
+</mat-card>

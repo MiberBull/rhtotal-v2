@@ -1,0 +1,57 @@
+<ion-content class="wrapper-page">
+  <!-- <div class="contentImage" style="background-image: url('assets/imgs/rh.png');
+  background-repeat: no-repeat; background-size: cover;">
+  </div> -->
+  <div class="content-header" style="background-image: url('assets/imgs/headers/rh.png');background-repeat: no-repeat; background-size: cover; height: 40% !important;">
+      <div class="content-sub-header" (click)="backRHGeneral()" >
+        <ion-icon ios="ios-arrow-back" md="md-arrow-back" class="image-header" ></ion-icon>
+        <div class="content-somos"></div>
+      </div>
+  </div>
+
+  <div style="height: 50%">
+    <ion-card class="wrapper-ion-card">
+      <ion-card-content class="wrapper-card" (click)="goActualPosition()">
+        <div style="width: 25%; display: flex; justify-content: center;">
+          <img src="assets/icon/puesto_actual.svg" alt="" class="img-card">
+        </div>
+        <div style="width: 65%">
+          <label class="title-card"> Datos Generales </label>
+          <p class="subtitle-card"> Tu información laboral actualizada </p>
+        </div>
+        <div style="width: 10%">
+          <img src="assets/icon/arrow.svg" alt="" class="wrapper-img-arrow">
+        </div>
+      </ion-card-content>
+    </ion-card>
+    <ion-card class="wrapper-ion-card">
+      <ion-card-content class="wrapper-card" (click)="goPaymentDetails()">
+        <div style="width: 25%; display: flex; justify-content: center;">
+          <img src="assets/icon/detalle_pago.svg" alt="" class="img-card">
+        </div>
+        <div style="width: 65%">
+          <label class="title-card"> Detalle de pagos </label>
+          <p class="subtitle-card"> Transparencia en tus pagos </p>
+        </div>
+        <div style="width: 10%">
+          <img src="assets/icon/arrow.svg" alt="" class="wrapper-img-arrow">
+        </div>
+      </ion-card-content>
+    </ion-card>
+    <ion-card class="wrapper-ion-card" disabled="true">
+      <ion-card-content class="wrapper-card" (click)="goCfdi()">
+        <div style="width: 25%; display: flex; justify-content: center;">
+          <img src="assets/icon/cfdi.svg" alt="" class="img-card">
+        </div>
+        <div style="width: 65%">
+          <label class="title-card"> CFDI </label>
+          <p class="subtitle-card"> Tus comprobantes a la mano </p>
+        </div>
+        <div style="width: 10%">
+          <img src="assets/icon/arrow.svg" alt="" class="wrapper-img-arrow">
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+    
+</ion-content>

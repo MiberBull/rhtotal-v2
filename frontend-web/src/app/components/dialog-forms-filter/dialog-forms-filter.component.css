@@ -1,0 +1,15 @@
+.contenedor{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 30px;
+    margin-right: 30px;
+}
+.control{
+    width: 100%;
+}
+.button-row{
+    width: 100%;
+    display: flex;    
+    justify-content: space-around;
+}

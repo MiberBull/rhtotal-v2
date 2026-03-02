@@ -1,0 +1,16 @@
+<div class="clients">
+  <h1 style="margin-top: 0px;" id="title">Proyecto</h1>
+  <dl>
+      <dt><mat-checkbox color="primary" class="example-margin" [(ngModel)]="treeJsonClient['checkProject']" (change)="selectedAllProjectsClients()" [disabled]="disable">Todos</mat-checkbox></dt>
+
+      <div *ngFor="let element of treeJsonClient['clients']; let i of index">
+          <div *ngIf="element.check && element.projects">
+              <dt><p id="titleClients" [matTooltip]="element.name">{{element.name | reducer:35}}</p></dt>
+              <dt><mat-checkbox color="primary" class="example-margin" (change)="selectedAllProject(element)" [(ngModel)]="element.everyBody" [disabled]="disable">Todos</mat-checkbox></dt>
+                <div *ngFor="let proyect of element.projects">
+                    <dd><mat-checkbox [matTooltip]="proyect.name" color="primary" class="example-margin" (change)="getProject(proyect,element.id)" [(ngModel)]="proyect.check" [disabled]="disable" class="projectText">{{ proyect.name | reducer:35 }}</mat-checkbox></dd>
+                </div>
+          </div>
+      </div>
+  </dl>
+</div>

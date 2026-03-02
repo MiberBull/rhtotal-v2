@@ -1,0 +1,65 @@
+<div class="container">
+  <div class="elementUno">
+
+      <div *ngIf="opcionInsurance" class="elementUno selectedCombo card-form-insurance  custom-input">
+            <mat-form-field>
+                <mat-select placeholder="Tipo de seguro" [(ngModel)]="optionInsuranceType" (selectionChange)="showTypeInsurance()">
+                    <mat-option *ngFor="let seguro of insurances" [value]="seguro.value">
+                        {{seguro.typeInsurance}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+      </div>
+
+      <app-vehicle-insurance *ngIf="insuranceVehicle"
+                              [insurance-table]="insuranceTableTO"
+                              (set-insurance)="setInsuranceSave($event)"
+                              (enable-tree)="setEnableTree($event)">
+      </app-vehicle-insurance>
+      
+
+      <app-life-insurance *ngIf="insuranceLife"
+                            [insurance-table]="insuranceTableTO"
+                            (set-insurance)="setInsuranceSave($event)"
+                            (enable-tree)="setEnableTree($event)">
+      </app-life-insurance>
+      
+
+      <app-insurance-medical-expenses *ngIf="insuranceMedical"
+                            [insurance-table]="insuranceTableTO"
+                            (set-insurance)="setInsuranceSave($event)"
+                            (enable-tree)="setEnableTree($event)">
+      </app-insurance-medical-expenses>
+  </div>
+  <div class="elementDos">
+      <app-tree class="element" [jsonTree]="jsonTreeNotification" [disable]="disableTree"></app-tree>
+  </div>
+
+  
+</div>
+
+<mat-divider class="lineDivider"></mat-divider>
+
+<div class="containerTable">
+    <div>
+        <h2 class="titleEventualidades" *ngIf="showTable"> {{titleEventualidad}} </h2>
+        <app-generic-table *ngIf="showTable"        
+            [headers]="tableData.headers"
+            [info-data]="tableData.infoData"
+            [titles]="tableData.titles"
+            [total-items]="countEventualyCoverage"
+            (selected-item)="selectItemInsuranceEventualy($event)"
+            (go-next)="getLoadEventualyCoverage($event)"
+            (go-prev)="getLoadEventualyCoverage($event)">
+        </app-generic-table>  
+    </div>
+
+
+    <div class="controls-wrapper fixed" *ngIf="showTable">
+        <div class="buttons-wrapper">
+            <button mat-mini-fab type="submit" color="primary" class="margin:auto;" (click)="addEventualy()" [disabled]="showAddEventualy">
+              <mat-icon>add</mat-icon>
+            </button>            
+        </div>      
+    </div>
+</div>

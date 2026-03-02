@@ -1,0 +1,57 @@
+.md{
+
+    page-create-account {
+    
+        .toolbar-background {
+            background-image: url('./../assets/imgs/create-account.png') !important;
+            background-size: cover;
+            background-position:center;
+            background-repeat: no-repeat;
+        }
+    
+        .labels {
+            color: #1099d6;
+            text-decoration: underline;
+        }
+    
+        ion-icon {
+            font-size: 25px; //Preferred size here
+        }
+    
+        .crearCuenta{
+            font-weight: bold;
+            font-size: 20px;
+            padding-top: 5px;
+            padding-left: 10px;
+        }
+    }
+}
+
+.ios{
+
+    page-create-account {
+    
+        .toolbar-background {
+            background-image: url('./../assets/imgs/create-account.png') !important;
+            background-size: cover;
+            background-position:center;
+            background-repeat: no-repeat;
+        }
+    
+        .labels {
+            color: #1099d6;
+            text-decoration: underline;
+        }
+    
+        ion-icon {
+            font-size: 25px; //Preferred size here
+        }
+    
+        .crearCuenta{
+            font-weight: bold;
+            font-size: 20px;
+            padding-top: 3px;
+            padding-left: 10px;
+        }
+    }
+}

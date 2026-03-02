@@ -1,0 +1,94 @@
+.card-form-customer {
+  width: 25rem;
+  margin-left: 12.8%;
+}
+
+.form-customer-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.divider {
+  margin:1.25rem;
+}
+
+.divider mat-divider {
+  background-color: #1469af;
+}
+
+.content-subtitle--wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.content-subtitle--wrapper label {
+  color: #1469af;
+  font-size: 22px;
+  margin-left: 60px;
+}
+
+.controls-wrapper {
+  margin-right: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.controls-wrapper button{
+  margin:0 5px; 
+}
+
+.buttons-wrapper {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.fixed {
+  position: fixed;
+  bottom: 320px;
+  right: 0px;
+}
+
+.form-clients {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+
+.create-client-wrapper {
+  width: 39%;
+  margin-bottom: 1.25rem;
+  margin-top: 1.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.create-client-wrapper:nth-child(odd) {
+  margin-right: 1%;
+  margin-left: 10%;
+}
+
+.create-client-wrapper:nth-child(even) {
+  margin-right: 10%;
+  margin-left: 1%;
+}
+
+.controls-form-wrapper {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.controls-form-wrapper button:nth-child(odd) {
+  margin-left: 22%;
+  margin-right: 5px;
+}
+
+.controls-form-wrapper button:nth-child(even) {
+  margin-left: 5px;
+}
+.uppertxt{
+	text-transform:uppercase;
+}

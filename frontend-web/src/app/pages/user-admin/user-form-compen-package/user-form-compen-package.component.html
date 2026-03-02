@@ -1,0 +1,336 @@
+<div class="custom-input">
+        <div [formGroup]="formInfoData" class="form-info-data">
+    <div class="container">
+        <div class="element">
+                <mat-list-item>
+                    <mat-form-field class="inputs">
+                        <input formControlName="Sueldo_bruto_mensual" matInput placeholder="Sueldo bruto mensual" 
+                            maxlength="12" [ngModel]="controls.Sueldo_bruto_mensual | currency:'USD':true:'0.0-2'"
+                            (ngModelChange)="controls.Sueldo_bruto_mensual=onBrokenChange($event)">
+                        <mat-error *ngIf="formInfoData.get('Sueldo_bruto_mensual').hasError('pattern')">
+                                Datos incorrectos
+                        </mat-error> 
+                    </mat-form-field>
+                </mat-list-item>                    
+                <mat-list-item>
+                    <div>
+                    <label >Automóvil</label>
+                    <div class="newControl" >
+                      <tm-three-steps-selector formControlName="Automovil" [(ngModel)]="controls.Automovil" [disabled]="isDisableForm" >   
+                      </tm-three-steps-selector> 
+                    </div>
+                    </div>                        
+                </mat-list-item>
+                <mat-list-item>
+                    <div>
+                        <label>Gastos automóvil</label>
+                        <div class="newControl" >
+                        <tm-three-steps-selector formControlName="Gastos_Automovil" [(ngModel)]="controls.Gastos_Automovil" [disabled]="isDisableForm" >   
+                            </tm-three-steps-selector> 
+                            </div>                  
+                    </div>                        
+                </mat-list-item>                    
+                <mat-list-item>
+                        <div>
+                            <label>Opción compra</label>
+                            <div class="newControl" >
+                            <tm-three-steps-selector formControlName="Opcion_Compra" [(ngModel)]="controls.Opcion_Compra" [disabled]="isDisableForm" >   
+                                </tm-three-steps-selector> 
+                            </div>                    
+                        </div>                        
+                </mat-list-item>                                        
+                <mat-list-item>
+                        <div>
+                            <label>Bono mensual</label>
+                            <div class="newControl" >
+                            <tm-three-steps-selector formControlName="Bono_Mensual" [(ngModel)]="controls.Bono_Mensual" [disabled]="isDisableForm" >   
+                                </tm-three-steps-selector> 
+                            </div>                  
+                        </div>                        
+                </mat-list-item>
+                <mat-list-item>
+                        <mat-form-field class="inputs" *ngIf="controls.Bono_Mensual">
+                            <input matInput formControlName="Cantidad_Bono_Mensual" placeholder="Cantidad bono mensual" maxlength="12"
+                             [ngModel]="controls.Cantidad_Bono_Mensual | currency:'USD':true:'0.0-2'"
+                             (ngModelChange)="controls.Cantidad_Bono_Mensual=onBrokenChange($event)">
+                            <mat-error *ngIf="formInfoData.get('Cantidad_Bono_Mensual').hasError('pattern')">
+                                    Datos incorrectos
+                            </mat-error> 
+                        </mat-form-field>
+                </mat-list-item>                    
+                <mat-list-item>
+                        <div>
+                            <label>Bono bimestral</label>
+                            <div class="newControl" >
+                            <tm-three-steps-selector formControlName="Bono_Bimestral" class="newControl" [(ngModel)]="controls.Bono_Bimestral" (disabled)="isDisableForm" >   
+                                </tm-three-steps-selector>   
+                            </div>              
+                        </div>                        
+                </mat-list-item>                    
+                <mat-list-item>
+                        <mat-form-field class="inputs" *ngIf="controls.Bono_Bimestral">
+                            <input matInput placeholder="Cantidad bono bimestral" maxlength="12" formControlName="Cantidad_Bono_Bimestral"
+                             [ngModel]="controls.Cantidad_Bono_Bimestral | currency:'USD':true:'0.0-2'"
+                             (ngModelChange)="controls.Cantidad_Bono_Bimestral=onBrokenChange($event)">
+                            <mat-error *ngIf="formInfoData.get('Cantidad_Bono_Bimestral').hasError('pattern')">
+                                    Datos incorrectos
+                            </mat-error> 
+                        </mat-form-field>
+                </mat-list-item> 
+                <mat-list-item>
+                        <div>
+                            <label>Bono trimestral</label>  
+                            <div class="newControl" >              
+                            <tm-three-steps-selector formControlName="Bono_Trimestral" [(ngModel)]="controls.Bono_Trimestral" [disabled]="isDisableForm" >   
+                                </tm-three-steps-selector>
+                            </div>  
+                        </div>                        
+                </mat-list-item> 
+                <mat-list-item>
+                        <mat-form-field class="inputs"  *ngIf="controls.Bono_Trimestral">
+                            <input matInput placeholder="Cantidad bono trimestral" maxlength="12" formControlName="Cantidad_Bono_Trimestral"
+                             [ngModel]="controls.Cantidad_Bono_Trimestral | currency:'USD':true:'0.0-2'"
+                             (ngModelChange)="controls.Cantidad_Bono_Trimestral=onBrokenChange($event)">
+                            <mat-error *ngIf="formInfoData.get('Cantidad_Bono_Trimestral').hasError('pattern')">
+                                    Datos incorrectos
+                            </mat-error> 
+                        </mat-form-field>
+                </mat-list-item> 
+                <mat-list-item>
+                        <div>
+                            <label>Bono anual</label> 
+                            <div class="newControl" >                  
+                            <tm-three-steps-selector formControlName="Bono_Anual" [(ngModel)]="controls.Bono_Anual" [disabled]="isDisableForm" >   
+                                </tm-three-steps-selector>
+                            </div> 
+                        </div>                        
+                </mat-list-item> 
+                <mat-list-item>
+                        <mat-form-field class="inputs"  *ngIf="controls.Bono_Anual">
+                            <input matInput placeholder="Cantidad bono anual" maxlength="12" formControlName="Cantidad_Bono_Anual"
+                             [ngModel]="controls.Cantidad_Bono_Anual | currency:'USD':true:'0.0-2'"
+                             (ngModelChange)="controls.Cantidad_Bono_Anual=onBrokenChange($event)">
+                            <mat-error *ngIf="formInfoData.get('Cantidad_Bono_Anual').hasError('pattern')">
+                                    Datos incorrectos
+                            </mat-error> 
+                        </mat-form-field>
+                </mat-list-item>                                                                                                                       
+                <mat-list-item>
+                        <mat-form-field class="inputs">
+                            <input matInput placeholder="Métricas otorgamiento bono" maxlength="12" formControlName="Metricas_Otorgamiento_Bono" [(ngModel)]="controls.Metricas_Otorgamiento_Bono" >
+                            <mat-error *ngIf="formInfoData.get('Metricas_Otorgamiento_Bono').hasError('pattern')">
+                                    Datos incorrectos
+                            </mat-error> 
+                        </mat-form-field>
+                </mat-list-item>                    
+                <mat-list-item>
+                        <div>
+                            <label>Fondo de ahorro</label>
+                            <div class="newControl" >
+                            <tm-three-steps-selector formControlName="Fondo_de_Ahorro" [(ngModel)]="controls.Fondo_de_Ahorro" [disabled]="isDisableForm" >   
+                                </tm-three-steps-selector> 
+                            </div>                  
+                        </div>                        
+                </mat-list-item>
+                <mat-list-item>
+                        <mat-form-field class="inputs"  *ngIf="controls.Fondo_de_Ahorro">
+                            <input matInput placeholder="Cantidad fondo de ahorro" maxlength="12" formControlName="Cantidad_Fondo_de_Ahorro"
+                             [ngModel]="controls.Cantidad_Fondo_de_Ahorro | currency:'USD':true:'0.0-2'"
+                             (ngModelChange)="controls.Cantidad_Fondo_de_Ahorro=onBrokenChange($event)">
+                            <mat-error *ngIf="formInfoData.get('Cantidad_Fondo_de_Ahorro').hasError('pattern')">
+                                    Datos incorrectos
+                            </mat-error> 
+                        </mat-form-field>
+                </mat-list-item>
+                <mat-list-item>
+                        <div>
+                            <label>Vales de despensa</label>
+                            <div class="newControl" >
+                            <tm-three-steps-selector formControlName="Vales_de_Despensa" [(ngModel)]="controls.Vales_de_Despensa" [disabled]="isDisableForm" >   
+                                </tm-three-steps-selector>  
+                            </div>                
+                        </div>                        
+                </mat-list-item>
+                <mat-list-item>
+                        <mat-form-field class="inputs"  *ngIf="controls.Vales_de_Despensa">
+                            <input matInput placeholder="Cantidad vales de despensa" maxlength="12" formControlName="Cantidad_Vales_de_Despensa"
+                             [ngModel]="controls.Cantidad_Vales_de_Despensa | currency:'USD':true:'0.0-2'"
+                             (ngModelChange)="controls.Cantidad_Vales_de_Despensa=onBrokenChange($event)">
+                            <mat-error *ngIf="formInfoData.get('Cantidad_Vales_de_Despensa').hasError('pattern')">
+                                    Datos incorrectos
+                            </mat-error> 
+                        </mat-form-field>
+                </mat-list-item>
+                <mat-list-item>
+                        <div>
+                            <label>Vales restaurante</label>
+                            <div class="newControl" >
+                            <tm-three-steps-selector formControlName="Vales_Restaurante" [(ngModel)]="controls.Vales_Restaurante" [disabled]="isDisableForm" >   
+                                </tm-three-steps-selector> 
+                            </div>                  
+                        </div>                        
+                </mat-list-item>
+                <mat-list-item>
+                        <mat-form-field class="inputs"  *ngIf="controls.Vales_Restaurante">
+                            <input matInput placeholder="Cantidad vales restaurante" maxlength="12" formControlName="Cantidad_Vales_Restaurante"
+                             [ngModel]="controls.Cantidad_Vales_Restaurante | currency:'USD':true:'0.0-2'"
+                             (ngModelChange)="controls.Cantidad_Vales_Restaurante = onBrokenChange($event)">
+                            <mat-error *ngIf="formInfoData.get('Cantidad_Vales_Restaurante').hasError('pattern')">
+                                    Datos incorrectos
+                            </mat-error> 
+                        </mat-form-field>
+                </mat-list-item>                                                                                                                                            
+            </div>        
+
+        <div class="element second">
+                <mat-list-item>
+                        <div>
+                            <label>Vales gasolina</label>
+                            <div class="newControl" >
+                            <tm-three-steps-selector formControlName="Vales_Gasolina" [(ngModel)]="controls.Vales_Gasolina" [disabled]="isDisableForm" >   
+                                </tm-three-steps-selector>  
+                            </div>                
+                        </div>                        
+                </mat-list-item>                
+                <mat-list-item>
+                        <mat-form-field class="inputs"  *ngIf="controls.Vales_Gasolina">
+                            <input matInput placeholder="Cantidad vales gasolina" maxlength="12" formControlName="Cantidad_Vales_Gasolina"
+                             [ngModel]="controls.Cantidad_Vales_Gasolina | currency:'USD':true:'0.0-2'"
+                             (ngModelChange)="controls.Cantidad_Vales_Gasolina=onBrokenChange($event)">
+                            <mat-error *ngIf="formInfoData.get('Cantidad_Vales_Gasolina').hasError('pattern')">
+                                    Datos incorrectos
+                            </mat-error> 
+                        </mat-form-field>
+                </mat-list-item>                    
+                <mat-list-item>
+                        <div>
+                            <label>Aguinaldo</label>
+                            <div class="newControl" >
+                            <tm-three-steps-selector formControlName="Aguinaldo" [(ngModel)]="controls.Aguinaldo" [disabled]="isDisableForm" >   
+                                </tm-three-steps-selector>  
+                            </div>                
+                        </div>                        
+                </mat-list-item>                    
+                <mat-list-item>
+                        <mat-form-field class="inputs"  *ngIf="controls.Aguinaldo">
+                            <input matInput placeholder="Días aguinaldo" maxlength="3" formControlName="Dias_Aguinaldo"
+                            [(ngModel)]="controls.Dias_Aguinaldo">
+                            <mat-error *ngIf="formInfoData.get('Dias_Aguinaldo').hasError('pattern')">
+                                    Datos incorrectos
+                            </mat-error> 
+                        </mat-form-field>
+                </mat-list-item>                                                        
+                <mat-list-item>
+                        <mat-form-field class="inputs">
+                            <input matInput placeholder="¿Cuántos días de vacaciones?" maxlength="3" formControlName="Cuantos_dias_de_vacaciones" [(ngModel)]="controls.Cuantos_dias_de_vacaciones"  >
+                            <mat-error *ngIf="formInfoData.get('Cuantos_dias_de_vacaciones').hasError('pattern')">
+                                    Datos incorrectos
+                            </mat-error> 
+                        </mat-form-field>
+                </mat-list-item>                    
+                <mat-list-item>
+                        <mat-form-field class="inputs">
+                            <input matInput placeholder="Porcentaje prima vacacional" maxlength="3" formControlName="Porcentaje_prima_vacacional" [(ngModel)]="controls.Porcentaje_prima_vacacional" >
+                            <mat-error *ngIf="formInfoData.get('Porcentaje_prima_vacacional').hasError('pattern')">
+                                    Datos incorrectos
+                            </mat-error> 
+                        </mat-form-field>
+                </mat-list-item>
+                <mat-list-item>
+                        <div >
+                            <label>Seguro GM Mayores</label>
+                            <div class="newControl">
+                            <tm-three-steps-selector formControlName="Seguro_GM_Mayores"  [(ngModel)]="controls.Seguro_GM_Mayores" [disabled]="isDisableForm" >   
+                                </tm-three-steps-selector>  
+                                </div>             
+                        </div>                        
+                </mat-list-item>                                        
+                <mat-list-item>
+                        <div>
+                            <label>Seguro GM Menores</label>
+                            <div class="newControl" >
+                            <tm-three-steps-selector formControlName="Seguro_GM_Menores" [(ngModel)]="controls.Seguro_GM_Menores" [disabled]="isDisableForm" >   
+                                </tm-three-steps-selector> 
+                            </div>                  
+                        </div>                        
+                </mat-list-item>                    
+                <mat-list-item>
+                        <div>
+                            <label>Seguro de vida</label>
+                            <div class="newControl" >
+                            <tm-three-steps-selector formControlName="Seguro_de_vida" [(ngModel)]="controls.Seguro_de_vida" [disabled]="isDisableForm" >   
+                                </tm-three-steps-selector>  
+                            </div>                  
+                        </div>                        
+                </mat-list-item>                    
+                <mat-list-item>
+                        <mat-form-field class="inputs"  *ngIf="controls.Seguro_de_vida">
+                            <input matInput placeholder="Meses de cobertura por muerte" maxlength="3" formControlName="Meses_de_Cobertura_por_Muerte" [(ngModel)]="controls.Meses_de_Cobertura_por_Muerte" >
+                            <mat-error *ngIf="formInfoData.get('Meses_de_Cobertura_por_Muerte').hasError('pattern')">
+                                    Datos incorrectos
+                            </mat-error> 
+                        </mat-form-field>
+                </mat-list-item>                    
+                <mat-list-item>
+                        <div>
+                            <label>¿Reparto de utilidades?</label>
+                            <div class="newControl" >
+                            <tm-three-steps-selector formControlName="Reparto_de_utilidades" [(ngModel)]="controls.Reparto_de_utilidades" [disabled]="isDisableForm" >   
+                                </tm-three-steps-selector> 
+                            </div>                  
+                        </div>                        
+                </mat-list-item>
+                <mat-list-item>
+                        <mat-form-field class="inputs"  *ngIf="controls.Reparto_de_utilidades">
+                            <input matInput placeholder="¿Último monto recibido?" maxlength="12" formControlName="Ultimo_monto_recibido" 
+                            [ngModel]="controls.Ultimo_monto_recibido | currency:'USD':true:'0.0-2'"
+                            (ngModelChange)="controls.Ultimo_monto_recibido = onBrokenChange($event)">
+                            <mat-error *ngIf="formInfoData.get('Ultimo_monto_recibido').hasError('pattern')">
+                                    Datos incorrectos
+                            </mat-error> 
+                        </mat-form-field>
+                </mat-list-item>                    
+                <mat-list-item>
+                        <div>
+                            <label>¿Plan de pensiones?</label>
+                            <div class="newControl" >
+                            <tm-three-steps-selector formControlName="Plan_de_pensiones" [(ngModel)]="controls.Plan_de_pensiones" [disabled]="isDisableForm" >   
+                                </tm-three-steps-selector>    
+                            </div>              
+                        </div>                        
+                </mat-list-item>
+                <mat-list-item>
+                        <mat-form-field class="inputs">
+                            <textarea matInput placeholder="¿Otra prestación?" maxlength="50" formControlName="Otra_prestacion" [(ngModel)]="controls.Otra_prestacion"></textarea>
+                            <mat-error *ngIf="formInfoData.get('Otra_prestacion').hasError('pattern')">
+                                    Datos incorrectos
+                            </mat-error> 
+                        </mat-form-field>
+                </mat-list-item>                                        
+                <mat-list-item>
+                        <mat-form-field class="inputs">
+                            <input matInput placeholder="Ingreso mensual bruto integrado" maxlength="12" formControlName="Ingreso_mensual_bruto_integrado" 
+                            [ngModel]="controls.Ingreso_mensual_bruto_integrado | currency:'USD':true:'0.0-2'"
+                            (ngModelChange)="controls.Ingreso_mensual_bruto_integrado=onBrokenChange($event)">
+                            <mat-error *ngIf="formInfoData.get('Ingreso_mensual_bruto_integrado').hasError('pattern')">
+                                    Datos incorrectos
+                            </mat-error> 
+                        </mat-form-field>
+                </mat-list-item>
+                <mat-list-item>
+                        <mat-form-field class="inputs">
+                            <input matInput placeholder="Ingreso anual bruto estimado" maxlength="12" formControlName="Ingreso_anual_bruto_estimado"
+                             [ngModel]="controls.Ingreso_anual_bruto_estimado | currency:'USD':true:'0.0-2'"
+                             (ngModelChange)="controls.Ingreso_anual_bruto_estimado=onBrokenChange($event)">
+                            <mat-error *ngIf="formInfoData.get('Ingreso_anual_bruto_estimado').hasError('pattern')">
+                                    Datos incorrectos
+                            </mat-error> 
+                        </mat-form-field>
+                </mat-list-item>                                        
+            </div>                    
+        </div>    
+    </div>       
+</div> 
+<div class="control" *ngIf="showSaveUpdate">
+    <button mat-raised-button color="primary" (click)="save()" [disabled]="!formInfoData.valid" >Guardar</button>
+  </div>

@@ -1,0 +1,67 @@
+<div class="styleInputs">
+  <div [formGroup]="formInfoData" >
+      <div class="container">
+         
+            <mat-form-field class="element">
+              <input matInput placeholder="Calle"  formControlName="street" maxlength="120" [(ngModel)]="employeeDomicile.street">
+              <mat-error *ngIf="formInfoData.get('street').hasError('pattern')">
+                Datos incorrectos
+              </mat-error> 
+            </mat-form-field> 
+    
+      
+            <mat-form-field class="element">
+              <input matInput placeholder="Número Exterior"  formControlName="outDoorNumber" maxlength="20" [(ngModel)]="employeeDomicile.outDoorNumber">
+              <mat-error *ngIf="formInfoData.get('outDoorNumber').hasError('pattern')">
+                Datos incorrectos
+              </mat-error> 
+            </mat-form-field>  
+      
+
+      
+            <mat-form-field class="element">
+              <input matInput placeholder="Número Interior"  formControlName="interiorNumber" maxlength="20" [(ngModel)]="employeeDomicile.interiorNumber">
+              <mat-error *ngIf="formInfoData.get('interiorNumber').hasError('pattern')">
+                Datos incorrectos
+              </mat-error> 
+            </mat-form-field> 
+      
+
+      
+            <mat-form-field class="element">
+              <input matInput placeholder="Colonia"  formControlName="colony" maxlength="50" [(ngModel)]="employeeDomicile.colony">      
+              <mat-error *ngIf="formInfoData.get('colony').hasError('pattern')">
+                Datos incorrectos
+              </mat-error> 
+            </mat-form-field> 
+        
+
+        
+            <mat-form-field class="element">
+                      <input matInput placeholder="Alcaldía/Municipio" maxlength="50" formControlName="city" [(ngModel)]="employeeDomicile.city">
+                      <mat-error *ngIf="formInfoData.get('city').hasError('pattern')">
+                        Datos incorrectos
+                      </mat-error> 
+            </mat-form-field> 
+            
+            <mat-form-field class="element">     
+              <input matInput placeholder="Estado"  formControlName="state" maxlength="50" [(ngModel)]="employeeDomicile.state">    
+              <mat-error *ngIf="formInfoData.get('state').hasError('pattern')">
+                Datos incorrectos
+              </mat-error> 
+            </mat-form-field>
+      
+
+      
+            <mat-form-field class="element">
+              <input matInput placeholder="C.P."  formControlName="postalCode" maxlength="5" [(ngModel)]="employeeDomicile.postalCode">
+              <mat-error *ngIf="formInfoData.get('postalCode').hasError('pattern')">
+                Datos incorrectos
+              </mat-error> 
+            </mat-form-field>
+      </div>
+    </div>
+</div>
+<div class="btn-save-control" *ngIf="showSaveUpdate">                      
+  <button mat-raised-button color="primary" (click)="save()" [disabled]="!formInfoData.valid">Guardar</button>
+</div>

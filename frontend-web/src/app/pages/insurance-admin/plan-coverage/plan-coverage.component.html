@@ -1,0 +1,51 @@
+<div class="containerForm">
+  <h2>{{title}}</h2>
+  <form [formGroup]="planCoverageFrom" class="form-notification container">
+    <mat-form-field class="example-full-width">
+      <textarea matInput placeholder="Nombre / Titulo" formControlName="titleEventualy" required></textarea>
+      <mat-error *ngIf="planCoverageFrom.get('titleEventualy').value === ''">El campo es requerido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <textarea matInput maxlength="500" placeholder="Descripción" formControlName="description" required></textarea>
+      <mat-error *ngIf="planCoverageFrom.get('description').value === ''">El campo es requerido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <input matInput maxlength="30" placeholder="Nivel" formControlName="level" required>
+      <mat-error *ngIf="planCoverageFrom.get('level').value === ''">El campo es requerido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <input matInput maxlength="12" placeholder="Suma asegurada" formControlName="sumAssured" required>
+      <mat-error *ngIf="planCoverageFrom.get('sumAssured').value === ''">El campo es requerido</mat-error>
+      <mat-error *ngIf="planCoverageFrom.get('sumAssured').value != '' && !planCoverageFrom.get('sumAssured').valid">Datos incorrectos</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <input matInput maxlength="5" placeholder="Deducibles" formControlName="deductibles" required>
+      <mat-error *ngIf="planCoverageFrom.get('deductibles').value === ''">El campo es requerido</mat-error>
+      <mat-error *ngIf="planCoverageFrom.get('deductibles').value != '' && !planCoverageFrom.get('deductibles').valid">Datos incorrectos</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <input matInput maxlength="5" placeholder="Coaseguro" formControlName="coInsurance" required>
+      <mat-error *ngIf="planCoverageFrom.get('coInsurance').value === ''">El campo es requerido</mat-error>
+      <mat-error *ngIf="planCoverageFrom.get('coInsurance').value != '' && !planCoverageFrom.get('coInsurance').valid">Datos
+        incorrectos</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width" *ngIf="showEstado">
+      <mat-select placeholder="Estatus" formControlName="status">
+        <mat-option *ngFor="let s of status" [value]="s.value">
+          {{s.title}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="containerButton">
+      <button mat-flat-button (click)="closeDialog()">Cancelar</button>
+      <button mat-flat-button (click)="saveUpdateCoverage()" [disabled]="!planCoverageFrom.valid">Guardar</button>
+    </div>
+  </form>
+</div>

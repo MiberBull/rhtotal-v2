@@ -1,0 +1,18 @@
+<mat-tab-group #tabGruop (selectedTabChange)="tagChange($event)" *ngIf="tabs">
+<mat-tab label="{{ tab }}" *ngFor="let tab of tabs">     
+        <app-info-table
+                [columns]="headers"
+                [info]="infoData"
+                [titles]="titles"
+                (selected-item)="selectItem($event)">
+        </app-info-table>
+        <app-table-paginator (goNext)="goNext($event)" (goPrev)="goPrev($event)" [total]="totalItems"></app-table-paginator>
+        </mat-tab> 
+</mat-tab-group>
+  <app-info-table *ngIf="!tabs"
+                [columns]="headers"
+                [info]="infoData"
+                [titles]="titles"
+                (selected-item)="selectItem($event)">
+</app-info-table>
+<app-table-paginator (goNext)="goNext($event)" (goPrev)="goPrev($event)"  [total]="totalItems" *ngIf="!tabs"></app-table-paginator>

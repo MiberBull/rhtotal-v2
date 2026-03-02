@@ -1,0 +1,30 @@
+<mat-progress-bar mode="indeterminate" *ngIf="isLoading" class="progress"></mat-progress-bar>
+<div class="logo">
+  <img alt="Logo Unbound" src="/assets/RHTotal_slogan.svg" class="image-logo">
+</div>
+<div class="login">
+  <form class="form-login" [formGroup]="formLogin" (ngSubmit)="onSubmit()" >
+    <mat-form-field  class="frist-element">
+      <input matInput 
+        placeholder="Usuario" 
+        type="email" 
+        formControlName="email" 
+        maxlength="50" 
+        (change)="resetIntents()" 
+        autocomplete="off" 
+        style="text-transform: lowercase;">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput 
+        placeholder="Contraseña" 
+        type="password" 
+        formControlName="password" 
+        minlength="8" 
+        maxlength="50">
+    </mat-form-field>
+    <button mat-raised-button=button color="primary" class="btn-login" [disabled]="!enable">Entrar</button>
+    <span class="forget-password" (click)="openForgetPassword()">Olvidé mi contraseña</span>
+  </form>
+</div>
+
+  

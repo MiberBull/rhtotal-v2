@@ -1,0 +1,64 @@
+package mx.com.axity.web.rest;
+
+import mx.com.axity.commons.to.CategoryTO;
+import mx.com.axity.commons.to.SubCategoryTO;
+import mx.com.axity.web.BaseTest;
+import org.junit.Assert;
+import org.junit.Test;
+
+import java.time.LocalDate;
+
+public class DiscountControllerTest extends BaseTest {
+    @Test
+    public void getCategoryTest() {
+        var category = this.discountFacadeTest.getCategory();
+        Assert.assertNotNull(category);
+    }
+
+    @Test
+    public void getSubcategoryTest() {
+        var subcategory = this.discountFacadeTest.getSubcategory(1L);
+        Assert.assertNotNull(subcategory);
+    }
+
+    @Test
+    public void getPagedDiscountTest() {
+        var pagedDiscount = this.discountFacadeTest.getPagedDiscount(0,"","","","");
+        Assert.assertNotNull(pagedDiscount);
+    }
+
+    @Test
+    public void saveCategoryTest() {
+        CategoryTO category = new CategoryTO();
+        category.setCategory("test");
+        category.setLastUserModifier("test");
+        category.setLastModification(LocalDate.now());
+        category.setCreationUser("test");
+        category.setCreationDate(LocalDate.now());
+        category.setActive(Boolean.TRUE);
+         this.discountFacadeTest.saveCategory(category);
+
+    }
+
+    @Test
+    public void saveSubcategoryTest() {
+        SubCategoryTO subCategoryTO = new SubCategoryTO();
+        CategoryTO category = new CategoryTO();
+        category.setIdCategory((long)1);
+        category.setCategory("test");
+        category.setLastUserModifier("test");
+        category.setLastModification(LocalDate.now());
+        category.setCreationUser("test");
+        category.setCreationDate(LocalDate.now());
+        category.setActive(Boolean.TRUE);
+        subCategoryTO.setCategory(category);
+        subCategoryTO.setSubcategory("test");
+        subCategoryTO.setLastUserModifier("test");
+        subCategoryTO.setLastModification(LocalDate.now());
+        subCategoryTO.setCreationUser("test");
+        subCategoryTO.setCreationDate(LocalDate.now());
+        subCategoryTO.setActive(Boolean.TRUE);
+        this.discountFacadeTest.saveSubcategory(subCategoryTO);
+    }
+
+}

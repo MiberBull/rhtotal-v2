@@ -1,0 +1,30 @@
+<div style="display: flex; flex-direction: column;">
+<div class="filter-chip">
+		<mat-chip-list *ngIf="filtros">
+          <mat-chip *ngIf="title" [selectable]="selectable" [removable]="removable" (removed)="remove('titulo')">
+			{{ title }}
+			<mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+		  <mat-chip *ngIf="startDate && endDate" [selectable]="selectable" [removable]="removable" (removed)="remove('fechainicio')">
+			De  {{ startDate }} a {{ endDate }}
+			<mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+		  <mat-chip *ngIf="nameAuthor" [selectable]="selectable" [removable]="removable" (removed)="remove('autor')">
+			{{ nameAuthor }}
+			<mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+        </mat-chip-list>
+</div>
+
+<app-generic-table 
+    [tabs]="tableData.tabs"
+    [headers]="tableData.headers"
+    [info-data]="tableData.infoData"
+    [titles]="tableData.titles"
+    [total-items]="countNotification"
+    (selected-item)="selectItemNotification($event)"
+    (tag-change)="tabChange($event)"    
+    (go-next)="nextNotification($event)"
+    (go-prev)="nextNotification($event)"
+></app-generic-table>
+</div>

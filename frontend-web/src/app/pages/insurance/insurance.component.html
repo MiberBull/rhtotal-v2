@@ -1,0 +1,29 @@
+<div>
+    <div class="filter-chip">
+        <mat-chip-list *ngIf="filtros">
+            <mat-chip *ngIf="insuranceCarrier" [removable]="removable" (removed)="remove('aseguradora')">
+                {{ insuranceCarrier }}
+                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+            <mat-chip *ngIf="startDate && endDate" [removable]="removable" (removed)="remove('fechavigenciainiciodesde')">
+                De {{ startDate }} a {{ endDate }}
+                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+            <mat-chip *ngIf="author" [removable]="removable" (removed)="remove('numerodepoliza')">
+                {{ author }}
+                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+        </mat-chip-list>
+    </div>
+
+    <app-generic-table 
+        [headers]="tableData.headers"
+        [info-data]="tableData.infoData"
+        [titles]="tableData.titles"
+        (selected-item)="selectItemInsurance($event)"
+        [total-items]="countInsurance"
+        (go-next)="loadInfoInsurance($event)"
+        (go-prev)="loadInfoInsurance($event)">
+    </app-generic-table>
+</div>
+

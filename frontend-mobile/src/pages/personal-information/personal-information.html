@@ -1,0 +1,151 @@
+<!--
+  Generated template for the PersonalInformationPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-content style="height: 100%;  width: 100%;" (touchend)="actualizarDatos()" (touchstart)="actualizarDatos()">
+    <div>
+      <img [src]="base64 | defaultImage:'assets/imgs/fotogris.svg'" style="height: 95px; width: 95px; position: absolute; top: 5%; z-index: 5; left: 70%; border-radius: 60px;"
+        (click)="saveImage()">
+    </div>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-12>
+        <div style=" margin: 2px;">
+          <ion-label stacked style="font-size:  16px; padding: 0px;">Nacionalidad*</ion-label>
+          <div radio-group style="display: flex; flex-direction: row;  padding: 0px;">
+            <ion-item style="width: 30%;" no-lines>
+              <ion-label style="font-size: 12px;" stacked>Extranjero</ion-label>
+              <ion-radio style="margin: 5px;" [checked]="checkExtranjero" (ionSelect)="mcqAnswer(false)" item-left></ion-radio>
+            </ion-item>
+            <ion-item style="width: 70%;" no-lines>
+              <ion-label style="font-size: 12px;" stacked>Mexicano</ion-label>
+              <ion-radio style="margin: 5px;" [checked]="checkMexico" (ionSelect)="mcqAnswer(true)" item-left></ion-radio>
+            </ion-item>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <form [formGroup]="todo" *ngFor="let e of enables"  (ngSubmit)="saveInfoRHTotal()" padding>
+    <ion-item>
+      <ion-label stacked>{{curpLabel}}</ion-label>
+      <ion-input formControlName="curp" [max-limit]="18" class="mayusculas" onkeyup="javascript:this.value=this.value.toUpperCase();" autocapitalize="characters" [disabled]="e.curp"></ion-input>
+    </ion-item>
+    <samp class="error-spam-negativo" *ngIf="!this.todo.get('curp').valid && this.todo.get('curp').value != '' ">Formato incorrecto</samp>
+
+    <ion-item>
+      <ion-label stacked>{{labelPasaporte}}</ion-label>
+      <ion-input type="text" formControlName="numeroPasaporte" [max-limit]="20"></ion-input>
+    </ion-item>
+    <samp class="error-spam-negativo" *ngIf="!this.todo.get('numeroPasaporte').valid && this.todo.get('numeroPasaporte').value != '' ">Formato incorrecto</samp>
+
+    <ion-item>
+      <ion-label stacked>Nombre(s)*</ion-label>
+      <ion-input type="text" [disabled]="e.nombres" [max-limit]="50" formControlName="nombres" (ionBlur)="validaSico()" ></ion-input>
+    </ion-item>
+    <samp class="error-spam-negativo" *ngIf="!this.todo.get('nombres').valid && this.todo.get('nombres').value != '' ">Formato incorrecto</samp>
+
+    <ion-item>
+      <ion-label stacked>Apellido paterno*</ion-label>
+      <ion-input type="text" [disabled]="e.apellidoPaterno" [max-limit]="50" formControlName="apellidoPaterno" (ionBlur)="validaSico()"></ion-input>
+    </ion-item>
+    <samp class="error-spam-negativo" *ngIf="!this.todo.get('apellidoPaterno').valid && this.todo.get('apellidoPaterno').value != '' ">Formato incorrecto</samp>
+
+
+    <ion-item>
+      <ion-label stacked>Apellido materno</ion-label>
+      <ion-input type="text" [disabled]="e.apellidoMaterno" [max-limit]="50"  formControlName="apellidoMaterno"></ion-input>
+    </ion-item>
+    <samp class="error-spam-negativo" *ngIf="!this.todo.get('apellidoMaterno').valid && this.todo.get('apellidoMaterno').value != '' ">Formato incorrecto</samp>
+
+
+    <ion-item>
+      <ion-label style="padding: 0px;" stacked>Genero*</ion-label>
+      <ion-select multiple="false" [disabled]="e.gener" formControlName="valueGender" interface="action-sheet">
+        <ion-option *ngFor="let genero of generos" value="{{genero.id}}">{{genero.name}} </ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>Fecha de nacimiento*</ion-label>
+      <ion-datetime formControlName="fechaNacimiento" cancelText="CANCELAR"
+      doneText="ACEPTAR" [disabled]="e.fechaNacimiento" displayFormat="DD/MM/YYYY" (ionChange)="validaSico()"></ion-datetime>
+      <ion-icon ios="ios-calendar" md="md-calendar" color="iconColor" item-right small></ion-icon>
+    </ion-item>
+
+    <ion-item>
+      <ion-label style="padding: 0px;" stacked>Estado civil</ion-label>
+      <ion-select formControlName="civilStatus" multiple="false" [disabled]="e.civilStatus" interface="action-sheet">
+        <ion-option *ngFor="let estado of estadoCivil" value="{{estado.id}}">{{estado.name}} </ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>RFC</ion-label>
+      <ion-input type="text" [disabled]="e.rfc" class="mayusculas" onkeyup="javascript:this.value=this.value.toUpperCase();" autocapitalize="characters" formControlName="rfc" [max-limit]="13" ></ion-input>
+    </ion-item>
+    <samp class="error-spam-negativo" *ngIf="!this.todo.get('rfc').valid && this.todo.get('rfc').value != '' ">Formato incorrecto</samp>
+
+
+    <ion-item>
+      <ion-label stacked>NSS</ion-label>
+      <ion-input type="text" [disabled]="e.nss" formControlName="nss" [max-limit]="11"></ion-input>
+    </ion-item>
+    <samp class="error-spam-negativo" *ngIf="!this.todo.get('nss').valid && this.todo.get('nss').value != '' ">Formato incorrecto</samp>
+
+
+    <ion-item>
+      <ion-label style="padding: 0px;" stacked> {{labelPermisoMexico}}</ion-label>
+      <ion-select multiple="false"  formControlName="permisWorckMexico" interface="action-sheet" (ionChange)="onChange($event)">
+        <ion-option *ngFor="let permision of permisions"  value="{{permision.id}}">{{permision.name}}</ion-option>
+      </ion-select>
+    </ion-item>
+
+
+    <ion-item>
+      <ion-label stacked>{{permisotrabajo}}</ion-label>
+      <ion-input type="text"  [disabled]="permisoMexicoEnable" formControlName="permisoTrabajo" [max-limit]="50"></ion-input>
+    </ion-item>
+    <samp class="error-spam-negativo" *ngIf="!this.todo.get('permisoTrabajo').valid && this.todo.get('permisoTrabajo').value != '' ">Formato incorrecto</samp>
+
+
+    <ion-item>
+      <ion-label stacked>Correo electrónico personal</ion-label>
+      <ion-input [disabled]="e.correoElectronico" type="text" formControlName="correoElectronico"></ion-input>
+    </ion-item>
+    <samp class="error-spam-negativo" *ngIf="!this.todo.get('correoElectronico').valid && this.todo.get('correoElectronico').value != '' ">Formato incorrecto</samp>
+
+
+    <ion-item>
+      <ion-label stacked>Teléfono celular</ion-label>
+      <ion-input type="number"  [max-limit]="10" formControlName="telefonoCelular"></ion-input>
+    </ion-item>
+    <samp class="error-spam-negativo" *ngIf="!this.todo.get('telefonoCelular').valid && this.todo.get('telefonoCelular').value != '' ">Teléfono a 10 dígitos</samp>
+
+
+
+    <!--ion-item>
+      <ion-label stacked>Nacionalidad*</ion-label>
+      <ion-input type="text" [disabled]="e.paisNacimiento" [max-limit]="50" formControlName="paisNacimiento"></ion-input>
+    </ion-item-->
+
+    <samp class="error-spam-negativo" *ngIf="!this.todo.get('paisNacimiento').valid && this.todo.get('paisNacimiento').value != '' ">Formato incorrecto</samp>
+
+    <ion-item>
+      <ion-label stacked>Estado de nacimiento*</ion-label>
+      <ion-input type="text" [disabled]="e.estadoNacimiento" [max-limit]="50" formControlName="estadoNacimiento"></ion-input>
+    </ion-item>
+    <samp class="error-spam-negativo" *ngIf="!this.todo.get('estadoNacimiento').valid && this.todo.get('estadoNacimiento').value != '' ">Formato incorrecto</samp>
+
+
+    <div style="display: flex; flex-direction: row; justify-content: center; padding-bottom: 25px;">
+      <button ion-button type="submit" [disabled]="!todo.valid">guardar</button>
+    </div>
+
+
+  </form>
+
+</ion-content>

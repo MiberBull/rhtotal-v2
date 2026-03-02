@@ -1,0 +1,113 @@
+<!--
+  Generated template for the DetailInsurancePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<!--
+<ion-header no-margin no-padding style="background-image: url('assets/imgs/seguros.png')" class="content-header">
+  <div class="content-sub-header">
+    <ion-icon ios="ios-arrow-back" md="md-arrow-back" class="image-header" (click)="back()"></ion-icon>
+    <div class="text-title">Mis seguros</div>
+  </div>
+  <div class="encabezado">
+      <p style="font-size: 14px;">Pólizas de seguros disponibles</p></div>
+</ion-header>
+-->
+
+<ion-content style="height: 100%; width: 100%" overflow-scroll=“true”>
+  <div class="content-header" style="background-image: url('assets/imgs/seguros.png');">
+    <div class="content-sub-header" (click)="back()">
+      <ion-icon ios="ios-arrow-back" md="md-arrow-back" class="image-header" ></ion-icon>
+      <div class="text-title">Mi Póliza</div>
+    </div>
+    <div class="encabezado"><br>Información de<br> tu póliza de seguros</div>
+  </div>
+
+  <div overflow-scroll=“true”>
+    <form [formGroup]="todo" (ngSubmit)="saveInsurance()"  style="padding-bottom: 10px;">
+
+      <ion-item>
+        <ion-label stacked>{{dataEtiquetas[0]}}</ion-label>
+        <ion-input type="text" formControlName="insurangeType" [disabled]="true" ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label stacked>{{dataEtiquetas[1]}}</ion-label>
+        <ion-input type="text" formControlName="policy" [disabled]="true" ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label stacked>{{dataEtiquetas[6]}}</ion-label>
+        <ion-input type="text" formControlName="insuranceCarrier" [disabled]="true" ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label stacked>{{dataEtiquetas[7]}}</ion-label>
+        <ion-input type="text" formControlName="phones" [disabled]="true" ></ion-input>
+      </ion-item>
+
+      <ion-item *ngIf="coverturaVisible">
+        <ion-label stacked>{{dataEtiquetas[4]}}</ion-label>
+        <ion-input type="text" formControlName="coverage" [disabled]="true" ></ion-input>
+      </ion-item>
+
+      <ion-item *ngIf="certificateVisible">
+        <ion-label stacked>{{dataEtiquetas[3]}}</ion-label>
+        <ion-input type="text" formControlName="individualCertificate" [disabled]="true" ></ion-input>
+      </ion-item>
+
+      <ion-item *ngIf="typePoliceVisible">
+        <ion-label stacked>{{dataEtiquetas[2]}}</ion-label>
+        <ion-input type="text" formControlName="typePolicy" [disabled]="true" ></ion-input>
+      </ion-item>
+
+
+      <ion-item *ngIf="!startDateVisivility">
+        <ion-label stacked>{{dataEtiquetas[8]}}</ion-label>
+        <ion-input type="text" formControlName="startDate" [disabled]="true" ></ion-input>
+      </ion-item>
+
+      <ion-item *ngIf="!endDateVisivility">
+        <ion-label stacked>{{dataEtiquetas[9]}}</ion-label>
+        <ion-input type="text" formControlName="endDate" [disabled]="true" ></ion-input>
+      </ion-item>
+
+
+      <ion-item no-lines>
+        <span>
+          <u class="aviso-privacidad" (click)="openFilePdf()">Contrato/Póliza</u>
+        </span>
+      </ion-item>
+      <ion-item no-lines>
+        <span>
+          <u class="aviso-privacidad" (click)="openUri()">Visitar Link</u>
+        </span>
+      </ion-item>
+
+      <div *ngIf="coverageVisibilityCard" >
+        <ion-item style="font-weight: bold" no-lines>
+          Cobertura/Plan:
+        </ion-item>
+        <ion-card *ngFor="let data of cardCoverage">
+          <ion-card-content>
+            <ion-label stacked style="font-weight: bold">{{data.titleDescription}}:</ion-label>
+            <div stacked>{{data.description}}</div>
+
+            <ion-label stacked style="font-weight: bold">{{data.titleLevel}}:</ion-label>
+            <div stacked>{{data.level}}</div>
+
+            <ion-label stacked style="font-weight: bold">{{data.titleSumAssured}}:</ion-label>
+            <div stacked>${{data.sumAssured}}</div>
+
+            <ion-label stacked style="font-weight: bold">{{data.titleDeductibles}}:</ion-label>
+            <div stacked>{{data.deductibles}}%</div>
+
+            <ion-label stacked style="font-weight: bold">{{data.titleCoInsurance}}:</ion-label>
+            <div stacked>{{data.coInsurance}}%</div>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </form>
+  </div>
+</ion-content>

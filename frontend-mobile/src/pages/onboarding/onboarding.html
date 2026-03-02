@@ -1,0 +1,46 @@
+<ion-content class="no-scroll" >
+  <ion-slides effect="slide" pager (ionSlideNextStart)="slideChanged()">
+    <ion-slide class="one-background">
+      <div class="wrapper-info">
+        <label class="title-onboarding">{{ slides[0].title }}</label>
+        <p class="subtitle-onboarding">{{ slides[0].paragraph }}</p>
+        <img src="assets/imgs/onboarding/banda.svg" alt="">
+        <button ion-button color="light" clear (click)="goLogin()" class="next">{{ slides[0].next }}</button>
+      </div>
+    </ion-slide>
+    <ion-slide class="two-background">
+      <div class="wrapper-info">
+        <label class="title-onboarding">{{ slides[1].title }}</label>
+        <p class="subtitle-onboarding">{{ slides[1].paragraph }}</p>
+        <img src="assets/imgs/onboarding/banda.svg" alt="">
+        <button ion-button color="light" clear (click)="goLogin()" class="next">{{ slides[1].next }}</button>
+      </div>
+    </ion-slide>
+    <ion-slide class="three-background">
+      <div class="wrapper-info">
+        <label class="title-onboarding">{{ slides[2].title }}</label>
+        <p class="subtitle-onboarding">{{ slides[2].paragraph }}</p>
+        <img src="assets/imgs/onboarding/banda.svg" alt="">
+        <button ion-button color="light" clear (click)="goLogin()" class="next">{{ slides[2].next }}</button>
+      </div>
+    </ion-slide>
+    <ion-slide class="four-background">
+      <div class="wrapper-info">
+        <label class="title-onboarding">{{ slides[3].title }}</label>
+        <p class="subtitle-onboarding">{{ slides[3].paragraph }}</p>
+        <img src="assets/imgs/onboarding/banda.svg" alt="">
+        <button ion-button color="light" clear (click)="goLogin()" class="next">{{ slides[3].next }}</button>
+      </div>
+    </ion-slide>
+    <ion-slide class="five-background">
+      <div class="wrapper-info">
+        <label class="title-onboarding">{{ slides[4].title }}</label>
+        <p class="subtitle-onboarding">{{ slides[4].paragraph }}</p>
+        <img src="assets/imgs/onboarding/banda.svg" alt="">
+        <button ion-button color="light" clear (click)="goLogin()" class="next">{{ slides[4].next }}</button>
+      </div>
+    </ion-slide>
+    <ion-slide class="six-background">
+    </ion-slide>
+  </ion-slides>
+</ion-content>  

@@ -1,0 +1,8 @@
+<app-header></app-header>
+<mat-progress-bar mode="indeterminate" *ngIf="isDownload" class="progress"></mat-progress-bar>
+<img src="../../assets/img/loading.gif" *ngIf="isDownload" class="loading "/>
+<div class="breadcrumb-toolbar-fab">
+    <app-breadcrumbs class="element"></app-breadcrumbs>
+    <app-toolbar-fab class="element toolbarFlex"></app-toolbar-fab>
+</div>
+    <router-outlet></router-outlet>

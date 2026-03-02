@@ -1,0 +1,51 @@
+<ion-content>
+
+  <div class="content-header" style="background-image: url('assets/imgs/headers/puesto_actual.png');">
+    <div class="content-sub-header" (click)="backDiscount()">
+      <ion-icon ios="ios-arrow-back" md="md-arrow-back" class="image-header" ></ion-icon>
+      <div class="text-title" >Datos Generales</div>
+    </div>  
+    <div class="encabezado">Tu información <br> laboral actualizada </div>
+  </div>
+
+  <div style="height:65%; overflow-y: auto; padding-bottom: 15%; padding: 0px 50px;">
+  
+    <ion-item-divider>
+      <div style="display: flex; flex-direction: column;">
+        <label class="title-info">Fecha de ingreso</label>
+        <label>{{ info.dateOfAdmission }}</label>
+      </div>
+    </ion-item-divider>
+
+    <ion-item-divider>
+      <div style="display: flex; flex-direction: column;">
+        <label class="title-info">Periodo de pago</label>
+        <label>{{ info.paymentPeriod }}</label>
+      </div>
+    </ion-item-divider>
+    <!--
+    <ion-item-divider>
+      <div style="display: flex; flex-direction: column;">
+        <label class="title-info">Puesto</label>
+        <label>{{ info.position }}</label>
+      </div>
+    </ion-item-divider>
+    -->
+    <ion-item-divider>
+      <div style="display: flex; flex-direction: column;">
+        <label class="title-info">Empresa asignada</label>
+        <label>{{ info.businessName }}</label>
+      </div>
+    </ion-item-divider>
+    
+    <ion-item-divider>
+      <div style="display: flex; flex-direction: column;">
+        <label class="title-info">Ingreso fijo</label>
+        <label class="subtitle-info"></label>
+        <label>${{ info.fixedIncome }}</label>
+      </div>
+    </ion-item-divider>
+  
+  </div>
+
+</ion-content>

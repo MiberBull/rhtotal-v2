@@ -1,0 +1,22 @@
+<div class="contenedor" *ngFor="let visible of arrayVisible">
+    <div class="element" *ngIf="visible.item == 'search'">
+        <button mat-mini-fab matTooltip="Búsqueda" *ngIf="visible.visible" color="primary" (click)="clickSearch('search')">
+            <img src="/assets/icon/busqueda.png">
+        </button>
+    </div>
+    <div class="element" *ngIf="(visible.visible && showInputUpdate)">
+        <button mat-mini-fab matTooltip="Nuevo registro" *ngIf="visible.item == 'add'" color="primary" (click)="clickEvent('add')">
+            <mat-icon>add</mat-icon>
+        </button>
+    </div>
+    <div class="element" *ngIf="visible.item == 'excel'">
+        <button mat-mini-fab matTooltip="Exportar a Excel" *ngIf="visible.visible" color="primary" (click)="download()">        
+            <mat-icon><img src="../../../assets/icon/excel.png" /> <a href="" id="mar"></a></mat-icon>
+        </button>
+    </div>
+    <div class="element" *ngIf="visible.item == 'settings'">
+        <button mat-mini-fab matTooltip="Configuración de filtros" *ngIf="visible.visible" color="primary" (click)="openSelectorColumns()">
+            <mat-icon>settings</mat-icon>
+        </button>
+    </div>
+</div>

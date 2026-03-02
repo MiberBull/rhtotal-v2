@@ -1,0 +1,112 @@
+<div class="contenedor">
+  <div class="card-form-banners custom-input formBanner" >
+    <form [formGroup]="bannersFrom" class="form-banners">
+        <mat-form-field >
+            <textarea matInput placeholder="Título" formControlName="title"  autocomplete="off" maxlength="50" required></textarea>
+            <mat-error *ngIf="bannersFrom.get('title').value.trim() === ''">El campo es requerido</mat-error>
+            <mat-error *ngIf="bannersFrom.get('title').value.trim() != '' && !bannersFrom.get('title').valid">Datos incorrectos</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput [min]="dateCurrent" [(ngModel)]="dateNext" [matDatepicker]="pickeStart" placeholder="Fecha inicio" formControlName="startDate" required readonly> 
+            <mat-datepicker-toggle matSuffix [for]="pickeStart"></mat-datepicker-toggle>
+            <mat-datepicker #pickeStart></mat-datepicker>
+            <mat-error> El campo es requerido </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput [min]="dateNext" [matDatepicker]="pickerEnd" placeholder="Fecha fin" formControlName="endDate" required readonly>
+            <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
+            <mat-datepicker #pickerEnd></mat-datepicker>
+            <mat-error> El campo es requerido </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <input type="time" placeholder="Hora de publicación" matInput formControlName="timePublication" required>
+            <mat-icon matSuffix class="icon" >access_time</mat-icon>
+            <mat-error *ngIf="inputRequired"> El campo es requerido </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <input type="time" placeholder="Hora de notificación" matInput formControlName="notificationTime" required>
+            <mat-icon matSuffix class="icon" >access_time</mat-icon>
+            <mat-error *ngIf="inputRequired"> El campo es requerido </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <textarea matInput placeholder="Detalle de notificación" formControlName="notificationDetail" maxlength="150" autocomplete="off" required></textarea>
+            <mat-error *ngIf="bannersFrom.get('notificationDetail').value.trim() === ''">El campo es requerido</mat-error>
+            <mat-error *ngIf="bannersFrom.get('notificationDetail').value.trim() != '' && !bannersFrom.get('notificationDetail').valid">Datos incorrectos</mat-error>
+        </mat-form-field>
+        <div *ngIf="count >= 0" class="add-image">
+            <mat-form-field>
+                <input matInput placeholder="Imagen" autocomplete="off" [value]="nameImages[0] || ''" autocomplete="off" required [disabled]="bannersFrom.disabled" readonly/>
+                <mat-icon matSuffix class="icon" (click)="showFileChosser()" >insert_photo</mat-icon>
+                <input  #inputFile_1  type="file" style="display:none;" (change)="getImage($event.target.files[0],0)">
+            </mat-form-field>
+            <button mat-icon-button (click)="addIputImage()" *ngIf="showSaveUpdate">
+                <mat-icon>add</mat-icon>
+            </button>
+        </div>
+        <div  *ngIf="count > 1" class="add-image">
+            <mat-form-field>
+                <input matInput placeholder="Imagen" autocomplete="off" [value]="nameImages[1] || ''" autocomplete="off" required [disabled]="bannersFrom.disabled" readonly/>
+                <mat-icon matSuffix class="icon" (click)="showFileChosser_2()" >insert_photo</mat-icon>
+                <input #inputFile_2 type="file" style="display:none;" (change)="getImage($event.target.files[0],1)">
+            </mat-form-field>
+        </div>
+        <div  *ngIf="count > 2" class="add-image">
+            <mat-form-field>
+                <input matInput placeholder="Imagen" autocomplete="off" [value]="nameImages[2] || ''" autocomplete="off" required [disabled]="bannersFrom.disabled" readonly/>
+                <mat-icon matSuffix class="icon" (click)="showFileChosser_3()" >insert_photo</mat-icon>
+                <input #inputFile_3 type="file" style="display:none;" (change)="getImage($event.target.files[0],2)" required [disabled]="bannersFrom.disabled">
+            </mat-form-field>
+        </div>
+        <div  *ngIf="count > 3" class="add-image">
+            <mat-form-field>
+                <input matInput placeholder="Imagen" autocomplete="off" [value]="nameImages[3] || ''" autocomplete="off" required [disabled]="bannersFrom.disabled" readonly/>
+                <mat-icon matSuffix class="icon" (click)="showFileChosser_4()" >insert_photo</mat-icon>
+                <input #inputFile_4 type="file" style="display:none;" (change)="getImage($event.target.files[0],3)">
+            </mat-form-field>
+        </div>
+        <div  *ngIf="count > 4" class="add-image">
+            <mat-form-field>
+                <input matInput placeholder="Imagen" autocomplete="off" [value]="nameImages[4] || ''" autocomplete="off" required [disabled]="bannersFrom.disabled" readonly/>
+                <mat-icon matSuffix class="icon" (click)="showFileChosser_5()" >insert_photo</mat-icon>
+                <input #inputFile_5 type="file" style="display:none;" (change)="getImage($event.target.files[0],4)">
+            </mat-form-field>
+        </div>
+        <div  *ngIf="count > 5" class="add-image">
+            <mat-form-field>
+                <input matInput placeholder="Imagen" autocomplete="off" [value]="nameImages[5] || ''" autocomplete="off" required [disabled]="bannersFrom.disabled" readonly/>
+                <mat-icon matSuffix class="icon" (click)="showFileChosser_6()" >insert_photo</mat-icon>
+                <input #inputFile_6 type="file" style="display:none;" (change)="getImage($event.target.files[0],5)">
+            </mat-form-field>
+        </div>
+        <mat-form-field>
+            <textarea matInput placeholder="Comentarios" formControlName="internalComments" autocomplete="off" maxlength="500" required></textarea>
+            <mat-error *ngIf="bannersFrom.get('internalComments').value.trim() === ''">El campo es requerido</mat-error>
+            <mat-error *ngIf="bannersFrom.get('internalComments').value.trim() != '' && !bannersFrom.get('internalComments').valid">Datos incorrectos</mat-error>
+        </mat-form-field>
+        <mat-form-field *ngIf="banner" >
+            <mat-select placeholder="Estatus" formControlName="status" autocomplete="off" >
+                <mat-option *ngFor="let statu of status" [value]="statu.id">{{ statu.value }}</mat-option>
+            </mat-select>
+            <mat-error> El campo es requerido </mat-error>
+        </mat-form-field>
+        <mat-form-field *ngIf="banner" class="example-full-width">
+            <input  matInput placeholder="Autor" formControlName="lastUserModifier">
+          </mat-form-field>
+        <mat-label class="label-fechas">*La fecha y hora ingresada son posteriores<br/> a la fecha y hora actual</mat-label>
+        <br/>
+        <div class="control">
+            <button mat-raised-button color="primary" (click)="cancelForm()">Cancelar</button>
+            <button *ngIf="!banner || bannersFrom.enabled" mat-raised-button color="primary" (click)="onSubmit()"  [disabled]="!bannersFrom.valid">Guardar</button>
+            <div *ngIf="showSaveUpdate">
+                <button *ngIf="banner && bannersFrom.disabled" mat-raised-button color="primary" (click)="enableForm()">Editar</button>
+            </div>
+
+        </div>
+    </form>
+</div>
+  <app-tree 
+           [jsonTree]="jsonTreeBanner"
+           [disable]="disableTree"
+           class="treeBanner"></app-tree>
+</div>
+

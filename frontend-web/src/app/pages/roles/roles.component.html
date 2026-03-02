@@ -1,0 +1,9 @@
+<app-generic-table 
+    [headers]="tableData.headers"
+    [info-data]="infoTable"
+    [titles]="tableData.titles"
+    [total-items]="countRoles"
+    (selected-item)="selectItemRol($event)"
+    (go-next)="loadRowsTable($event)"
+    (go-prev)="loadRowsTable($event)"
+></app-generic-table>

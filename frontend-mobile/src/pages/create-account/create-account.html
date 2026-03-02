@@ -1,0 +1,55 @@
+<ion-header>
+    <ion-toolbar no-padding>
+        <ion-grid>
+          <ion-row col-12 (click)="backLogin()">
+            <ion-icon ios="ios-arrow-back" md="md-arrow-back" style="color:#1099D6; font-size:30px;" ></ion-icon>
+            <div class="crearCuenta" color="principal">Crear cuenta</div>
+          </ion-row>
+          <ion-row col-6>
+            <p style="font-size: 16px;">Ingresa a un mundo de beneficios y posibilidades</p>        
+          </ion-row>
+        </ion-grid>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-grid>
+    <ion-row col-12 justify-content-center>
+      <form [formGroup]="accountForm" style="display: flex; width: 100%; flex-direction: column; align-items: center;">
+        <ion-item>
+          <ion-label stacked>Correo eletrónico*</ion-label>
+          <ion-input [formControl]="accountForm.controls['email']" maxLength="50" minLength="1"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label stacked>Contraseña*</ion-label>
+          <ion-input [formControl]="accountForm.controls['access']" type="password" maxLength="50" minLength="8"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label stacked>Confirmar contraseña*</ion-label>
+          <ion-input [formControl]="accountForm.controls['accessConfirmed']" type="password" maxLength="50" minLength="8"></ion-input>
+        </ion-item>
+        <div *ngIf="!okEnable">
+            <button ion-button color="principal"  [disabled]="!accountForm.valid"  (click)="onSubmit()" style="margin: 20px 0px; width: 120px;">Registrar</button>
+        </div>
+      </form> 
+    </ion-row>
+    <ion-row col-12 justify-content-center *ngIf="codeConfirm">
+      <span style="margin-top: 10px;">¿No recibiste el correo electrónico de confimarción?</span>
+      <span class="labels" (click)="onSubmit()" > Volver a envíar correo electrónico de confirmación </span>
+      <ion-item>
+        <ion-label stacked>Código de cofirmación</ion-label>
+        <ion-input maxlength="8" [(ngModel)]="code" (ionChange)="validaLongitud()" ></ion-input>
+        <button ion-button clear item-right  [disabled]="okConfirmCode"> 
+            <ion-icon  (click)="confirmCodeService(code)" name="send"></ion-icon> 
+          </button>
+      </ion-item>
+    </ion-row>
+    <ion-row col-12 justify-content-center>
+      <span (click)="showModalTerms()"  style="color: #1099d6; text-decoration: underline;">Ver Términos y Condiciones</span>
+    </ion-row>
+    <ion-row col-12 justify-content-center>
+      <ion-checkbox color="principal" [(ngModel)]="check"   style="margin-right: 10px;"></ion-checkbox><span>Acepto Términos y Condiciones</span> 
+    </ion-row>
+  </ion-grid>   
+</ion-content>

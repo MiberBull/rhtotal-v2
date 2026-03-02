@@ -1,0 +1,73 @@
+<section class="main-reset-wrapper">
+    <ng-template [ngIf]="isCorrectResponse">
+      <div class="main-reset done">
+        <div class="main-reset-dialog-wrapper">
+          <div class="main-reset-img-wrapper">
+            <img class="main-reset-img" src="../../assets/RHTotal_slogan.svg" />
+          </div>
+          <h2 class="main-reset-dialog-title">
+            Restablecer contraseña
+          </h2>
+          <p class="main-reset-dialog-description-confirm">
+            Se ha enviado al correo electrónico<br> {{emailAst}}<br> las instrucciones para actualizar la contraseña.
+          </p>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template [ngIf]="!isCorrectResponse">
+      <div class="main-reset">
+        <div class="main-reset-dialog-wrapper">
+          <div class="main-reset-img-wrapper">
+            <img class="main-reset-img" src="../../assets/RHTotal_slogan.svg" />
+          </div>
+          <h2 class="main-reset-dialog-title">
+            Restablecer contraseña
+          </h2>
+          <p class="main-reset-dialog-description">
+            Proporciona un correo electrónico para enviarte las instrucciones para cambiar tu contraseña.
+          </p>
+        </div>
+        <div class="main-reset-dialog-input-wrapper custom-input">
+          <mat-form-field class="caja-Password">
+            <textarea
+              matInput
+              type="email"
+              placeholder="correo electrónico"
+              class="main-reset-dialog-input-email"
+              [formControl]="emailFormControl"
+              maxlength="50"
+              style="text-transform: lowercase;"
+              ></textarea>
+            <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+              Por favor ingresa un correo electrónico válido
+            </mat-error>
+            <mat-error *ngIf="emailFormControl.hasError('required')">
+              El correo electrónico es <strong>requerido</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="main-reset-captcha-wrapper">
+          <re-captcha (resolved)="resolvedCaptcha($event)" siteKey="6LcwoWgUAAAAAB_ueHc0s7UP-tXJLqd7hyfS49H8"></re-captcha>
+        </div>
+        <div [ngClass]="{ 
+              'main-reset-dialog-input-buttons-wrapper' : (website == 'web'),
+              'main-reset-dialog-input-buttons-wrapper-mobile' : (website == 'mobile') }" >
+            <div>
+              <button 
+                *ngIf=" website == 'web' "
+                mat-raised-button 
+                class="main-reset-dialog-input-button" 
+                (click)="cancelar()">
+                Cancelar
+              </button>
+            </div>  
+            <div>
+              <button mat-raised-button class="main-reset-dialog-input-button" (click)="send($event)" [disabled]="!computeButtonState()">
+                Aceptar
+              </button>
+            </div>
+        </div>
+      </div>
+    </ng-template>
+  
+  </section>

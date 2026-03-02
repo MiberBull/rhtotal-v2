@@ -1,0 +1,32 @@
+.breadcrumbs{
+    display: flex;
+    align-items: flex-start;
+    padding: 20px;    
+    color: #1469af;
+}
+
+.contenedor{
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.breadcrumbs span{
+    font-size: 22px;
+}
+
+mat-icon{
+    cursor: pointer;
+}
+
+a.nounderline:link 
+{ 
+   text-decoration:none; 
+} 
+.colorSubMenu{
+    color: #A4A4A4;
+}
+.active{
+    color:#0040FF;
+}
+

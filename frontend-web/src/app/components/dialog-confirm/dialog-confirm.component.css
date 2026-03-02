@@ -1,0 +1,14 @@
+
+p {
+    text-align: center;
+}
+
+.container-row-buttons {
+    display: flex;
+    justify-content: center;
+}
+
+.container-row-buttons button {
+    margin: 0px 10px;
+}
+

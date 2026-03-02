@@ -1,0 +1,28 @@
+.table-accordion {
+    width: 100%;
+}
+
+.title-table {
+    color: #00ccff !important; 
+}
+
+.column-name-proyect{
+    width: 34%;
+    padding-left: 21%;
+}
+
+.mat-expansion-panel-header-title {
+    width: 10px !important;
+}
+
+td {
+    border-bottom: 1px solid #ddd;
+}
+
+tr {
+    cursor: pointer;
+}
+
+.paginator {
+    margin: 15px;
+}

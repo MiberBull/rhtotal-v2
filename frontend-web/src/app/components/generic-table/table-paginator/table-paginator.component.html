@@ -1,0 +1,6 @@
+
+<div class="pagination" *ngIf=" getMin() > 0">
+    <span class="page-counts">{{ getMin() }} - {{ getMax() }} de {{ total }}</span>
+    <button class="prev-next" (click)="onPrev()" [disabled]=" getMin() === 1 "><mat-icon>keyboard_arrow_left</mat-icon></button>
+    <button class="prev-next" (click)="onNext()" [disabled]=" getMax() === total" ><mat-icon>keyboard_arrow_right</mat-icon></button>
+</div>

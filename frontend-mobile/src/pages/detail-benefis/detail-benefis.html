@@ -1,0 +1,33 @@
+<!--
+  Generated template for the DetailBenefisPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+<ion-content>
+  <div style="height: 5%;" (click)="backDiscount()" >
+    <ion-icon ios="ios-arrow-back" md="md-arrow-back" style="margin: 5px;" class="image-header" ></ion-icon>
+  </div>
+  <ion-slides pager style="height: 40% !important;">
+    <ion-slide *ngFor="let image of images" [ngStyle]="getBackgroundStyle(image)" class="background">
+    </ion-slide>
+  </ion-slides>
+
+  <div style="height: 45%; display: flex; flex-direction: column; justify-content: center; margin-left: 20px; margin-right: 20px;">
+    <div style="font-size: 14px; padding-bottom: 5px; padding: 10px;">{{detail}}</div>
+    
+    <div style="font-size: 19px; padding: 10px; margin-top: 5px; height: 10%; text-align: justify; margin-bottom: 20px;">{{details[0]}}</div>
+
+    <div  style="font-size: 14px; text-align: justify; padding: 10px; height: 50%;">{{details[1]}}</div>
+
+    <div style="height: 40%;">
+      <div style="padding-bottom: 10px; padding-left: 10px;">{{endate}}</div>
+      <div class="div-text" style="padding-bottom: 20px; padding-left: 10px;"><div><span><u class="aviso-privacidad" (click) ="openUri()">Visitar link</u></span></div></div>
+
+      <div style="padding-left: 10px;" class="div-text"><div><span><u class="aviso-privacidad" (click) ="NoticeOfPrivacy()">Términos y Condiciones</u></span></div></div>
+    </div>
+  </div>
+
+
+</ion-content>

@@ -1,0 +1,113 @@
+<ion-header>
+    <ion-toolbar no-padding>
+        <ion-grid>
+            <ion-row col-12 (click)="goHome()" >
+            <ion-icon ios="ios-arrow-back" md="md-arrow-back" style="color:#1099D6; font-size:30px;" >
+            </ion-icon>
+            <div class="title">
+                Mi Cuenta
+            </div>
+        </ion-row>
+        <ion-row>
+            <ion-col col-12>
+                <p class="encabezado">
+                    Completa tu información
+                    <br>y obtén mayores beneficios
+                </p>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-toolbar>
+</ion-header>
+
+<ion-content padding-left padding-right>
+    <div style="height: 15%; width: 100%;   display: flex; justify-content: center;">
+
+        <div style=" display: block; height: 100px;width: 180px; position: relative; display: flex; justify-content: center; flex-direction: column;">
+            <div style="z-index: 4; position: absolute; left: 44%; color: white; font-weight: bold;">{{labelGeneral}}</div>
+            <img [src]="image" style=" position: absolute; left: 33%; height: 60px; width: 60px;">
+            <canvas baseChart [data]="doughnutChartData" [chartType]="doughnutChartType" [options]="options" [legend]="false" [colors]="lineChartColorsTotalSection"></canvas>
+        </div>
+
+    </div>
+
+
+    <div style="height: 80%; width: 100%;  margin-top: 15px;">
+        <div style="height: 16%; width: 100%; display: flex; justify-content: left; margin-bottom: 5px;">
+            <div style="width: 10%;">
+                <div style=" display: block; height: 80px; background: white; width: 80px; position: relative; display: flex; justify-content: center; flex-direction: column;">
+                    <div *ngIf="!enableDatos[0]" style=" background:-webkit-linear-gradient(#1469AF,#1099D6);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    z-index: 4; position: absolute; left: 38%; font-size: 11px;">{{labelMisdatos}}</div>
+                    <img [src]="imageSection" *ngIf="enableDatos[0]" style=" position: absolute; left: 36%; top: 37%; height: 20px; width: 20px;">
+                    <canvas baseChart [data]="doughnutChartDataMisDatos"  [chartType]="doughnutChartType" [options]="options" [legend]="false"
+                    [colors]="lineChartColorsSection[0]"></canvas>
+                </div>
+            </div>
+            <div class="label-account" (click)="myData()">Mis datos</div>
+
+        </div>
+<!--
+
+                <div style="height: 16%; width: 100%; display: flex; justify-content: left; margin-bottom: 5px;">
+                        <div style="width: 10%;">
+                                <div style=" display: block; height: 80px; background: white; width: 80px; position: relative; display: flex; justify-content: center; flex-direction: column;">
+                                        <div *ngIf="!enableDatos[1]" style="background:-webkit-linear-gradient(#1469AF,#1099D6);
+                                        -webkit-background-clip: text;
+                                        -webkit-text-fill-color: transparent;
+                                        z-index: 4; position: absolute; left: 38%; font-size: 11px;">{{labelDataPaquete}}</div>
+                                        <img [src]="imageSection" *ngIf="enableDatos[1]" style=" position: absolute; left: 36%; top: 37%; height: 20px; width: 20px;">
+                                        <canvas baseChart [data]="doughnutChartDataPaquete" [chartType]="doughnutChartType" [options]="options" [legend]="false"
+                                        [colors]="lineChartColorsSection[1]"></canvas>
+                                </div>
+                        </div>
+                        <div class="label-account" (click)="packageConpensation()">Paquete de compensación</div>
+                </div>
+
+            -->
+            <div style="height: 16%; width: 100%; display: flex; justify-content: left; margin-bottom: 5px;">
+                <div style="width: 10%;">
+                    <div style=" display: block; height: 80px; background: white; width: 80px; position: relative; display: flex; justify-content: center; flex-direction: column;">
+                        <div *ngIf="!enableDatos[2]" style="background:-webkit-linear-gradient(#1469AF,#1099D6);
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent; z-index: 4; position: absolute; left: 38%; font-size: 11px;">{{labelDataContratacion}}</div>
+                        <img [src]="imageSection" *ngIf="enableDatos[2]" style=" position: absolute; left: 36%; top: 37%; height: 20px; width: 20px;">
+                        <canvas baseChart [data]="doughnutChartDataContratacion" [chartType]="doughnutChartType" [options]="options" [legend]="false"
+                        [colors]="lineChartColorsSection[2]"></canvas>
+                    </div>
+                </div>
+                <div class="label-account" (click)="hirinData()">Datos de contratación</div>
+            </div>
+
+<!--
+                <div style="height: 16%; width: 100%; display: flex; justify-content: left; margin-bottom: 5px;">
+                        <div style="width: 10%;">
+                                <div style=" display: block; height: 80px; background: white; width: 80px; position: relative; display: flex; justify-content: center; flex-direction: column;">
+                                        <div *ngIf="!enableDatos[3]" style="z-index: 4; position: absolute; left: 38%; font-size: 11px; background:-webkit-linear-gradient(#1469AF,#1099D6);
+                                        -webkit-background-clip: text;
+                                        -webkit-text-fill-color: transparent;">{{labelDataAsignation}}</div>
+                                        <img [src]="imageSection" *ngIf="enableDatos[3]" style=" position: absolute; left: 36%; top: 37%; height: 20px; width: 20px;">
+                                        <canvas baseChart [data]="doughnutChartDataAsignation" [chartType]="doughnutChartType" [options]="options" [legend]="false"
+                                        [colors]="lineChartColorsSection[3]"></canvas>
+                                </div>
+                        </div>
+                        <div class="label-account" (click)="asignationData()">Datos de asignación</div>
+                </div>
+
+                <div style="height: 16%; width: 100%; display: flex; justify-content: left; margin-bottom: 5px;">
+                        <div style="width: 10%;">
+                                <div style=" display: block; height: 80px; background: white; width: 80px; position: relative; display: flex; justify-content: center; flex-direction: column;">
+                                        <div *ngIf="!enableDatos[4]" style="z-index: 4; position: absolute; left: 38%; font-size: 11px; background:-webkit-linear-gradient(#1469AF,#1099D6);
+                                        -webkit-background-clip: text;
+                                        -webkit-text-fill-color: transparent;">{{labelDataEmpleo}}</div>
+                                        <img [src]="imageSection" *ngIf="enableDatos[4]" style=" position: absolute; left: 36%; top: 37%; height: 20px; width: 20px;">
+                                        <canvas baseChart [data]="doughnutChartDataEmpleo" [chartType]="doughnutChartType" [options]="options" [legend]="false" [colors]="lineChartColorsSection[4]"></canvas>
+                                </div>
+                        </div>
+                        <div class="label-account" (click)="lastJob()">Último empleo
+                        </div>
+                </div>
+            -->
+        </div>
+    </ion-content>

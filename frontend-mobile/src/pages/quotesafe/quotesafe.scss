@@ -1,0 +1,66 @@
+page-quotesafe {
+    .content-header{
+        height: 20%;
+        background-size: cover;
+        display: flex;
+        flex-direction: column;
+    }
+    .content-sub-header{
+        padding: 10px;
+        display: flex;
+        align-items: center;
+    }
+
+    .text-title{
+        font-size: 18px;
+        background:-webkit-linear-gradient(#1469AF,#1099D6);
+        -webkit-background-clip: text;
+        font-weight: bold;
+        -webkit-text-fill-color: transparent;
+        padding-left: 10px;
+    }
+
+    .text-array{
+        font-size: 12px;
+        text-align: justify;
+    }
+
+
+    .content-buttom-alert{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-top: 30px;
+    }
+
+    .text-array-position{
+        font-size: 12px;
+        text-align: justify; 
+        padding-top: 20px;
+    }
+
+    .content-text{
+        height: 80%;
+        padding-top: 40px;
+        padding-left: 50px;
+        padding-right: 50px;
+    }
+
+    .image-header{
+        color:#1099D6;
+        font-size:30px;
+    }
+    .encabezado{
+        position:absolute; 
+        top: 10%; 
+        left: 3%;
+        color: black;
+        font-size: 16px;
+        font-weight: bold;
+    }
+    
+    .item{
+        padding: 0px!important;
+        margin: 0px!important;
+     }
+}

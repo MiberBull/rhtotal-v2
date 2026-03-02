@@ -1,0 +1,38 @@
+<ion-content style="height: 100%; width: 100%">
+  <div class="content-header" style="background-image: url('assets/imgs/headers/fi.png');background-repeat: no-repeat; background-size: cover; height: 40% !important;">
+    <div class="content-sub-header" (click)="backFintechGeneral()">
+      <ion-icon ios="ios-arrow-back" md="md-arrow-back" class="image-header" ></ion-icon>
+      <div class="content-somos"></div>
+    </div>
+  </div>  
+  <div style="height: 50%">
+    <ion-card class="wrapper-ion-card" (click)="goVelocash()">
+      <ion-card-content class="wrapper-card">
+        <div style="width: 25%; display: flex; justify-content: center;">
+          <img src="assets/icon/velocash.svg" alt="" class="img-card">
+        </div>
+        <div style="width: 65%">
+          <label class="title-card"> VeloCash </label>
+          <p class="subtitle-card"> Cobra hoy los días que has trabajado </p>
+        </div>
+        <div style="width: 10%">
+          <img src="assets/icon/arrow.svg" alt="" class="wrapper-img-arrow">
+        </div>
+      </ion-card-content>
+    </ion-card>
+    <ion-card class="wrapper-ion-card">
+      <ion-card-content class="wrapper-card" (click)="goMyAdvance()">
+        <div style="width: 25%; display: flex; justify-content: center;">
+          <img src="assets/icon/adelanto.svg" alt="" class="img-card">
+        </div>
+        <div style="width: 65%">
+          <label class="title-card"> Mi adelanto </label>
+          <p class="subtitle-card"> Adelanta tu pago el día que quieras </p>
+        </div>
+        <div style="width: 10%">
+          <img src="assets/icon/arrow.svg" alt="" class="wrapper-img-arrow">
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

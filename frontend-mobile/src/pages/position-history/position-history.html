@@ -1,0 +1,43 @@
+<ion-header no-margin no-padding style="background-image: url('assets/imgs/headers/puestos_historial.png')" class="content-header">
+  <div class="content-sub-header">
+  <div class="text-title" >Historial de puestos</div>
+  </div>  
+    <div class="encabezado">El crecimiento de tu<br>carrera está en buenas manos</div>
+</ion-header>
+
+<ion-content padding>
+  
+  <ion-fab top right #fab>
+    <button ion-fab>
+      <ion-icon name="ios-arrow-down-outline"></ion-icon>
+    </button>
+    <ion-fab-list side="bottom">
+        <button 
+          ion-fab 
+          (click)="addForm()">
+          <ion-icon ios="ios-add" md="md-add"></ion-icon>
+        </button>
+        <button 
+          ion-fab 
+          (click)="clickDelete()"
+          [disabled]="!( (idDelte.length > 0) || disabledBtnDelete )"
+          [ngClass]="{ 'disabledDelete' : !( (idDelte.length > 0) || disabledBtnDelete )}">
+          <ion-icon ios="ios-trash" md="md-trash"></ion-icon>
+        </button> 
+    </ion-fab-list>
+  </ion-fab>
+
+  <form [formGroup]="jobsInfoForm">
+    <form-job *ngFor="let form of formInfoGroups.controls;let i = index"
+    [form-job]="form"
+    [show-divider]="!(formInfoGroups.controls.length === (i+1))"
+    [disabled-second-date] = "disabledSeondDates[i]"
+    [min-date]="minDates[i]"
+    [date-now]="dateService"
+    (delete-from)="deleteForm($event)"></form-job>
+    <div style="display: flex; justify-content: space-around; margin-top: 10px;" *ngIf="formInfoGroups.length > 0">
+      <button ion-button (click)="save()">Guardar</button>
+    </div>
+  </form>
+
+</ion-content>

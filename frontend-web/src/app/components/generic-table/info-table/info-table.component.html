@@ -1,0 +1,17 @@
+<div class="scrollmenu">
+  <br>
+  <br>      
+  <table mat-table [dataSource]="dataSourceTable" class="table-size" [ngClass]="{'table-size-users':rootTable==rootUsers, 'table-size':rootTable!==rootUsers}" >
+    <ng-container *ngFor="let column of displayedColumns; let i = index" [matColumnDef]="column" >
+      <div>
+        <th mat-header-cell *matHeaderCellDef> {{ displayTitles[i] }} </th>
+    
+        <td class="table-color" mat-cell *matCellDef="let element" [matTooltip]="element[column] != null && element[column].length > 28 ? element[column] : ''"> {{element[column] | reducer:28}} </td>
+     
+      </div>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let dataSource; columns: displayedColumns;" (click)="selectedItem(dataSource)" style="cursor: pointer;"></tr>
+  </table>
+</div>
+

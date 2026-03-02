@@ -1,0 +1,76 @@
+page-login { 
+
+    .wrapper-header {
+        background: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .image-header {
+        margin-top: 5%;
+    }
+
+    .title {
+        font-weight: bold;
+        color: #1469af;
+        font-size: 16px;
+    }
+
+    .scroll-content {
+        padding: 0% 20%;
+        background: linear-gradient(70deg,#1469AF,#1099D6);
+    }
+
+    .wrapper-form {
+        margin-top: 7%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .text-input::-moz-placeholder {
+        color: white;
+    }
+    
+    .text-input:-ms-input-placeholder {
+        color: white;
+    }
+    
+    .text-input::-webkit-input-placeholder {
+        color: white;
+    }
+
+    .item {
+        background-color: transparent !important;
+        color: #fff !important;
+    }
+
+    .btn-login {
+        margin: 10%;
+    }    
+
+    .content-first-visit {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 15%;
+    }
+
+    .wrapper-forget-password {
+        display: flex;
+        justify-content: center;
+        margin-top: 30%;
+    }
+
+    .labels {
+        color: #fff;
+        text-decoration: underline;
+    }
+
+    .buttons {
+        text-transform: initial;
+        color: #1469af;
+    }
+
+}

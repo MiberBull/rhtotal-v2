@@ -1,0 +1,58 @@
+<div class="contenedor">
+	<div class="card-form-notification custom-input element-uno">
+	    <form [formGroup]="notificationFrom" class="form-notification">
+	        <mat-form-field >
+	            <textarea matInput placeholder="Nombre / Título" formControlName="title" maxlength="50" required autocomplete="off"></textarea>
+				<mat-error *ngIf="notificationFrom.get('title').value.trim() === ''">El campo es requerido</mat-error>
+				<mat-error *ngIf="notificationFrom.get('title').value.trim() != '' && !notificationFrom.get('title').valid">Datos incorrectos</mat-error>
+			</mat-form-field>
+	        <mat-form-field>
+	                <input matInput  [min] = "minDate" [matDatepicker]="picker" formControlName="startDate" placeholder="Fecha de envío" readonly required>
+	                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+	                <mat-datepicker #picker></mat-datepicker>
+					<mat-error *ngIf="!notificationFrom.get('startDate').valid">El campo es requerido</mat-error>
+			</mat-form-field>
+	        <mat-form-field>
+	            <input matInput placeholder="Hora envío" formControlName="notificationTime" type="time" autocomplete="off" required/>
+	            <mat-icon matSuffix class="icon">access_time</mat-icon>
+				<mat-error *ngIf="!notificationFrom.get('notificationTime').valid">El campo es requerido</mat-error>
+			</mat-form-field>
+	        <mat-form-field>
+	            <textarea matInput placeholder="Descripción corta" formControlName="notificationText" maxlength="50" autocomplete="off" required></textarea>
+				<mat-error *ngIf="notificationFrom.get('notificationText').value.trim() === ''">El campo es requerido</mat-error>
+				<mat-error *ngIf="notificationFrom.get('notificationText').value.trim() != '' && !notificationFrom.get('notificationText').valid">Datos incorrectos</mat-error>
+			</mat-form-field>
+	        <mat-form-field>
+	            <textarea matInput placeholder="Descripción larga" formControlName="notificationTextLarge" maxlength="250" autocomplete="off" required></textarea>
+				<mat-error *ngIf="notificationFrom.get('notificationTextLarge').value.trim() === ''">El campo es requerido</mat-error>
+				<mat-error *ngIf="notificationFrom.get('notificationTextLarge').value.trim() != '' && !notificationFrom.get('notificationTextLarge').valid">Datos incorrectos</mat-error>
+			</mat-form-field>
+	        <mat-form-field>
+	            <textarea matInput placeholder="Comentarios internos" formControlName="internalComments" maxlength="50" autocomplete="off" required></textarea>
+				<mat-error *ngIf="notificationFrom.get('internalComments').value.trim() === ''">El campo es requerido</mat-error>
+				<mat-error *ngIf="notificationFrom.get('internalComments').value.trim() != '' && !notificationFrom.get('internalComments').valid">Datos incorrectos</mat-error>
+			</mat-form-field>
+	        <mat-form-field *ngIf="notification && showEditNotification">
+	            <mat-select placeholder="Estatus" formControlName="status" required>
+	                <mat-option *ngFor="let statu of statusOption" [value]="statu.id">{{ statu.status }}</mat-option>
+	            </mat-select>
+			</mat-form-field>
+	        <mat-form-field *ngIf="notification">
+	            <input [readonly]="notification" matInput placeholder="Autor" formControlName="creationUser" autocomplete="off"/>
+			</mat-form-field>
+			<mat-label class="label-fechas">*La fecha y hora ingresada son posteriores<br/> a la fecha y hora actual</mat-label>
+            <br/>
+	        <div class="control">
+	            <button mat-raised-button color="primary" (click)="cancel()">Cancelar</button>
+				<div *ngIf="showSaveUpdate && showEditNotification">
+					<button mat-raised-button color="primary" (click)="onSubmit()" *ngIf="!notification || enableButton" [disabled]="!notificationFrom.valid">{{
+						saveButton }}</button>
+					<button mat-raised-button color="primary" (click)="editForm()" *ngIf="notification && !enableButton ">{{ editButton }}</button>
+				</div>
+			</div>
+	    </form>
+	</div>
+	<app-tree class="element"
+				[jsonTree]="jsonTreeNotification"
+				[disable]="disabledTree"></app-tree>
+</div>

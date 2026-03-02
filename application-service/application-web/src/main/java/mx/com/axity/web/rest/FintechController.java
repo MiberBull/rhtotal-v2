@@ -1,0 +1,22 @@
+package mx.com.axity.web.rest;
+
+
+import io.swagger.annotations.Api;
+import mx.com.axity.services.facade.IFintechFacade;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
+
+@CrossOrigin(origins = "*", allowedHeaders = "*", allowCredentials = "true")
+@RestController
+@RequestMapping("fintech")
+@Api(value = "fintech", description = "Operaciones con Fintech")
+public class FintechController {
+
+
+
+}

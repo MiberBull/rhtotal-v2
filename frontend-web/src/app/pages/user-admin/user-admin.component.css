@@ -1,0 +1,10 @@
+.content-infor-user {
+    display: flex;
+    margin-top: 20px;
+    margin-left: 250px;   
+    
+}
+
+.imagen{
+    cursor:pointer; cursor: hand 
+}

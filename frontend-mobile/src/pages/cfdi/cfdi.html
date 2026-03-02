@@ -1,0 +1,63 @@
+<ion-header>
+    <ion-toolbar no-padding>
+        <ion-grid>
+          <ion-row col-12 (click)="backDiscount()">
+            <ion-icon ios="ios-arrow-back" md="md-arrow-back" style="color:#1099D6; font-size:30px;" ></ion-icon>
+            <div class="title">CFDI</div>
+          </ion-row>
+          <ion-row >
+              <ion-col col-12>
+                  <p class="encabezado">Tus recibos a la mano<br>cuando los necesites</p>
+              </ion-col>
+          </ion-row>
+        </ion-grid>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding-right padding-bottom>
+
+    <ion-item>
+      <ion-label>Desde</ion-label>
+      <ion-select
+        (ionChange)="selectedFirstArray($event)"
+        [(ngModel)]="startDate">
+        <ion-option *ngFor="let item of fristArrayMounths">{{ item.description }}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>Hasta</ion-label>
+      <ion-select
+        (ionChange)="selectedSecondtArray($event)"
+        [disabled]="disableSelector"
+        [(ngModel)]="endDate">
+        <ion-option *ngFor="let item of secondArrayMounths">{{ item.description }}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-grid>
+      <ion-row style="display: flex; justify-content: center;">
+        <button ion-button  style="text-transform: capitalize;" (click)="searchCfdiMount()">Buscar</button>
+      </ion-row>
+    </ion-grid>
+    <ion-label
+      *ngIf="listCfdiView.length > 0"
+      style="text-align: center; color:
+      #1469AF; font-size: 18px;
+      font-weight: bold;">Resultado de búsqueda</ion-label>
+    <ion-list
+      *ngIf="listCfdiView.length > 0" style="margin-bottom: 0px !important">
+      <ion-item *ngFor="let cfdi of listCfdiView;let i of item">
+        <ion-label>{{ cfdi.periodo }}</ion-label>
+        <ion-checkbox (ionChange)="onChangeCheckbox( cfdi,$event.checked, i )"></ion-checkbox>
+      </ion-item>
+    </ion-list>
+    <ion-grid>
+      <ion-row style="display: flex; justify-content: center; margin-bottom: 20px;" >
+        <button
+          ion-button
+          *ngIf="listCfdiView.length > 0"
+          style="text-transform: capitalize; "
+          (click)="downloadFiles()">Descargar CFDI</button>
+      </ion-row>
+    </ion-grid>
+
+</ion-content>

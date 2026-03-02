@@ -1,0 +1,43 @@
+.toolbar-user {
+    margin-left: 100px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.toolbar-user div {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0px;
+    margin: 0px;
+}
+.img-avatar {
+    border-radius: 50%;
+}
+
+.toolbar-user mat-icon{
+    color: #c2c2c2;
+}
+
+.total-information {
+    color: #00C853 !important;
+}
+
+.label-color{
+    color:#00ccff  !important;
+}
+
+.toolbar-user label{
+    color: #c2c2c2;
+}
+
+button{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background:transparent ;
+    border: 0;
+    cursor:pointer; cursor: hand
+}
+

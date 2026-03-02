@@ -1,0 +1,102 @@
+<div class="wrapper-form">
+  <ion-checkbox 
+    [(ngModel)]="checkDelete" 
+    (ionChange)="checkDeleteForm()"
+    class="check-box"></ion-checkbox>
+  <form [formGroup]="formInfo" class="form-job">
+    <ion-item>
+      <ion-label stacked>Puesto*</ion-label>
+      <ion-input 
+        id="fristInput"
+        formControlName="employeePosition" 
+        [max-limit]="50"
+        (ionChange)="validateControl('employeePosition')"></ion-input>
+    </ion-item>
+    <span class="error-spam">{{ messages.employeePosition.error }}</span>
+    <ion-item>
+      <ion-label stacked>Empresa*</ion-label>
+      <ion-input 
+        formControlName="company" 
+        [max-limit]="50"
+        (ionChange)="validateControl('company')"></ion-input>
+    </ion-item>
+    <span class="error-spam">{{ messages.company.error }}</span>
+    <ion-item>
+      <ion-label stacked>Jefe directo</ion-label>
+      <ion-input 
+        formControlName="bossName" 
+        [max-limit]="50"
+        (ionChange)="validateControl('bossName')"></ion-input>
+    </ion-item>
+    <span class="error-spam">{{ messages.bossName.error }}</span>
+    <ion-item>
+      <ion-label stacked>Correo electrónico jefe directo</ion-label>
+      <ion-input 
+        formControlName="bossEmail" 
+        [max-limit]="50"
+        (ionChange)="validateControl('bossEmail')"></ion-input>
+    </ion-item>
+    <span class="error-spam">{{ messages.bossEmail.error }}</span>
+    <ion-item>
+      <ion-label stacked>Teléfono jefe directo</ion-label>
+      <ion-input 
+        type="tel"
+        formControlName="bossTelephone" 
+        [max-limit]="10"
+        maxlength="10"
+        (ionChange)="validateControl('bossTelephone')"></ion-input>
+    </ion-item>
+    <span class="error-spam">{{ messages.bossTelephone.error }}</span>
+    <ion-item>
+      <ion-label stacked>Fecha inicio de asignación*</ion-label>
+      <ion-datetime 
+      formControlName="assigmentDtartDate"
+      cancelText="CANCELAR"
+      doneText="ACEPTAR"
+      displayFormat="DD/MM/YYYY"
+      [max]="dateNow"
+      (ionChange)="selectedFirstDate($event)"></ion-datetime>
+    </ion-item>
+    <span class="error-spam">{{ messages.assigmentDtartDate.error }}</span>
+    <ion-item>
+      <ion-label stacked>Fecha fin de asignación*</ion-label>
+      <ion-datetime 
+      formControlName="assigmentEndDate" 
+      cancelText="CANCELAR"
+      doneText="ACEPTAR"
+      [disabled]="disableSelector" 
+      displayFormat="DD/MM/YYYY" 
+      [min]="minDate" 
+      max="2099"
+      (ionChange)="validateControl('assigmentEndDate')"></ion-datetime>
+    </ion-item>
+    <span class="error-spam">{{ messages.assigmentEndDate.error }}</span>
+    <ion-item>
+      <ion-label stacked>Ingreso bruto mensual</ion-label>
+      <ion-input 
+        type="tel"
+        formControlName="qtSalary"
+        [max-limit]="12"
+        (ionChange)="validateControl('qtSalary')"
+        [brmasker]="{money: true,thousand: ',', decimalCaracter: '.', decimal: '2'}"></ion-input>
+    </ion-item>
+    <span class="error-spam">{{ messages.qtSalary.error }}</span>
+    <ion-item>
+      <ion-label stacked>Correo electrónico de asignación</ion-label>
+      <ion-input 
+        formControlName="assignmentEmail" 
+        [max-limit]="50"
+        (ionChange)="validateControl('assignmentEmail')"></ion-input>
+    </ion-item>
+    <span class="error-spam">{{ messages.assignmentEmail.error }}</span>
+    <ion-item>
+      <ion-label stacked>Resumen profesional</ion-label>
+      <ion-textarea 
+        formControlName="professionalResume"
+        [max-limit]="500"
+        (ionChange)="validateControl('professionalResume')"></ion-textarea>
+    </ion-item>
+    <span class="error-spam">{{ messages.professionalResume.error }}</span>
+  </form>
+</div>
+<div class="divider" *ngIf="showDivider"></div>

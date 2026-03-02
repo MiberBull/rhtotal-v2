@@ -1,0 +1,31 @@
+.breadcrumb-toolbar-fab{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 0px;
+    width: 90%;
+}
+
+.element{
+    width: 50%;
+}
+.toolbarFlex{
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 15px;
+}
+
+.loading {
+    position: fixed;
+    z-index: 999;
+    height: 10em;
+    width: 11em;
+    overflow: show;
+    margin: auto;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}

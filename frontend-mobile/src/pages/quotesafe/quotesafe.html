@@ -1,0 +1,34 @@
+<!--
+  Generated template for the QuotesafePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-content >
+  <div class="content-header" style="background-image: url('assets/imgs/cotizarseguroheader.png');">
+    <div class="content-sub-header" (click)="backDiscount()" >
+      <ion-icon ios="ios-arrow-back" md="md-arrow-back" class="image-header" ></ion-icon>
+      <div class="text-title" >Cotizar seguro</div>
+    </div>  
+    <div class="encabezado">Recibe la mejor <br> asesoría en seguros</div>
+  </div>
+  <div class="content-text">
+    <div class="text-array">{{textSeguro[0]}}</div>
+    <div class="text-array">{{textSeguro[1]}}</div>
+    <div class="text-array-position">{{textSeguro[2]}}</div>
+    <div class="content-buttom-alert">
+      <button ion-button (click)="opendialog()">Solicitar llamada</button>       
+    </div>
+
+      <div style="height: 50%; margin-left: 10px; margin-right: 10px;">
+        <ion-item style="padding-top: 5px; padding-left: 0px;">
+          <ion-label style="padding: 0px;"stacked>Tipo de Seguro</ion-label>
+          <ion-select multiple="false"  interface="action-sheet" [(ngModel)]="tipoSeguro" (ionChange)="getSelection();" >
+            <ion-option *ngFor="let seguro of seguros; let idx = index" value="{{seguro.id}}" selected="{{(idx==0).toString()}}">{{seguro.name}} </ion-option>
+          </ion-select>
+        </ion-item>
+      </div>
+
+    
+  </div>
+</ion-content>

@@ -1,0 +1,81 @@
+<div class="styleInputs">
+    <div [formGroup]="formInfoData">  
+        <div class="container">                
+                    <mat-form-field class="element">
+                        <input matInput formControlName="entryDate" [matDatepicker]="picker"  placeholder="Fecha de ingreso" [(ngModel)]="employeeHistory.entryDate" readonly>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                
+                    <mat-form-field class="element">
+                        <input matInput formControlName="endDate" [matDatepicker]="picker_2" placeholder="Fecha de salida" [(ngModel)]="employeeHistory.endDate" readonly>
+                        <mat-datepicker-toggle matSuffix [for]="picker_2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker_2></mat-datepicker>
+                    </mat-form-field>
+
+                    <mat-form-field class="element">
+                        <input matInput formControlName="qtSalary" placeholder="Salario mensual bruto" [(ngModel)]="employeeHistory.qtSalary"  maxlength="12">
+                        <mat-error *ngIf="formInfoData.get('qtSalary').hasError('pattern')">
+                            Datos incorrectos
+                        </mat-error> 
+                    </mat-form-field>
+                            
+                    <div class="newControl" >
+                        <label>Prestaciones de Ley</label>
+                        <div class="stepNew">
+                            <tm-three-steps-selector formControlName="benefitsLawBool" [(ngModel)]="employeeHistory.benefitsLawBool" [disabled]="isDisableForm" class= "form-social-network"  >   
+                            </tm-three-steps-selector>
+                        </div>
+                    </div>
+                
+                
+                    <div class="newControl">
+                        <label>Prestaciones Adiccionales</label>
+                        <div class="stepNew">
+                            <tm-three-steps-selector formControlName="aditionalBenefitsBool" [(ngModel)]="employeeHistory.aditionalBenefitsBool" [disabled]="isDisableForm" class= "form-social-network"  >   
+                            </tm-three-steps-selector> 
+                        </div>  
+                    </div>
+                            
+                    <mat-form-field class="element">
+                        <input matInput formControlName="dsCompany" placeholder="Empresa" maxlength="50" [(ngModel)]="employeeHistory.dsCompany">
+                        <mat-error *ngIf="formInfoData.get('dsCompany').hasError('pattern')">
+                            Datos incorrectos
+                        </mat-error> 
+                    </mat-form-field>
+                            
+                    <mat-form-field class="element">
+                        <input matInput formControlName="dsEmployeePosition" placeholder="Puesto" maxlength="50" [(ngModel)]="employeeHistory.dsEmployeePosition">
+                        <mat-error *ngIf="formInfoData.get('dsEmployeePosition').hasError('pattern')">
+                            Datos incorrectos
+                        </mat-error> 
+                    </mat-form-field>
+                            
+                    <mat-form-field class="element">
+                        <input matInput formControlName="dsIndustry" placeholder="Industria" maxlength="50" [(ngModel)]="employeeHistory.dsIndustry">
+                        <mat-error *ngIf="formInfoData.get('dsIndustry').hasError('pattern')">
+                            Datos incorrectos
+                        </mat-error> 
+                    </mat-form-field>
+                            
+                    <mat-form-field class="element">
+                        <input matInput formControlName="dsArea" placeholder="Área" maxlength="50" [(ngModel)]="employeeHistory.dsArea">
+                        <mat-error *ngIf="formInfoData.get('dsArea').hasError('pattern')">
+                            Datos incorrectos
+                        </mat-error> 
+                    </mat-form-field>
+                            
+                    <mat-form-field class="element">
+                        <input matInput formControlName="qtDependets" placeholder="Personas directas a cargo" [(ngModel)]="employeeHistory.qtDependets"  maxlength="4">
+                        <mat-error *ngIf="formInfoData.get('qtDependets').hasError('pattern')">
+                            Datos incorrectos
+                        </mat-error> 
+                    </mat-form-field>
+                
+
+            </div>
+    </div>
+</div>
+<div class="control" *ngIf="showSaveUpdate">
+        <button mat-raised-button color="primary" (click)="save()" [disabled]="!formInfoData.valid">Guardar</button>
+        </div>

@@ -1,0 +1,56 @@
+<ion-content>
+  <div class="content-header" style="background-image: url('assets/imgs/headers/velocash.png');">
+    <div class="content-sub-header" (click)="backDiscount()">
+        <ion-icon ios="ios-arrow-back" md="md-arrow-back" class="image-header" ></ion-icon>
+        <div class="text-title" >VeloCash</div>
+    </div>  
+    <div class="encabezado">Cobra hoy los días que  <br> has trabajado </div>
+  </div>
+  <div style="height:65%; overflow-y: auto; padding-bottom: 15%; padding: 0px 20px;">
+    <br>
+    <p class="information-paragraph">Pide el dinero correspondiente a los días laborados
+      después de tu último pago de nómina. Necesitas una antigüedad mínima de 3 meses en la empresa.
+    </p>
+    <ion-item-divider>
+      <div style="display: flex; flex-direction: column;">
+        <label class="title-info">Monto correspondiente</label>
+        <label class="wrapper-concept">${{correspondingAmount }}</label>
+      </div>
+    </ion-item-divider>
+    <ion-item-divider>
+      <div style="display: flex; flex-direction: column;">
+        <label class="title-info">Días laborados a la fecha</label>
+        <label class="wrapper-concept">{{ workedDays }}</label>
+      </div>
+    </ion-item-divider>
+    <ion-item-divider>
+      <div style="display: flex; flex-direction: column;">
+        <label class="title-info">Monto acumulado</label>
+        <label class="wrapper-concept">${{ acomulatedAmount }}</label>
+      </div>
+    </ion-item-divider>
+    <ion-item-divider>
+      <div style="display: flex; flex-direction: column;">
+        <label class="second-info">Forma de pago</label>
+        <label>{{ wayToPay }}</label>
+      </div>
+    </ion-item-divider>
+    <ion-item-divider>
+      <div style="display: flex; flex-direction: column;">
+        <label class="second-info">Monto restante</label>
+        <label>${{ nextPayment }}</label>
+      </div>
+    </ion-item-divider>
+    <ion-item-divider>
+      <div style="display: flex; flex-direction: column;">
+        <label class="second-info">Siguiente pago de nómina</label>
+        <label>{{ nextDatePayment }}</label>
+      </div>
+    </ion-item-divider>
+    <p>*Comisión de {{ commission }}% IVA incluido sobre el monto solicitado</p>
+  </div>
+  <div style="display: flex; justify-content: center;">
+    <button ion-button style="background-color: #1469AF" (click)="showConfirmAlert()" >Solicitar</button>
+  </div>
+
+</ion-content>

@@ -1,0 +1,36 @@
+.discount {
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+  .container {
+    margin-top: 4em;
+    width: 40%;
+    font-size: 11px;
+    display: flex;
+    flex-direction: column;
+  }
+  .discount::ng-deep label.mat-form-field-placeholder.mat-empty {
+    color: #333333;
+  }
+  .discount::ng-deep label.mat-form-field-label {
+    color: #333333;
+  }
+  .discount::ng-deep .mat-form-field-underline {
+    background-color: #1099d6;
+  }
+  .inputmargin {
+    margin-bottom: -1em;
+  }
+  .buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+.filter-chip {
+    display: flex;
+    justify-content: flex-end;
+    margin: 0px 30px;
+}

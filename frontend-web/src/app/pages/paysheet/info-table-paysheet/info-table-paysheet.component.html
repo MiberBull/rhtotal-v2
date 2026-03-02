@@ -1,0 +1,27 @@
+<div class="scrollmenu">
+    <br>
+    <br>
+    <table mat-table [dataSource]="dataSourceTable" class="table-size" >
+      <ng-container *ngFor="let column of displayedColumns; let i = index" [matColumnDef]="column">
+
+        <div *ngIf="displayTitles[i] == 'Rechazar / Aprobar'">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td *matCellDef="let element"></td>
+          <!--
+          <th mat-header-cell *matHeaderCellDef> {{ displayTitles[i] }} </th>
+          <td class="table-color" mat-cell *matCellDef="let element"> 
+                <div class="newControl">
+                  <tm-three-steps-selector [(ngModel)]="selectState" [disabled]="selectEnabled" (onchange)="changeState($event)">
+                  </tm-three-steps-selector>
+                </div>
+           </td>-->
+        </div>
+        <div *ngIf="displayTitles[i] != 'Rechazar / Aprobar'">
+            <th mat-header-cell *matHeaderCellDef> {{ displayTitles[i] }} </th>
+            <td class="table-color" mat-cell *matCellDef="let element"> {{element[column]}} </td>
+        </div>        
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let dataSource; columns: displayedColumns;" (click)="selectedItem(dataSource)" style="cursor: pointer;"></tr>
+    </table>
+</div>

@@ -1,0 +1,35 @@
+<div>
+
+    <div class="filter-chip">
+        <mat-chip-list *ngIf="filtros">
+            <mat-chip *ngIf="cliente" [selectable]="selectable" [removable]="removable" (removed)="remove('cliente')">
+                {{ cliente }}
+                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+            <mat-chip *ngIf="curp" [selectable]="selectable" [removable]="removable" (removed)="remove('curp')">
+                {{ curp }}
+                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+            <mat-chip *ngIf="correoelectronico" [selectable]="selectable" [removable]="removable" (removed)="remove('correoelectronico')">
+                {{ correoelectronico }}
+                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+            <mat-chip *ngIf="proyecto" [selectable]="selectable" [removable]="removable" (removed)="remove('proyecto')">
+                {{ proyecto }}
+                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+        </mat-chip-list>
+    </div>
+
+
+    <app-generic-table 
+        [headers]="tableData.headers"
+        [info-data]="tableData.infoData"
+        [titles]="tableData.titles"
+        (selected-item)="selectItemUser($event)"
+        [total-items]="countUsers"
+        (go-next)="loadInfoUsers($event)"
+        (go-prev)="loadInfoUsers($event)">
+    </app-generic-table>    
+</div>
+

@@ -1,0 +1,79 @@
+version: '3'
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: "Dockerfile-frontend"
+    ports:
+      - "80:80"
+    networks:
+      - rhtotalnet
+  gatewayservice:
+    build:
+      context: .
+      dockerfile: "Dockerfile-gateway-service"
+    ports:
+      - "8000:8000"
+    networks:
+      - rhtotalnet
+  securityservice:
+    build:
+      context: .
+      dockerfile: "Dockerfile-security-service"
+    ports:
+      - "8090:8090"
+    networks:
+      - rhtotalnet
+    environment:
+      - TZ=America/Mexico_City
+    depends_on:
+      - gatewayservice
+  applicationservice:
+    build:
+      context: .
+      dockerfile: "Dockerfile-application-service"
+    ports:
+      - "8091:8091"
+    networks:
+      - rhtotalnet
+    environment:
+      - TZ=America/Mexico_City
+    depends_on:
+      - gatewayservice
+  userservice:
+    build:
+      context: .
+      dockerfile: "Dockerfile-user-service"
+    ports:
+      - "8092:8092"
+    networks:
+      - rhtotalnet
+    depends_on:
+      - gatewayservice
+      - paysheetsicoservice
+      - securityservice
+  fintechservice:
+    build:
+      context: .
+      dockerfile: "Dockerfile-fintech-service"
+    ports:
+      - "8093:8093"
+    networks:
+      - rhtotalnet      
+    environment:
+      - TZ=America/Mexico_City
+    depends_on:
+      - gatewayservice
+      - paysheetsicoservice
+  paysheetsicoservice:
+    build:
+      context: .
+      dockerfile: "Dockerfile-paysheetsico-service"
+    ports:
+      - "8094:8094"
+    networks:
+      - rhtotalnet
+    depends_on:
+      - gatewayservice
+networks:
+  rhtotalnet:

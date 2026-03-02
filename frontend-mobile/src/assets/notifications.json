@@ -1,0 +1,29 @@
+[
+    {
+      "idRepository": 12,
+      "idNotification": 31,
+      "type": "D",
+      "subCategory": "D",
+      "description": "Descuento en tennis para toda la familia",
+      "title": "Promo Tennis 50 desc",
+      "unRead": true
+    },
+    {
+      "idRepository": 13,
+      "idNotification": 31,
+      "type": "B",
+      "subCategory": "B",
+      "description": "Descuento en tennis para toda la familia de Chabelo",
+      "title": "Promo Tennis 50 desc",
+      "unRead": true
+    },
+    {
+        "idRepository": 14,
+        "idNotification": 31,
+        "type": "D",
+        "subCategory": "B",
+        "description": "Descuento en tennis para toda la familia de Chabelo dos",
+        "title": "Promo Tennis 50 desc",
+        "unRead": true
+    }
+  ]

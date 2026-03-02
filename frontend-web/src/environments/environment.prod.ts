@@ -1,0 +1,396 @@
+export const environment = {
+  production: false,
+  PARAMS:'params',
+  INTENTS:'value',
+  ANSWER_LOGIN:'answerLogin',
+  USER_ERROR:'El usuario que ingreso no es válido',
+  LONG_EMAIL:50,
+  EMPTY_INPUT: '',
+  EMAIL_REGEX:/^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i,
+  VALUE_DECREASE:1,
+  MIN_LENGTH_PASSWORD:8,
+  MAX_LENGTH_PASSWORD:50,
+  MENU:'menu',
+  ERROR_SERVIDOR:'Error en el servidor',
+  POINT:'.',
+  SLICE:1,
+  DATOS_CORRECTOS: 'Los datos han sido guardados correctamente',
+  EMAIL: 'Correo electrónico invalido',
+  TYPE_FINTECH_ADVANCE: 'MyAdvance',
+  TYPE_FINTECH_VELOCASH: 'VeloCash',
+  TYPE_INSURE_V: '1',
+  TYPE_INSURE_SV: '2',
+  TYPE_INSURE_GMA:'3',
+  TYPE_INSURE_GME:'4',
+  ROL_USER_READ: 7,
+  DEFAULT_VALUE_EVENTUALIDAD: '0',
+  NAME_EXCEL_NOTIFICATION_PROGRAMADAS: 'NotificacionesProgramadas',
+  NAME_EXCEL_NOTIFICATION_ENVIADAS: 'NotificacionesEnviadas',
+  ROOT_NOTIFICATION: '/home/notificaciones',
+  URL_FINTECH: '/home/adelantos',
+  URL_FINTECH_DETAILS: '/home/adelantos-detalle',
+  URL_USERS_DATA: '/home/admin-usuario/datos-personales' 
+};
+
+
+export const MSG = {
+  OK: 'Los datos han sido guardados correctamente',
+  INFORMATION_IS_MISSING: 'Favor de validar campos requeridos(*)',
+  SERVER_ERROR:'Ocurrio un error en el servidor',
+  INVALID_EMAIL:'La cuenta de correo electrónico no es válida, intente nuevamente',
+  USE_EMAIL:'La cuenta de correo electrónico que solicita registrar ya se encuentra en uso, intente con una nueva',
+  ERROR_TWO_DATE:'La fecha inicio tiene que ser menor a la fecha fin',
+  IMAGE_EXIST:'Ingrese mínimo una imagen',
+  IMAGE_FORMAT_VALIT:'Ingrese sólo imágenes con formato  .jpg o  .png para la imagen',
+  NOTIFICATION_START_END:'Ingrese Fecha inicio y Fecha fin',
+  FILE_PDF:'Selecciona sólo archivos con formato PDF',
+  MESSAGE_PDF_VALID: 'Ingrese un archivo .pdf',
+  MSG_SAVE_UPDATE: 'Los datos han sido guardados correctamente',
+  MSG_CONFIR_STATUS_INSURANCE: 'Se ha modificado el estatus del Seguro',  
+  MSG_SIZE_FILE: 'Se requiere un archivo menor a 2MB',
+  TITLE_EVENTUALIDAD: 'Eventualidades Amparadas',
+  TITLE_COBERTURA: 'Cobertura Plan',
+  ERROR_DATE_USERS: 'La fecha de ingreso tiene que ser menor a la fecha de salida',
+  NOTIFICATION_START_END_USERS: 'Ingrese fecha de ingreso y fecha de salida'
+}
+
+export const EXPRESSION = {
+  EMAIL:/^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i,
+  INPUT_TEXT:/^[A-Za-z\s.]+$/,
+  USERNAME_TEXT:/^[A-Za-zÑñÁËÍÓÚáéíóúÜü\s.-]+$/,
+  OWN_NAME:/^[\S][A-Za-zÑñÁËÍÓÚáéíóúÜü\s.-]+$/,
+  ALPHANUMERIC_CODE:/^\S/,
+  NUMBER:/^[0-9]+$/,
+  DECIMAL: /^[0-9]{1,9}(\.[0-9]{1,2})?$/,
+  DECIMAL_ONE_NINE: /^[0-9]{1,9}(\.[0-9]{1,2})?$/,
+  DECIMAL_ONE_TWO: /^[0-9]{1,2}(\.[0-9]{1,2})?$/,
+  URL_VALID: /^http(s)?:\/\/[\w\-]+(\.[\w\-]+)+[/#?]?.*$/,
+  CURP:/^([A-Z][AEIOUX][A-Z]{2}\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])[HM](?:AS|B[CS]|C[CLMSH]|D[FG]|G[TR]|HG|JC|M[CNS]|N[ETL]|OC|PL|Q[TR]|S[PLR]|T[CSL]|VZ|YN|ZS)[B-DF-HJ-NP-TV-Z]{3}[A-Z\d])(\d)$/,
+  RFC:/^[a-zA-Z]{3,4}(\d{6})((\D|\d){2,3})?$/,
+  CURRENCY:/^(\d{1}\.)?(\d+\.?)+(,\d{2})?$/,
+  PASSWORD: /^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,50}$/,
+  PAGE_URL:/^https?:\/\/[\w\-]+(\.[\w\-]+)+[/#?]?.*$/
+}
+
+export const parameters = {
+  name:'name',
+  intents:'numberIntent',
+  EMAIL:'email',
+  TEMPLATE:'parameter',
+  FORGET_PASS:'forget_pass',
+  CHANGE_PASS:'change_pass',
+  APP:'mobile',
+  WEB:'web'
+}
+
+export const TEMPLATE = {
+  FORGET_PASS:'NOMBRE'
+}
+
+export const PATH_CLIENT = {
+  DOMAIN:'http://ec2-54-86-23-170.compute-1.amazonaws.com:8000/api/application',
+  CLIENT: 'client/saveOrUpdateClient',
+  SEARCH_BY_ID:'client/getClient',
+  PAGINATOR:'client/getNumberRow'
+}
+
+export const PATH_SECURITY = {  
+  DOMAIN:'http://ec2-54-86-23-170.compute-1.amazonaws.com:8000/api/security',
+  GET_PARAMETERS:'parameter/getParameter',
+  LOGIN:'login/loginWeb',
+  SEND_EMAIL:'email/sendEmail',
+  ROLES_CATALOGUE:'role/getAllCatalogue',
+  USER_ROLE_INFO:'role/getRole',
+  SAVE_USER_ROLE:'role/saveOrUpdateRole',
+  TABLE_ROLE:'role/getPagedRole',
+  COUNT_ROLE:'role/getNumberRow',
+  RESET_REQUEST_ENDPOINT: 'role/reset/request',
+  RESET_CONFIRMATION_ENDPOINT: 'role/reset/confirmation'
+}
+
+export const PATH_FINTECH = {  
+  //DOMAIN: 'http://localhost:8093',
+  DOMAIN: 'http://ec2-54-86-23-170.compute-1.amazonaws.com:8000/api/fintech',
+  TABLE_FINTECH_ADVANCE: 'fintech/getPagedFintechMyAdvance',
+  TABLE_FINTECH_VELOCASH: 'fintech/getPagedFintechVeloCash',
+  HEADERS: 'generic/getHeader',
+  COUNT_ADVANCE: 'fintech/getNumberRowAdvance',
+  COUNT_VELOCASH: 'fintech/getNumberRowVeloCash',
+  ONE_FINTECH_ADVANCE: 'fintech/getFintchOneAdvance',
+  ONE_FINTECH_VELOCASH: 'fintech/getFintchOneVeloCash',
+  UPDATE_STATUS_ADVANCE: 'fintech/updateStatuChangeMyAdvance',
+  UPDATE_STATUS_VELOCASH: 'fintech/updateStatuChangeVeloCash'
+}
+
+// NEW API with Express
+export const API_FINTECH = {  
+  DOMAIN: 'http://ec2-52-205-42-63.compute-1.amazonaws.com',
+  PORT: '3000',
+  UPDATE_STATUS_VELOCASH: 'api/v1/update/veloash',
+  GET_VELOCASH: 'velocash',
+  KEY: 'YXNkZmdoMTQ3cmh0b3RhbA==',
+  STATUS: {
+    WAIT: 'ES',
+    APPROVED: 'AP',
+    REJECT: 'R'
+  }
+}
+
+
+
+export const PATH_APPLICATION = {
+  //DOMAIN: 'http://localhost:8091',
+  DOMAIN:'http://ec2-54-86-23-170.compute-1.amazonaws.com:8000/api/application',  
+  TABLE_BANNER:'banner/getPagedBanner',
+  TABLE_NOTIFICATION:'notification/getPagedNotification',
+  TABLE_DISCOUNTS:'discount/getPagedDiscount',
+  TABLE_INSURANCE: 'insurance/getAllInsurance',
+  TABLE_USERS:'',
+  HEADERS:'generic/getHeader',
+  SAVE_NOTIFICATION:'notification/saveOrUpdateNotification',
+  GET_NOTIFCATION:'notification/getNotification',
+  COUNT_NOTIFICATION:'notification/getNumberRow',
+  COUNT_BANNER:'banner/getNumberRow',
+  NEW_BANNER:`banner/saveOrUpdateBanner`,
+  GET_BANNER:`banner/getBanner`,
+  TREE:'http://ec2-54-86-23-170.compute-1.amazonaws.com:8000/api/application/notificationassignment/getAssignmentBenefitsNotifications',
+  TABLE_FINTECH_ADVANCE: 'fintech/getPagedFintechMyAdvance',
+  TABLE_FINTECH_VELOCASH: 'fintech/getPagedFintechVeloCash',
+  GET_ONE_INSURANCE: 'insurance/getOneInsurance',
+  GET_ALL_EVENTUALY: 'insurance/getAllEventualy',
+  GET_ALL_COVERAGE: 'insurance/getAllPlanCoverage',
+  SAVE_UPDATE_INSURANCE: 'insurance/saveUpdateInsurance',
+  GET_ONE_EVENTUALY:'insurance/getOneEventualy',
+  GET_ONE_PLAN_COVERAGE: 'insurance/getOnePlanCoverage',
+  SAVE_UPDATE_EVENTUALY: 'insurance/saveUpdateEventualy',
+  SAVE_UPDATE_COVERAGE: 'insurance/saveUpdatePlanCoverage',
+  COUNT_INSURANCE: 'insurance/getNumberRow',
+  COUNT_EVENTUALY: 'insurance/getNumberRowEventualy',
+  COUNT_COVERAGE: 'insurance/getNumberRowCoverage'
+}
+
+export const routesWeb = {
+  LOGIN:'login',
+  NEW_USER:'nuevo-usuario',
+  HOME:'/home',
+  EMPTY:'',
+  ROOT:'/',
+  ADMIN_ROLES:'/adminRoles',
+  ROLES:'/roles',
+  ADMIN_INSURANCE:'admin-seguros',
+  DISCOUNT:'descuentos',
+  ADMIN_DISCOUNT:'admin-descuentos',
+  BANNERS:'banners',
+  ADMIN_BANNERS:'admin-banners',
+  ADMIN_USER:'admin-usuario',
+  ADMIN_NOTIFICATION:'admin-notificaciones',
+  NOTIFICATION:'notificaciones',
+  RESET_ACCOUNT: 'reset',
+  RESET_ACCOUNT_CONFIRMATION: 'reset-confirmation',
+  CUSTOMER:'clientes',
+  ADMIN_CUSTOMER:'crear-cliente',
+  FINTECH_DETALLE: 'adelantos-detalle',
+  FINTECH_VELOCASH:'adelantos/velo-cash',
+  FINTECH_ADVANCE:'adelantos/my-advance',
+  INSURANCE: 'seguros',
+  INSURANCE_ADMIN: 'admin-seguros'
+}
+
+export const BUTTON = {
+  SAVE:'Guardar',
+  EDIT:'Editar'
+}
+
+export const BREADCRUMB = {
+  NEW_ROL:'Rol nuevo',
+  DETAIL_ROLE:'Rol detalle',
+  ROLES:'Roles',
+  NEW_NOTIFICATION:'Notificación nueva',
+  DETAIL_NOTIFICATION:'Notificación detalle',
+  INSURANCE: 'Seguros',
+  NEW_INSURANCE: 'Seguro nuevo',
+  DETAIL_INSURANCE: 'Seguro detalle',
+  USER:'Usuario',
+  BANNER:'Banners',
+  NOTIFICATION:'Notificaciones',
+  PAYSHEET:'Anticipo',
+  PAYSHEET_ITEMS:[{name:'VeloCash',url:'/home/adelantos/velo-cash'},{name:'Mi adelanto',url:'/home/adelantos/my-advance'}],
+  FINTECH_ADVANCE_ES: 'En espera detalle',
+  FINTECH_ADVANCE_AP: 'Aprobada detalle',
+  FINTECH_ADVANCE_R: 'Rechazada detalle',
+  MY_ADVANCE: 'Mi adelanto',
+  VELO_CASH: 'VeloCash',
+  DISCOUNT:'Beneficios y Descuentos',
+  DETAIL_DISCOUNT:'Beneficio o Descuento detalle',
+  NEW_DISCOUNT:'Beneficio o Descuento Nuevo',
+  DETAIL_BANNER:'Banner detalle',
+  NEW_BANNER:'Nuevo banner',
+  NEW_CLIENT:'Cliente nuevo',
+  DETAIL_CLIENT:'Cliente detalle',
+  DETAIL_USER:'Usuario detalle',
+  NEW_USER:'Usuario nuevo'
+}
+
+export const TABS_FINTECH = {
+  FINTECH_ADVANCE_ES: 11,
+  FINTECH_VELOCASH_ES: 12,
+  FINTECH_ADVANCE_AP: 13,
+  FINTECH_VELOCASH_AP: 14,
+  FINTECH_ADVANCE_R: 15,
+  FINTECH_VELOCASH_R: 16
+}
+
+export const NUMBERS = {
+  CERO:0,
+  ONE:1,
+  TWO:2,
+  THREE:3,
+  FOUR:4,
+  FIVE:5,
+  SIX:6,
+  SEVEN:7,
+  EIGHT:8,
+  NINE:9,
+  TEN:10,
+  EIGHTEEN:18
+}
+
+export const FAB = {
+  ADD: 'add'
+}
+
+export const pathclient = {
+  DOMAIN:'http://10.11.11.94:8090',
+  LOGIN: 'client/saveOrUpdateClient'
+}
+
+export const DECLARATION = {
+  EMPTY_INPUT: '',
+}
+
+export const STORAGE = {
+  ANSWER_LOGIN:'answerLogin',
+  TOKEN:'token'
+}
+
+export const STATUS_ROLES = [
+{id:'A',status:'Activo'},
+{id:'I',status:'Inactivo'}
+];
+
+export const DICTIONARY = {
+  ALPHABET:'0123456789ABCDEFGHIJKLMNÑOPQRSTUVWXYZ'
+}
+
+export const TABLE_ROUTE = {
+  ROLES:`${PATH_SECURITY.DOMAIN}/${PATH_SECURITY.TABLE_ROLE}`,
+  BANNERS:`${PATH_APPLICATION.DOMAIN}/${PATH_APPLICATION.TABLE_BANNER}`,
+  NOTIFICATION:`${PATH_APPLICATION.DOMAIN}/${PATH_APPLICATION.TABLE_NOTIFICATION}`,
+  DISCOUNTS:`${PATH_APPLICATION.DOMAIN}/${PATH_APPLICATION.TABLE_DISCOUNTS}`,
+  INSURANCE:`${PATH_APPLICATION.DOMAIN}/${PATH_APPLICATION.TABLE_INSURANCE}`,
+  FINTECH_ADVANCE: `${PATH_FINTECH.DOMAIN}/${PATH_FINTECH.TABLE_FINTECH_ADVANCE}`,
+  FINTECH_VELOCASH: `${PATH_FINTECH.DOMAIN}/${PATH_FINTECH.TABLE_FINTECH_VELOCASH}`,
+  SELECTED_ONE_INSURANCE: `${PATH_APPLICATION.DOMAIN}/${PATH_APPLICATION.GET_ONE_INSURANCE}`,
+  SHOW_ALL_EVENTUALY: `${PATH_APPLICATION.DOMAIN}/${PATH_APPLICATION.GET_ALL_EVENTUALY}`,
+  SHOW_ALL_COVERAGE: `${PATH_APPLICATION.DOMAIN}/${PATH_APPLICATION.GET_ALL_COVERAGE}`,
+  SHOW_COUNT_INSURANCE: `${PATH_APPLICATION.DOMAIN}/${PATH_APPLICATION.COUNT_INSURANCE}`,
+  SHOW_COUNT_EVENTUALY: `${PATH_APPLICATION.DOMAIN}/${PATH_APPLICATION.COUNT_EVENTUALY}`,
+  SHOW_COUNT_COVERAGE: `${PATH_APPLICATION.DOMAIN}/${PATH_APPLICATION.COUNT_COVERAGE}`  
+}
+
+export const HEADERS = {
+  ROLES:'headersRol',
+  BANNERS:`headersBanners`,
+  NOTIFICATION:'headersNotifications',
+  DISCOUNTS:'headersDiscounts',
+  INSURANCE:'headerInsurance',
+  USERS:'headersUsers',
+  FINTECH_WAIT_VELOCASH: 'headerFintechWait',
+  FINTECH_WAIT_ADVANCE: 'headerFintechWaitAdvances',
+  FINTECH_APPROVED_ADVANCE: 'headerFintechApprovedAdvance',
+  FINTECH_APPROVED_VELOCASH: 'headerFintechApprovedVeloCash',
+  FINTECH_REJECTED_ADVANCE: 'headerFintechRejectedAdvance',
+  FINTECH_REJECTED_VELOCASH: 'headerFintechRejectedVeloCash',
+  EVENTUALY_HEADER: 'headerEventuality',
+  COVERAGE_HEADER: 'headerPlanCoverage'
+}
+
+export const EMAIL = {
+  IMG_EMAIL:'imgEmailUnbound',
+  NEW_USER:'layoutNewUser'
+}
+
+export const PATH_EXCEL = {
+  GENERIC :`${PATH_APPLICATION.DOMAIN}/generic/sendExcel`,
+  ROLES:`${PATH_SECURITY.DOMAIN}/role/sendExcel`
+}
+
+export const DIALOG_TITLES = {
+  LOGOUT:'¿Deseas cerrar sesión?'
+}
+
+export const SECRETS = {
+  AES_PASSWORD_SECRET: 'megustanlaschicascongafas'
+}
+export const STATUS = [
+{ id:'A',value:'Activo' },
+{ id:'I',value:'Inactivo' },
+];
+export const GENERO = [
+{id:'M',value:'Masculino'},
+{id:'F',value:'Femenino'}
+];
+
+export const PERMISSION=[
+{id:'Si',value:'Si'},
+{id:'No',value:'No'}
+];
+
+
+export const PATH_USER = {  
+  //DOMAIN: 'http://localhost:8092',
+  DOMAIN: 'http://ec2-54-86-23-170.compute-1.amazonaws.com:8000/api/user',  
+  RESET_REQUEST_ENDPOINT: 'user/reset/request',
+  RESET_CONFIRMATION_ENDPOINT: 'user/reset/confirmation',
+  USER_CREATION_ENDPOINT: 'user/create',
+  USER_CONFIRMATION_ENDPOINT: 'user/confirmation',
+  USER_SAVE_UPDTE_EMPLOYEE:'user/saveOrUpdateEmployeeComplementaryWeb',
+  USER_SAVE_UPDATE_EMPLOYEE_ADDRESS:'user/saveOrUpdateEmployeeAddress',
+  USER_SAVE_UPDATE_EMPLOYEE_CONTRATING:'user/saveOrUpdateContrating',
+  USER_SAVE_UPDATE_EMPLOYEE_HISTORY:'user/saveOrUpdateHistory',
+  USER_SAVE_UPDATE_EMPLOYEE_COMPESATION:'user/saveOrUpdateCompesation',
+  USER_SAVE_UPDATE_EMPLOYEE_ASIGNATION:'user/saveOrUpdateAsignationData',
+  USER_SAVE_UPDATE_EMPLOYEE_SOCIAL_NETWORK:'user/saveOrUpdateSocialNetwork',
+  USER_GET_CIVIL_STATUS:'user/getCivilStatus',
+  USER_GET_CITY:'user/getCity',
+  USER_GET_STATE:'user/getState',
+  USER_GET_ALL_EMPLOYEES:'user/getAllEmployees',
+  USER_SICO_URL:'https://nominaenlanube.com:8085/api-nomen/v1/',
+  USER_SICO_EMPPLOYEE_GENERAL:'get_empleado_general?',
+  USER_SW_DOMAIN:'http://ec2-54-86-23-170.compute-1.amazonaws.com:8000/api/paysheetsico/sico/raw',
+  USER_SICO_WORK_INFORMATION:'get_informacion_empleado?',
+  USER_GET_EMPLOYEE_BY_NAME:'user/getUserRegisterSico',
+  USER_GET_EMPLOYEE_BY_CURP:'user/getEmployeesByCurpClientProject',
+  USER_GET_EMPLOYEE_BY_ID_USER:'user/getEmployeeByIdUser',
+  USER_GET_SOCIAL_NETWORK_BY_ID_USER:'user/getSocialNetworkByIdUser',
+  USER_GET_COMPENSATION_BY_ID_USER:'user/getEmployeeCompensationByIdUser',
+  USER_GET_EMPLOYEE_HISTORY_BY_ID_USER:'user/getEmployeeHistoryByIdUser',
+  USER_GET_EMPLOYEE_COMPLEMENTARY_BY_ID_USER:'user/getUserRegisterById',
+  USER_GET_EMPLOYEE_DOMICILE_BY_ID_USER:'user/getEmployeeAdressByIdUser',
+  USER_GET_EMPLOYEE_CONTRATING_BY_ID_USER:'user/getContratingDataByIdUser',
+  USER_GET_EMPLOYEE_ASIGNATION_BY_ID_USER:'user/getEmployeeAsignationByIdUser',
+  USER_GET_PROPORTION_TABS_BY_ID_USER:'user/getTabByIdUser',
+  GET_COUNT_ROW_USER: 'user/getCountRow',
+  USER_GET_ALL_CLIENT:'user/getClient',
+  USER_GET_PROJECT_BY_ID_CLIENT:'user/getProjectByIdClient'
+}
+
+export const TABLE_ROUTE_USERS = {
+  GET_COUNT_ROW_USERS: `${PATH_USER.DOMAIN}/${PATH_USER.GET_COUNT_ROW_USER}`,
+  EXCEL_USER: `${PATH_USER.DOMAIN}/generic/sendExcel`
+}
+
+
+export const ROOT_FRONTEND_WEB = {
+  USERS: '/home/usuarios'
+}

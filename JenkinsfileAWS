@@ -1,0 +1,198 @@
+pipeline {
+    agent any
+    /*agent {
+        label 'RhTotal'
+    }*/
+    environment {
+        IMAGE_VERSION = '19.0'
+    }
+    tools {
+        maven 'M3'
+        jdk 'jdk10'
+    }
+    stages {
+        stage('Build Components') {
+            failFast true
+            parallel {
+                stage('Build Gateway') {
+                    steps {
+                        echo 'Building Webservice Spring boot'
+                        dir ('gateway-service/src/main/resources/'){
+                            sh 'sed -i "s/gatewayservice/ec2-54-197-208-200.compute-1.amazonaws.com/g" application.yml'
+                        }
+                        dir ('gateway-service/'){
+                            sh 'mvn clean package'
+                        }
+                    }
+                }
+                stage('Build Security') {
+                    steps {
+                        echo 'Building Webservice Security Spring boot'
+                        dir ('security-service/security-web/src/main/resources/'){
+                            sh 'sed -i "s/postgres:5432/rhtotal.cb5ktwale9p7.us-east-1.rds.amazonaws.com:5432/g" application.yml'
+                            sh 'sed -i "s/unbound/rhtotal/g" application.yml'
+                            sh 'sed -i "s/username: postgres/username: rhtotal/g" application.yml'
+                            sh 'sed -i "s/project123/UPi0TiKY4vzpdHRntejrh1v40Jp/g" application.yml'
+                            sh 'sed -i "s/gatewayservice/ec2-54-197-208-200.compute-1.amazonaws.com/g" application.yml'
+                        }
+                        dir ('security-service/'){
+                            sh 'mvn clean package'
+                        }
+                    }
+                }
+                stage('Build Application') {
+                    steps {
+                        echo 'Building Webservice Spring boot'
+                        dir ('application-service/application-web/src/main/resources/'){
+                            sh 'sed -i "s/postgres:5432/rhtotal.cb5ktwale9p7.us-east-1.rds.amazonaws.com:5432/g" application.yml'
+                            sh 'sed -i "s/unbound/rhtotal/g" application.yml'
+                            sh 'sed -i "s/username: postgres/username: rhtotal/g" application.yml'
+                            sh 'sed -i "s/project123/UPi0TiKY4vzpdHRntejrh1v40Jp/g" application.yml'
+                            sh 'sed -i "s/gatewayservice/ec2-54-197-208-200.compute-1.amazonaws.com/g" application.yml'
+                        }
+                        dir ('application-service/'){
+                            sh 'mvn clean package'
+                        }
+                    }
+                }
+                stage('Build Fintech') {
+                    steps {
+                        echo 'Building Webservice Spring boot'
+                        dir ('fintech-service/fintech-web/src/main/resources/'){
+                            sh 'sed -i "s/postgres:5432/rhtotal.cb5ktwale9p7.us-east-1.rds.amazonaws.com:5432/g" application.yml'
+                            sh 'sed -i "s/unbound/rhtotal/g" application.yml'
+                            sh 'sed -i "s/username: postgres/username: rhtotal/g" application.yml'
+                            sh 'sed -i "s/project123/UPi0TiKY4vzpdHRntejrh1v40Jp/g" application.yml'
+                            sh 'sed -i "s/gatewayservice/ec2-54-197-208-200.compute-1.amazonaws.com/g" application.yml'
+                        }
+                        dir ('fintech-service/'){
+                            sh 'mvn clean package'
+                        }
+                    }
+                }
+                stage('Build User') {
+                    steps {
+                        echo 'Building Webservice Spring boot'
+                        dir ('user-service/user-web/src/main/resources/'){
+                            sh 'sed -i "s/postgres:5432/rhtotal.cb5ktwale9p7.us-east-1.rds.amazonaws.com:5432/g" application.yml'
+                            sh 'sed -i "s/unbound/rhtotal/g" application.yml'
+                            sh 'sed -i "s/username: postgres/username: rhtotal/g" application.yml'
+                            sh 'sed -i "s/project123/UPi0TiKY4vzpdHRntejrh1v40Jp/g" application.yml'
+                            sh 'sed -i "s/gatewayservice/ec2-54-197-208-200.compute-1.amazonaws.com/g" application.yml'
+                        }
+                        dir ('user-service/'){
+                            sh 'mvn clean package'
+                        }
+                    }
+                }
+                stage('Build Paysheetsico') {
+                    steps {
+                        echo 'Building Webservice Spring boot'
+                        dir ('paysheetsico-service/paysheetsico-web/src/main/resources/'){
+                            sh 'sed -i "s/postgres:5432/rhtotal.cb5ktwale9p7.us-east-1.rds.amazonaws.com:5432/g" application.yml'
+                            sh 'sed -i "s/unbound/rhtotal/g" application.yml'
+                            sh 'sed -i "s/username: postgres/username: rhtotal/g" application.yml'
+                            sh 'sed -i "s/project123/UPi0TiKY4vzpdHRntejrh1v40Jp/g" application.yml'
+                            sh 'sed -i "s/gatewayservice/ec2-54-197-208-200.compute-1.amazonaws.com/g" application.yml'
+                        }
+                        dir ('paysheetsico-service/'){
+                            sh 'mvn clean package'
+                        }
+                    }
+                }
+                stage('Build Frontend Web') {
+                    steps {
+                        echo 'Building Frontend Angular'
+                        dir ('frontend-web/src/environments/'){
+                            sh 'sed -i "s/192.168.0.65:8000/ec2-54-197-208-200.compute-1.amazonaws.com:8000/g" environment.prod.ts'
+                            sh 'sed -i "s/192.168.0.65:8000/ec2-54-197-208-200.compute-1.amazonaws.com:8000/g" environment.ts'
+                        }
+                        dir ('frontend-web/'){
+                            sh 'npm install'
+                            sh 'npm run build'
+                        }
+                    }
+                }
+                /*stage('Build Frontend Mobile') {
+                    steps {
+                        echo 'Building Frontend Angular'
+                        dir ('frontend-mobile/'){
+                            sh 'npm install'
+                            sh 'npm run build'
+                        }
+                    }
+                }*/
+            }
+        }
+        stage('Docker build') {
+            steps {
+                echo 'Build on Docker'
+                sh 'docker build -f "Dockerfile-gateway-service" -t rhtotal-gateway-service .'
+                sh 'docker build -f "Dockerfile-application-service" -t rhtotal-application-repository .'
+                sh 'docker build -f "Dockerfile-fintech-service" -t rhtotal-fintech-repository .'
+                sh 'docker build -f "Dockerfile-paysheetsico-service" -t rhtotal-paysheetsico-repository .'
+                sh 'docker build -f "Dockerfile-security-service" -t rhtotal-security-repository .'
+                sh 'docker build -f "Dockerfile-user-service" -t rhtotal-user-repository .'
+                sh 'docker build -f "Dockerfile-frontend" -t rhtotal-frontend-repository .'
+            }
+        }
+        stage('Docker tag') {
+            steps {
+                echo 'Tag Docker images'
+                sh 'docker tag rhtotal-gateway-service:latest 272762519227.dkr.ecr.us-east-1.amazonaws.com/rhtotal-gateway-service:$IMAGE_VERSION'
+                sh 'docker tag rhtotal-application-repository:latest 272762519227.dkr.ecr.us-east-1.amazonaws.com/rhtotal-application-repository:$IMAGE_VERSION'
+                sh 'docker tag rhtotal-fintech-repository:latest 272762519227.dkr.ecr.us-east-1.amazonaws.com/rhtotal-fintech-repository:$IMAGE_VERSION'
+                sh 'docker tag rhtotal-paysheetsico-repository:latest 272762519227.dkr.ecr.us-east-1.amazonaws.com/rhtotal-paysheetsico-repository:$IMAGE_VERSION'
+                sh 'docker tag rhtotal-security-repository:latest 272762519227.dkr.ecr.us-east-1.amazonaws.com/rhtotal-security-repository:$IMAGE_VERSION'
+                sh 'docker tag rhtotal-user-repository:latest 272762519227.dkr.ecr.us-east-1.amazonaws.com/rhtotal-user-repository:$IMAGE_VERSION'
+                sh 'docker tag rhtotal-frontend-repository:latest 272762519227.dkr.ecr.us-east-1.amazonaws.com/rhtotal-frontend-repository:$IMAGE_VERSION'
+            }
+        }
+        stage('Docker push') {
+            steps {
+                //echo 'Login to ECS Registry'
+                //sh '$(/root/.local/bin/aws ecr get-login --no-include-email --region us-east-1)'
+                echo 'Push on AWS'
+                sh 'docker push 272762519227.dkr.ecr.us-east-1.amazonaws.com/rhtotal-gateway-service:$IMAGE_VERSION'
+                sh 'docker push 272762519227.dkr.ecr.us-east-1.amazonaws.com/rhtotal-application-repository:$IMAGE_VERSION'
+                sh 'docker push 272762519227.dkr.ecr.us-east-1.amazonaws.com/rhtotal-fintech-repository:$IMAGE_VERSION'
+                sh 'docker push 272762519227.dkr.ecr.us-east-1.amazonaws.com/rhtotal-paysheetsico-repository:$IMAGE_VERSION'
+                sh 'docker push 272762519227.dkr.ecr.us-east-1.amazonaws.com/rhtotal-security-repository:$IMAGE_VERSION'
+                sh 'docker push 272762519227.dkr.ecr.us-east-1.amazonaws.com/rhtotal-user-repository:$IMAGE_VERSION'
+                sh 'docker push 272762519227.dkr.ecr.us-east-1.amazonaws.com/rhtotal-frontend-repository:$IMAGE_VERSION'
+            }
+        }
+        /*stage('Liquibase') {
+            steps {
+                echo 'Building Webservice Spring boot'
+                sleep 10
+                dir ('database/liquibase/'){
+                    sh 'sed -i "s/localhost:5432/rhtotal.cb5ktwale9p7.us-east-1.rds.amazonaws.com:5432/g" liquibase.properties'
+                    sh 'sed -i "s/unbound/rhtotal/g" liquibase.properties'
+                    sh 'sed -i "s/username: postgres/username: rhtotal/g" liquibase.properties'
+                    sh 'sed -i "s/project123/UPi0TiKY4vzpdHRntejrh1v40Jp/g" liquibase.properties'
+                    sh '$LIQUIBASE_PATH/liquibase --changeLogFile="changesets/db.changelog-master.xml" update'
+                }
+            }
+        }*/
+    }
+    post { 
+        always { 
+            deleteDir()
+        }
+        success {
+            echo 'I succeeeded!'
+        }
+        unstable {
+            sh 'docker-compose down'
+            echo 'I am unstable :/'
+        }
+        failure {
+            sh 'docker-compose down'
+            echo 'I failed :('
+        }
+        changed {
+            echo 'Things were different before...'
+        }
+    }
+}

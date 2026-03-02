@@ -1,0 +1,32 @@
+{
+	"idRol": 1,
+	"nombreRol": "Administrador Master",
+	"permisos": [{
+		"nameMenu": "Dashboard",
+		"nameUrl": "/home/dashboard"
+	}, {
+		"nameMenu": "Usuarios",
+		"nameUrl": "/home/usuarios"
+	}, {
+		"nameMenu": "Descuentos",
+		"nameUrl": "/home/descuentos"
+	}, {
+		"nameMenu": "Banners",
+		"nameUrl": "/home/banners"
+	}, {
+		"nameMenu": "Notificaciones",
+		"nameUrl": "/home/notificaciones"
+	}, {
+		"nameMenu": "Seguros",
+		"nameUrl": "/home/seguros"
+	}, {
+		"nameMenu": "Adelantos",
+		"nameUrl": "/home/adelantos"
+	}, {
+		"nameMenu": "Clientes",
+		"nameUrl": "/clientes"
+	}, {
+		"nameMenu": "Roles",
+		"nameUrl": "/home/roles"
+	}]
+}

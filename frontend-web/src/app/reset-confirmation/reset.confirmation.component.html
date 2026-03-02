@@ -1,0 +1,97 @@
+<ng-template [ngIf]="isPetitionInvalid">
+  <div>
+    No existe esta petición de restablecimiento de contraseña.
+  </div>
+</ng-template>
+<ng-template [ngIf]="!isPetitionInvalid">
+  <div class="main-reset-confirm">
+    <ng-template [ngIf]="isLoading">
+      <div class="main-reset-lading-wrapper">
+        <img src="../../assets/RHTotal_slogan.svg" class="main-reset-loading" />
+      </div>
+    </ng-template>
+  
+    <ng-template [ngIf]="!isLoading">
+      <ng-template [ngIf]="isCorrectResponse">
+        <div class="main-reset-confirm-wrapper">
+          <div class="main-reset-confirm-img-wrapper">
+            <img class="main-reset-confirm-img" src="../../assets/RHTotal_slogan.svg" />
+          </div>
+          <h1 class="main-reset-confirm-title">Cambio exitoso</h1>
+          <div class="main-reset-confirm-content-wrapper">
+            <p class="main-reset-confirm-text">
+              Has cambiado tu contraseña exitosamente. Recibirás un correo electrónico de confirmación. Ingresa a RH Total y disfruta
+              de
+              tus beneficios.
+            </p>
+          </div>
+        </div>
+      </ng-template>
+  
+      <ng-template [ngIf]="!isCorrectResponse">
+        <form [formGroup]="myForm" class="main-reset-confirm-wrapper">
+          <div class="main-reset-confirm-img-wrapper">
+            <ng-template [ngIf]="isAnError">
+              <div class="main-reset-error-message">
+                {{errorMessage}}
+              </div>
+            </ng-template>
+            <img class="main-reset-confirm-img" src="../../assets/RHTotal_slogan.svg" />
+          </div>
+          <h1 class="main-reset-confirm-title">Restaurar contraseña</h1>
+          <div class="main-reset-confirm-content-wrapper">
+            <p class="main-reset-confirm-text">¡Hola!</p>
+            <p class="main-reset-confirm-text">
+              Proporciona una nueva contraseña para proceder a restablecer la misma
+            </p>
+          </div>
+          <div class="main-reset-confirm-inputs-wrapper">
+            <div class="main-reset-confirm-input-wrapper  custom-input">
+              <mat-form-field>
+                <input matInput type="password" required placeholder="Contraseña" class="main-reset-dialog-input-email"
+                  formControlName="passwordFormControlName" maxlength="50">
+                <mat-error *ngIf="myForm.hasError('required', 'passwordFormControlName')">
+                  Por favor ingresa una nueva contraseña.
+                </mat-error>
+                <mat-error *ngIf="myForm.hasError('minlength', 'passwordFormControlName')">
+                  La contraseña debe tener más de 8 carácteres.
+                </mat-error>
+                <mat-error *ngIf="myForm.hasError('pattern', 'passwordFormControlName')">
+                  La contraseña debe contener Mayúsculas, Minúsculas y números.
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="main-reset-confirm-input-wrapper custom-input">
+              <mat-form-field>
+                <input matInput type="password" placeholder="Confirmar contraseña" class="main-reset-dialog-input-email"
+                  required formControlName="passwordConfirmedFormControlName" [errorStateMatcher]="matcher" maxlength="50">
+                <mat-error *ngIf="myForm.hasError('notSame')">
+                  Por favor confirma tu nueva contraseña.
+                </mat-error>
+                <mat-error *ngIf="myForm.hasError('notEquals')">
+                  Las contraseñas capturadas no coinciden, intenta de nuevo.
+                </mat-error>                
+                <mat-error *ngIf="myForm.hasError('required', 'passwordConfirmedFormControlName')">
+                  Este campo no puede quedar vacío.
+                </mat-error>
+                <mat-error *ngIf="myForm.hasError('minlength', 'passwordConfirmedFormControlName')">
+                  La contraseña debe tener más de 8 carácteres.
+                </mat-error>
+                
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="main-reset-dialog-input-buttons-wrapper">
+            <button mat-raised-button class="main-reset-dialog-input-button" (click)="submit($event)" [disabled]="!myForm.valid">
+              Aceptar
+            </button>
+          </div>
+        </form>
+      </ng-template>
+    </ng-template>
+  </div>
+</ng-template>
+
+
+
+

@@ -1,0 +1,153 @@
+pipeline {
+    agent any
+    /*agent {
+        label 'RhTotal'
+    }*/
+    tools {
+        maven 'M3'
+        jdk 'jdk10'
+    }
+    stages {
+        stage('Build Components') {
+            failFast true
+            parallel {
+                stage('Build Gateway') {
+                    steps {
+                        echo 'Building Webservice Spring boot'
+                        dir ('gateway-service/src/main/resources/'){
+                            sh 'sed -i "s/port: 8000/port: 9000/g" application.yml'
+                        }
+                        dir ('gateway-service/'){
+                            sh 'mvn clean package'
+                        }
+                    }
+                }
+                stage('Build Security') {
+                    steps {
+                        echo 'Building Webservice Security Spring boot'
+                        dir ('security-service/security-web/src/main/resources/'){
+                            sh 'sed -i "s/postgres:5432/postgresqa:5432/g" application.yml'
+                            sh 'sed -i "s/gatewayservice:8000/gatewayservice:9000/g" application.yml'
+                            sh 'sed -i "s/port: 8090/port: 9090/g" application.yml'
+                        }
+                        dir ('security-service/'){
+                            sh 'mvn clean package'
+                        }
+                    }
+                }
+                stage('Build Application') {
+                    steps {
+                        echo 'Building Webservice Spring boot'
+                        dir ('application-service/application-web/src/main/resources/'){
+                            sh 'sed -i "s/postgres:5432/postgresqa:5432/g" application.yml'
+                            sh 'sed -i "s/gatewayservice:8000/gatewayservice:9000/g" application.yml'
+                            sh 'sed -i "s/port: 8091/port: 9091/g" application.yml'
+                        }
+                        dir ('application-service/'){
+                            sh 'mvn clean package'
+                        }
+                    }
+                }
+                stage('Build Fintech') {
+                    steps {
+                        echo 'Building Webservice Spring boot'
+                        dir ('fintech-service/fintech-web/src/main/resources/'){
+                            sh 'sed -i "s/postgres:5432/postgresqa:5432/g" application.yml'
+                            sh 'sed -i "s/gatewayservice:8000/gatewayservice:9000/g" application.yml'
+                            sh 'sed -i "s/port: 8093/port: 9093/g" application.yml'
+                        }
+                        dir ('fintech-service/'){
+                            sh 'mvn clean package'
+                        }
+                    }
+                }
+                stage('Build User') {
+                    steps {
+                        echo 'Building Webservice Spring boot'
+                        dir ('user-service/user-web/src/main/resources/'){
+                            sh 'sed -i "s/postgres:5432/postgresqa:5432/g" application.yml'
+                            sh 'sed -i "s/gatewayservice:8000/gatewayservice:9000/g" application.yml'
+                            sh 'sed -i "s/port: 8092/port: 9092/g" application.yml'
+                        }
+                        dir ('user-service/'){
+                            sh 'mvn clean package'
+                        }
+                    }
+                }
+                stage('Build Paysheetsico') {
+                    steps {
+                        echo 'Building Webservice Spring boot'
+                        dir ('paysheetsico-service/paysheetsico-web/src/main/resources/'){
+                            sh 'sed -i "s/postgres:5432/postgresqa:5432/g" application.yml'
+                            sh 'sed -i "s/gatewayservice:8000/gatewayservice:9000/g" application.yml'
+                            sh 'sed -i "s/port: 8094/port: 9094/g" application.yml'
+                        }
+                        dir ('paysheetsico-service/'){
+                            sh 'mvn clean package'
+                        }
+                    }
+                }
+                stage('Build Frontend Web') {
+                    steps {
+                        echo 'Building Frontend Angular'
+                        dir ('frontend-web/src/environments/'){
+                            sh 'sed -i "s/192.168.0.65:8000/192.168.0.65:9000/g" environment.prod.ts'
+                            sh 'sed -i "s/192.168.0.65:8000/192.168.0.65:9000/g" environment.ts'
+                        }
+                        dir ('frontend-web/'){
+                            sh 'npm install'
+                            sh 'npm run build'
+                        }
+                    }
+                }
+                /*stage('Build Frontend Mobile') {
+                    steps {
+                        echo 'Building Frontend Angular'
+                        dir ('frontend-mobile/'){
+                            sh 'npm install'
+                            sh 'npm run build'
+                        }
+                    }
+                }*/
+            }
+        }
+        stage('Docker up') {
+            steps {
+                echo 'Running on Docker'
+                sh 'docker network disconnect rhtotalqa_rhtotalqanet postgresqa'
+                sh 'docker-compose down --rmi all'
+                sh 'docker-compose -f docker-composeQA.yml up -d'
+                sh 'docker network connect rhtotalqa_rhtotalqanet postgresqa'
+            }
+        }
+        stage('Liquibase') {
+            steps {
+                echo 'Building Webservice Spring boot'
+                sleep 10
+                dir ('database/liquibase/'){
+                    sh 'sed -i "s/localhost:5432/localhost:5430/g" liquibase.properties'
+                    sh '$LIQUIBASE_PATH/liquibase --changeLogFile="changesets/db.changelog-master.xml" update'
+                }
+            }
+        }
+    }
+    post { 
+        always { 
+            deleteDir()
+        }
+        success {
+            echo 'I succeeeded!'
+        }
+        unstable {
+            sh 'docker-compose down'
+            echo 'I am unstable :/'
+        }
+        failure {
+            sh 'docker-compose down'
+            echo 'I failed :('
+        }
+        changed {
+            echo 'Things were different before...'
+        }
+    }
+}

@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://rhtotal.cb5ktwale9p7.us-east-1.rds.amazonaws.com:5432/rhtotal
+    username: rhtotal
+    password: UPi0TiKY4vzpdHRntejrh1v40Jp
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+    show-sql: true
+  application:
+    name: application-service
+  profiles:
+    active: dev
+
+server:
+  port: 8091
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: http://ec2-54-86-23-170.compute-1.amazonaws.com:8000/eureka
+  instance:
+    leaseRenewalIntervalInSeconds: 5   
+    preferIpAddress: true

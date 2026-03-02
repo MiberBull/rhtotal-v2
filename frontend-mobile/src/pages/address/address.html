@@ -1,0 +1,60 @@
+<!--
+  Generated template for the AddressPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-content style="height: 100%;  width: 100%;">
+  <form [formGroup]="todo" *ngFor="let e of enables"  (ngSubmit)="saveAddresRHTotal()" padding-right padding-bottom>
+    <ion-item>
+      <ion-label stacked>Calle</ion-label>
+      <ion-input type="text" [disabled]="e.calle" [max-limit]="50" formControlName="calle"></ion-input>
+    </ion-item>
+    <samp class="error-spam " *ngIf="!this.todo.get('calle').valid">Formato incorrecto</samp>
+
+    <ion-item>
+      <ion-label stacked>Número exterior</ion-label>
+      <ion-input type="text" [disabled]="e.numeroExterior" [max-limit]="30" formControlName="numeroExterior"></ion-input>
+    </ion-item>
+    <samp class="error-spam " *ngIf="!this.todo.get('numeroExterior').valid">Formato incorrecto</samp>
+
+
+    <ion-item>
+      <ion-label stacked>Número interior</ion-label>
+      <ion-input type="text" [disabled]="e.numeroInterior" [max-limit]="30" formControlName="numeroInterior"></ion-input>
+    </ion-item>
+    <samp class="error-spam " *ngIf="!this.todo.get('numeroInterior').valid">Formato incorrecto</samp>
+
+
+    <ion-item>
+      <ion-label stacked>Colonia</ion-label>
+      <ion-input type="text" [disabled]="e.colonia" [max-limit]="50" formControlName="colonia"></ion-input>
+    </ion-item>
+    <samp class="error-spam " *ngIf="!this.todo.get('colonia').valid">Formato incorrecto</samp>
+
+
+    <ion-item>
+      <ion-label stacked>Alcaldía / Municipio</ion-label>
+      <ion-input type="text" [disabled]="e.municipio" [max-limit]="50"  formControlName="municipio"></ion-input>
+    </ion-item>
+    <samp class="error-spam " *ngIf="!this.todo.get('municipio').valid">Formato incorrecto</samp>
+
+    <ion-item>
+      <ion-label stacked>Estado</ion-label>
+      <ion-input type="text" [disabled]="e.estado" [max-limit]="50" formControlName="estado"></ion-input>
+    </ion-item>
+    <samp class="error-spam " *ngIf="!this.todo.get('estado').valid">Formato incorrecto</samp>
+
+
+    <ion-item>
+      <ion-label stacked>C.P.</ion-label>
+      <ion-input type="tel" [disabled]="e.cp"  [max-limit]="5" formControlName="cp"></ion-input>
+    </ion-item>
+    <samp class="error-spam " *ngIf="!this.todo.get('cp').valid  && this.todo.get('cp').value != ''">Formato incorrecto</samp>
+
+
+    <div style="display: flex; justify-content: center; padding-bottom: 25px;">
+      <button ion-button type="submit">guardar</button>
+    </div>
+  </form>
+</ion-content>

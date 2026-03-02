@@ -1,0 +1,85 @@
+version: '3'
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: "Dockerfile-frontend"
+    ports:
+      - "8100:80"
+    networks: 
+      - rhtotalqanet
+  gatewayservice:
+    build:
+      context: .
+      dockerfile: "Dockerfile-gateway-service"
+    ports:
+      - "9000:9000"
+    networks: 
+      - rhtotalqanet
+  securityservice:
+    build:
+      context: .
+      dockerfile: "Dockerfile-security-service"
+    ports:
+      - "9090:9090"
+    networks: 
+      - rhtotalqanet
+    environment:
+      - TZ=America/Mexico_City
+    depends_on:
+      - gatewayservice
+  applicationservice:
+    build:
+      context: .
+      dockerfile: "Dockerfile-application-service"
+    ports:
+      - "9091:9091"
+    networks: 
+      - rhtotalqanet
+    environment:
+      - TZ=America/Mexico_City
+    depends_on:
+      - gatewayservice
+  userservice:
+    build:
+      context: .
+      dockerfile: "Dockerfile-user-service"
+    ports:
+      - "9092:9092"
+    networks:
+      - rhtotalqanet
+    depends_on:
+      - gatewayservice
+      - paysheetsicoservice
+      - securityservice
+    environment:
+      - TZ=America/Mexico_City
+    depends_on:
+      - gatewayservice
+  fintechservice:
+    build:
+      context: .
+      dockerfile: "Dockerfile-fintech-service"
+    ports:
+      - "9093:9093"
+    networks: 
+      - rhtotalqanet
+    environment:
+      - TZ=America/Mexico_City
+    depends_on:
+      - gatewayservice
+      - paysheetsicoservice
+  paysheetsicoservice:
+    build:
+      context: .
+      dockerfile: "Dockerfile-paysheetsico-service"
+    ports:
+      - "9094:9094"
+    networks: 
+      - rhtotalqanet
+    environment:
+      - TZ=America/Mexico_City
+    depends_on:
+      - gatewayservice
+networks:
+  rhtotalqanet:

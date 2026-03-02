@@ -1,0 +1,47 @@
+<div style="display: flex; flex-direction: column;">
+
+    <div class="filter-chip">
+
+        <mat-chip-list *ngIf="filtersFintech">
+            <mat-chip *ngIf="name" [selectable]="selectable" [removable]="removable" (removed)="remove('nombre')">
+                {{ name }}
+                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+            <mat-chip *ngIf="lastName" [selectable]="selectable" [removable]="removable" (removed)="remove('apellidopaterno')">
+                {{ lastName }}
+                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+            <mat-chip *ngIf="lastNameM" [selectable]="selectable" [removable]="removable" (removed)="remove('apellidomaterno')">
+                {{ lastNameM }}
+                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+            <mat-chip *ngIf="folio" [selectable]="selectable" [removable]="removable" (removed)="remove('foliosolicitud')">
+                {{ folio }}
+                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+            <mat-chip *ngIf="dateRequest" [selectable]="selectable" [removable]="removable" (removed)="remove('fechasolicitud')">
+                {{ dateRequest }}
+                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+        </mat-chip-list>
+
+    </div>
+
+    <mat-tab-group (selectedTabChange)="tagChange($event)" *ngIf="tableData.tabs">
+        <mat-tab label="{{ tab }}" *ngFor="let tab of tableData.tabs">
+            <div *ngIf="tabSelectedIndex != 0">
+                <app-info-table [columns]="tableData.headers" [info]="tableData.infoData" [titles]="tableData.titles"
+                    (selected-item)="selectItem($event)">
+                </app-info-table>
+                <app-table-paginator (goNext)="loadPage($event)" (goPrev)="loadPage($event)" [total]="totalItems"></app-table-paginator>
+            </div>
+            <div *ngIf="tabSelectedIndex == 0">
+                <app-info-table-paysheet [columns]="tableData.headers" [info]="tableData.infoData" [titles]="tableData.titles"
+                    (selected-item)="selectItem($event)">
+                </app-info-table-paysheet>
+                <app-table-paginator (goNext)="loadPage($event)" (goPrev)="loadPage($event)" [total]="totalItems"></app-table-paginator>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+
+</div>

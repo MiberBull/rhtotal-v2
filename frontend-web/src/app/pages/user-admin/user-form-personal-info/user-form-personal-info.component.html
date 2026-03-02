@@ -1,0 +1,199 @@
+<div class=" styleInputs">
+  <div [formGroup]="formInfoData">
+      <div class="content-form" >
+    <mat-list class="listFirt">
+
+    <mat-list-item>
+          <mat-form-field class="inputs" >
+              <input class="uppertxt" matInput placeholder="CURP" required formControlName="curp" minlength="18" maxlength="18" [(ngModel)]="employeeData.curp" onkeyup="javascript:this.value=this.value.toUpperCase();">
+                <mat-error *ngIf="formInfoData.get('curp').hasError('pattern')">
+                      Datos incorrectos
+                </mat-error>
+                <mat-error *ngIf="formInfoData.controls['curp'].hasError('required')" >
+                     El campo es <strong>requerido</strong>
+             </mat-error>
+         </mat-form-field>
+  </mat-list-item>
+
+  <mat-list-item>
+    <mat-form-field class="inputs">
+        <input matInput placeholder="Nombre(s)" required formControlName="name" minlength="1" maxlength="50" [(ngModel)]="employeeData.employee.name" (blur)="findEmployee()"  (focus)="disableButton()">
+        <mat-error *ngIf="formInfoData.get('name').hasError('pattern')">
+          Datos incorrectos
+         </mat-error>
+     </mat-form-field>
+  </mat-list-item>
+
+<mat-list-item>
+    <mat-form-field class="inputs">
+      <input matInput placeholder="Apellido paterno" required formControlName="lastName"minlength="1" maxlength="50" [(ngModel)]="employeeData.employee.lastName" (blur)="findEmployee()" (focus)="disableButton()">
+      <mat-error *ngIf="formInfoData.controls['lastName'].hasError('pattern')">
+          Datos incorrectos
+      </mat-error>
+      <mat-error *ngIf="formInfoData.controls['lastName'].hasError('required')" >
+          El campo es <strong>requerido</strong>
+       </mat-error>
+    </mat-form-field>
+</mat-list-item>
+
+
+<mat-list-item>
+    <mat-form-field class="inputs">
+      <input matInput placeholder="Apellido materno"  formControlName="lastMName" maxlength="50" [(ngModel)]="employeeData.employee.lastMName">
+      <mat-error *ngIf="formInfoData.controls['lastMName'].hasError('pattern')">
+          Datos incorrectos
+      </mat-error>
+    </mat-form-field>
+</mat-list-item>
+
+<mat-list-item>
+    <mat-form-field class="inputs">
+      <input class="uppertxt" matInput placeholder="RFC"  formControlName="rfc" minlength="10" maxlength="13" [(ngModel)]="employeeData.rfc" onkeyup="javascript:this.value=this.value.toUpperCase();">
+      <mat-error *ngIf="formInfoData.controls['rfc'].hasError('pattern')">
+          Datos incorrectos
+      </mat-error>
+    </mat-form-field>
+</mat-list-item>
+
+<mat-list-item>
+    <mat-form-field class="inputs">
+        <mat-select matInput placeholder="Género" formControlName="gender" [(ngModel)]="employeeData.employee.gender" >
+            <mat-option *ngFor="let gender of genderOption" [value]="gender.id">{{ gender.value }}</mat-option>
+        </mat-select>
+    </mat-form-field>
+</mat-list-item>
+
+<mat-list-item>
+    <mat-form-field class="inputs">
+        <input  matInput [max]="maxDate" placeholder="Fecha de nacimiento" required [matDatepicker]="myDatepicker" formControlName="birthDate" [(ngModel)]="employeeData.birthDate" (dateChange)="findEmployee()" readonly>
+        <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
+        <mat-datepicker #myDatepicker ></mat-datepicker>
+    </mat-form-field>
+</mat-list-item>
+
+<mat-list-item>
+    <mat-form-field class="inputs">
+        <input matInput placeholder="Correo electrónico" formControlName="email" minlength="1" maxlength="50" required [(ngModel)]="employeeData.email">
+        <mat-error *ngIf="formInfoData.controls['email'].hasError('pattern')">
+            Datos incorrectos
+        </mat-error>
+        <mat-error *ngIf="formInfoData.controls['email'].hasError('required')" >
+            El campo es <strong>requerido</strong>
+         </mat-error>
+    </mat-form-field>
+</mat-list-item>
+
+<mat-list-item>
+    <mat-form-field class="inputs" >
+        <mat-select matInput  placeholder="Estado civil" formControlName="cvilStatus" [(ngModel)]="employeeData.employee.cvilStatus">
+         <mat-option *ngFor="let cvilStatus of civilStatusOption" [value]="cvilStatus.civilCode">{{ cvilStatus.statusCivil }}</mat-option>
+        </mat-select>
+    </mat-form-field>
+</mat-list-item>
+
+</mat-list>
+
+
+<mat-list class="secondList">
+ <mat-list-item>
+                <mat-form-field class="inputs">
+                  <input matInput placeholder="NSS"  formControlName="nss" minlength="11" maxlength="11" [(ngModel)]="employeeData.nss">
+                  <mat-error *ngIf="formInfoData.controls['nss'].hasError('pattern')">
+                      Datos incorrectos
+                  </mat-error>
+                  <mat-error *ngIf="formInfoData.controls['nss'].hasError('minlength') && !formInfoData.controls['nss'].hasError('pattern')">
+                    El NSS es de 11 dígitos
+                  </mat-error>
+                </mat-form-field>
+            </mat-list-item>
+<mat-list-item>
+    <mat-form-field class="inputs">
+      <input matInput placeholder="Teléfono celular" required formControlName="phone" minlength="7" maxlength="12" [(ngModel)]="employeeData.phone">
+      <mat-error *ngIf="formInfoData.controls['phone'].hasError('pattern')">
+          Datos incorrectos
+      </mat-error>
+      <mat-error *ngIf="formInfoData.controls['phone'].hasError('required')" >
+          El campo es <strong>requerido</strong>
+       </mat-error>
+       <mat-error *ngIf="formInfoData.controls['phone'].hasError('minlength') && !formInfoData.controls['phone'].hasError('pattern')">
+        mínimo 7 dígitos
+    </mat-error>
+    </mat-form-field>
+</mat-list-item>
+
+<mat-list-item>
+    <mat-form-field class="inputs">
+      <input matInput placeholder="Nacionalidad" required formControlName="birthCountry" [(ngModel)]="employeeData.birthCountry" maxlength="50">
+      <mat-error *ngIf="formInfoData.controls['birthCountry'].hasError('pattern')">
+        Datos incorrectos
+    </mat-error>
+    </mat-form-field>
+</mat-list-item>
+
+<mat-list-item>
+    <mat-form-field class="inputs">
+      <input matInput placeholder="Estado de nacimiento" required formControlName="state" [(ngModel)]="employeeData.birthState" maxlength="50">
+      <mat-error *ngIf="formInfoData.controls['state'].hasError('pattern')">
+        Datos incorrectos
+      </mat-error>
+   </mat-form-field>
+
+</mat-list-item>
+
+
+
+<mat-list-item>
+    <mat-form-field class="inputs">
+            <mat-select  matInput (selectionChange)="selectChange(employeeData.workPermitConfirm)" placeholder="Permiso para trabajar en México" formControlName="workPermitConfirm" [(ngModel)]="employeeData.workPermitConfirm" >
+                    <mat-option *ngFor="let permission of workPermitConfirmOption" [value]="permission.id">{{ permission.value }}</mat-option>
+                </mat-select>
+    </mat-form-field>
+</mat-list-item>
+
+<mat-list-item>
+    <mat-form-field class="inputs">
+      <input matInput required placeholder="Permiso de trabajo"  formControlName="workPermit" minlength="1" maxlength="50"  [(ngModel)]="employeeData.workPermit">
+      <mat-error *ngIf="formInfoData.controls['workPermit'].hasError('required')" >
+            El campo es <strong>requerido</strong>
+         </mat-error>
+         <mat-error *ngIf="formInfoData.controls['workPermit'].hasError('pattern')">
+                Datos incorrectos
+            </mat-error>
+    </mat-form-field>
+</mat-list-item>
+
+<mat-list-item>
+    <mat-form-field class="inputs">
+      <input matInput placeholder="Número de pasaporte"  formControlName="passportNum" minlength="1" maxlength="20" [(ngModel)]="employeeData.passportNumber">
+      <mat-error *ngIf="formInfoData.controls['passportNum'].hasError('pattern')">
+        Datos incorrectos
+    </mat-error>
+
+    </mat-form-field>
+</mat-list-item>
+
+<mat-list-item>
+        <mat-form-field class="inputs" *ngIf="idUser>0">
+                <mat-select placeholder="Estatus" formControlName="userStatus" [(ngModel)]="employeeData.employee.user.userStatus">
+                    <mat-option matInput *ngFor="let userStatus of statusOption" [value]="userStatus.id">{{ userStatus.value }}</mat-option>
+                </mat-select>
+
+            </mat-form-field>
+</mat-list-item>
+
+<mat-list-item *ngIf="showAuthor">
+    <mat-form-field class="inputs">
+        <input matInput required disabled="true" placeholder="Autor" formControlName="lastUserModifier" [(ngModel)]="employeeData.lastUserModifier">        
+    </mat-form-field>
+</mat-list-item>
+
+</mat-list>
+
+</div>
+
+
+</div>
+</div >
+<div class="control" *ngIf="showSaveUpdate">
+  <button matInput mat-raised-button color="primary" (click)="save()" [disabled]="buttonSave || !formInfoData.valid" >Guardar</button>
+</div>

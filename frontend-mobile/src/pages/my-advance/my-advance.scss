@@ -1,0 +1,211 @@
+.md{
+    page-my-advance {
+
+        .content-header{
+            height: 20%;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content-sub-header{
+            padding: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .image-header{
+            color:#1099D6;
+            font-size:30px;
+        }
+
+        .text-title{
+            font-size: 18px;
+            background:-webkit-linear-gradient(#1469AF,#1099D6);
+            -webkit-background-clip: text;
+            font-weight: bold;
+            -webkit-text-fill-color: transparent;
+            padding-left: 10px;
+        }
+
+        .wrapper-concept {
+            color: #1099d6;
+            font-size: 20px;
+        }
+
+        .encabezado{
+            position:absolute; 
+            top: 10%; 
+            left: 3%;
+            color: black;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .information-paragraph{
+            text-align: justify;
+            font-size: 14px;
+        }
+
+        a{
+            text-decoration: underline;
+        }
+
+        .item-divider-md{
+            padding-left: 0px !important;
+        }
+
+        .title-info{
+            color: #1469AF;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+
+
+        .wrapper-porcentage-default{
+            border-style: solid;
+            border-color: #1469AF;
+            border-width: 2px;
+            color: #1469AF;
+            width: 70px;
+            background: none;
+            height: 35px;
+            font-size: 25px;
+        }
+
+        .wrapper-porcentage-selected{
+            border-style: solid;
+            border-color: #1469AF;
+            border-width: 2px;
+            color: white;
+            width: 70px;
+            background: #1469AF;
+            height: 35px;
+            font-size: 25px;
+        }
+
+        .porcentage{
+            font-family: inherit;
+            line-height: normal;
+            font-size: 25px;
+            padding: 5px;
+            color: #1469AF;
+        }
+
+        .second-info{
+            font-size: 10px;
+        }
+
+
+    }
+}
+
+.ios{
+    page-my-advance {
+
+        .content-header{
+            height: 20%;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content-sub-header{
+            padding: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .image-header{
+            color:#1099D6;
+            font-size:30px;
+        }
+
+        .text-title{
+            font-size: 18px;
+            background:-webkit-linear-gradient(#1469AF,#1099D6);
+            -webkit-background-clip: text;
+            font-weight: bold;
+            -webkit-text-fill-color: transparent;
+            padding-left: 10px;
+        }
+
+        .wrapper-concept {
+            color: #1099d6;
+            font-size: 20px;
+        }
+
+        .encabezado{
+            position:absolute; 
+            top: 10%; 
+            left: 3%;
+            color: black;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .information-paragraph{
+            text-align: justify;
+            font-size: 14px;
+        }
+
+        a{
+            text-decoration: underline;
+        }
+
+        .item-divider-md{
+            padding-left: 0px !important;
+        }
+
+        .title-info{
+            color: #1469AF;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+
+
+        .wrapper-porcentage-default{
+            border-style: solid;
+            border-color: #1469AF;
+            border-width: 2px;
+            color: #1469AF;
+            width: 65px;
+            background: none;
+            height: 35px;
+            font-size: 25px;
+            padding-left: 0px;
+            padding-right: 0px;
+        }
+
+        .wrapper-porcentage-selected{
+            border-style: solid;
+            border-color: #1469AF;
+            border-width: 2px;
+            color: white;
+            width: 65px;
+            background: #1469AF;
+            height: 35px;
+            font-size: 25px;
+            padding-left: 0px;
+            padding-right: 0px;
+        }
+
+        .porcentage{
+            font-family: inherit;
+            line-height: normal;
+            font-size: 25px;
+            padding: 5px;
+            color: #1469AF;
+        }
+
+        .second-info{
+            font-size: 10px;
+        }
+
+
+    }
+} 

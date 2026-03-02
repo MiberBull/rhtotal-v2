@@ -1,0 +1,29 @@
+<div class="container styleInputs">
+
+    
+        <mat-card class="formUno">
+            <div *ngFor="let header of formulario.arrayOne; let i = index">
+                <mat-form-field class="example-full-width inputForm">
+                    <input matInput [placeholder]="titles[i]" [value]="infoFintech[header]" [disabled]="controlFintech">
+                </mat-form-field>
+            </div>
+        </mat-card>
+        <mat-card class="formDos">
+            <div *ngFor="let header of formulario.arrayTwo; let j = index">
+                <div *ngIf="titles[14+j] == 'Rechazar / Aprobar'">
+                    <p>Rechazar / Aprobar</p>
+                    <div class="newControl">
+                        <tm-three-steps-selector [(ngModel)]="selectState" [disabled]="selectEnabled" (onchange)="changeState($event)">
+                        </tm-three-steps-selector>
+                    </div>
+                </div>
+                <div *ngIf="titles[14+j] != 'Rechazar / Aprobar'" [matTooltip]="infoFintech[header] != null && infoFintech[header].length > 40 ? infoFintech[header] : ''">
+                    <mat-form-field class="example-full-width inputForm">
+                        <input matInput [placeholder]="titles[14+j]" [value]="infoFintech[header]" [disabled]="controlFintech">
+                    </mat-form-field>
+                </div>
+            </div>
+        </mat-card>
+    
+
+</div>

@@ -1,0 +1,4 @@
+FROM postgres
+ENV POSTGRES_DB=unbound \
+    POSTGRES_PASSWORD=project123 \
+    MAX_CONNECTIONS=500

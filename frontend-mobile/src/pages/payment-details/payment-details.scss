@@ -1,0 +1,39 @@
+page-payment-details {
+
+    .content-header{
+        height: 20%;
+        background-size: cover;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .content-sub-header{
+        padding: 10px;
+        display: flex;
+        align-items: center;
+    }
+
+    .image-header{
+        color:#1099D6;
+        font-size:30px;
+    }
+
+    .text-title{
+        font-size: 18px;
+        background:-webkit-linear-gradient(#1469AF,#1099D6);
+        -webkit-background-clip: text;
+        font-weight: bold;
+        -webkit-text-fill-color: transparent;
+        padding-left: 10px;
+    }
+
+    .encabezado{
+        position:absolute; 
+        top: 10%; 
+        left: 3%;
+        color: black;
+        font-size: 16px;
+        font-weight: bold;
+    }    
+    
+}

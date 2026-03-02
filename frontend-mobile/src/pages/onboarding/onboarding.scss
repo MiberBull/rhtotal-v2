@@ -1,0 +1,76 @@
+  
+    .no-scroll .scroll-content{
+        overflow: hidden;
+    }
+
+    .wrapper-info {
+        height: 100vh; 
+        display: flex; 
+        flex-direction: column; 
+        justify-content: flex-end; 
+        margin-bottom: 10vh;
+    }
+
+    .title-onboarding {
+        color: #ffffff; 
+        font-size: 2.5rem; 
+        font-weight: bold;
+    }
+
+    .subtitle-onboarding {
+        color: #ffffff; 
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+    
+    .one-background {
+        background-image: url('../assets/imgs/onboarding/background_1.jpg'); 
+        background-repeat: no-repeat; 
+        background-position: center; 
+        background-size: cover;
+    }
+    
+    .two-background {
+        background-image: url('../assets/imgs/onboarding/background_2.jpg'); 
+        background-repeat: no-repeat; 
+        background-position: center; 
+        background-size: cover;
+    }
+
+    .three-background {
+        background-image: url('../assets/imgs/onboarding/background_3.jpg'); 
+        background-repeat: no-repeat; 
+        background-position: center; 
+        background-size: cover;
+    }
+    
+    .four-background {
+        background-image: url('../assets/imgs/onboarding/background_4.jpg'); 
+        background-repeat: no-repeat; 
+        background-position: center; 
+        background-size: cover;
+    }
+    
+    .five-background {
+        background-image: url('../assets/imgs/onboarding/background_5.jpg'); 
+        background-repeat: no-repeat; 
+        background-position: center; 
+        background-size: cover;
+    }
+
+    .six-background {
+        background-image: url('../assets/imgs/onboarding/splash.png'); 
+        background-repeat: no-repeat; 
+        background-position: center; 
+        background-size: cover;
+    }
+
+    .next {
+        text-decoration: underline;
+        text-transform: initial;
+    }
+
+
+
+    
+  

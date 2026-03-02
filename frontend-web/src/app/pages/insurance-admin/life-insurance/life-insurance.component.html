@@ -1,0 +1,114 @@
+<div class="contenedor styleInputs">  
+      <form [formGroup]="insuranceFrom" class="form-notification container">
+          <mat-form-field class="example-full-width">
+            <input matInput maxlength="30" placeholder="Número de póliza" formControlName="policy" required>
+            <mat-error *ngIf="insuranceFrom.get('policy').value === ''">El campo es requerido</mat-error>
+            <mat-error *ngIf="insuranceFrom.get('policy').value != '' && !insuranceFrom.get('policy').valid">Datos incorrectos</mat-error>
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput maxlength="30" placeholder="Número de certificado" formControlName="noCertificate" required>
+            <mat-error *ngIf="insuranceFrom.get('noCertificate').value === ''">El campo es requerido</mat-error>
+            <mat-error *ngIf="insuranceFrom.get('noCertificate').value != '' && !insuranceFrom.get('noCertificate').valid">Datos incorrectos</mat-error>
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput maxlength="250" placeholder="URL del sitio del seguro" formControlName="urlInsuranceCarrier" required>
+            <mat-error *ngIf="insuranceFrom.get('urlInsuranceCarrier').value === ''">El campo es requerido</mat-error>
+            <mat-error *ngIf="insuranceFrom.get('urlInsuranceCarrier').value != '' && !insuranceFrom.get('urlInsuranceCarrier').valid">Formato válido https://pagina.com</mat-error>
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput maxlength="30" placeholder="Aseguradora" formControlName="insuranceCarrier" required>
+            <mat-error *ngIf="insuranceFrom.get('insuranceCarrier').value === ''">El campo es requerido</mat-error>
+            <mat-error *ngIf="insuranceFrom.get('insuranceCarrier').value != '' && !insuranceFrom.get('insuranceCarrier').valid">Datos incorrectos</mat-error>
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput maxlength="15" placeholder="Teléfono de la Aseguradora" formControlName="phoneInsuranceCarrier" required>
+            <mat-error *ngIf="insuranceFrom.get('phoneInsuranceCarrier').value === ''">El campo es requerido</mat-error>
+            <mat-error *ngIf="insuranceFrom.get('phoneInsuranceCarrier').value != '' && !insuranceFrom.get('phoneInsuranceCarrier').valid">Datos incorrectos</mat-error>
+          </mat-form-field>
+          <h2>Vigencia</h2>
+          <mat-form-field>
+            <input matInput [min]="minDate" [matDatepicker]="pickeStart" placeholder="Fecha inicio" formControlName="startDate" readonly
+              required>
+            <mat-datepicker-toggle matSuffix [for]="pickeStart"></mat-datepicker-toggle>
+            <mat-datepicker #pickeStart></mat-datepicker>
+            <mat-error *ngIf="insuranceFrom.get('startDate').value === ''">El campo es requerido</mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput [min]="minDate" [matDatepicker]="pickerEnd" placeholder="Fecha fin" formControlName="endDate" readonly required>
+            <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
+            <mat-datepicker #pickerEnd></mat-datepicker>
+            <mat-error *ngIf="insuranceFrom.get('endDate').value === ''">El campo es requerido</mat-error>
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput maxlength="12" placeholder="Prima total" formControlName="sum" required>
+            <mat-error *ngIf="insuranceFrom.get('sum').value === ''">El campo es requerido</mat-error>
+            <mat-error *ngIf="insuranceFrom.get('sum').value != '' && !insuranceFrom.get('sum').valid">Datos incorrectos</mat-error>
+          </mat-form-field>
+        
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Póliza de seguro (PDF)" formControlName="insurancePolicyPdf" readonly [disabled]="insuranceFrom.disabled" required>
+            <mat-icon matSuffix class="icon" (click)="showFileChosser()">
+                picture_as_pdf
+            </mat-icon>
+            <input #inputFilePdf type="file" style="display:none;" (change)="getFilePDF($event.target.files[0])">
+            <mat-error *ngIf="insuranceFrom.get('insurancePolicyPdf').value === ''">El campo es requerido</mat-error>
+          </mat-form-field>
+        
+          <mat-form-field class="example-full-width">
+            <input type="time" matInput placeholder="Hora de publicación" formControlName="timePublication" required>
+            <mat-icon matSuffix class="icon">
+                access_time
+            </mat-icon>
+            <mat-error *ngIf="insuranceFrom.get('timePublication').value === ''">El campo es requerido</mat-error>
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input type="time" matInput placeholder="Hora de notificación" formControlName="notificationTime" required>
+            <mat-icon matSuffix class="icon">
+                access_time
+            </mat-icon>
+            <mat-error *ngIf="insuranceFrom.get('notificationTime').value === ''">El campo es requerido</mat-error>
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput maxlength="50" placeholder="Título de notificación" formControlName="notificationTitle" required>
+            <mat-error *ngIf="insuranceFrom.get('notificationTitle').value === ''">El campo es requerido</mat-error>
+            <mat-error *ngIf="insuranceFrom.get('notificationTitle').value != '' && !insuranceFrom.get('notificationTitle').valid">Datos incorrectos</mat-error>
+          </mat-form-field>
+        
+          <mat-form-field class="example-full-width">
+            <textarea matInput maxlength="50" placeholder="Detalle de notificación" formControlName="notificationDetail" required></textarea>
+            <mat-error *ngIf="insuranceFrom.get('notificationDetail').value === ''">El campo es requerido</mat-error>
+            <mat-error *ngIf="insuranceFrom.get('notificationDetail').value != '' && !insuranceFrom.get('notificationDetail').valid">Datos
+              incorrectos</mat-error>
+          </mat-form-field>
+        
+          <mat-form-field *ngIf="showEstado">
+            <mat-select placeholder="Estatus" formControlName="status">
+              <mat-option *ngFor="let s of status" [value]="s.value">
+                {{s.title}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-label class="label-fechas">*La fecha y hora ingresada son posteriores<br /> a la fecha y hora actual</mat-label>
+          <br />
+          <div class="button-container button-row">
+            <button mat-flat-button *ngIf="showCancel" (click)="cancelSaveUpdate()">Cancelar</button>
+            <button mat-flat-button type="submit" *ngIf="showSaveUpdate" color="primary" class="margin:auto;" (click)="saveUpdateInsurance()"
+              [disabled]="!insuranceFrom.valid">
+                 Guardar
+            </button>
+            <button mat-flat-button type="submit" *ngIf="showEdit" (click)="showEditOrSave()" color="primary" class="margin:auto;">
+                Editar
+            </button>
+          </div>
+      </form>    
+      <div class="controls-wrapper fixed">
+        <!--<div class="buttons-wrapper">
+          <button mat-mini-fab type="submit" *ngIf="showSaveUpdate" color="primary" class="margin:auto;" (click)="saveUpdateInsurance()" [disabled]="!insuranceFrom.valid">
+            <mat-icon>save</mat-icon>
+          </button>
+          <button mat-mini-fab type="submit" *ngIf="showEdit" (click)="showEditOrSave()" color="primary" class="margin:auto;">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </div>-->
+      </div>
+</div>
