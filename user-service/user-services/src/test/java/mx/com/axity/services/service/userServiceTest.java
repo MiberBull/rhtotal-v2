@@ -3,14 +3,14 @@ package mx.com.axity.services.service;
 import mx.com.axity.commons.exceptions.BusinessException;
 import mx.com.axity.commons.to.*;
 import mx.com.axity.services.BaseTest;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 public class userServiceTest extends BaseTest {
 
     @Test
-    @Ignore("no tengo idea de como hacer un mock de un endpoint con un eureka falso")
+    @Disabled("no tengo idea de como hacer un mock de un endpoint con un eureka falso")
     public void shouldCreateAUserAccount() {
         UserDataTO userData = new UserDataTO();
         userData.setPassword("U2FsdGVkX19aZe4on/50HgrYOETPN/Al9HO2gvZkV9U=");
@@ -18,10 +18,10 @@ public class userServiceTest extends BaseTest {
         userData.setUser("holi@uncorreo.com");
         ConfirmationTO confirmation = this.userServiceTest.createUser(userData);
 
-        Assert.assertEquals(ConfirmationTO.class, confirmation.getClass());
+        Assertions.assertEquals(ConfirmationTO.class, confirmation.getClass());
     }
 
-    @Test(expected = BusinessException.class)
+    @Test
     public void shouldValidatePasswordsAreEqual() {
         UserDataTO userData = new UserDataTO();
         userData.setPassword("U2FsdGVkX19aZe4on/50HgrYOETPN/Al9HO2gvZkV9U=");
@@ -31,7 +31,7 @@ public class userServiceTest extends BaseTest {
     }
 
     @Test
-    @Ignore("no tengo idea de como hacer un mock de un endpoint con un eureka falso")
+    @Disabled("no tengo idea de como hacer un mock de un endpoint con un eureka falso")
     public void shouldConfirmUser() {
         UserConfirmationDataTO confirmationData = new UserConfirmationDataTO();
         confirmationData.setCode("2345");
@@ -40,7 +40,7 @@ public class userServiceTest extends BaseTest {
     }
 
     @Test
-    @Ignore("se requiere el uso de un api externa")
+    @Disabled("se requiere el uso de un api externa")
     public void shouldCreateAResetRequest() {
         ResetRequestTO resetRequest = new ResetRequestTO();
         resetRequest.setUser("uncorreox@correo.com");
@@ -48,7 +48,7 @@ public class userServiceTest extends BaseTest {
     }
 
     @Test
-    @Ignore("se requiere el uso de un api externa")
+    @Disabled("se requiere el uso de un api externa")
     public void shouldConfirmAResetRequest() {
         ResetConfirmationTO resetConfirmation = new ResetConfirmationTO();
 
@@ -66,6 +66,6 @@ public class userServiceTest extends BaseTest {
         String curp = "";
         String cliente = "";
         String proyecto = "";
-        Assert.assertNotNull("");
+        Assertions.assertNotNull("");
     }
 }

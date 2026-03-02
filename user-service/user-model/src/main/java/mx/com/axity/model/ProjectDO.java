@@ -1,6 +1,6 @@
 package mx.com.axity.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "k_project",schema = "public")

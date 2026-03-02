@@ -1,6 +1,6 @@
 package mx.com.axity.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "w_code_reset_token_mobile", schema = "public")
