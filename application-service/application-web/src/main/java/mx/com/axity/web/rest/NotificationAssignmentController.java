@@ -1,6 +1,5 @@
 package mx.com.axity.web.rest;
 
-import io.swagger.annotations.Api;
 import mx.com.axity.commons.to.totree.BenefitsNotificationsTO;
 import mx.com.axity.commons.to.totree.TreeEmployeeTO;
 import mx.com.axity.commons.to.totree.TreeProjectTO;
@@ -17,7 +16,6 @@ import java.util.List;
 @CrossOrigin(origins = "*", allowedHeaders = "*", allowCredentials = "true")
 @RestController
 @RequestMapping("notificationassignment")
-@Api(value = "notificationassignment", description = "Operaciones con insurance")
 public class NotificationAssignmentController {
 
     final static Logger LOG = LogManager.getLogger(NotificationController.class);

@@ -9,7 +9,6 @@ import mx.com.axity.services.facade.ISchedulesEnviosSolPendFacade;
 import mx.com.axity.services.service.IFintechService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.tomcat.jni.Local;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,5 @@
 package mx.com.axity.web.rest;
 
-import io.swagger.annotations.Api;
 import mx.com.axity.commons.to.ParameterTO;
 import mx.com.axity.services.facade.impl.ParameterFacadeImpl;
 import org.apache.logging.log4j.Logger;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*", allowedHeaders = "*", allowCredentials = "true")
 @RestController
 @RequestMapping("parameter")
-@Api(value="parameter", description="Operaciones con Parameter")
 public class ParameterController {
 
     final static Logger LOG = LogManager.getLogger(ParameterController.class);

@@ -1,6 +1,6 @@
 package mx.com.axity.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 @Entity
 @Table(name = "c_skill",schema = "public")

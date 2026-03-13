@@ -2,9 +2,7 @@ var http = require("http");
 
 var options = {
   "method": "GET",
-  "hostname": [
-  "localhost"
-  ],
+  "hostname": "nominaenlanube.com",
   "port": "8085",
   "path": [
   "api-nomen",

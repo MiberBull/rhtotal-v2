@@ -1,6 +1,5 @@
 package mx.com.axity.web.rest;
 
-import io.swagger.annotations.Api;
 import mx.com.axity.commons.to.*;
 import mx.com.axity.services.facade.IEmployeeFacade;
 import org.apache.logging.log4j.LogManager;
@@ -18,7 +17,6 @@ import java.util.List;
 @CrossOrigin(origins = "*", allowedHeaders = "*", allowCredentials = "true")
 @RestController
 @RequestMapping("generic")
-@Api(value="generic", description="Operaciones con user")
 public class GenericUsersController {
 
     static final Logger LOG = LogManager.getLogger(EmployeeRegistry.class);

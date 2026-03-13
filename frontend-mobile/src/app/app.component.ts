@@ -115,18 +115,22 @@ import { KEYS_STORAGE, UPDATE_DB_RHTOTAL, QUERY_DB_RHTOTAL, DELETE_DB_RHTOTAL, I
           this.updateNotifications();
         });
 
-        this.board.onKeyboardWillShow().subscribe( ()=>{
-          this.visivility = true;     
-        });
-        
-        this.board.onKeyboardWillHide().subscribe( ()=>{
-          this.visivility = false;
-        });
+        if(platform.is('cordova')){
+          this.board.onKeyboardWillShow().subscribe( ()=>{
+            this.visivility = true;
+          });
+
+          this.board.onKeyboardWillHide().subscribe( ()=>{
+            this.visivility = false;
+          });
+        }
 
         this.storage_provider.firtsView().then( visit => {
           this.rootPage = visit ? LoginPage : OnboardingPage;
-          statusBar.styleDefault();
-          splashScreen.hide();
+          if(platform.is('cordova')){
+            statusBar.styleDefault();
+            splashScreen.hide();
+          }
         });
 
         notification.getNumberNotifications()
@@ -188,11 +192,13 @@ import { KEYS_STORAGE, UPDATE_DB_RHTOTAL, QUERY_DB_RHTOTAL, DELETE_DB_RHTOTAL, I
           this.pushSetUp();
         });
 
-        this.crashlytics.addLog("Starting");
-        if(platform.is('ios')){
-          this.crashlytics.recordError('Starting',0);
-        }else{
-          this.crashlytics.sendNonFatalCrash('Starting'); 
+        if(platform.is('cordova')){
+          this.crashlytics.addLog("Starting");
+          if(platform.is('ios')){
+            this.crashlytics.recordError('Starting',0);
+          }else{
+            this.crashlytics.sendNonFatalCrash('Starting');
+          }
         }
 
         menuEvent.menuEvent().subscribe( side => {
@@ -243,15 +249,17 @@ import { KEYS_STORAGE, UPDATE_DB_RHTOTAL, QUERY_DB_RHTOTAL, DELETE_DB_RHTOTAL, I
 
     pushSetUp() {
       this.updateNotifications();
-      this.notification.onNotification()
-      .subscribe((notification: any) => {
-        console.log('Notification', JSON.stringify(notification));
-        this.localNotifications.schedule({
-          title: notification.title,
-          text: notification.message
+      if ((<any>window).cordova) {
+        this.notification.onNotification()
+        .subscribe((notification: any) => {
+          console.log('Notification', JSON.stringify(notification));
+          this.localNotifications.schedule({
+            title: notification.title,
+            text: notification.message
+          });
+          this.updateNotifications();
         });
-        this.updateNotifications();
-      });
+      }
     }
 
     setReadNotification(idNotification) {
@@ -305,29 +313,32 @@ import { KEYS_STORAGE, UPDATE_DB_RHTOTAL, QUERY_DB_RHTOTAL, DELETE_DB_RHTOTAL, I
         });
       });
 
-      try{
-        this.appVersion.getAppName().then(
-          this.appinfo['appname'] = function(name){
-            return name;
-          }
-          );
-        this.appVersion.getPackageName().then(function(namepkg){
-          this.appinfo['appnamepkg'] = function(namepkg){
-            return namepkg;
-          }
-        });
-        this.appVersion.getVersionCode().then(function(vcode){
-          this.appinfo['appvcode'] = function(vcode){
-            return vcode;
-          }
-        });
-        this.appVersion.getVersionNumber().then(function(version){
-          this.appinfo['appversion'] = function(version){
-            return version;
-          }
-        });
-      }catch(e){
-        console.log('Info App error: ',e);
+      if((<any>window).cordova){
+        try{
+          this.appinfo = [];
+          this.appVersion.getAppName().then(
+            this.appinfo['appname'] = function(name){
+              return name;
+            }
+            );
+          this.appVersion.getPackageName().then(function(namepkg){
+            this.appinfo['appnamepkg'] = function(namepkg){
+              return namepkg;
+            }
+          });
+          this.appVersion.getVersionCode().then(function(vcode){
+            this.appinfo['appvcode'] = function(vcode){
+              return vcode;
+            }
+          });
+          this.appVersion.getVersionNumber().then(function(version){
+            this.appinfo['appversion'] = function(version){
+              return version;
+            }
+          });
+        }catch(e){
+          console.log('Info App error: ',e);
+        }
       }
     }
 
@@ -456,6 +467,14 @@ import { KEYS_STORAGE, UPDATE_DB_RHTOTAL, QUERY_DB_RHTOTAL, DELETE_DB_RHTOTAL, I
       if(this.inQuestion){
         return;
       }
+
+      const doLogout = () => {
+        this.eventsManager.setIsLoadingEvent(false);
+        this.nav.setRoot( page.component ).then( () => {
+          this.storage_provider.clearCustomStorage();
+        });
+      };
+
       const alert = this.alertCtrl.create({
         title: '¿Deseas cerrar sesión?',
         buttons: [
@@ -470,15 +489,22 @@ import { KEYS_STORAGE, UPDATE_DB_RHTOTAL, QUERY_DB_RHTOTAL, DELETE_DB_RHTOTAL, I
           handler: () => {
             this.inQuestion = false;
             this.eventsManager.setIsLoadingEvent(true);
-            this.notification.cancelNotificationRegister();
+            try {
+              this.notification.cancelNotificationRegister();
+            } catch(e) {
+              console.log('Push not available:', e);
+            }
             let user = this.storage_provider.getItem( KEYS_STORAGE.USER );
-            this.notification.invalidUserToken(user.id)
-            .subscribe(() => {
-              this.eventsManager.setIsLoadingEvent(false);
-              this.nav.setRoot( page.component ).then( () => {
-                this.storage_provider.clearCustomStorage();
+            if(user && user.id) {
+              this.notification.invalidUserToken(user.id)
+              .subscribe(() => {
+                doLogout();
+              }, () => {
+                doLogout();
               });
-            });
+            } else {
+              doLogout();
+            }
           }
         }
         ],
@@ -491,7 +517,7 @@ import { KEYS_STORAGE, UPDATE_DB_RHTOTAL, QUERY_DB_RHTOTAL, DELETE_DB_RHTOTAL, I
 
     menuOpened(){
       let perfil =  this.storage_provider.getItem(KEYS_STORAGE.INFO_CRENDENTIAL);
-      if(perfil.name != null){
+      if(perfil && perfil.name != null){
         this.nombreUser = `${Conversions.UpperFirstLetter(perfil.name)} ${Conversions.UpperFirstLetter(perfil.lastName)} ${Conversions.UpperFirstLetter(perfil.mLastName)}`
       }else{
         this.nombreUser = '';

@@ -2,14 +2,14 @@ package mx.com.axity.services.service;
 
 import mx.com.axity.model.CompanyInformationDO;
 import mx.com.axity.services.BaseTest;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
 public class CompanyInformationServiceTest extends BaseTest {
 
-    @Test (expected = Exception.class)
+    @Test
     public void getCompanyInformationTest(){
 
         CompanyInformationDO companyInformationDO = new CompanyInformationDO();

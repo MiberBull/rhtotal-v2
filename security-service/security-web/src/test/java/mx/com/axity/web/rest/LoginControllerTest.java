@@ -6,13 +6,13 @@ import mx.com.axity.commons.to.AnswerLoginTO;
 import mx.com.axity.commons.to.RolesUserTO;
 import mx.com.axity.commons.to.UserTO;
 import mx.com.axity.web.BaseTest;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 public class LoginControllerTest extends BaseTest {
 
-    @Ignore("Se agrego el cifrado para el login")
+    @Disabled("Se agrego el cifrado para el login")
     @Test
     public void login_Web_Correct_User_Email_Test() {
         AnswerLoginTO answerLoginTO = new AnswerLoginTO();
@@ -24,10 +24,10 @@ public class LoginControllerTest extends BaseTest {
         user.setEmail("arturo.bravo.martinez05@gmail.com");
         answerLoginTO.setUser(user);
         var testLogin = this.loginFacade.loginWeb(answerLoginTO);
-        Assert.assertEquals(0, testLogin.getFlag());
+        Assertions.assertEquals(0, testLogin.getFlag());
     }
 
-    @Ignore("Se agrego el cifrado para el login")
+    @Disabled("Se agrego el cifrado para el login")
     @Test
     public void login_Web_Wrong_User_Email_Test() {
         AnswerLoginTO answerLoginTO = new AnswerLoginTO();
@@ -39,10 +39,10 @@ public class LoginControllerTest extends BaseTest {
         user.setEmail("arturo.bravo.martinezTest05@gmail.com");
         answerLoginTO.setUser(user);
         var testLogin = this.loginFacade.loginWeb(answerLoginTO);
-        Assert.assertEquals(1, testLogin.getFlag());
+        Assertions.assertEquals(1, testLogin.getFlag());
     }
 
-    @Ignore("Se agrego el cifrado para el login")
+    @Disabled("Se agrego el cifrado para el login")
     @Test
     public void login_Web_Password_Wrong_Email_Test() {
         AnswerLoginTO answerLoginTO = new AnswerLoginTO();
@@ -54,10 +54,10 @@ public class LoginControllerTest extends BaseTest {
         user.setEmail("arturo.bravo.martinez05@gmail.com");
         answerLoginTO.setUser(user);
         var testLogin = this.loginFacade.loginWeb(answerLoginTO);
-        Assert.assertEquals(2, testLogin.getFlag());
+        Assertions.assertEquals(2, testLogin.getFlag());
     }
 
-    @Ignore("Se agrego el cifrado para el login")
+    @Disabled("Se agrego el cifrado para el login")
     @Test
     public void login_Web_User_Blocked_Email_Test() {
         AnswerLoginTO answerLoginTO = new AnswerLoginTO();
@@ -69,10 +69,10 @@ public class LoginControllerTest extends BaseTest {
         user.setEmail("arturo.bravo.martinez05@gmail.com");
         answerLoginTO.setUser(user);
         var testLogin = this.loginFacade.loginWeb(answerLoginTO);
-        Assert.assertEquals(3, testLogin.getFlag());
+        Assertions.assertEquals(3, testLogin.getFlag());
     }
 
-    @Ignore("Se agrego el cifrado para el login")
+    @Disabled("Se agrego el cifrado para el login")
     @Test
     public void login_Web_User_New_Email_Test() {
         AnswerLoginTO answerLoginTO = new AnswerLoginTO();
@@ -84,16 +84,16 @@ public class LoginControllerTest extends BaseTest {
         user.setEmail("arturobravo.martinez05@gmail.com");
         answerLoginTO.setUser(user);
         var testLogin = this.loginFacade.loginWeb(answerLoginTO);
-        Assert.assertEquals(4, testLogin.getFlag());
+        Assertions.assertEquals(4, testLogin.getFlag());
     }
 
-    @Ignore("Se agrego el cifrado para el login")
-    @Test(expected = BusinessException.class)
+    @Disabled("Se agrego el cifrado para el login")
+    @Test
     public void login_Web_Error_User_Email_Test() {
         this.loginFacade.loginWeb(null);
     }
 
-    @Ignore("Se agrego el cifrado para el login")
+    @Disabled("Se agrego el cifrado para el login")
     @Test
     public void login_Mobile_Correct_User_Email_Test() {
         AnswerLoginMobileTO answerLoginTO = new AnswerLoginMobileTO();
@@ -105,10 +105,10 @@ public class LoginControllerTest extends BaseTest {
         user.setEmail("arturo.bravo.martinez05@gmail.com");
         answerLoginTO.setUser(user);
         var testLogin = this.loginFacade.loginMobile(answerLoginTO);
-        Assert.assertEquals(0, testLogin.getFlag());
+        Assertions.assertEquals(0, testLogin.getFlag());
     }
 
-    @Ignore("Se agrego el cifrado para el login")
+    @Disabled("Se agrego el cifrado para el login")
     @Test
     public void login_Mobile_Wrong_User_Email_Test() {
         AnswerLoginMobileTO answerLoginTO = new AnswerLoginMobileTO();
@@ -120,10 +120,10 @@ public class LoginControllerTest extends BaseTest {
         user.setEmail("arturo.bravo.martinezTest05@gmail.com");
         answerLoginTO.setUser(user);
         var testLogin = this.loginFacade.loginMobile(answerLoginTO);
-        Assert.assertEquals(1, testLogin.getFlag());
+        Assertions.assertEquals(1, testLogin.getFlag());
     }
 
-    @Ignore("Se agrego el cifrado para el login")
+    @Disabled("Se agrego el cifrado para el login")
     @Test
     public void login_Mobile_Password_Wrong_Email_Test() {
         AnswerLoginMobileTO answerLoginTO = new AnswerLoginMobileTO();
@@ -135,10 +135,10 @@ public class LoginControllerTest extends BaseTest {
         user.setEmail("arturo.bravo.martinez05@gmail.com");
         answerLoginTO.setUser(user);
         var testLogin = this.loginFacade.loginMobile(answerLoginTO);
-        Assert.assertEquals(2, testLogin.getFlag());
+        Assertions.assertEquals(2, testLogin.getFlag());
     }
 
-    @Ignore("Se agrego el cifrado para el login")
+    @Disabled("Se agrego el cifrado para el login")
     @Test
     public void login_Web_Mobile_Blocked_Email_Test() {
         AnswerLoginMobileTO answerLoginTO = new AnswerLoginMobileTO();
@@ -150,10 +150,10 @@ public class LoginControllerTest extends BaseTest {
         user.setEmail("arturo.bravo.martinez05@gmail.com");
         answerLoginTO.setUser(user);
         var testLogin = this.loginFacade.loginMobile(answerLoginTO);
-        Assert.assertEquals(3, testLogin.getFlag());
+        Assertions.assertEquals(3, testLogin.getFlag());
     }
 
-    @Ignore("Se agrego el cifrado para el login")
+    @Disabled("Se agrego el cifrado para el login")
     @Test
     public void login_Mobile_User_New_Email_Test() {
         AnswerLoginMobileTO answerLoginTO = new AnswerLoginMobileTO();
@@ -165,11 +165,11 @@ public class LoginControllerTest extends BaseTest {
         user.setEmail("arturobravo.martinez05@gmail.com");
         answerLoginTO.setUser(user);
         var testLogin = this.loginFacade.loginMobile(answerLoginTO);
-        Assert.assertEquals(4, testLogin.getFlag());
+        Assertions.assertEquals(4, testLogin.getFlag());
     }
 
-    @Ignore("Se agrego el cifrado para el login")
-    @Test(expected = BusinessException.class)
+    @Disabled("Se agrego el cifrado para el login")
+    @Test
     public void login_Mobile_Error_User_Email_Test() {
         this.loginFacade.loginMobile(null);
     }

@@ -1,6 +1,5 @@
 package mx.com.axity.web.rest;
 
-import io.swagger.annotations.Api;
 import mx.com.axity.commons.to.*;
 import mx.com.axity.commons.to.totree.BenefitsDiscountTreeTO;
 import mx.com.axity.commons.to.totree.CountRowTO;
@@ -20,7 +19,6 @@ import java.util.Map;
 @CrossOrigin(origins = "*", allowedHeaders = "*", allowCredentials = "true")
 @RestController
 @RequestMapping("discount")
-@Api(value = "discount", description = "Operaciones con discount")
 public class DiscountController {
 
     final static Logger LOG = LogManager.getLogger(DiscountController.class);

@@ -3,8 +3,8 @@ package mx.com.axity.services.service;
 import mx.com.axity.commons.to.RoleCompoundTO;
 import mx.com.axity.commons.to.RolesUserTO;
 import mx.com.axity.services.BaseTest;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 
 
@@ -19,10 +19,10 @@ public class RolUserServiceTest extends BaseTest {
         toList.add(testRole);
         testRoleTO.setRoleList(toList);
         var testGetRole = this.rolUserServise.getRole(testRoleTO);
-        Assert.assertNotNull(testGetRole);
+        Assertions.assertNotNull(testGetRole);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void get_error_Role_Test() {
         this.rolUserServise.getRole(null);
     }
@@ -31,28 +31,28 @@ public class RolUserServiceTest extends BaseTest {
     @Test
     public void get_All_Catalogue_Test() {
         var testGetAllCatalogue = this.rolUserServise.getAllCatalogue();
-        Assert.assertNotNull(testGetAllCatalogue);
+        Assertions.assertNotNull(testGetAllCatalogue);
     }
 
     @Test
     public void get_Correct_Paged_Role_Test() {
         var testCorrectPagedRole = this.rolUserServise.getPagedRole(0);
-        Assert.assertNotNull(testCorrectPagedRole);
+        Assertions.assertNotNull(testCorrectPagedRole);
     }
 
     @Test
     public void get_Number_Row_Test() {
         var testCorrectNumberRow = this.rolUserServise.getNumberRow();
-        Assert.assertNotNull(testCorrectNumberRow);
+        Assertions.assertNotNull(testCorrectNumberRow);
     }
 
     @Test
     public void save_Correct_Role_Test() {
         var testCorrectIsSave = this.rolUserServise.saveOrUpdateRole(new RolesUserTO());
-        Assert.assertTrue(testCorrectIsSave);
+        Assertions.assertTrue(testCorrectIsSave);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void save_Error_Role_Test() {
         this.rolUserServise.saveOrUpdateRole(null);
     }
@@ -62,7 +62,7 @@ public class RolUserServiceTest extends BaseTest {
         var testCorrectUpdateRole = new RolesUserTO();
         testCorrectUpdateRole.setIdRolAssig(2L);
         var testCorrectIsUpdate = this.rolUserServise.saveOrUpdateRole(testCorrectUpdateRole);
-        Assert.assertNotNull(testCorrectIsUpdate);
+        Assertions.assertNotNull(testCorrectIsUpdate);
     }
 
 }

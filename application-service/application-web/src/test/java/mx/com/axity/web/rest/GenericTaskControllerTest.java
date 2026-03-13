@@ -1,7 +1,7 @@
 package mx.com.axity.web.rest;
 
 import mx.com.axity.web.BaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class GenericTaskControllerTest extends BaseTest {
     @Test

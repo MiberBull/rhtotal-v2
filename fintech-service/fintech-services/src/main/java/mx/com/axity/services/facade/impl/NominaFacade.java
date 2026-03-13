@@ -50,7 +50,14 @@ public class NominaFacade implements INominaFacade {
     public FintechTO payrollInformationUser(int idUser,Integer section) {
         try {
             //TODO:MAPEAR EL OBJETO
-            var userData = (Object[])this.userFacade.getDataForQuerySico((long)idUser)[0];
+            var dataArray = this.userFacade.getDataForQuerySico((long)idUser);
+            if( dataArray == null || dataArray.length == 0 ) {
+                var fintech = new FintechTO();
+                fintech.setAccess(false);
+                fintech.setMessage("No se encontró información de nómina registrada para este usuario");
+                return fintech;
+            }
+            var userData = (Object[])dataArray[0];
             var user = userData[0].toString();
 
             if( userData[7] == null || Constants.STRING_EMPTY.equals(userData[7]) ) {
@@ -94,7 +101,14 @@ public class NominaFacade implements INominaFacade {
     public FintechTO payrollInformarionAdvanceUser(int idUser,Integer section) {
         try {
             //TODO:MAPEAR EL OBJETO
-            var userData = (Object[])this.userFacade.getDataForQuerySico((long)idUser)[0];
+            var dataArray = this.userFacade.getDataForQuerySico((long)idUser);
+            if( dataArray == null || dataArray.length == 0 ) {
+                var fintech = new FintechTO();
+                fintech.setAccess(false);
+                fintech.setMessage("No se encontró información de nómina registrada para este usuario");
+                return fintech;
+            }
+            var userData = (Object[])dataArray[0];
             var user = userData[0].toString();
 
             if( userData[7] == null || Constants.STRING_EMPTY.equals(userData[7]) ) {

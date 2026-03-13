@@ -1,6 +1,5 @@
 package mx.com.axity.web.rest;
 
-import io.swagger.annotations.Api;
 import mx.com.axity.commons.to.*;
 import mx.com.axity.services.facade.IJobsHistoryFacade;
 import mx.com.axity.services.facade.IuserFacade;
@@ -17,7 +16,6 @@ import java.util.Map;
 @CrossOrigin(origins = "*", allowedHeaders = "*", allowCredentials = "true")
 @RestController
 @RequestMapping("user")
-@Api(value="user", description="Operaciones con user")
 public class UserResource {
 
     static final Logger LOG = LogManager.getLogger(UserResource.class);

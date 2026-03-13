@@ -1,11 +1,11 @@
 spring:
   datasource:
-    url: jdbc:postgresql://rhtotal.cb5ktwale9p7.us-east-1.rds.amazonaws.com:5432/rhtotal
-    username: rhtotal
-    password: UPi0TiKY4vzpdHRntejrh1v40Jp
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:rhtotal}
+    username: ${DB_USER:rhtotal}
+    password: ${DB_PASS:UPi0TiKY4vzpdHRntejrh1v40Jp}
     driver-class-name: org.postgresql.Driver
   jpa:
-    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
   application:
     name: security-service
@@ -19,8 +19,26 @@ eureka:
   client:
     register-with-eureka: true
     fetch-registry: true
-    serviceUrl:
-      defaultZone: http://ec2-54-86-23-170.compute-1.amazonaws.com:8000/eureka
+    service-url:
+      defaultZone: http://${EUREKA_HOST:localhost}:${EUREKA_PORT:8761}/eureka
   instance:
-    leaseRenewalIntervalInSeconds: 5
-    preferIpAddress: true
+    ip-address: ${EUREKA_INSTANCE_IP:127.0.0.1}
+    lease-renewal-interval-in-seconds: 5
+    prefer-ip-address: true
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+logging:
+  level:
+    root: INFO
+    mx.com.axity: DEBUG

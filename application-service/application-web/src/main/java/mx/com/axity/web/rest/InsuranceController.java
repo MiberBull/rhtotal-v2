@@ -1,6 +1,5 @@
 package mx.com.axity.web.rest;
 
-import io.swagger.annotations.Api;
 import mx.com.axity.commons.to.*;
 import mx.com.axity.commons.to.totree.CountRowTO;
 import mx.com.axity.services.facade.IInsuranceFacade;
@@ -17,7 +16,6 @@ import java.util.Map;
 @CrossOrigin(origins = "*", allowedHeaders = "*", allowCredentials = "true")
 @RestController
 @RequestMapping("insurance")
-@Api(value = "insurance", description = "Operaciones con insurance")
 public class InsuranceController {
 
     final static Logger LOG = LogManager.getLogger(InsuranceController.class);

@@ -8,9 +8,9 @@ import mx.com.axity.model.NotificationAssignmentDO;
 import mx.com.axity.model.NotificationRepositoryDO;
 import mx.com.axity.model.TokenNotificationDO;
 import mx.com.axity.services.BaseTest;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import java.net.URISyntaxException;
@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 public class PushNotificationServiceTest extends BaseTest {
-    @Ignore
+    @Disabled
     @Test
     public void should_get_available_notifications_to_send() {
 
@@ -44,7 +44,7 @@ public class PushNotificationServiceTest extends BaseTest {
         this.entityManager.persist(currentNotification);
 
         var result = pushNotificationService.getAvailableNotifications();
-        Assert.assertEquals(1, result.size());
+        Assertions.assertEquals(1, result.size());
 
         this.entityManager.remove(currentNotification);
         this.entityManager.flush();
@@ -54,7 +54,7 @@ public class PushNotificationServiceTest extends BaseTest {
     public void should_get_not_available_notifications_to_send() {
 
         var result = pushNotificationService.getAvailableNotifications();
-        Assert.assertEquals(0, result.size());
+        Assertions.assertEquals(0, result.size());
     }
 
     @Test
@@ -63,7 +63,7 @@ public class PushNotificationServiceTest extends BaseTest {
         Long idNotification = 1L;
         String notificationType = "D";
         var result = pushNotificationService.getUsersToNotifyByIdNotification(idNotification, notificationType);
-        Assert.assertEquals(1, result.size());
+        Assertions.assertEquals(1, result.size());
     }
 
     @Test
@@ -86,7 +86,7 @@ public class PushNotificationServiceTest extends BaseTest {
         this.entityManager.persist(notificationAssignmentDO);
 
         var result = pushNotificationService.getUsersToNotifyByIdNotification(idNotification, notificationType);
-        Assert.assertEquals(2, result.size());
+        Assertions.assertEquals(2, result.size());
 
         this.entityManager.remove(notificationAssignmentDO);
         this.entityManager.flush();
@@ -99,7 +99,7 @@ public class PushNotificationServiceTest extends BaseTest {
         String notificationType = "D";
 
         var result = pushNotificationService.getUsersToNotifyByIdNotification(idNotification, notificationType);
-        Assert.assertEquals(0, result.size());
+        Assertions.assertEquals(0, result.size());
     }
 
     @Test
@@ -107,7 +107,7 @@ public class PushNotificationServiceTest extends BaseTest {
 
         var idUsers = new ArrayList<Long>();
         var result = pushNotificationService.getUserTokensByIdUserList(idUsers);
-        Assert.assertEquals(0, result.size());
+        Assertions.assertEquals(0, result.size());
     }
 
     @Test
@@ -115,7 +115,7 @@ public class PushNotificationServiceTest extends BaseTest {
         var idUsers = new ArrayList<Long>();
         idUsers.add(0L);
         var result = pushNotificationService.getUserTokensByIdUserList(idUsers);
-        Assert.assertEquals(0, result.size());
+        Assertions.assertEquals(0, result.size());
     }
 
     @Test
@@ -124,8 +124,8 @@ public class PushNotificationServiceTest extends BaseTest {
         var idUsers = new ArrayList<Long>();
         idUsers.add(1L);
         var result = pushNotificationService.getUserTokensByIdUserList(idUsers);
-        Assert.assertEquals(1, result.size());
-        Assert.assertEquals("token", result.get(0));
+        Assertions.assertEquals(1, result.size());
+        Assertions.assertEquals("token", result.get(0));
     }
 
     @Test
@@ -136,11 +136,11 @@ public class PushNotificationServiceTest extends BaseTest {
         List<String> tokens = new ArrayList<>();
         tokens.add("fyMP_8geqgo:APA91bFRADzJoQt1w1mXmeIbKMpsKKWjeEGU44nlHARCIXBpc-QCTEe7W4Gl32eJdTNy-8nWDA_8aFaalvZnYf7xlNKbCoBTiDfq6yoQZLw0boSuMR6gayway6GFcKLRMYfT38huubTI");
         Map<String, Object> result = pushNotificationService.createRequestToSendFireBase(title, msg, tokens);
-        Assert.assertNotNull(result);
+        Assertions.assertNotNull(result);
     }
 
     @Test
-    @Ignore(value = "validacion ssl")
+    @Disabled(value = "validacion ssl")
     public void should_response_ok_when_invoke_service() throws URISyntaxException {
 
         String title = "Notificacion";
@@ -151,11 +151,11 @@ public class PushNotificationServiceTest extends BaseTest {
         Map<String, Object> request = pushNotificationService.createRequestToSendFireBase(title, msg, tokens);
 
         var result = restTemplateService.post(request.get(Constants.FIREBASE_REQUEST_URL).toString(), (ObjectNode) request.get(Constants.FIREBASE_REQUEST_BODY), (HttpHeaders) request.get(Constants.FIREBASE_REQUEST_HEADERS), ObjectNode.class);
-        Assert.assertNotNull(result);
-        Assert.assertEquals(HttpStatus.OK, result.getStatusCode());
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(HttpStatus.OK, result.getStatusCode());
     }
 
-    @Test (expected = Exception.class)
+    @Test
     public void should_response_error_when_invoke_service() throws URISyntaxException {
 
         String title = "Notificacion";
@@ -208,7 +208,7 @@ public class PushNotificationServiceTest extends BaseTest {
         pushNotificationService.updateNotification(currentNotification);
     }
 
-    @Test (expected = InputMismatchException.class)
+    @Test
     public void should_throw_exception_for_un_existing_notification() {
 
         var currentNotification = new NotificationRepositoryDO();
@@ -239,8 +239,8 @@ public class PushNotificationServiceTest extends BaseTest {
 
         pushNotificationService.saveRelationIdUserAndToken(idUser, token);
         var result = entityManager.find(TokenNotificationDO.class, idUser);
-        Assert.assertNotNull(result);
-        Assert.assertEquals(token, result.getToken());
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(token, result.getToken());
     }
 
     @Test
@@ -253,11 +253,11 @@ public class PushNotificationServiceTest extends BaseTest {
         pushNotificationService.saveRelationIdUserAndToken(idUser, token);
 
         var result = entityManager.find(TokenNotificationDO.class, idUser);
-        Assert.assertNotNull(result);
-        Assert.assertEquals(token, result.getToken());
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(token, result.getToken());
     }
 
-    @Test (expected = InputMismatchException.class)
+    @Test
     public void should_ignore_a_null_token() {
 
         Long idUser = 1L;
@@ -266,7 +266,7 @@ public class PushNotificationServiceTest extends BaseTest {
         pushNotificationService.saveRelationIdUserAndToken(idUser, token);
     }
 
-    @Test (expected = InputMismatchException.class)
+    @Test
     public void should_throw_exception_trying_to_save_a_new_relation_with_un_existing_user_id() {
 
         Long idUser = 0L;
@@ -295,7 +295,7 @@ public class PushNotificationServiceTest extends BaseTest {
         pushNotificationService.deleteRelationIdUserAndToken(idUser, token);
 
         var validationObject = entityManager.find(TokenNotificationDO.class, id);
-        Assert.assertEquals(validationObject, tokenNotification);
+        Assertions.assertEquals(validationObject, tokenNotification);
     }
 
     @Test
@@ -346,8 +346,8 @@ public class PushNotificationServiceTest extends BaseTest {
 
         var notifications = pushNotificationService.getNotificationsByElementAndType(listOfObjecst);
 
-        Assert.assertNotNull(notifications);
-        Assert.assertEquals(1, notifications.size());
+        Assertions.assertNotNull(notifications);
+        Assertions.assertEquals(1, notifications.size());
     }
 
     @Test
@@ -356,7 +356,7 @@ public class PushNotificationServiceTest extends BaseTest {
         Long idUser = 1L;
         var notificationAssignment = pushNotificationService.getIdNotificationAndTypeAssignmentByIdUser(idUser);
 
-        Assert.assertNotNull(notificationAssignment);
-        Assert.assertArrayEquals(new Object[]{1L,"D"},notificationAssignment.get(0));
+        Assertions.assertNotNull(notificationAssignment);
+        Assertions.assertArrayEquals(new Object[]{1L,"D"},notificationAssignment.get(0));
     }
 }

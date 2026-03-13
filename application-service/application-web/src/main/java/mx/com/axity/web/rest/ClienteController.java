@@ -1,6 +1,5 @@
 package mx.com.axity.web.rest;
 
-import io.swagger.annotations.Api;
 import mx.com.axity.commons.to.EmployeeTO;
 import mx.com.axity.commons.to.EmployeeUserTO;
 import mx.com.axity.commons.to.totree.ClientTableTO;
@@ -19,7 +18,6 @@ import java.util.List;
 @CrossOrigin(origins = "*", allowedHeaders = "*", allowCredentials = "true")
 @RestController
 @RequestMapping("client")
-@Api(value = "client", description = "Operaciones con Client")
 public class ClienteController {
 
     final static Logger LOG = LogManager.getLogger(ClienteController.class);

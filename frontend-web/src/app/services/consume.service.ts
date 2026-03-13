@@ -8,7 +8,7 @@ import { catchError, map } from 'rxjs/operators';
 })
 export class ConsumeService {
 
-  private _url: string = 'http://10.11.6.138:8000/api/project/project/find';
+  private _url: string = 'http://localhost:8000/api/application/project/project/find';
   constructor(private _http: HttpClient) { }
 
   getUser():Observable<any> {

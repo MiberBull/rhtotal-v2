@@ -2,8 +2,8 @@ package mx.com.axity.services.service;
 
 import mx.com.axity.commons.to.SicoEmployeeSearchRequestTO;
 import mx.com.axity.services.BaseTest;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,7 @@ public class PaysheetSicoServiceTest extends BaseTest {
 
         String data = this.paysheetsicoService.getUserDataByEmail("laragtz@prueba.com");
 
-        Assert.assertEquals(resultMock, data);
+        Assertions.assertEquals(resultMock, data);
 
     }
 
@@ -41,7 +41,7 @@ public class PaysheetSicoServiceTest extends BaseTest {
 
         String result = this.paysheetsicoService.buildSearchUrl(searchRequestTO);
 
-        Assert.assertEquals(expectedUrl, result);
+        Assertions.assertEquals(expectedUrl, result);
     }
 
     @Test
@@ -63,7 +63,7 @@ public class PaysheetSicoServiceTest extends BaseTest {
         String result = this.paysheetsicoService.buildSearchUrl(searchRequestTO);
 
 
-        Assert.assertEquals(expectedUrl, result);
+        Assertions.assertEquals(expectedUrl, result);
     }
 
 
@@ -82,7 +82,7 @@ public class PaysheetSicoServiceTest extends BaseTest {
         String result = this.paysheetsicoService.buildSearchUrl(searchRequestTO);
 
 
-        Assert.assertEquals(expectedUrl, result);
+        Assertions.assertEquals(expectedUrl, result);
 
     }
 
@@ -103,7 +103,7 @@ public class PaysheetSicoServiceTest extends BaseTest {
 
         String result = this.paysheetsicoService.buildSearchUrl(searchRequestTO);
 
-        Assert.assertEquals(expectedUrl, result);
+        Assertions.assertEquals(expectedUrl, result);
 
     }
 
@@ -121,7 +121,7 @@ public class PaysheetSicoServiceTest extends BaseTest {
 
         String result = this.paysheetsicoService.getUserDataByParams(this.paysheetsicoService.buildSearchUrl(searchRequestTO));
 
-        Assert.assertEquals(expectedResult, result);
+        Assertions.assertEquals(expectedResult, result);
     }
 
 

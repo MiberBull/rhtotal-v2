@@ -1,6 +1,5 @@
 package mx.com.axity.web.rest;
 
-import io.swagger.annotations.Api;
 import mx.com.axity.commons.to.CustomFintechTO;
 import mx.com.axity.commons.to.FintechTO;
 import mx.com.axity.commons.to.SicoPaysheetEmployeeTO;
@@ -18,7 +17,6 @@ import org.apache.logging.log4j.Logger;
 @CrossOrigin( origins = "*", allowedHeaders = "*", allowCredentials = "true")
 @RestController
 @RequestMapping("nomina")
-@Api( value = "nomina", description = "Operaciones con fintech")
 public class NominaController {
 
     static final Logger LOG = LogManager.getLogger( NominaController.class );

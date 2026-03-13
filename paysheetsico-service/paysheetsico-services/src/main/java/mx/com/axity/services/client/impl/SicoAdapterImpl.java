@@ -22,6 +22,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import com.google.gson.Gson;
@@ -35,7 +36,14 @@ import java.util.Base64;
 
 public class SicoAdapterImpl implements SicoAdapter {
 
-    private RestTemplate sicoRestTemplate = new RestTemplate();
+    private RestTemplate sicoRestTemplate;
+
+    {
+        SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
+        factory.setConnectTimeout(1500);
+        factory.setReadTimeout(1500);
+        sicoRestTemplate = new RestTemplate(factory);
+    }
     private String apiUser = "";
     private String apiPassword = "";
     private String apiAuthEndpoint = Constants.SICO_AUTH_ENDPOINT;

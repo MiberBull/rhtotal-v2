@@ -1,40 +1,85 @@
 spring:
   application:
-    name: eureka-service
+    name: gateway-service
+  cloud:
+    gateway:
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+      routes:
+        - id: security-service
+          uri: lb://security-service
+          predicates:
+            - Path=/api/security/**
+          filters:
+            - StripPrefix=2
+        - id: application-service
+          uri: lb://application-service
+          predicates:
+            - Path=/api/application/**
+          filters:
+            - StripPrefix=2
+        - id: fintech-service
+          uri: lb://fintech-service
+          predicates:
+            - Path=/api/fintech/**
+          filters:
+            - StripPrefix=2
+        - id: paysheetsico-service
+          uri: lb://paysheetsico-service
+          predicates:
+            - Path=/api/paysheetsico/**
+          filters:
+            - StripPrefix=2
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/api/user/**
+          filters:
+            - StripPrefix=2
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
 
 server:
   port: 8000
 
 eureka:
   instance:
-    hostname: ec2-54-86-23-170.compute-1.amazonaws.com
+    ip-address: ${EUREKA_INSTANCE_IP:127.0.0.1}
+    hostname: ${EUREKA_HOST:localhost}
+    prefer-ip-address: true
   client:
-    registerWithEureka: false
-    fetchRegistry: true
-    serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
 
-zuul:
-  ignoredServices: '*'
-  prefix: /api
-  routes:
-    security:
-      path: /security/**
-      serviceId: security-service
-    application:
-      path: /application/**
-      serviceId: application-service
-    fintech:
-      path: /fintech/**
-      serviceId: fintech-service
-    paysheetsico:
-      path: /paysheetsico/**
-      serviceId: paysheetsico-service
-    user:
-      path: /user/**
-      serviceId: user-service
-  ignored-headers: Access-Control-Allow-Credentials, Access-Control-Allow-Origin
+springdoc:
+  swagger-ui:
+    urls:
+      - name: security-service
+        url: /api/security/v3/api-docs
+      - name: application-service
+        url: /api/application/v3/api-docs
+      - name: fintech-service
+        url: /api/fintech/v3/api-docs
+      - name: user-service
+        url: /api/user/v3/api-docs
+      - name: paysheetsico-service
+        url: /api/paysheetsico/v3/api-docs
 
-ribbon:
-  ReadTimeout: 60000
-  ConnectionTimeout: 3000
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway
+  endpoint:
+    gateway:
+      enabled: true
+
+logging:
+  level:
+    root: INFO
+    mx.com.axity.gateway: DEBUG
+    org.springframework.cloud.gateway: DEBUG

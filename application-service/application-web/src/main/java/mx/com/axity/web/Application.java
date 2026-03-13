@@ -6,15 +6,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.client.RestTemplate;
 
-@EnableEurekaClient
 @EnableDiscoveryClient
 @SpringBootApplication
 @ComponentScan("mx.com.axity")
@@ -24,11 +21,7 @@ import org.springframework.web.client.RestTemplate;
 public class Application {
 
     public static void main(String[] args) {
-
-        ApplicationContext applicationContext = SpringApplication.run(Application.class);
-        for (String name : applicationContext.getBeanDefinitionNames()) {
-            System.out.println(name);
-        }
+        SpringApplication.run(Application.class, args);
     }
 
     @Bean
@@ -43,5 +36,7 @@ public class Application {
 
     @LoadBalanced
     @Bean(name = "appRestClient")
-    public  RestTemplate restTemplateEmail(){return new RestTemplate();}
+    public RestTemplate restTemplateEmail() {
+        return new RestTemplate();
+    }
 }
