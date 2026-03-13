@@ -1,5 +1,11 @@
+// Para browser/emulador usar 'localhost'. Para dispositivo fisico cambiar a la IP de tu maquina (ej: '192.168.68.50')
+const DEV_HOST = 'localhost';
+const DEV_GATEWAY = `http://${DEV_HOST}:8000`;
+const DEV_NODE_API = `http://${DEV_HOST}`;
+const DEV_WEB = `http://${DEV_HOST}:4200`;
+
 export const API_RHTOTAL = {
-    DOMAIN:'http://ec2-52-205-42-63.compute-1.amazonaws.com',
+    DOMAIN: DEV_NODE_API,
     PORT: '3000',
     GET_BANK_INFO_BY_ID_EMPLOYEE: '/api/v1/bank/:employee_id/:apikey',
     GET_EMAIL_SEND: '/api/v1/email/destiny/:sendto/:apikey',
@@ -11,7 +17,7 @@ export const API_RHTOTAL = {
 
 
 export const PATH_SECURITY = {
-    DOMAIN:'http://ec2-54-197-208-200.compute-1.amazonaws.com:8000/api/security',
+    DOMAIN:`${DEV_GATEWAY}/api/security`,
     LOGIN:`login/loginMobile`,
     PARAMETER_EMAIL:'email/sendEmail?shouldbeparse=false',
     PARAMETER:`parameter/getParameter`,
@@ -20,7 +26,7 @@ export const PATH_SECURITY = {
 
 
 export const PATH_USER = {
-    DOMAIN:`http://ec2-54-197-208-200.compute-1.amazonaws.com:8000/api/user`,
+    DOMAIN:`${DEV_GATEWAY}/api/user`,
     CREATE:`user/create`,
     CODE:`user/confirmation`,
     CIVIL_STATUS:'user/getCivilStatus',
@@ -91,20 +97,20 @@ export const SEGUROS = {
 };
 export const PATH_NOTIFICATION = {
 
-    DOMAIN:`http://ec2-54-197-208-200.compute-1.amazonaws.com:8000/api/application`,
+    DOMAIN:`${DEV_GATEWAY}/api/application`,
     SET_USER_TOKEN:`notification/setUserToken`,
     INACTIVE_USER_TOKEN:`notification/inactiveUserToken`,
     LAST_NOTIFICATIONS:`notification/notificationUser`,
 }
 
 export const PATH_SICO ={
-    DOMAINT:'http://ec2-54-197-208-200.compute-1.amazonaws.com:8000/api/paysheetsico',
+    DOMAINT:`${DEV_GATEWAY}/api/paysheetsico`,
     GET_EXIST_USER_FOR_URI:'sico/raw',
     URI_CICO:'https://nominaenlanube.com:8085/api-nomen/v1/get_empleado_general?'
 }
 
 export const PATH_APLICATION = {
-    DOMAIN:'http://ec2-54-197-208-200.compute-1.amazonaws.com:8000/api/application/',
+    DOMAIN:`${DEV_GATEWAY}/api/application/`,
     PARAMETER:'companyInformation/getCompanyInformation?nameCompanyInformation=',
     BANNERS_HOME:'banner/showbanners',
     CATEGORY:'discount/getCategory',
@@ -230,7 +236,7 @@ export const KEYS_STORAGE = {
 }
 
 export const PATH_FINTECH = {
-    DOMAIN:'http://ec2-54-197-208-200.compute-1.amazonaws.com:8000/api/fintech',
+    DOMAIN:`${DEV_GATEWAY}/api/fintech`,
     VELOCAHS:'nomina/velocahs',
     MY_ADVANCE:'nomina/adelanto',
     ACTUAL_POSITION:'recursos/puesto',
@@ -242,7 +248,7 @@ export const PATH_FINTECH = {
 export const CLEAN_LOCAL_STORAGE = ['user','infoCredential','jobs','imagesBanner']
 
 export const LINKS = {
-    RECOVERY_PWD:`http://rhtotal-alb-753152798.us-east-1.elb.amazonaws.com/#/nuevo-usuario?website=mobile`
+    RECOVERY_PWD:`${DEV_WEB}/#/nuevo-usuario?website=mobile`
 }
 
 export const TYPE_USER = {

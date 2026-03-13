@@ -46,13 +46,14 @@ server:
 
 eureka:
   instance:
+    ip-address: ${EUREKA_INSTANCE_IP:127.0.0.1}
     hostname: ${EUREKA_HOST:localhost}
     prefer-ip-address: true
   client:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
 
 springdoc:
   swagger-ui:

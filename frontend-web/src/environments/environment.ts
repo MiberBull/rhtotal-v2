@@ -85,16 +85,16 @@ export const TEMPLATE = {
 }
 
 export const PATH_CLIENT = {
-  //DOMAIN:'http://ec2-54-86-23-170.compute-1.amazonaws.com:8000/api/application',
-  DOMAIN:'http://ec2-54-86-23-170.compute-1.amazonaws.com:8000/api/application',
+  //DOMAIN:'http://localhost:8000/api/application',
+  DOMAIN:'http://localhost:8000/api/application',
   CLIENT: 'client/saveOrUpdateClient',
   SEARCH_BY_ID:'client/getClient',
   PAGINATOR:'client/getNumberRow'
 }
 
 export const PATH_SECURITY = {  
-  //DOMAIN:'http://ec2-54-86-23-170.compute-1.amazonaws.com:8000/api/security',  
-  DOMAIN:'http://ec2-54-86-23-170.compute-1.amazonaws.com:8000/api/security', 
+  //DOMAIN:'http://localhost:8000/api/security',  
+  DOMAIN:'http://localhost:8000/api/security', 
   GET_PARAMETERS:'parameter/getParameter',
   LOGIN:'login/loginWeb',
   SEND_EMAIL:'email/sendEmail',
@@ -109,8 +109,8 @@ export const PATH_SECURITY = {
 
 export const PATH_FINTECH = {   
   //DOMAIN: 'http://localhost:8093',
-  //DOMAIN: 'http://ec2-54-86-23-170.compute-1.amazonaws.com:8000/api/fintech',
-  DOMAIN:'http://ec2-54-86-23-170.compute-1.amazonaws.com:8000/api/fintech',
+  //DOMAIN: 'http://localhost:8000/api/fintech',
+  DOMAIN:'http://localhost:8000/api/fintech',
   TABLE_FINTECH_ADVANCE: 'fintech/getPagedFintechMyAdvance',
   TABLE_FINTECH_VELOCASH: 'fintech/getPagedFintechVeloCash',
   HEADERS: 'generic/getHeader',
@@ -122,8 +122,8 @@ export const PATH_FINTECH = {
 
 export const PATH_APPLICATION = {
   //DOMAIN: 'http://localhost:8091',
-  //DOMAIN:'http://ec2-54-86-23-170.compute-1.amazonaws.com:8000/api/application',
-  DOMAIN:'http://ec2-54-86-23-170.compute-1.amazonaws.com:8000/api/application',
+  //DOMAIN:'http://localhost:8000/api/application',
+  DOMAIN:'http://localhost:8000/api/application',
   TABLE_BANNER:'banner/getPagedBanner',
   TABLE_NOTIFICATION:'notification/getPagedNotification',
   TABLE_DISCOUNTS:'discount/getPagedDiscount',
@@ -136,7 +136,7 @@ export const PATH_APPLICATION = {
   COUNT_BANNER:'banner/getNumberRow',
   NEW_BANNER:`banner/saveOrUpdateBanner`,
   GET_BANNER:`banner/getBanner`,
-  TREE:`http://ec2-54-86-23-170.compute-1.amazonaws.com:8000/api/application/notificationassignment/getAssignmentBenefitsNotifications`,  
+  TREE:`http://localhost:8000/api/application/notificationassignment/getAssignmentBenefitsNotifications`,  
   GET_ONE_INSURANCE: 'insurance/getOneInsurance',
   GET_ALL_EVENTUALY: 'insurance/getAllEventualy',
   GET_ALL_COVERAGE: 'insurance/getAllPlanCoverage',
@@ -239,7 +239,7 @@ export const FAB = {
 }
 
 export const pathclient = {
-  DOMAIN:'http://10.11.11.94:8090',
+  DOMAIN:'http://localhost:8000/api/security',
   LOGIN: 'client/saveOrUpdateClient'
 }
 
@@ -333,8 +333,8 @@ export const PERMISSION=[
 
 export const PATH_USER = {
   //DOMAIN: 'http://localhost:8092',
-  //DOMAIN: 'http://ec2-54-86-23-170.compute-1.amazonaws.com:8000/api/user',
-  DOMAIN:'http://ec2-54-86-23-170.compute-1.amazonaws.com:8000/api/user',
+  //DOMAIN: 'http://localhost:8000/api/user',
+  DOMAIN:'http://localhost:8000/api/user',
   RESET_REQUEST_ENDPOINT: 'user/reset/request',
   RESET_CONFIRMATION_ENDPOINT: 'user/reset/confirmation',
   USER_CREATION_ENDPOINT: 'user/create',
@@ -352,7 +352,7 @@ export const PATH_USER = {
   USER_GET_ALL_EMPLOYEES:'user/getAllEmployees',
   USER_SICO_URL:'https://nominaenlanube.com:8085/api-nomen/v1/',
   USER_SICO_EMPPLOYEE_GENERAL:'get_empleado_general?',
-  USER_SW_DOMAIN:'http://ec2-54-86-23-170.compute-1.amazonaws.com:8000/api/sico/raw', //http://192.168.0.65:9000/api/paysheetsico/sico/raw',
+  USER_SW_DOMAIN:'http://localhost:8000/api/paysheetsico/sico/raw',
   USER_SICO_WORK_INFORMATION:'get_informacion_empleado?',
   USER_GET_EMPLOYEE_BY_NAME:'user/getUserRegisterSico',
   USER_GET_EMPLOYEE_BY_CURP:'user/getEmployeesByCurpClientProject',

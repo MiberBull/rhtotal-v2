@@ -20,13 +20,13 @@ export class PaysheetProvider {
   velocashService() {
     let idUser = this.storage_provider.getItem( KEYS_STORAGE.USER ).id;
     let URL = `${PATH_FINTECH.DOMAIN}/${PATH_FINTECH.VELOCAHS}?idUser=${ idUser }`;
-    return this.http.get( URL ).timeout(4000);
+    return this.http.get( URL ).timeout(8000);
   }
-    
+
   myAdvanceService() {
     let idUser = this.storage_provider.getItem( KEYS_STORAGE.USER ).id;
     let URL = `${PATH_FINTECH.DOMAIN}/${PATH_FINTECH.MY_ADVANCE}?idUser=${ idUser }`;
-    return this.http.get( URL ).timeout(4000);
+    return this.http.get( URL ).timeout(8000);
   }
 
   loanVelocash( fintech:any ) {
