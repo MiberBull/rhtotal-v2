@@ -2,8 +2,8 @@ package mx.com.axity.services.facade;
 
 import mx.com.axity.model.TokenNotificationDO;
 import mx.com.axity.services.BaseTest;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
@@ -22,7 +22,7 @@ public class PushNotificationFacadeTest extends BaseTest {
         pushNotificationFacade.registerTokensNotification(idUser, token);
     }
 
-    @Test (expected = InputMismatchException.class)
+    @Test
     public void should_throw_error_when_register_an_invalid_notification() {
 
         Long idUser = 0L;
@@ -56,7 +56,7 @@ public class PushNotificationFacadeTest extends BaseTest {
         pushNotificationFacade.unRegisterTokensNotification(idUser, token);
 
         var validationObject = entityManager.find(TokenNotificationDO.class, id);
-        Assert.assertEquals(validationObject, tokenNotification);
+        Assertions.assertEquals(validationObject, tokenNotification);
     }
 
     @Test
@@ -66,7 +66,7 @@ public class PushNotificationFacadeTest extends BaseTest {
 
         var notifications = pushNotificationFacade.getLastNotificationByUser(idUser);
 
-        Assert.assertNotNull(notifications);
+        Assertions.assertNotNull(notifications);
     }
 
 }

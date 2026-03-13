@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Temporal;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
-import javax.persistence.TemporalType;
+import jakarta.persistence.TemporalType;
 import java.time.LocalDateTime;
 import java.util.List;
 

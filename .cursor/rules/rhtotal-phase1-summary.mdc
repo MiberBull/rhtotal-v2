@@ -1,0 +1,117 @@
+---
+description: RH Total v2 — Phase 1 Backend Migration Summary (reference)
+alwaysApply: false
+globs: 
+---
+
+# RH Total v2 — Resumen Phase 1: Migración Backend
+
+**Repositorio:** https://github.com/MiberBull/rhtotal-v2  
+**Branch:** `migration/phase-1-backend`  
+**PR:** https://github.com/MiberBull/rhtotal-v2/pull/1  
+**Fecha de inicio:** Febrero 2026  
+**Fecha de cierre:** 1 Marzo 2026  
+**Total de archivos modificados:** 289 (across 6 commits)  
+**Total de archivos Java en el proyecto:** 593  
+
+---
+
+## Tabla de Cambios por Servicio
+
+| Servicio | Puerto | Módulos | Archivos Java | Archivos Cambiados | Tipo de Migración | Fixes Específicos |
+|----------|--------|---------|---------------|--------------------|--------------------|-------------------|
+| `gateway-service` | 8000 | 1 | 4 | 11 | Zuul → Spring Cloud Gateway (rewrite reactivo) | CORS reactivo, logging filter reactivo, Swagger → SpringDoc WebFlux |
+| `security-service` | 8090 | 6 | 90 | 48 | Multi-module upgrade | javax→jakarta (persistence, mail, activation), regex @Api corrupta → restauración + line-matching seguro |
+| `eureka-service` | 8000 | 1 | 2 | 5 (nuevo) | Creado desde cero | No existía como servicio independiente; estaba embebido en gateway legacy |
+| `user-service` | 8092 | 6 | 105 | 51 | Multi-module upgrade | `HttpStatusCode` vs `HttpStatus` cast en `ResponseEntity.getStatusCode()` |
+| `application-service` | 8091 | 6 | 226 | ~60 | Multi-module upgrade | `@Test (expected=...)` con espacio — regex ajustado con `\s*` |
+| `fintech-service` | 8093 | 6 | 136 | ~60 | Multi-module upgrade | Import `org.apache.tomcat.jni.Local` eliminado (no existe en SB3), dependencia `org.json:json` agregada |
+| `paysheetsico-service` | 8094 | 6 | 30 | ~30 | Multi-module upgrade | Duplicados de `gson` con `version=RELEASE` limpiados |
+
+---
+
+## Stack Tecnológico: Antes vs Después
+
+| Componente | Antes (Legacy) | Después (v2) |
+|------------|----------------|--------------|
+| **Java** | 10 | 21 LTS |
+| **Spring Boot** | 2.0.3.RELEASE | 3.2.5 |
+| **Spring Cloud** | Finchley.RELEASE | 2023.0.1 |
+| **API Gateway** | Netflix Zuul (blocking) | Spring Cloud Gateway (reactive) |
+| **Service Discovery** | Embebido en gateway | Eureka Server standalone |
+| **Namespace** | javax.persistence / javax.mail | jakarta.persistence / jakarta.mail |
+| **API Docs** | Springfox Swagger 2.9 | SpringDoc OpenAPI 2.5 |
+| **Tests** | JUnit 4 | JUnit 5 (Jupiter) |
+| **Logging** | Log4j 1.x/2.x explícito | Logback (Spring Boot default) |
+| **ModelMapper** | rozidan/modelmapper-spring-boot-starter 1.0 | org.modelmapper 3.2.0 |
+| **PostgreSQL Driver** | 42.2.2 | 42.7.3 |
+| **H2 (test)** | 1.4.197 | 2.2.224 |
+| **Gson** | 2.8.5 | 2.10.1 |
+| **Hibernate Dialect** | PostgreSQL9Dialect | PostgreSQLDialect |
+| **AOP** | aspectj:aspectjweaver 1.5.4 | spring-boot-starter-aop |
+| **JAXB** | javax.xml:jaxb-api 2.1 | Eliminado (no requerido) |
+| **Credenciales** | Hardcoded en YAML | Variables de entorno con defaults |
+| **Maven Compiler** | source/target 10 | source/target/release 21 |
+
+---
+
+## Cambios Comunes Aplicados a TODOS los Servicios
+
+1. **POMs reescritos:** Versionamiento centralizado, BOM de Spring Boot 3.2.5 + Spring Cloud 2023.0.1
+2. **javax → jakarta:** `javax.persistence.*`, `javax.mail.*`, `javax.activation.*`, `javax.transaction.*`
+3. **Springfox → SpringDoc:** SwaggerConfig reescrito con `OpenAPI` bean
+4. **@EnableEurekaClient eliminado:** Solo se usa `@EnableDiscoveryClient`
+5. **Application.java limpiado:** Eliminado `ApplicationContext` iteration para bean names
+6. **JUnit 4 → 5:** `@RunWith` → `@ExtendWith`, `Assert` → `Assertions`, `@Ignore` → `@Disabled`
+7. **application.yml actualizado:** `PostgreSQLDialect`, springdoc + actuator endpoints, credenciales externalizadas
+8. **Test configs:** `initialization-mode` → `spring.sql.init.mode`, Eureka deshabilitado
+9. **Archivos eliminados:** `log4j.xml`, `.factorypath`, `META-INF/MANIFEST.MF`
+
+---
+
+## Errores Críticos Encontrados y Lecciones Aprendidas
+
+| Error | Servicio | Causa Raíz | Solución |
+|-------|----------|-------------|----------|
+| Regex corrupta method signatures | security-service | `s/@Api(.*?)//g` eliminó paréntesis de métodos en TOs | NUNCA usar regex en paréntesis; usar line-matching: `perl -ni -e 'print unless /^\@Api\(/'` |
+| `HttpStatusCode` incompatible | user-service | SB3 cambió `getStatusCode()` return type | Cast explícito: `(HttpStatus) response.getStatusCode()` |
+| `org.apache.tomcat.jni.Local` not found | fintech-service | API de Tomcat APR eliminada en SB3 | Eliminar import no utilizado |
+| `org.json` package not found | fintech-service | `android-json` eliminado; `org.json` no bundled en SB3 | Agregar dependencia explícita `org.json:json:20231013` |
+| `@Test (expected=...)` no capturado | application-service | Espacio entre `@Test` y `(` | Regex con `\s*`: `s/\@Test\s*\(expected\s*=\s*\w+\.class\)/\@Test/g` |
+| Maven compilando con Java 8 | security-service | `<java.version>` no basta para SB3 parent | Agregar explícitamente `maven.compiler.source/target/release=21` |
+| `git push` RPC 400 | all | Commit demasiado grande para HTTP buffer | `git config http.postBuffer 524288000` |
+
+---
+
+## Arquitectura de Puertos
+
+```
+:8000  ─── eureka-service (Service Discovery)
+:8000  ─── gateway-service (API Gateway / Router) 
+:8090  ─── security-service (Auth, JWT, Users)
+:8091  ─── application-service (Core Business)
+:8092  ─── user-service (Employee Management)
+:8093  ─── fintech-service (Financial Ops)
+:8094  ─── paysheetsico-service (Payroll/SICO)
+```
+
+---
+
+## Historial de Commits
+
+| # | Hash | Mensaje | Archivos |
+|---|------|---------|----------|
+| 1 | `c9dff4c` | Initial commit: RH Total baseline from legacy codebase | — |
+| 2 | `bc601cf` | Migrate gateway-service: Spring Boot 3.2 + Java 21 + Spring Cloud Gateway | 11 |
+| 3 | `539433d` | Migrate security-service: Spring Boot 3.2 + Java 21 + Jakarta EE | 48 |
+| 4 | `be4047b` | Add eureka-service: standalone Service Discovery (Spring Boot 3.2 + Java 21) | 5 |
+| 5 | `9ff2df8` | Migrate user-service: Spring Boot 3.2 + Java 21 + Jakarta EE | 51 |
+| 6 | `de9103b` | Migrate application, fintech, paysheetsico: Spring Boot 3.2 + Java 21 | 174 |
+| 7 | `59cf606` | Update migration rule: Phase 1 Backend COMPLETE | 1 |
+
+---
+
+## Próximas Fases
+
+- **Phase 2 — Frontend:** Ionic 3 → Ionic 7, Angular 5 → Angular 17+, Cordova → Capacitor
+- **Phase 3 — Infraestructura:** Docker Compose actualizado, CI/CD (Jenkins/GitHub Actions), AWS deployment

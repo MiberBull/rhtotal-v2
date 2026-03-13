@@ -3,15 +3,15 @@ package mx.com.axity.services.service;
 import mx.com.axity.commons.to.LogsResponseSicoTO;
 import mx.com.axity.model.LogsResponseSicoDO;
 import mx.com.axity.services.BaseTest;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.Assert;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 
 import java.time.LocalDateTime;
 
 public class LogsResponseSicoServiceTest extends BaseTest {
 
-    @Ignore("Falla al compilar")
+    @Disabled("Falla al compilar")
     @Test
     public void should_save_one_item() {
 
@@ -30,7 +30,7 @@ public class LogsResponseSicoServiceTest extends BaseTest {
         this.logsResponseSicoService.saveLogsResponseSicoTO(log);
 
         var objectSave = this.entityManager.find(LogsResponseSicoDO.class, log.getId());
-        Assert.assertEquals(objectSave.getDsUser(),log.getDsUser());
+        Assertions.assertEquals(objectSave.getDsUser(),log.getDsUser());
 
     }
 

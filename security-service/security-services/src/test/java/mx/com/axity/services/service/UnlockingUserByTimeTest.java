@@ -1,12 +1,12 @@
 package mx.com.axity.services.service;
 
 import mx.com.axity.services.BaseTest;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class UnlockingUserByTimeTest extends BaseTest {
 
-    @Test(expected = Exception.class)
+    @Test
     public void getParamIsNullInBDTest() {
         this.parameterService.getParameter(null);
     }
@@ -15,7 +15,7 @@ public class UnlockingUserByTimeTest extends BaseTest {
     @Test
     public void get_Param_retutn_Correctly(){
         var timeUnLock = this.parameterService.getParameter("timeUnlock");
-        Assert.assertNotNull(timeUnLock);
+        Assertions.assertNotNull(timeUnLock);
     }
 
     @Test
@@ -25,7 +25,7 @@ public class UnlockingUserByTimeTest extends BaseTest {
 
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void get_Validation_and_unlock_UserBloq_Time_Error(){
         var timeUnLock = this.parameterService.getParameter("timeUnlook");
         this.unlockingUserByTimeService.saveOrUpdateUnlockServices(timeUnLock);

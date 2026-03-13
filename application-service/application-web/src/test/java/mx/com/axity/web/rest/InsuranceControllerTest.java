@@ -2,24 +2,24 @@ package mx.com.axity.web.rest;
 
 import mx.com.axity.commons.to.InsuranceTO;
 import mx.com.axity.web.BaseTest;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
-@Ignore("")
+@Disabled("")
 public class InsuranceControllerTest extends BaseTest {
     @Test
     public void getInsuranceCarrierTest() {
         //var insuranceCarrier = this.insuranceFacadeTest.getInsuranceCarrier();
-        //Assert.assertNotNull(insuranceCarrier);
+        //Assertions.assertNotNull(insuranceCarrier);
     }
 
     @Test
     public void getInsuranceTypeTest() {
         //var insuranceType = this.insuranceFacadeTest.getInsuranceType();
-        //Assert.assertNotNull(insuranceType);
+        //Assertions.assertNotNull(insuranceType);
     }
-    @Ignore("")
+    @Disabled("")
     @Test
     public void saveOrUpdateInsuranceTest() {
         InsuranceTO insuranceTO = new InsuranceTO();
@@ -45,19 +45,19 @@ public class InsuranceControllerTest extends BaseTest {
         insuranceTO.setCreationDate(LocalDate.now());
         insuranceTO.setActive(Boolean.TRUE);
         //var isSave = this.insuranceFacadeTest.saveOrUpdateInsurance(insuranceTO);
-        //Assert.assertTrue(isSave);
+        //Assertions.assertTrue(isSave);
     }
 
     @Test
     public void getInsuranceTest() {
         //var insurance = this.insuranceFacadeTest.getInsurance(1);
-        //Assert.assertNotNull(insurance);
+        //Assertions.assertNotNull(insurance);
     }
 
 
     @Test
     public void getPagedInsuranceTest() {
         //var pagedInsurance = this.insuranceFacadeTest.getPagedInsurance(0);
-        //Assert.assertNotNull(pagedInsurance);
+        //Assertions.assertNotNull(pagedInsurance);
     }
 }

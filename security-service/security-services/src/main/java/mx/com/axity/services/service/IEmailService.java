@@ -2,8 +2,8 @@ package mx.com.axity.services.service;
 
 import mx.com.axity.commons.to.EmailContentTO;
 import org.springframework.mail.javamail.JavaMailSender;
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import java.io.IOException;
 
 public interface IEmailService {

@@ -2,8 +2,8 @@ package mx.com.axity.services.service;
 
 import mx.com.axity.commons.to.JobsHistoryTO;
 import mx.com.axity.services.BaseTest;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ public class JobsServiceTest extends BaseTest {
 
         this.jobsHistoryServiceTest.saveOrUpdateHistoryEmployee(list);
         var isSave = this.jobsHistoryDAOTest.findById((long)1);
-        Assert.assertNotNull(isSave);
+        Assertions.assertNotNull(isSave);
 
     }
 

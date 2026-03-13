@@ -437,7 +437,7 @@ public class userServiceImpl implements IuserService {
 
             String responseBody =  decodeCharacter(response.getBody());
 
-            responseStatus = serializeSicoCall(responseBody, response.getStatusCode());
+            responseStatus = serializeSicoCall(responseBody, (HttpStatus) response.getStatusCode());
             return responseStatus;
         } catch (HttpClientErrorException e) {
             LOG.info(String.format("Error dentro de SERVICE.getDataFromSico: %s", e.getMessage()));

@@ -3,8 +3,8 @@ package mx.com.axity.web.rest;
 import mx.com.axity.commons.to.totree.CompoundCustomerTO;
 import mx.com.axity.commons.to.CustomerTO;
 import mx.com.axity.web.BaseTest;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -28,12 +28,12 @@ public class ClienteControllerTest extends BaseTest {
         to.setActive(Boolean.FALSE);
         customer.setCustomer(to);
         var isSaveClientTest = this.clienteFacadeTest.addOrUpdateCliente(customer);
-        Assert.assertTrue(isSaveClientTest);
+        Assertions.assertTrue(isSaveClientTest);
     }
 
     @Test
     public void getClientTest(){
         var getTest = this.clienteFacadeTest.getCustomer(1);
-       Assert.assertNotNull(getTest);
+       Assertions.assertNotNull(getTest);
     }
 }

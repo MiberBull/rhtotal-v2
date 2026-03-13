@@ -1,8 +1,8 @@
 package mx.com.axity.services.client;
 
 import mx.com.axity.services.BaseTest;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class SicoAdapterTest extends BaseTest {
 
@@ -13,6 +13,6 @@ public class SicoAdapterTest extends BaseTest {
 
         String result = this.sicoAdapter.get("https://nominaenlanube.com:8085/api-nomen/v1/get_empleado/laragtz@prueba.com");
 
-        Assert.assertEquals(resultMock, result);
+        Assertions.assertEquals(resultMock, result);
     }
 }

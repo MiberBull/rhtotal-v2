@@ -2,7 +2,7 @@ package mx.com.axity.model;
 
 import org.springframework.lang.Nullable;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity

@@ -1,8 +1,8 @@
 package mx.com.axity.web.rest;
 
 import mx.com.axity.web.BaseTest;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class EmployeeResourceTest extends BaseTest {
 
@@ -13,7 +13,7 @@ public class EmployeeResourceTest extends BaseTest {
 
         var users = this.paysheetsicoFacade.getAllUsers();
 
-        Assert.assertEquals(1, users.size());
+        Assertions.assertEquals(1, users.size());
         */
     }
 }

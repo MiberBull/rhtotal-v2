@@ -1,6 +1,5 @@
 package mx.com.axity.web.rest;
 
-import io.swagger.annotations.Api;
 import mx.com.axity.commons.to.CompanyInformationTO;
 import mx.com.axity.services.facade.ICompanyInformationFacade;
 import org.apache.logging.log4j.LogManager;
@@ -15,7 +14,6 @@ import java.util.*;
 @CrossOrigin(origins = "*", allowedHeaders = "*", allowCredentials = "true")
 @RestController
 @RequestMapping("companyInformation")
-@Api(value="companyInformation", description = "Operaciones con CompanyInformation")
 public class CompanyInformationController {
 
     final static Logger LOG = LogManager.getLogger(CompanyInformationController.class);

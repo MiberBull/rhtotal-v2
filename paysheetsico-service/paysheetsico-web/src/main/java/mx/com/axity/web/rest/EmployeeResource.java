@@ -1,6 +1,5 @@
 package mx.com.axity.web.rest;
 
-import io.swagger.annotations.Api;
 import mx.com.axity.commons.exceptions.BusinessException;
 import mx.com.axity.commons.to.AnswerSICOTO;
 import mx.com.axity.commons.to.NotificaTransferenciaTO;
@@ -25,7 +24,6 @@ import java.util.Calendar;
 @CrossOrigin(origins = "*", allowedHeaders = "*", allowCredentials = "true")
 @RestController
 @RequestMapping("sico")
-@Api(value="paysheetsico", description="Operaciones con paysheetsico")
 public class EmployeeResource {
 
     static final Logger LOG = LogManager.getLogger(EmployeeResource.class);

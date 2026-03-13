@@ -2,8 +2,8 @@ package mx.com.axity.web.rest;
 
 import mx.com.axity.commons.to.NotificationTO;
 import mx.com.axity.web.BaseTest;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
@@ -22,18 +22,18 @@ public class NotificationControllerTest extends BaseTest {
         notificationTO.setCreationDate(LocalDateTime.now());
         notificationTO.setActive(Boolean.TRUE);
       //  var isSave = this.notificationFacadeTest.saveOrUpdateNotification(notificationTO);
-   //     Assert.assertTrue(isSave);
+   //     Assertions.assertTrue(isSave);
     }
 
     @Test
     public void getPagedNotificationTest() {
         var pagedNotification = this.notificationFacadeTest.getPagedNotification(0, "enviado","","","","");
-        Assert.assertNotNull(pagedNotification);
+        Assertions.assertNotNull(pagedNotification);
     }
 
     @Test
     public void getNotificationTest() {
         var notification = this.notificationFacadeTest.getNotification(1);
-        Assert.assertNotNull(notification);
+        Assertions.assertNotNull(notification);
     }
 }

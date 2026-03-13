@@ -1,6 +1,5 @@
 package mx.com.axity.web.rest;
 
-import io.swagger.annotations.Api;
 import mx.com.axity.commons.to.*;
 import mx.com.axity.services.facade.IRolUserFacade;
 import org.apache.logging.log4j.Logger;
@@ -15,7 +14,6 @@ import java.util.List;
 @CrossOrigin(origins = "*", allowedHeaders = "*", allowCredentials = "true")
 @RestController
 @RequestMapping("role")
-@Api(value = "role", description = "Operaciones con roles")
 public class RoleController {
 
     final static Logger LOG = LogManager.getLogger(RoleController.class);

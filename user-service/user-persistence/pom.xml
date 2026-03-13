@@ -29,17 +29,8 @@
             <artifactId>postgresql</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-        </dependency>
-        <dependency>
             <groupId>mx.com.axity</groupId>
             <artifactId>user-commons</artifactId>
         </dependency>
     </dependencies>
-
 </project>

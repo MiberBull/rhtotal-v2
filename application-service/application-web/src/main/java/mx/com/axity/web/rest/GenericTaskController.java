@@ -1,6 +1,5 @@
 package mx.com.axity.web.rest;
 
-import io.swagger.annotations.Api;
 import mx.com.axity.commons.to.InfoExcelTO;
 import mx.com.axity.commons.to.totree.ExcelGenericFormatExportTO;
 import mx.com.axity.commons.to.HeadersGenericTO;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*", allowedHeaders = "*", allowCredentials = "true")
 @RestController
 @RequestMapping("generic")
-@Api(value="generic", description="Operaciones con Client")
 public class GenericTaskController {
 
     final static Logger LOG = LogManager.getLogger(GenericTaskController.class);

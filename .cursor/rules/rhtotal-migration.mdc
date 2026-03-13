@@ -1,0 +1,73 @@
+---
+description: RH Total v2 migration patterns - Spring Boot 2→3, Java 10→21
+alwaysApply: true
+---
+
+# RH Total Backend Migration Guide
+
+## Project Context
+Monorepo at `/Users/robertoesparza/Dev/rhtotal-v2/` with multi-module Maven services.
+GitHub: `https://github.com/MiberBull/rhtotal-v2` — branch `migration/phase-1-backend`.
+PR: https://github.com/MiberBull/rhtotal-v2/pull/1
+
+## Migration Status — Phase 1 Backend: COMPLETE
+- gateway-service: DONE
+- security-service: DONE (48 files)
+- eureka-service: DONE (new standalone service, was embedded in gateway)
+- user-service: DONE (51 files)
+- application-service: DONE (174 files — batch with fintech + paysheetsico)
+- fintech-service: DONE (174 files — batch)
+- paysheetsico-service: DONE (174 files — batch)
+
+## Target Stack
+- Spring Boot 3.2.5, Java 21, Spring Cloud 2023.0.1
+- Jakarta EE (jakarta.persistence, jakarta.mail), SpringDoc OpenAPI 2.5
+- JUnit 5, ModelMapper 3.2, PostgreSQL 42.7, H2 2.2
+
+## Migration Recipe (per multi-module service)
+
+### 1. Rewrite all POMs
+Parent: Set `maven.compiler.source/target/release=21`, import Spring Boot 3.2.5 BOM + Spring Cloud 2023.0.1 BOM.
+Remove: log4j, aspectjweaver, springfox, jaxb-api, modelmapper-spring-boot-starter.
+Add: spring-boot-starter-aop (commons), springdoc-openapi-starter-webmvc-ui (web), modelmapper 3.2, actuator.
+
+### 2. Safe bulk replacements (import lines only!)
+```bash
+find . -name "*.java" -exec perl -pi -e 's/import javax\.persistence\./import jakarta.persistence./g' {} +
+find . -name "*.java" -exec perl -pi -e 's/import javax\.mail\./import jakarta.mail./g' {} +
+find . -name "*.java" -exec perl -pi -e 's/import javax\.activation\./import jakarta.activation./g' {} +
+find . -name "*.java" -exec perl -pi -e 's/import javax\.transaction\./import jakarta.transaction./g' {} +
+```
+NEVER use regex on parentheses (e.g. `@Api(...)`) — it corrupts method signatures in TOs.
+For @Api removal, use line-matching: `perl -ni -e 'print unless /^import io\.swagger/' file`
+
+### 3. Rewrite key files manually
+- Application.java: Remove @EnableEurekaClient, keep @EnableDiscoveryClient
+- SwaggerConfig.java: Rewrite with SpringDoc OpenAPI bean
+- application.yml: PostgreSQLDialect, externalize DB/Eureka creds, add springdoc + actuator
+
+### 4. Delete artifacts
+log4j.xml (all modules), .factorypath, META-INF/MANIFEST.MF
+
+### 5. Migrate tests
+JUnit 4→5: @RunWith→@ExtendWith, org.junit→org.junit.jupiter.api, Assert→Assertions, @Ignore→@Disabled, remove @Test(expected=...)
+Use `\s*` in regex for @Test(expected) to handle spaces: `s/\@Test\s*\(expected\s*=\s*\w+\.class\)/\@Test/g`
+
+### 6. Spring Boot 3 breaking changes to watch
+- `HttpStatusCode` vs `HttpStatus`: cast needed at `response.getStatusCode()`
+- `initialization-mode` → `spring.sql.init.mode` in test yml
+- `PostgreSQL9Dialect` → `PostgreSQLDialect`
+- `javax.crypto.*` stays unchanged (it's JDK, not Jakarta EE)
+- `org.apache.tomcat.jni.Local` — removed in SB3; was unused import in fintech
+- `org.json.JSONObject` — needs explicit `org.json:json` dependency (not bundled)
+
+### 7. Compile, commit, push
+```bash
+export JAVA_HOME="/usr/local/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home"
+mvn clean package -DskipTests
+git add <service>/ && git commit && git push origin migration/phase-1-backend
+```
+
+## Next Phases
+- Phase 2: Frontend (Ionic 3 → Ionic 7, Angular 5 → Angular 17+, Cordova → Capacitor)
+- Phase 3: Infrastructure (Docker Compose, CI/CD, AWS)
