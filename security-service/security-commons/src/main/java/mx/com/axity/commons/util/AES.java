@@ -13,7 +13,9 @@ import java.util.Base64;
 
 public class AES {
 
-    private static final String secret = "megustanlaschicascongafas";
+    private static final String secret = System.getenv("AES_SECRET_KEY") != null
+        ? System.getenv("AES_SECRET_KEY")
+        : "MISSING_AES_KEY";
 
     public static byte[][] GenerateKeyAndIV(
             int keyLength, int ivLength, int iterations, byte[] salt,
