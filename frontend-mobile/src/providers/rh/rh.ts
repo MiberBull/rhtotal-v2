@@ -6,31 +6,24 @@ import { PATH_USER, KEYS_STORAGE } from '../../environments/environments';
 
 @Injectable()
 export class RhProvider {
-
-  constructor(public http: HttpClient,private storage_provider: StorageProvider) {
-    
-  }
+  constructor(
+    public http: HttpClient,
+    private storage_provider: StorageProvider
+  ) {}
 
   getInfoActualPosition() {
-    let idUser = this.storage_provider.getItem(KEYS_STORAGE.USER).id;
-    let URL = `${PATH_USER.DOMAIN}/${PATH_USER.ACTUAL_POSITION}?idUser=${idUser}`;
+    const idUser = this.storage_provider.getItem(KEYS_STORAGE.USER).id;
+    const URL = `${PATH_USER.DOMAIN}/${PATH_USER.ACTUAL_POSITION}?idUser=${idUser}`;
     return this.http.get(URL).timeout(10000).catch(this.handleError);
   }
 
-  getPaymentDetails( mount:string,year:string ) {
-      let idUser = this.storage_provider.getItem(KEYS_STORAGE.USER).id;
-      let URL = `${PATH_USER.DOMAIN}/${PATH_USER.PAYMENT_DETAILS}?idUser=${idUser}&mounth=${mount}&year=${year}`;
-      return this.http.get(URL).timeout(10000).catch(this.handleError);
-  }
-
-  getListCfdiByMount( mount:string,year:string ) {
-    let idUser = this.storage_provider.getItem(KEYS_STORAGE.USER).id;
-      let URL = `${PATH_USER.DOMAIN}/${PATH_USER.CFDI}?idUser=${idUser}&mounth=${mount}&year=${year}`;
-      return this.http.get(URL).timeout(5000).catch(this.handleError);
+  getListCfdiByMount(mount: string, year: string) {
+    const idUser = this.storage_provider.getItem(KEYS_STORAGE.USER).id;
+    const URL = `${PATH_USER.DOMAIN}/${PATH_USER.CFDI}?idUser=${idUser}&mounth=${mount}&year=${year}`;
+    return this.http.get(URL).timeout(5000).catch(this.handleError);
   }
 
   handleError(error: any) {
     return Observable.throw(error);
   }
-
 }
