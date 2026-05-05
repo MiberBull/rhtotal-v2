@@ -3387,7 +3387,7 @@
     </changeSet>
     <changeSet author="Ivette Gonzalez" id="1536359063772-191">
         <modifyDataType catalogName="k_insurance"
-            columnName="ds_title_notification "
+            columnName="ds_title_notification"
             newDataType="varchar(250)"
             schemaName="public"
             tableName="k_insurance"/>
@@ -4476,7 +4476,7 @@
             columnName="ds_street"
             newDataType="varchar(150)"
             schemaName="public"
-            tableName="k_employee_address  "/>
+            tableName="k_employee_address"/>
         </changeSet>
         <changeSet  author="igonzalez (generated)" id="1536359063772-253" >
             <update catalogName="w_config_email"
@@ -4694,11 +4694,7 @@
                                  onUpdate="NO ACTION" 
                                  referencedColumnNames="id_user" 
                                  referencedTableName="k_user"/>
-          <modifyDataType catalogName="c_table_name_weighing"
-            columnName="ds_table_name_weighing"
-            newDataType="varchar(50)"
-            schemaName="public"
-            tableName="c_table_name_weighing"/>
+          <!-- Removed: c_table_name_weighing table does not exist -->
     </changeSet>
     <changeSet author="igonzalez (generated)" id="1536359063772-261">
          <modifyDataType catalogName="c_weighing"

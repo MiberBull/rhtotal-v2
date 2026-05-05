@@ -1,0 +1,82 @@
+<div class="role-form-page">
+  <!-- Page Header -->
+  <div class="page-header">
+    <button mat-icon-button (click)="onCancel()" class="back-button">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h1>{{ isEdit() ? 'Editar Rol' : 'Nuevo Rol' }}</h1>
+  </div>
+
+  @if (loading()) {
+    <div class="loading-container">
+      <mat-spinner diameter="40"></mat-spinner>
+      <span class="loading-text">Cargando rol...</span>
+    </div>
+  } @else {
+    <div class="form-card">
+      <form [formGroup]="form" (ngSubmit)="onSave()">
+        <!-- Nombre del Rol -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Nombre del Rol</mat-label>
+          <input matInput formControlName="nameRole" placeholder="Ej: Administrador" />
+          @if (form.get('nameRole')?.hasError('required') && form.get('nameRole')?.touched) {
+            <mat-error>El nombre del rol es requerido.</mat-error>
+          }
+        </mat-form-field>
+
+        <!-- Descripcion -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Descripcion</mat-label>
+          <textarea
+            matInput
+            formControlName="description"
+            placeholder="Descripcion del rol..."
+            rows="3"
+          ></textarea>
+        </mat-form-field>
+
+        <!-- Estado -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Estado</mat-label>
+          <mat-select formControlName="status">
+            <mat-option value="A">Activo</mat-option>
+            <mat-option value="I">Inactivo</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Permisos (JSON) -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Permisos (JSON)</mat-label>
+          <textarea
+            matInput
+            formControlName="permissions"
+            class="json-textarea"
+            rows="10"
+            placeholder='[{"menu": "dashboard", "actions": ["read", "write"]}]'
+          ></textarea>
+          <mat-hint>
+            Formato: [{{ '{' }}"menu": "nombre", "actions": ["read", "write"]{{ '}' }}]
+          </mat-hint>
+        </mat-form-field>
+
+        <!-- Actions -->
+        <div class="form-actions">
+          <button mat-button type="button" (click)="onCancel()">Cancelar</button>
+          <button
+            mat-flat-button
+            color="primary"
+            type="submit"
+            [disabled]="saving()"
+          >
+            @if (saving()) {
+              <mat-spinner diameter="20" class="button-spinner"></mat-spinner>
+            } @else {
+              <mat-icon>save</mat-icon>
+            }
+            {{ isEdit() ? 'Actualizar' : 'Guardar' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  }
+</div>

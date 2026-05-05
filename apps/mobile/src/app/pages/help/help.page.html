@@ -1,0 +1,70 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Ayuda</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- FAQ Section -->
+  <div class="faq-section">
+    <h3>Preguntas frecuentes</h3>
+    <ion-accordion-group>
+      <ion-accordion *ngFor="let faq of faqs; let i = index" [value]="'faq-' + i">
+        <ion-item slot="header">
+          <ion-icon name="help-circle-outline" slot="start" color="primary"></ion-icon>
+          <ion-label class="ion-text-wrap">{{ faq.question }}</ion-label>
+        </ion-item>
+        <div class="ion-padding" slot="content">
+          <p class="faq-answer">{{ faq.answer }}</p>
+        </div>
+      </ion-accordion>
+    </ion-accordion-group>
+  </div>
+
+  <!-- Contact Section -->
+  <div class="contact-section" *ngIf="companyInfo">
+    <h3>Contacto</h3>
+    <ion-card class="contact-card">
+      <ion-card-content>
+        <ion-list lines="none">
+          <ion-item *ngIf="companyInfo.phone" (click)="callSupport()" detail>
+            <ion-icon name="call-outline" slot="start" color="primary"></ion-icon>
+            <ion-label>
+              <p class="contact-label">Telefono</p>
+              <h3>{{ companyInfo.phone }}</h3>
+            </ion-label>
+          </ion-item>
+          <ion-item *ngIf="companyInfo.email" (click)="emailSupport()" detail>
+            <ion-icon name="mail-outline" slot="start" color="primary"></ion-icon>
+            <ion-label>
+              <p class="contact-label">Correo</p>
+              <h3>{{ companyInfo.email }}</h3>
+            </ion-label>
+          </ion-item>
+          <ion-item *ngIf="companyInfo.address">
+            <ion-icon name="location-outline" slot="start" color="primary"></ion-icon>
+            <ion-label class="ion-text-wrap">
+              <p class="contact-label">Direccion</p>
+              <h3>{{ companyInfo.address }}</h3>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Support button -->
+  <div class="action-buttons" *ngIf="companyInfo?.phone || companyInfo?.email">
+    <ion-button expand="block" (click)="callSupport()" *ngIf="companyInfo?.phone">
+      <ion-icon name="call-outline" slot="start"></ion-icon>
+      Contactar soporte
+    </ion-button>
+    <ion-button expand="block" fill="outline" (click)="emailSupport()" *ngIf="companyInfo?.email">
+      <ion-icon name="mail-outline" slot="start"></ion-icon>
+      Enviar correo
+    </ion-button>
+  </div>
+</ion-content>

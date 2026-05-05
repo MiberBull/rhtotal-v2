@@ -1,0 +1,76 @@
+<div class="tab-content">
+  <form [formGroup]="form" (ngSubmit)="onSave()">
+    <div class="form-grid">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Calle</mat-label>
+        <input matInput formControlName="street" />
+        @if (form.controls.street.hasError('required') && form.controls.street.touched) {
+          <mat-error>La calle es obligatoria</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Numero Exterior</mat-label>
+        <input matInput formControlName="exteriorNumber" />
+        @if (form.controls.exteriorNumber.hasError('required') && form.controls.exteriorNumber.touched) {
+          <mat-error>Numero exterior obligatorio</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Numero Interior</mat-label>
+        <input matInput formControlName="interiorNumber" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Colonia</mat-label>
+        <input matInput formControlName="colony" />
+        @if (form.controls.colony.hasError('required') && form.controls.colony.touched) {
+          <mat-error>La colonia es obligatoria</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Codigo Postal</mat-label>
+        <input matInput formControlName="postalCode" maxlength="5" />
+        @if (form.controls.postalCode.hasError('required') && form.controls.postalCode.touched) {
+          <mat-error>El codigo postal es obligatorio</mat-error>
+        }
+        @if (form.controls.postalCode.hasError('pattern') && form.controls.postalCode.touched) {
+          <mat-error>Debe ser un codigo postal de 5 digitos</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Ciudad</mat-label>
+        <input matInput formControlName="city" />
+        @if (form.controls.city.hasError('required') && form.controls.city.touched) {
+          <mat-error>La ciudad es obligatoria</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Estado</mat-label>
+        <input matInput formControlName="state" />
+        @if (form.controls.state.hasError('required') && form.controls.state.touched) {
+          <mat-error>El estado es obligatorio</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Pais</mat-label>
+        <input matInput formControlName="country" />
+      </mat-form-field>
+    </div>
+
+    <div class="form-actions">
+      <button mat-flat-button color="primary" type="submit" [disabled]="saving()">
+        @if (saving()) {
+          <mat-spinner diameter="20"></mat-spinner>
+        } @else {
+          Guardar
+        }
+      </button>
+    </div>
+  </form>
+</div>

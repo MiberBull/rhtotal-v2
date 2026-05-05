@@ -99,28 +99,8 @@ export class LocalStorageService{
         return nameVar;  
     }
 
-    getVarStorageFintechAdvance(tab:number){
-        return VAR_FINTECH_ADVANCE_STORAGE[tab];
-    }
 
-    getVarStorageFintechVeloCash(tab: number){
-        return VAR_FINTECH_VELOCASH_STORAGE[tab];
-    }
-
-    
 }
-
-export const VAR_FINTECH_ADVANCE_STORAGE = {
-    0:"fintechAdvanceEs",
-    1:"fintechAdvanceAp",
-    2:"fintechAdvanceR"
-};
-
-export const VAR_FINTECH_VELOCASH_STORAGE = {
-    0: "fintechVeloCashEs",
-    1: "fintechVeloCashAp",
-    2: "fintechVeloCashR"
-};
 
 export const RUTAS = [
     {"name":"bannerLocal","root":"/home/banners"},

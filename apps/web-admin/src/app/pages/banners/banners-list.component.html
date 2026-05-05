@@ -1,0 +1,72 @@
+<div class="banners-list-page">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-info">
+      <h1>Banners</h1>
+      <p class="subtitle">Gestiona los banners de la plataforma.</p>
+    </div>
+    <button mat-flat-button color="primary" (click)="navigateToNew()">
+      <mat-icon>add</mat-icon>
+      Nuevo Banner
+    </button>
+  </div>
+
+  @if (loading()) {
+    <div class="loading-container">
+      <mat-spinner diameter="40"></mat-spinner>
+      <span class="loading-text">Cargando banners...</span>
+    </div>
+  } @else {
+    @if (banners().length === 0) {
+      <div class="empty-state">
+        <mat-icon>image</mat-icon>
+        <h3>No se encontraron banners</h3>
+        <p>Aun no hay banners registrados.</p>
+      </div>
+    } @else {
+      <div class="banners-grid">
+        @for (banner of banners(); track banner.idBanner) {
+          <div class="banner-card" (click)="navigateToEdit(banner)">
+            <div class="banner-image-container">
+              @if (getBannerImageUrl(banner)) {
+                <img [src]="getBannerImageUrl(banner)" [alt]="banner.name" class="banner-image" />
+              } @else {
+                <div class="banner-placeholder">
+                  <mat-icon>image</mat-icon>
+                </div>
+              }
+              <div class="banner-overlay">
+                <button
+                  mat-mini-fab
+                  color="primary"
+                  matTooltip="Editar"
+                  (click)="navigateToEdit(banner); $event.stopPropagation()"
+                >
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button
+                  mat-mini-fab
+                  color="warn"
+                  matTooltip="Eliminar"
+                  (click)="confirmDelete(banner, $event)"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+            <div class="banner-info">
+              <span class="banner-name">{{ banner.name || 'Sin nombre' }}</span>
+              <span
+                class="status-chip"
+                [class.status-active]="banner.status === 'A'"
+                [class.status-inactive]="banner.status === 'I'"
+              >
+                {{ getStatusLabel(banner.status) }}
+              </span>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  }
+</div>

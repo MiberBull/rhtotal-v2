@@ -41,6 +41,7 @@ export class DbStorageRhtotalProvider {
   }
 
   getAll(sentence: string) {
+    if (!this.db) { return Promise.resolve([]); }
     return this.db.executeSql(sentence, []).then(data => {
       let results = [];
       for (let i = 0; i < data.rows.length; i++) {
@@ -52,9 +53,10 @@ export class DbStorageRhtotalProvider {
 
 
   getAllByParameter(sentence: string,param:any[]) {
+    if (!this.db) { return Promise.reject(new Error('No database available')); }
     return this.db.executeSql(sentence, param).then(data => {
       let results = [];
-      
+
       for (let i = 0; i < data.rows.length; i++) {
         results.push(data.rows.item(i));
       }
@@ -70,7 +72,7 @@ export class DbStorageRhtotalProvider {
   }
 
   saveOrUpdate(query: string, values: any[]) {
-    
+    if (!this.db) { return Promise.resolve(null); }
     return this.db.executeSql(query, values).then(data => {
       if(data.rows.length > 0){
         return data.rows.item(0).value;
@@ -81,10 +83,12 @@ export class DbStorageRhtotalProvider {
   }
 
   remove(query:string ,key: any[]) {
+    if (!this.db) { return Promise.resolve(null); }
     return this.db.executeSql(query, [key]);
   }
 
   removeAll(query:string) {
+    if (!this.db) { return Promise.resolve(null); }
     return this.db.executeSql(query, []);
   }
 

@@ -62,7 +62,7 @@ public class LoginFacadeImpl implements ILoginFacade {
                 return respuestaBlock;
             }
 
-            if (login.getBlock() && EnumUserStatus.ACTIVE_STATUS.getStatus().equalsIgnoreCase(user.getUserStatus())) {
+            if (Boolean.TRUE.equals(login.getBlock()) && EnumUserStatus.ACTIVE_STATUS.getStatus().equalsIgnoreCase(user.getUserStatus())) {
 
                 user.setUserStatus(EnumUserStatus.BLOCKED_STATUS.getStatus());
                 user.setLastModification(LocalDateTime.now());
@@ -118,7 +118,7 @@ public class LoginFacadeImpl implements ILoginFacade {
                 return respuestaBlock;
             }
 
-            if (login.getBlock() && EnumUserStatus.ACTIVE_STATUS.getStatus().equalsIgnoreCase(role.getStatus())) {
+            if (Boolean.TRUE.equals(login.getBlock()) && EnumUserStatus.ACTIVE_STATUS.getStatus().equalsIgnoreCase(role.getStatus())) {
                 role.setStatus(EnumUserStatus.BLOCKED_STATUS.getStatus());
                 role.setLastModification(LocalDateTime.now());
                 this.loginService.updateRoleUser(role);

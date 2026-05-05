@@ -1,0 +1,227 @@
+<div class="discount-form-page">
+  <!-- Page Header -->
+  <div class="page-header">
+    <button mat-icon-button (click)="onCancel()" class="back-button">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h1>{{ isEdit() ? 'Editar Beneficio' : 'Nuevo Beneficio' }}</h1>
+  </div>
+
+  @if (loading()) {
+    <div class="loading-container">
+      <mat-spinner diameter="40"></mat-spinner>
+      <span class="loading-text">Cargando beneficio...</span>
+    </div>
+  } @else {
+    <div class="form-card">
+      <mat-tab-group animationDuration="200ms">
+        <!-- Tab 1: Informacion del Descuento -->
+        <mat-tab label="Informacion del Descuento">
+          <div class="tab-content">
+            <form [formGroup]="form">
+              <div class="form-grid">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Nombre</mat-label>
+                  <input matInput formControlName="name" placeholder="Nombre del beneficio" />
+                  @if (form.get('name')?.hasError('required') && form.get('name')?.touched) {
+                    <mat-error>El nombre es requerido.</mat-error>
+                  }
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Descripcion</mat-label>
+                  <textarea
+                    matInput
+                    formControlName="description"
+                    placeholder="Descripcion del beneficio..."
+                    rows="3"
+                  ></textarea>
+                </mat-form-field>
+
+                <div class="form-row">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Porcentaje de Descuento</mat-label>
+                    <input
+                      matInput
+                      type="number"
+                      formControlName="discountPercentage"
+                      placeholder="0"
+                      min="0"
+                      max="100"
+                    />
+                    <span matSuffix>%</span>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline">
+                    <mat-label>Proveedor</mat-label>
+                    <input matInput formControlName="provider" placeholder="Nombre del proveedor" />
+                  </mat-form-field>
+                </div>
+
+                <div class="form-row">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Telefono</mat-label>
+                    <input matInput formControlName="phone" placeholder="Telefono de contacto" />
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline">
+                    <mat-label>Email</mat-label>
+                    <input matInput formControlName="email" placeholder="correo@proveedor.com" />
+                    @if (form.get('email')?.hasError('email') && form.get('email')?.touched) {
+                      <mat-error>Ingresa un email valido.</mat-error>
+                    }
+                  </mat-form-field>
+                </div>
+
+                <div class="form-row">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Sitio Web</mat-label>
+                    <input matInput formControlName="website" placeholder="https://..." />
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline">
+                    <mat-label>Direccion</mat-label>
+                    <input matInput formControlName="address" placeholder="Direccion fisica" />
+                  </mat-form-field>
+                </div>
+
+                <div class="form-row">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Categoria</mat-label>
+                    <mat-select
+                      formControlName="idCategory"
+                      (selectionChange)="onCategoryChange($event.value)"
+                    >
+                      @for (cat of categories(); track cat.idCategory ?? cat.id ?? $index) {
+                        <mat-option [value]="cat.idCategory ?? cat.id">{{ cat.name }}</mat-option>
+                      }
+                    </mat-select>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline">
+                    <mat-label>Subcategoria</mat-label>
+                    <mat-select formControlName="idSubcategory">
+                      @for (sub of subcategories(); track sub.idSubcategory ?? sub.id ?? $index) {
+                        <mat-option [value]="sub.idSubcategory ?? sub.id">{{ sub.name }}</mat-option>
+                      }
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <div class="form-row">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Valido desde</mat-label>
+                    <input matInput [matDatepicker]="pickerFrom" formControlName="validFrom" />
+                    <mat-datepicker-toggle matIconSuffix [for]="pickerFrom"></mat-datepicker-toggle>
+                    <mat-datepicker #pickerFrom></mat-datepicker>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline">
+                    <mat-label>Valido hasta</mat-label>
+                    <input matInput [matDatepicker]="pickerUntil" formControlName="validUntil" />
+                    <mat-datepicker-toggle matIconSuffix [for]="pickerUntil"></mat-datepicker-toggle>
+                    <mat-datepicker #pickerUntil></mat-datepicker>
+                  </mat-form-field>
+                </div>
+
+                <mat-form-field appearance="outline" class="status-field">
+                  <mat-label>Estado</mat-label>
+                  <mat-select formControlName="status">
+                    <mat-option value="A">Activo</mat-option>
+                    <mat-option value="I">Inactivo</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <!-- Image Upload -->
+                <div class="upload-section">
+                  <label class="upload-label">Imagen principal</label>
+                  <div
+                    class="drop-zone"
+                    (dragover)="onDragOver($event)"
+                    (drop)="onDrop($event)"
+                    (click)="fileInput.click()"
+                  >
+                    @if (imagePreview()) {
+                      <img [src]="imagePreview()" alt="Preview" class="preview-image" />
+                    } @else {
+                      <mat-icon>cloud_upload</mat-icon>
+                      <p>Arrastra una imagen o haz clic para seleccionar</p>
+                    }
+                    <input
+                      #fileInput
+                      type="file"
+                      accept="image/*"
+                      (change)="onFileSelected($event)"
+                      hidden
+                    />
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </mat-tab>
+
+        <!-- Tab 2: Imagenes -->
+        <mat-tab label="Imagenes">
+          <div class="tab-content">
+            <div class="tab-header">
+              <p class="tab-description">Administra las imagenes de este beneficio.</p>
+              <button mat-flat-button color="primary" (click)="galleryInput.click()">
+                <mat-icon>add_photo_alternate</mat-icon>
+                Subir Imagen
+              </button>
+              <input
+                #galleryInput
+                type="file"
+                accept="image/*"
+                (change)="onFileSelected($event)"
+                hidden
+              />
+            </div>
+
+            @if (images().length === 0) {
+              <div class="empty-gallery">
+                <mat-icon>collections</mat-icon>
+                <p>No hay imagenes registradas para este beneficio.</p>
+              </div>
+            } @else {
+              <div class="image-grid">
+                @for (img of images(); track $index) {
+                  <div class="image-thumb">
+                    <img [src]="img.url ?? img.imageUrl ?? ''" [alt]="'Imagen ' + ($index + 1)" />
+                    <button
+                      mat-icon-button
+                      class="delete-btn"
+                      color="warn"
+                      (click)="removeImage($index)"
+                    >
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+
+      <!-- Actions -->
+      <div class="form-actions">
+        <button mat-button type="button" (click)="onCancel()">Cancelar</button>
+        <button
+          mat-flat-button
+          color="primary"
+          (click)="onSave()"
+          [disabled]="saving()"
+        >
+          @if (saving()) {
+            <mat-spinner diameter="20" class="button-spinner"></mat-spinner>
+          } @else {
+            <mat-icon>save</mat-icon>
+          }
+          {{ isEdit() ? 'Actualizar' : 'Guardar' }}
+        </button>
+      </div>
+    </div>
+  }
+</div>

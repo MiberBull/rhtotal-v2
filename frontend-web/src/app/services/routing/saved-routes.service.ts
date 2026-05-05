@@ -73,7 +73,5 @@ const SECCIONS = [
   {SECTION:'INSURANCE', RUTA:'/home/seguros',CLAVE:6},
   {SECTION:'CUSTOMER', RUTA:'/home/clientes',CLAVE:7},
   //TODO: Falta establecer la clave correcta para usuaios
-  {SECTION:'USERS', RUTA:'/home/usuarios',CLAVE:1},
-  {SECTION:'FINTECH_ADVANCE',RUTA:'/home/adelantos/my-advance', CLAVE: 20 },
-  {SECTION:'FINTECH_VELOCASH',RUTA:'/home/adelantos/velo-cash', CLAVE: 21 }  
+  {SECTION:'USERS', RUTA:'/home/usuarios',CLAVE:1}
 ]

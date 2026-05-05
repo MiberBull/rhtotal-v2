@@ -1,4 +1,4 @@
-FROM postgres
+FROM postgres:16-alpine
 ENV POSTGRES_DB=unbound \
     POSTGRES_PASSWORD=project123 \
     MAX_CONNECTIONS=500

@@ -1,0 +1,6 @@
+{
+  "name": "three-steps-selector",
+  "version": "0.0.2",
+  "main": "index.js",
+  "typings": "index.d.ts"
+}

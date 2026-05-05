@@ -1,0 +1,57 @@
+<div class="tab-content">
+  <form [formGroup]="form" (ngSubmit)="onSave()">
+    <div class="form-grid">
+      <mat-form-field appearance="outline">
+        <mat-label>Facebook</mat-label>
+        <mat-icon matPrefix>facebook</mat-icon>
+        <input matInput formControlName="facebook" placeholder="https://facebook.com/usuario" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Twitter / X</mat-label>
+        <mat-icon matPrefix>tag</mat-icon>
+        <input matInput formControlName="twitter" placeholder="https://twitter.com/usuario" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>LinkedIn</mat-label>
+        <mat-icon matPrefix>work</mat-icon>
+        <input matInput formControlName="linkedin" placeholder="https://linkedin.com/in/usuario" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Instagram</mat-label>
+        <mat-icon matPrefix>photo_camera</mat-icon>
+        <input matInput formControlName="instagram" placeholder="https://instagram.com/usuario" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>GitHub</mat-label>
+        <mat-icon matPrefix>code</mat-icon>
+        <input matInput formControlName="github" placeholder="https://github.com/usuario" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Sitio Web</mat-label>
+        <mat-icon matPrefix>language</mat-icon>
+        <input matInput formControlName="website" placeholder="https://misitio.com" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Skype</mat-label>
+        <mat-icon matPrefix>videocam</mat-icon>
+        <input matInput formControlName="skype" placeholder="usuario.skype" />
+      </mat-form-field>
+    </div>
+
+    <div class="form-actions">
+      <button mat-flat-button color="primary" type="submit" [disabled]="saving()">
+        @if (saving()) {
+          <mat-spinner diameter="20"></mat-spinner>
+        } @else {
+          Guardar
+        }
+      </button>
+    </div>
+  </form>
+</div>

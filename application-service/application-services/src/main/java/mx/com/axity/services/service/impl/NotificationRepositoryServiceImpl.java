@@ -30,7 +30,7 @@ public class NotificationRepositoryServiceImpl implements INotificationRepositor
     }
 
     @Override
-    public void registerNotificationFintech(NotificationRepositoryDO discount) {
+    public void registerNotification(NotificationRepositoryDO discount) {
         this.notificationRepositoryDAO.save(discount);
     }
 

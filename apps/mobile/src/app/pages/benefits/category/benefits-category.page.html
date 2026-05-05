@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/benefits"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Descuentos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="discounts.length > 0" lines="none" class="discount-list">
+    <ion-card *ngFor="let discount of discounts" (click)="navigateToDetail(discount)" class="discount-card">
+      <div class="discount-image" *ngIf="discount.image">
+        <img [src]="discount.image" [alt]="discount.name" />
+      </div>
+      <ion-card-header>
+        <ion-card-title>{{ discount.name }}</ion-card-title>
+        <ion-card-subtitle *ngIf="discount.provider">{{ discount.provider }}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="discount-badge" *ngIf="discount.discount">
+          <ion-icon name="pricetag-outline"></ion-icon>
+          <span>{{ discount.discount }}% de descuento</span>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+
+  <!-- Empty state -->
+  <div class="empty-state" *ngIf="discounts.length === 0">
+    <ion-icon name="pricetag-outline"></ion-icon>
+    <p>No hay descuentos en esta categoria</p>
+  </div>
+</ion-content>

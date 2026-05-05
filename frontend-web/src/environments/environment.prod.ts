@@ -16,8 +16,6 @@ export const environment = {
   SLICE:1,
   DATOS_CORRECTOS: 'Los datos han sido guardados correctamente',
   EMAIL: 'Correo electrónico invalido',
-  TYPE_FINTECH_ADVANCE: 'MyAdvance',
-  TYPE_FINTECH_VELOCASH: 'VeloCash',
   TYPE_INSURE_V: '1',
   TYPE_INSURE_SV: '2',
   TYPE_INSURE_GMA:'3',
@@ -27,9 +25,7 @@ export const environment = {
   NAME_EXCEL_NOTIFICATION_PROGRAMADAS: 'NotificacionesProgramadas',
   NAME_EXCEL_NOTIFICATION_ENVIADAS: 'NotificacionesEnviadas',
   ROOT_NOTIFICATION: '/home/notificaciones',
-  URL_FINTECH: '/home/adelantos',
-  URL_FINTECH_DETAILS: '/home/adelantos-detalle',
-  URL_USERS_DATA: '/home/admin-usuario/datos-personales' 
+  URL_USERS_DATA: '/home/admin-usuario/datos-personales'
 };
 
 
@@ -108,36 +104,6 @@ export const PATH_SECURITY = {
   RESET_CONFIRMATION_ENDPOINT: 'role/reset/confirmation'
 }
 
-export const PATH_FINTECH = {  
-  //DOMAIN: 'http://localhost:8093',
-  DOMAIN: 'http://localhost:8000/api/fintech',
-  TABLE_FINTECH_ADVANCE: 'fintech/getPagedFintechMyAdvance',
-  TABLE_FINTECH_VELOCASH: 'fintech/getPagedFintechVeloCash',
-  HEADERS: 'generic/getHeader',
-  COUNT_ADVANCE: 'fintech/getNumberRowAdvance',
-  COUNT_VELOCASH: 'fintech/getNumberRowVeloCash',
-  ONE_FINTECH_ADVANCE: 'fintech/getFintchOneAdvance',
-  ONE_FINTECH_VELOCASH: 'fintech/getFintchOneVeloCash',
-  UPDATE_STATUS_ADVANCE: 'fintech/updateStatuChangeMyAdvance',
-  UPDATE_STATUS_VELOCASH: 'fintech/updateStatuChangeVeloCash'
-}
-
-// NEW API with Express
-export const API_FINTECH = {  
-  DOMAIN: 'http://ec2-52-205-42-63.compute-1.amazonaws.com',
-  PORT: '3000',
-  UPDATE_STATUS_VELOCASH: 'api/v1/update/veloash',
-  GET_VELOCASH: 'velocash',
-  KEY: 'YXNkZmdoMTQ3cmh0b3RhbA==',
-  STATUS: {
-    WAIT: 'ES',
-    APPROVED: 'AP',
-    REJECT: 'R'
-  }
-}
-
-
-
 export const PATH_APPLICATION = {
   //DOMAIN: 'http://localhost:8091',
   DOMAIN:'http://localhost:8000/api/application',  
@@ -154,8 +120,6 @@ export const PATH_APPLICATION = {
   NEW_BANNER:`banner/saveOrUpdateBanner`,
   GET_BANNER:`banner/getBanner`,
   TREE:'http://localhost:8000/api/application/notificationassignment/getAssignmentBenefitsNotifications',
-  TABLE_FINTECH_ADVANCE: 'fintech/getPagedFintechMyAdvance',
-  TABLE_FINTECH_VELOCASH: 'fintech/getPagedFintechVeloCash',
   GET_ONE_INSURANCE: 'insurance/getOneInsurance',
   GET_ALL_EVENTUALY: 'insurance/getAllEventualy',
   GET_ALL_COVERAGE: 'insurance/getAllPlanCoverage',
@@ -189,9 +153,6 @@ export const routesWeb = {
   RESET_ACCOUNT_CONFIRMATION: 'reset-confirmation',
   CUSTOMER:'clientes',
   ADMIN_CUSTOMER:'crear-cliente',
-  FINTECH_DETALLE: 'adelantos-detalle',
-  FINTECH_VELOCASH:'adelantos/velo-cash',
-  FINTECH_ADVANCE:'adelantos/my-advance',
   INSURANCE: 'seguros',
   INSURANCE_ADMIN: 'admin-seguros'
 }
@@ -213,13 +174,6 @@ export const BREADCRUMB = {
   USER:'Usuario',
   BANNER:'Banners',
   NOTIFICATION:'Notificaciones',
-  PAYSHEET:'Anticipo',
-  PAYSHEET_ITEMS:[{name:'VeloCash',url:'/home/adelantos/velo-cash'},{name:'Mi adelanto',url:'/home/adelantos/my-advance'}],
-  FINTECH_ADVANCE_ES: 'En espera detalle',
-  FINTECH_ADVANCE_AP: 'Aprobada detalle',
-  FINTECH_ADVANCE_R: 'Rechazada detalle',
-  MY_ADVANCE: 'Mi adelanto',
-  VELO_CASH: 'VeloCash',
   DISCOUNT:'Beneficios y Descuentos',
   DETAIL_DISCOUNT:'Beneficio o Descuento detalle',
   NEW_DISCOUNT:'Beneficio o Descuento Nuevo',
@@ -229,15 +183,6 @@ export const BREADCRUMB = {
   DETAIL_CLIENT:'Cliente detalle',
   DETAIL_USER:'Usuario detalle',
   NEW_USER:'Usuario nuevo'
-}
-
-export const TABS_FINTECH = {
-  FINTECH_ADVANCE_ES: 11,
-  FINTECH_VELOCASH_ES: 12,
-  FINTECH_ADVANCE_AP: 13,
-  FINTECH_VELOCASH_AP: 14,
-  FINTECH_ADVANCE_R: 15,
-  FINTECH_VELOCASH_R: 16
 }
 
 export const NUMBERS = {
@@ -288,8 +233,6 @@ export const TABLE_ROUTE = {
   NOTIFICATION:`${PATH_APPLICATION.DOMAIN}/${PATH_APPLICATION.TABLE_NOTIFICATION}`,
   DISCOUNTS:`${PATH_APPLICATION.DOMAIN}/${PATH_APPLICATION.TABLE_DISCOUNTS}`,
   INSURANCE:`${PATH_APPLICATION.DOMAIN}/${PATH_APPLICATION.TABLE_INSURANCE}`,
-  FINTECH_ADVANCE: `${PATH_FINTECH.DOMAIN}/${PATH_FINTECH.TABLE_FINTECH_ADVANCE}`,
-  FINTECH_VELOCASH: `${PATH_FINTECH.DOMAIN}/${PATH_FINTECH.TABLE_FINTECH_VELOCASH}`,
   SELECTED_ONE_INSURANCE: `${PATH_APPLICATION.DOMAIN}/${PATH_APPLICATION.GET_ONE_INSURANCE}`,
   SHOW_ALL_EVENTUALY: `${PATH_APPLICATION.DOMAIN}/${PATH_APPLICATION.GET_ALL_EVENTUALY}`,
   SHOW_ALL_COVERAGE: `${PATH_APPLICATION.DOMAIN}/${PATH_APPLICATION.GET_ALL_COVERAGE}`,
@@ -305,12 +248,6 @@ export const HEADERS = {
   DISCOUNTS:'headersDiscounts',
   INSURANCE:'headerInsurance',
   USERS:'headersUsers',
-  FINTECH_WAIT_VELOCASH: 'headerFintechWait',
-  FINTECH_WAIT_ADVANCE: 'headerFintechWaitAdvances',
-  FINTECH_APPROVED_ADVANCE: 'headerFintechApprovedAdvance',
-  FINTECH_APPROVED_VELOCASH: 'headerFintechApprovedVeloCash',
-  FINTECH_REJECTED_ADVANCE: 'headerFintechRejectedAdvance',
-  FINTECH_REJECTED_VELOCASH: 'headerFintechRejectedVeloCash',
   EVENTUALY_HEADER: 'headerEventuality',
   COVERAGE_HEADER: 'headerPlanCoverage'
 }
@@ -365,10 +302,6 @@ export const PATH_USER = {
   USER_GET_CITY:'user/getCity',
   USER_GET_STATE:'user/getState',
   USER_GET_ALL_EMPLOYEES:'user/getAllEmployees',
-  USER_SICO_URL:'https://nominaenlanube.com:8085/api-nomen/v1/',
-  USER_SICO_EMPPLOYEE_GENERAL:'get_empleado_general?',
-  USER_SW_DOMAIN:'http://localhost:8000/api/paysheetsico/sico/raw',
-  USER_SICO_WORK_INFORMATION:'get_informacion_empleado?',
   USER_GET_EMPLOYEE_BY_NAME:'user/getUserRegisterSico',
   USER_GET_EMPLOYEE_BY_CURP:'user/getEmployeesByCurpClientProject',
   USER_GET_EMPLOYEE_BY_ID_USER:'user/getEmployeeByIdUser',

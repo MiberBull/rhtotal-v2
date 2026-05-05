@@ -3,7 +3,6 @@ import { Subject, of } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { map,mergeMap } from 'rxjs/operators';
 import { PATH_APPLICATION } from "../../../environments/environment";
-import { PATH_FINTECH } from "../../../environments/environment.prod";
 import {params} from "../../models/parameters.model"
 
 @Injectable({
@@ -48,17 +47,7 @@ export class GenericTableService {
      * @param page
      */
     getInfoTable( sectionURL:string,header:string,page:string,numberTab = 0) {
-        if (header == 'headerFintechWait' || header == 'headerFintechWaitAdvances' || header == 'headerFintechApprovedAdvance' 
-           || header == 'headerFintechRejectedAdvance'
-            || header == 'headerFintechApprovedVeloCash' || header == 'headerFintechRejectedVeloCash'){
-            this.cadena += `page=${page}&nametab=${fintech[numberTab]}`;
-        }else {
-            //if(header != 'headersUsers')
-            //{
-                this.cadena += `page=${page}&nametab=${t[numberTab]}`;
-            //}
-            
-        }
+        this.cadena += `page=${page}&nametab=${t[numberTab]}`;
 
         
         this.cadena += this.cadenaFilters;
@@ -104,14 +93,8 @@ export class GenericTableService {
      * @param section
      */
     getTableHeaders( header:string ) {
-        let URL:string='';
-        if (header == 'headerFintechWait' || header == 'headerFintechWaitAdvances' || header == 'headerFintechApprovedAdvance' || header == 'headerFintechRejectedAdvance'
-            || header == 'headerFintechApprovedVeloCash' || header == 'headerFintechRejectedVeloCash'){
-            URL = `${PATH_FINTECH.DOMAIN}/${PATH_FINTECH.HEADERS}`;
-        }else {
-            URL = `${PATH_APPLICATION.DOMAIN}/${PATH_APPLICATION.HEADERS}`;
-        }
-        
+        let URL = `${PATH_APPLICATION.DOMAIN}/${PATH_APPLICATION.HEADERS}`;
+
         let params = new HttpParams()
                      .set( 'section',header);
         return this.http.get( URL,{params} )
@@ -143,34 +126,6 @@ export class GenericTableService {
                                 return JSON.parse(resp.headers).headers;
                             })
                         );
-    }
-
-    getTableHeaderFintech(header: string){
-        let URL = `${PATH_FINTECH.DOMAIN}/${PATH_FINTECH.HEADERS}`;
-        let params = new HttpParams()
-                         .set('section', header);
-        return this.http.get(URL, { params })
-                    .pipe(
-                        map((resp: any) => {
-                            console.log('HEADERS DOS ', resp);
-                                
-                            return JSON.parse(resp.headers);
-                        })
-                    );
-    }
-
-    getTableHeaderFintechColumns(header: string){
-        let URL = `${PATH_FINTECH.DOMAIN}/${PATH_FINTECH.HEADERS}`;
-        let params = new HttpParams()
-            .set('section', header);
-        return this.http.get(URL, { params })
-            .pipe(
-                map((resp: any) => {
-                    console.log('HEADERS DOS ', resp);
-
-                    return JSON.parse(resp.headers).headers;
-                })
-            );        
     }
 
     /**
@@ -268,25 +223,6 @@ export class GenericTableService {
         this.cadenaFilters = `&title=&autor=&startDate=&enddate=`;      
     }
 
-    /**
-     * Coloca filtros para Fintech
-     * */ 
-    setParamsFintech(filters:any){
-        let parameters = new HttpParams()
-            .set('firstName', filters['nombre'] == null ? '' : filters['nombre'].toUpperCase())
-            .set('lastName', filters['apellidopaterno'] == null ? '' : filters['apellidopaterno'].toUpperCase())
-            .set('secondSurname', filters['apellidomaterno'] == null ? '' : filters['apellidomaterno'].toUpperCase())
-            .set('folioRequest', filters['foliosolicitud'] == null ? '' : filters['foliosolicitud'].toUpperCase())
-            .set('requestDate', filters['fechasolicitud'] == null ? '' : filters['fechasolicitud']);
-
-        this.cadenaFilters = `&${parameters.toString()}`;
-
-    }
-
-    setParamsFintechNull(){
-        this.cadenaFilters = `&firstName=&lastName=&secondSurname=&folioRequest=&requestDate=`;
-    }
-    
     //////**Seguros**////
     setParamsInsurance(filters:any){
 
@@ -337,10 +273,4 @@ export const t = {
     2:'AP',
     3:'ES',
     4:'R'
-}
-
-export const fintech = {
-    0:'ES',
-    1:'AP',
-    2:'R'
 }

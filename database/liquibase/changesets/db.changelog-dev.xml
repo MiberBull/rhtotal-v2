@@ -32,30 +32,29 @@
 	<changeSet  author="liquibase-docs" id="sql-TestingDevelop-UserEmp">
 	     <sql>
 			INSERT INTO public."k_user"(
-					"id_user", "ds_email", "ds_user_type", "ds_status_user", "ds_last_user_modifier", 
-					"dt_last_modification", "dt_creation_date", "fg_active","ds_password","id_rol")
-			VALUES (1,  'marialopez_89@hotmail.com', 'EXTERNO', 'A', 'MALOPEZ', 
-					CURRENT_DATE, CURRENT_DATE, 't','12345',1);
+					"id_user", "ds_email", "ds_user_type", "ds_status_user", "ds_last_user_modifier",
+					"dt_last_modification", "ds_creation_user", "dt_creation_date", "fg_active","ds_password","id_rol")
+			VALUES (1,  'marialopez_89@hotmail.com', 'EXTERNO', 'A', 'MALOPEZ',
+					CURRENT_DATE, 'MALOPEZ', CURRENT_DATE, 't','12345',1);
 
-				
-		INSERT INTO public."k_user"(
-					"id_user", "ds_email", "ds_user_type", "ds_status_user", "ds_last_user_modifier", 
-					"dt_last_modification", "dt_creation_date", "fg_active","ds_password","id_rol")
-			VALUES (2,  'juanvazquez_87@gmail.com', 'INTERNO', 'A', 'JVAZQUEZ', 
-					CURRENT_DATE, CURRENT_DATE, 'true','12345',2);
 
 		INSERT INTO public."k_user"(
-					"id_user", "ds_email", "ds_user_type", "ds_status_user", "ds_last_user_modifier", 
-					"dt_last_modification", "dt_creation_date", "fg_active","ds_password","id_rol")
-			VALUES (3,  'juanrodriguez_88@gmail.com', 'INTERNO', 'I', 'JRODRIGUEZ', 
-					CURRENT_DATE, CURRENT_DATE, 'true','12345',3);
+					"id_user", "ds_email", "ds_user_type", "ds_status_user", "ds_last_user_modifier",
+					"dt_last_modification", "ds_creation_user", "dt_creation_date", "fg_active","ds_password","id_rol")
+			VALUES (2,  'juanvazquez_87@gmail.com', 'INTERNO', 'A', 'JVAZQUEZ',
+					CURRENT_DATE, 'JVAZQUEZ', CURRENT_DATE, 'true','12345',2);
+
+		INSERT INTO public."k_user"(
+					"id_user", "ds_email", "ds_user_type", "ds_status_user", "ds_last_user_modifier",
+					"dt_last_modification", "ds_creation_user", "dt_creation_date", "fg_active","ds_password","id_rol")
+			VALUES (3,  'juanrodriguez_88@gmail.com', 'INTERNO', 'I', 'JRODRIGUEZ',
+					CURRENT_DATE, 'JRODRIGUEZ', CURRENT_DATE, 'true','12345',3);
 
 		
-		INSERT INTO public."k_employee"("id_client", "id_project", "ds_civil_status","id_user", "ds_name", "ds_last_name", "ds_m_last_name", "ds_gender","ds_last_user_modifier", "dt_last_modification", "dt_creation_date", "fg_active")
-				VALUES ( 1, 1, 'SOLTERO', 2, 'Juan', 'Vazquez', 'Lopez', 'M','rhtotal', CURRENT_DATE, CURRENT_DATE, 'true'),
-					( 1, 4, 'SOLTERO', 1, 'Laura', 'Flores', 'Gomez', 'F','rhtotal', CURRENT_DATE, CURRENT_DATE, 'true'),
-					( 2, 2, 'SOLTERO', 3, 'Jose', 'Ramirez', 'Gomez', 'M','rhtotal', CURRENT_DATE, CURRENT_DATE, 'true'),
-					( 3,3, 'SOLTERO',3, 'Martin', 'Morales', 'Suarez', 'M','rhtotal', CURRENT_DATE, CURRENT_DATE, 'true');
+		INSERT INTO public."k_employee"("id_client", "id_project", "ds_civil_status","id_user", "ds_name", "ds_last_name", "ds_m_last_name", "ds_gender","ds_last_user_modifier", "dt_last_modification", "ds_creation_user", "dt_creation_date", "fg_active")
+				VALUES ( 1, 1, 'SOLTERO', 2, 'Juan', 'Vazquez', 'Lopez', 'M','rhtotal', CURRENT_DATE, 'rhtotal', CURRENT_DATE, 'true'),
+					( 1, 4, 'SOLTERO', 1, 'Laura', 'Flores', 'Gomez', 'F','rhtotal', CURRENT_DATE, 'rhtotal', CURRENT_DATE, 'true'),
+					( 2, 2, 'SOLTERO', 3, 'Jose', 'Ramirez', 'Gomez', 'M','rhtotal', CURRENT_DATE, 'rhtotal', CURRENT_DATE, 'true');
 		</sql>
 	</changeSet>
 	<changeSet  author="liquibase-docs" id="sql-TestingDevelop-Company-inf">
@@ -109,8 +108,8 @@
 				INSERT INTO public.k_employee_complementary (id_employee, id_skill, ds_country, id_swap, ds_rfc, ds_curp, ds_nss, ds_email_client, ds_email, ds_phone, ds_work_permit, photography, ds_passport_number, ds_birthdate, ds_birth_state, ds_last_user_modifier, dt_last_modification, ds_creation_user, dt_creation_date, fg_active)
 					VALUES(1,1, 'Mexico', 0, 'HOLA09090912', 'tttt1234567890121212', '9999999999', 'correo@correo.com', 'correo@correo.com','5555555555', 'SI', '', '123456789', '01/01/2000', 'Mexico', 'rhtotal', current_date, 'rhtotal', current_date, false);
 				
-				INSERT INTO public."k_user"("id_user", "ds_email", "ds_user_type", "ds_status_user", "ds_last_user_modifier", "dt_last_modification", "dt_creation_date", "fg_active","ds_password","id_rol")
-    				VALUES (4,  'magdalenaGarcia_89@hotmail.com', 'EXTERNO', 'A', 'MALOPEZ',CURRENT_DATE, CURRENT_DATE, 't','12345',1);
+				INSERT INTO public."k_user"("id_user", "ds_email", "ds_user_type", "ds_status_user", "ds_last_user_modifier", "dt_last_modification", "ds_creation_user", "dt_creation_date", "fg_active","ds_password","id_rol")
+    				VALUES (4,  'magdalenaGarcia_89@hotmail.com', 'EXTERNO', 'A', 'MALOPEZ',CURRENT_DATE, 'MALOPEZ', CURRENT_DATE, 't','12345',1);
 			</sql>
 		</changeSet>
 </databaseChangeLog>

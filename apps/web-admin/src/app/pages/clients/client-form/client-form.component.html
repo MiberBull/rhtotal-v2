@@ -1,0 +1,134 @@
+<div class="client-form-page">
+  <!-- Page Header -->
+  <div class="page-header">
+    <button mat-icon-button routerLink="/clients" class="back-button">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <div class="header-info">
+      <h1>{{ isEdit() ? 'Editar Cliente' : 'Nuevo Cliente' }}</h1>
+      <p class="subtitle">
+        {{ isEdit() ? 'Modifica la informacion del cliente.' : 'Registra un nuevo cliente en la plataforma.' }}
+      </p>
+    </div>
+  </div>
+
+  @if (loading()) {
+    <div class="loading-container">
+      <mat-spinner diameter="40"></mat-spinner>
+      <span class="loading-text">Cargando datos del cliente...</span>
+    </div>
+  } @else {
+    <!-- Form Card -->
+    <div class="form-card">
+      <form [formGroup]="form" (ngSubmit)="onSave()">
+        <div class="form-grid">
+          <!-- Nombre Empresa -->
+          <mat-form-field appearance="outline">
+            <mat-label>Nombre Empresa</mat-label>
+            <input matInput formControlName="name" placeholder="Nombre de la empresa" />
+            <mat-icon matPrefix>business</mat-icon>
+            @if (form.controls.name.hasError('required') && form.controls.name.touched) {
+              <mat-error>El nombre es requerido</mat-error>
+            }
+          </mat-form-field>
+
+          <!-- RFC -->
+          <mat-form-field appearance="outline">
+            <mat-label>RFC</mat-label>
+            <input matInput formControlName="rfc" placeholder="RFC de la empresa" />
+            <mat-icon matPrefix>badge</mat-icon>
+          </mat-form-field>
+
+          <!-- Direccion -->
+          <mat-form-field appearance="outline">
+            <mat-label>Direccion</mat-label>
+            <input matInput formControlName="address" placeholder="Calle y numero" />
+            <mat-icon matPrefix>location_on</mat-icon>
+          </mat-form-field>
+
+          <!-- Colonia -->
+          <mat-form-field appearance="outline">
+            <mat-label>Colonia</mat-label>
+            <input matInput formControlName="colony" placeholder="Colonia" />
+            <mat-icon matPrefix>map</mat-icon>
+          </mat-form-field>
+
+          <!-- Codigo Postal -->
+          <mat-form-field appearance="outline">
+            <mat-label>Codigo Postal</mat-label>
+            <input matInput formControlName="postalCode" placeholder="C.P." />
+            <mat-icon matPrefix>markunread_mailbox</mat-icon>
+          </mat-form-field>
+
+          <!-- Ciudad -->
+          <mat-form-field appearance="outline">
+            <mat-label>Ciudad</mat-label>
+            <input matInput formControlName="city" placeholder="Ciudad" />
+            <mat-icon matPrefix>location_city</mat-icon>
+          </mat-form-field>
+
+          <!-- Estado -->
+          <mat-form-field appearance="outline">
+            <mat-label>Estado</mat-label>
+            <input matInput formControlName="state" placeholder="Estado" />
+            <mat-icon matPrefix>public</mat-icon>
+          </mat-form-field>
+
+          <!-- Telefono -->
+          <mat-form-field appearance="outline">
+            <mat-label>Telefono</mat-label>
+            <input matInput formControlName="phone" placeholder="Telefono de contacto" />
+            <mat-icon matPrefix>phone</mat-icon>
+          </mat-form-field>
+
+          <!-- Email -->
+          <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" formControlName="email" placeholder="correo@empresa.com" />
+            <mat-icon matPrefix>email</mat-icon>
+            @if (form.controls.email.hasError('email') && form.controls.email.touched) {
+              <mat-error>Ingresa un email valido</mat-error>
+            }
+          </mat-form-field>
+
+          <!-- Nombre de Contacto -->
+          <mat-form-field appearance="outline">
+            <mat-label>Nombre de Contacto</mat-label>
+            <input matInput formControlName="contactName" placeholder="Nombre del contacto principal" />
+            <mat-icon matPrefix>person</mat-icon>
+          </mat-form-field>
+
+          <!-- Estatus -->
+          <mat-form-field appearance="outline">
+            <mat-label>Estatus</mat-label>
+            <mat-select formControlName="status">
+              <mat-option value="A">Activo</mat-option>
+              <mat-option value="I">Inactivo</mat-option>
+            </mat-select>
+            <mat-icon matPrefix>toggle_on</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <!-- Actions -->
+        <div class="form-actions">
+          <button mat-button type="button" (click)="onCancel()">
+            Cancelar
+          </button>
+          <button
+            mat-flat-button
+            color="primary"
+            type="submit"
+            [disabled]="saving()"
+          >
+            @if (saving()) {
+              <mat-spinner diameter="20"></mat-spinner>
+            } @else {
+              <mat-icon>save</mat-icon>
+              {{ isEdit() ? 'Actualizar' : 'Guardar' }}
+            }
+          </button>
+        </div>
+      </form>
+    </div>
+  }
+</div>

@@ -1,0 +1,79 @@
+<div class="tab-content">
+  <form [formGroup]="form" (ngSubmit)="onSave()">
+    <div class="form-grid three-col">
+      <mat-form-field appearance="outline">
+        <mat-label>Sueldo Bruto Mensual</mat-label>
+        <input matInput type="number" formControlName="sueldoBrutoMensual" />
+        <span matPrefix>$&nbsp;</span>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Automovil</mat-label>
+        <input matInput type="number" formControlName="automovil" />
+        <span matPrefix>$&nbsp;</span>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Bono Mensual</mat-label>
+        <input matInput type="number" formControlName="bonoMensual" />
+        <span matPrefix>$&nbsp;</span>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Aguinaldo</mat-label>
+        <input matInput type="number" formControlName="aguinaldo" />
+        <span matPrefix>$&nbsp;</span>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Dias de Aguinaldo</mat-label>
+        <input matInput type="number" formControlName="diasAguinaldo" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Dias de Vacaciones</mat-label>
+        <input matInput type="number" formControlName="diasVacaciones" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Seguro Gastos Medicos Mayores</mat-label>
+        <input matInput type="number" formControlName="seguroGMMayores" />
+        <span matPrefix>$&nbsp;</span>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Seguro de Vida</mat-label>
+        <input matInput type="number" formControlName="seguroVida" />
+        <span matPrefix>$&nbsp;</span>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Plan de Pensiones</mat-label>
+        <input matInput type="number" formControlName="planPensiones" />
+        <span matPrefix>$&nbsp;</span>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Fondo de Ahorro</mat-label>
+        <input matInput type="number" formControlName="fondoAhorro" />
+        <span matPrefix>$&nbsp;</span>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Vales de Despensa</mat-label>
+        <input matInput type="number" formControlName="valesDespensa" />
+        <span matPrefix>$&nbsp;</span>
+      </mat-form-field>
+    </div>
+
+    <div class="form-actions">
+      <button mat-flat-button color="primary" type="submit" [disabled]="saving()">
+        @if (saving()) {
+          <mat-spinner diameter="20"></mat-spinner>
+        } @else {
+          Guardar
+        }
+      </button>
+    </div>
+  </form>
+</div>

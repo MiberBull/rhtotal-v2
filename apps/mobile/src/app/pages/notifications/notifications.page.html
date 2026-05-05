@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Notificaciones</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="notifications.length > 0" lines="full" class="notification-list">
+    <ion-item
+      *ngFor="let notification of notifications"
+      (click)="openNotification(notification)"
+      [class.unread]="!notification.read"
+      detail
+    >
+      <div class="unread-dot" slot="start" *ngIf="!notification.read"></div>
+      <ion-icon
+        name="notifications-outline"
+        slot="start"
+        *ngIf="notification.read"
+        color="medium"
+      ></ion-icon>
+      <ion-label class="ion-text-wrap">
+        <h3 [class.bold]="!notification.read">{{ notification.title }}</h3>
+        <p class="message-snippet">{{ notification.message }}</p>
+        <p class="notification-date" *ngIf="notification.date">{{ notification.date }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <!-- Empty state -->
+  <div class="empty-state" *ngIf="notifications.length === 0">
+    <ion-icon name="notifications-off-outline"></ion-icon>
+    <p>No tienes notificaciones</p>
+  </div>
+</ion-content>

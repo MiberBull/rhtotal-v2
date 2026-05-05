@@ -20,9 +20,6 @@
 		"nameMenu": "Seguros",
 		"nameUrl": "/home/seguros"
 	}, {
-		"nameMenu": "Adelantos",
-		"nameUrl": "/home/adelantos"
-	}, {
 		"nameMenu": "Clientes",
 		"nameUrl": "/clientes"
 	}, {

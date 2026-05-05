@@ -8,6 +8,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface CompanyInformationDAO extends CrudRepository<CompanyInformationDO, Long> {
-    @Query("select ci from CompanyInformationDO ci where ci.active = 'true' and ci.nameCompanyInformation = :nameCompanyInformation")
+    @Query("select ci from CompanyInformationDO ci where ci.active = true and ci.nameCompanyInformation = :nameCompanyInformation")
     CompanyInformationDO getCompanyInformation(@Param("nameCompanyInformation") String nameCompanyInformation );
 }

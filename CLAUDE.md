@@ -1,8 +1,8 @@
-# Arquitectura del Sistema RHTotal - Plataforma Fintech de Adelanto de Nomina
+# Arquitectura del Sistema — DCH Know Who (Plataforma HR)
 
 ## Vision General
 
-RHTotal es una plataforma de **Recursos Humanos con servicios Fintech** (adelanto de nomina) construida con una **arquitectura de microservicios** en Java/Spring Boot, desplegada en **AWS** con Docker. Desarrollada por **Axity**.
+DCH Know Who es una plataforma de **Recursos Humanos** construida con una **arquitectura de microservicios** en Java/Spring Boot, desplegada en **AWS** con Docker. Originalmente desarrollada por **Axity** como RHTotal.
 
 ---
 
@@ -19,56 +19,51 @@ RHTotal es una plataforma de **Recursos Humanos con servicios Fintech** (adelant
                                             │
                                  ┌──────────▼──────────┐
                                  │   Gateway Service   │
-                                 │   Zuul + Eureka     │
+                                 │ Spring Cloud Gateway│
                                  │   Puerto: 8000      │
                                  │   Prefijo: /api     │
                                  └──────────┬──────────┘
                                             │
-               ┌────────────────────────────┼────────────────────────────┐
-               │              │             │             │              │
-    ┌──────────▼───┐ ┌───────▼──────┐ ┌────▼─────┐ ┌────▼─────┐ ┌──────▼──────┐
-    │  Security    │ │ Application  │ │  User    │ │ Fintech  │ │Paysheetsico │
-    │  Service     │ │ Service      │ │ Service  │ │ Service  │ │  Service    │
-    │  :8090       │ │ :8091        │ │ :8092    │ │ :8093    │ │  :8094      │
-    │  /security/* │ │ /application/│ │ /user/*  │ │/fintech/*│ │/paysheetsico│
-    └──────┬───────┘ └──────┬───────┘ └────┬─────┘ └────┬─────┘ └──────┬──────┘
-           │                │              │             │              │
-           └────────────────┴──────────────┴──────┬──────┘              │
-                                                  │                    │
-                                    ┌─────────────▼──────┐   ┌────────▼────────┐
-                                    │   PostgreSQL (RDS) │   │  SICO (Externo) │
-                                    │   AWS us-east-1    │   │ nominaenlanube  │
-                                    │   DB: rhtotal      │   │  .com:8085      │
-                                    └────────────────────┘   └─────────────────┘
-                                                                      │
-                                    ┌─────────────────────────────────┘
-                                    │
-                              ┌─────▼─────┐
-                              │   SWAP    │
-                              │ (Pagos)   │
-                              │back4app   │
-                              └───────────┘
-
-              ┌──────────────┐
-              │  Node.js API │   API auxiliar para consultas
-              │  :3000       │   directas a BD y envio de emails
-              └──────┬───────┘
-                     │
-                     ▼
-               PostgreSQL
+                                 ┌──────────▼──────────┐
+                                 │   Eureka Service    │
+                                 │  Service Discovery  │
+                                 │   Puerto: 8761      │
+                                 └──────────┬──────────┘
+                                            │
+               ┌────────────────────────────┼────────────────┐
+               │              │             │                │
+    ┌──────────▼───┐ ┌───────▼──────┐ ┌────▼─────┐         │
+    │  Security    │ │ Application  │ │  User    │         │
+    │  Service     │ │ Service      │ │ Service  │         │
+    │  :8090       │ │ :8091        │ │ :8092    │         │
+    │  /security/* │ │ /application/│ │ /user/*  │         │
+    └──────┬───────┘ └──────┬───────┘ └────┬─────┘         │
+           │                │              │                │
+           └────────────────┴──────────────┴────────────────┘
+                                                  │
+                                    ┌─────────────▼──────┐
+                                    │   PostgreSQL (RDS) │
+                                    │   AWS us-east-1    │
+                                    │   DB: rhtotal      │
+                                    └────────────────────┘
 ```
 
 ---
 
 ## Microservicios - Detalle
 
+### 0. Eureka Service (Puerto 8761)
+- **Tecnologia:** Spring Cloud Netflix Eureka Server (standalone)
+- **Rol:** Service Discovery — registro y descubrimiento de microservicios
+- **Codigo:** `eureka-service/`
+
 ### 1. Gateway Service (Puerto 8000)
-- **Tecnologia:** Spring Cloud Zuul + Eureka Server
+- **Tecnologia:** Spring Cloud Gateway + Eureka Client
 - **Rol:** Punto unico de entrada. Enruta todas las peticiones `/api/*` a los microservicios
 - **Service Discovery:** Eureka para registro y descubrimiento
 - **CORS:** Habilitado para todos los origenes
 - **Timeouts:** Read 60s, Connection 3s
-- **Codigo:** `gateway-service/src/main/java/mx/com/axity/zuul/`
+- **Codigo:** `gateway-service/src/main/java/mx/com/axity/`
 
 ### 2. Security Service (Puerto 8090) — `/api/security/*`
 - **Rol:** Autenticacion y autorizacion
@@ -100,37 +95,13 @@ RHTotal es una plataforma de **Recursos Humanos con servicios Fintech** (adelant
 - **48+ entidades JPA**
 - **Modulos Maven:** application-web, application-services, application-persistence, application-model, application-commons
 
-### 5. Fintech Service (Puerto 8093) — `/api/fintech/*`
-- **Rol:** Core del negocio fintech - adelanto de nomina
-- **Dos productos:**
-  - **Mi Adelanto** — Adelanto de nomina tradicional (tabla `k_advance_paysheet`)
-  - **VeloCash** — Adelanto rapido de efectivo (tabla `k_paysheet_now`)
-- **Flujo de estados:** `ES` (Espera) → `PR` (Pendiente Respuesta) → `AP` (Aprobado) / `R` (Rechazado)
-- **Integraciones externas:**
-  - **SWAP** (back4app) — Procesamiento de pagos/transferencias
-  - **SICO** (nominaenlanube.com) — Confirmacion con sistema de nomina
-- **Endpoints clave:**
-  - `POST /nomina/prestamo` — Solicitud VeloCash
-  - `POST /nomina/prestamo/adelanto` — Solicitud Mi Adelanto
-  - `GET /fintech/updateStatuChangeMyAdvance` — Cambio de estado
-- **Modulos Maven:** fintech-web, fintech-services, fintech-persistence, fintech-model, fintech-commons
-
-### 6. Paysheetsico Service (Puerto 8094) — `/api/paysheetsico/*`
-- **Rol:** Puente de integracion con sistema de nomina externo SICO
-- **Funciones:**
-  - Busqueda de empleados en SICO por email o datos demograficos
-  - Notificacion de transferencias a SICO
-  - Encriptacion/desencriptacion DES para comunicacion segura
-- **API externa:** `nominaenlanube.com:8085/api-nomen/v1/`
-- **Modulos Maven:** paysheetsico-web, paysheetsico-services, paysheetsico-persistence, paysheetsico-model, paysheetsico-commons
-
 ---
 
 ## Frontends
 
 ### Frontend Web (Angular 6) — Puerto 80
 - **UI:** Angular Material
-- **Modulos principales:** Dashboard, Empleados (7 tabs de admin), Descuentos, Seguros, Notificaciones, Banners, Roles, Clientes, Adelantos (Mi Adelanto + VeloCash)
+- **Modulos principales:** Dashboard, Empleados (7 tabs de admin), Descuentos, Seguros, Notificaciones, Banners, Roles, Clientes
 - **Auth:** AES encrypt del password, token en localStorage, Route Guards (LoginGuard)
 - **Visualizacion:** Chart.js (ng2-charts) para graficas
 - **Estado global:** RxJS Subjects via DataService
@@ -139,12 +110,11 @@ RHTotal es una plataforma de **Recursos Humanos con servicios Fintech** (adelant
 
 ### Frontend Mobile (Ionic 3 + Angular 5)
 - **Plataformas:** iOS y Android via Cordova
-- **Modulos:** Login, Beneficios, Fintech (VeloCash/Mi Adelanto), Mi Cuenta, Credencial, Nomina, Seguros
+- **Modulos:** Login, Beneficios, Mi Cuenta, Credencial, Nomina, Seguros, RH
 - **Push Notifications:** Firebase Cloud Messaging (FCM)
 - **Almacenamiento local:** SQLite + localStorage
 - **Tipos de usuario:** `IN` (interno/empleado, acceso completo) vs `EX` (externo, acceso limitado)
 - **Codigo:** `frontend-mobile/src/`
-- **37 paginas, 23 providers**
 
 ---
 
@@ -159,15 +129,15 @@ RHTotal es una plataforma de **Recursos Humanos con servicios Fintech** (adelant
 | **CI/CD** | Jenkins (3 pipelines: DEV, QA, AWS Prod) |
 | **Calidad** | SonarQube |
 | **Registry** | AWS ECR (produccion), Nexus 3 (paquetes npm) |
-| **Java Runtime** | OpenJDK 10 |
+| **Java Runtime** | Eclipse Temurin 21 |
 | **Web Server** | NGINX (frontend) |
 
 ### Ambientes
 | Ambiente | Gateway | BD | Puertos |
 |---|---|---|---|
-| **DEV** | localhost:8000 | Docker local (`unbound`) | 8090-8094 |
-| **QA** | localhost:9000 | PostgresQA | 9090-9094 |
-| **PROD** | EC2 AWS:8000 | AWS RDS (`rhtotal`) | 8090-8094 |
+| **DEV** | localhost:8000 | Docker local (`unbound`) | 8090-8092 |
+| **QA** | localhost:9000 | PostgresQA | 9090-9092 |
+| **PROD** | EC2 AWS:8000 | AWS RDS (`rhtotal`) | 8090-8092 |
 
 ### CI/CD Pipelines (Jenkins)
 - **Jenkinsfile** (DEV): Build paralelo → SonarQube → Docker Compose → Liquibase
@@ -176,42 +146,13 @@ RHTotal es una plataforma de **Recursos Humanos con servicios Fintech** (adelant
 
 ---
 
-## Flujo de Negocio Principal: Adelanto de Nomina
-
-```
-Empleado solicita adelanto (Mobile/Web)
-          │
-          ▼
-    Fintech Service recibe solicitud
-    Estado: ES (Espera)
-          │
-          ▼
-    Admin revisa solicitud (Web)
-    Estado: PR (Pendiente Respuesta)
-          │
-          ├──► Rechazado → Estado: R + motivo
-          │
-          └──► Aprobado → Estado: AP
-                    │
-                    ├──► SWAP procesa transferencia (folio generado)
-                    │
-                    └──► SICO notificado (confirmacion de nomina)
-                              │
-                              ▼
-                    Deposito al empleado completado
-```
-
----
-
 ## Stack Tecnologico Completo
 
-- **Backend:** Java 10, Spring Boot 2.0.3, Spring Cloud (Finchley), Netflix Zuul/Eureka
+- **Backend:** Java 21, Spring Boot 3.2.5, Spring Cloud (2023.0.1), Spring Cloud Gateway + Eureka
 - **Frontend Web:** Angular 6, Angular Material, TypeScript, Chart.js
 - **Frontend Mobile:** Ionic 3, Angular 5, Cordova, Firebase
 - **Base de Datos:** PostgreSQL 9.x
-- **API Auxiliar:** Node.js/Express (puerto 3000, carpeta `Api/`)
 - **Seguridad:** AES-CBC + SHA-256, tokens custom, roles con permisos JSON
-- **Integraciones:** SICO (nominaenlanube), SWAP (back4app)
 - **Infra:** Docker, Jenkins, AWS (EC2/RDS/ECR), SonarQube, Liquibase
 
 ## Patron de Arquitectura por Servicio (Todos los microservicios)

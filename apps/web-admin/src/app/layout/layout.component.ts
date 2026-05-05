@@ -1,0 +1,78 @@
+import { Component, inject, signal, computed } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule, RouterOutlet } from '@angular/router';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { AuthService } from '../core/auth/auth.service';
+import { RoleBadgeComponent } from '../shared/components/role-badge/role-badge.component';
+
+interface NavItem {
+  icon: string;
+  label: string;
+  route: string;
+  permission: string;
+}
+
+@Component({
+  selector: 'app-layout',
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterModule,
+    RouterOutlet,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatButtonModule,
+    MatListModule,
+    MatMenuModule,
+    MatTooltipModule,
+    RoleBadgeComponent,
+  ],
+  templateUrl: './layout.component.html',
+  styleUrl: './layout.component.scss',
+})
+export class LayoutComponent {
+  authService = inject(AuthService);
+
+  collapsed = signal(false);
+  currentUser = this.authService.currentUser;
+  userRole = this.authService.userRole;
+
+  navItems: NavItem[] = [
+    { icon: 'dashboard', label: 'Dashboard', route: '/dashboard', permission: 'dashboard' },
+    { icon: 'people', label: 'Usuarios', route: '/users', permission: 'users' },
+    { icon: 'admin_panel_settings', label: 'Roles', route: '/roles', permission: 'roles' },
+    { icon: 'business', label: 'Clientes', route: '/clients', permission: 'clients' },
+    { icon: 'notifications', label: 'Notificaciones', route: '/notifications', permission: 'notifications' },
+    { icon: 'local_offer', label: 'Beneficios', route: '/discounts', permission: 'discounts' },
+    { icon: 'health_and_safety', label: 'Seguros', route: '/insurance', permission: 'insurance' },
+    { icon: 'image', label: 'Banners', route: '/banners', permission: 'banners' },
+    { icon: 'description', label: 'Documentos', route: '/documents', permission: 'documents' },
+    { icon: 'task_alt', label: 'Aprobaciones', route: '/approvals', permission: 'approvals' },
+  ];
+
+  /** Computed signal that filters nav items based on user permissions */
+  visibleNavItems = computed(() =>
+    this.navItems.filter(item => this.authService.hasPermission(item.permission))
+  );
+
+  toggleSidebar(): void {
+    this.collapsed.update((v) => !v);
+  }
+
+  logout(): void {
+    this.authService.logout();
+  }
+
+  getUserInitials(): string {
+    const user = this.currentUser();
+    if (!user?.email) return 'U';
+    return user.email.charAt(0).toUpperCase();
+  }
+}

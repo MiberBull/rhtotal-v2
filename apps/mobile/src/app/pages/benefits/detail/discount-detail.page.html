@@ -1,0 +1,74 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/benefits"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Detalle del Descuento</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="discount">
+  <!-- Image -->
+  <div class="detail-image" *ngIf="discount.image">
+    <img [src]="discount.image" [alt]="discount.name" />
+  </div>
+
+  <!-- Info -->
+  <div class="detail-content">
+    <h1>{{ discount.name }}</h1>
+
+    <div class="discount-badge" *ngIf="discount.discount">
+      <ion-icon name="pricetag-outline"></ion-icon>
+      <span>{{ discount.discount }}% de descuento</span>
+    </div>
+
+    <p class="provider" *ngIf="discount.provider">
+      <ion-icon name="business-outline"></ion-icon>
+      {{ discount.provider }}
+    </p>
+
+    <div class="description" *ngIf="discount.description">
+      <h3>Descripcion</h3>
+      <p>{{ discount.description }}</p>
+    </div>
+
+    <!-- Contact info -->
+    <div class="contact-section">
+      <h3>Informacion de contacto</h3>
+
+      <ion-list lines="none">
+        <ion-item *ngIf="discount.phone" (click)="callPhone()" detail>
+          <ion-icon name="call-outline" slot="start" color="primary"></ion-icon>
+          <ion-label>{{ discount.phone }}</ion-label>
+        </ion-item>
+
+        <ion-item *ngIf="discount.email" (click)="sendEmail()" detail>
+          <ion-icon name="mail-outline" slot="start" color="primary"></ion-icon>
+          <ion-label>{{ discount.email }}</ion-label>
+        </ion-item>
+
+        <ion-item *ngIf="discount.address">
+          <ion-icon name="location-outline" slot="start" color="primary"></ion-icon>
+          <ion-label class="ion-text-wrap">{{ discount.address }}</ion-label>
+        </ion-item>
+
+        <ion-item *ngIf="discount.website" (click)="openWebsite()" detail>
+          <ion-icon name="globe-outline" slot="start" color="primary"></ion-icon>
+          <ion-label>{{ discount.website }}</ion-label>
+        </ion-item>
+      </ion-list>
+    </div>
+  </div>
+
+  <!-- Contact button -->
+  <div class="action-buttons">
+    <ion-button expand="block" (click)="callPhone()" *ngIf="discount.phone">
+      <ion-icon name="call-outline" slot="start"></ion-icon>
+      Contactar
+    </ion-button>
+    <ion-button expand="block" fill="outline" (click)="sendEmail()" *ngIf="discount.email">
+      <ion-icon name="mail-outline" slot="start"></ion-icon>
+      Enviar correo
+    </ion-button>
+  </div>
+</ion-content>

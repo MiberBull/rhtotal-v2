@@ -9,14 +9,14 @@ import org.springframework.data.repository.query.Param;
 
 public interface EventualyDAO extends CrudRepository<EventualyDO,Long> {
 
-    @Query("SELECT e\n"+
-           "FROM EventualyDO e INNER JOIN InsuranceDO i ON e.idInsurance = i.idInsurance \n"+
-           "WHERE e.idInsurance.idInsurance = :idInsurance\n" +
+    @Query("SELECT e " +
+           "FROM EventualyDO e JOIN e.idInsurance i " +
+           "WHERE i.idInsurance = :idInsurance " +
             "ORDER BY e.lastModification DESC")
     Page<EventualyDO> findAllEventualy(Pageable pageable, @Param("idInsurance") Long idInsurance);
 
-    @Query("SELECT count(e)\n"+
-            "FROM EventualyDO e INNER JOIN InsuranceDO i ON e.idInsurance = i.idInsurance \n"+
-            "WHERE e.idInsurance.idInsurance = :idInsurance ")
+    @Query("SELECT count(e) " +
+            "FROM EventualyDO e JOIN e.idInsurance i " +
+            "WHERE i.idInsurance = :idInsurance")
     Long getNumberRowEventualy(@Param("idInsurance") Long idInsurance);
 }

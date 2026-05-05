@@ -24,12 +24,6 @@ export const jsonFormFilter = [
   {"filter":"AdminNotificaciones","name":"Fecha de envío fin", "data":"date","id":"fechaFin"},   
   {"filter":"AdminNotificaciones","name":"Autor", "data":"string","id":"nombreAutor"},    
 
-  {"filter":"AdminAdelantos","name":"Nombre", "data":"string","id":"nombre"},
-  {"filter":"AdminAdelantos","name":"Apellido paterno", "data":"string","id":"apellidoPaterno"},
-  {"filter":"AdminAdelantos","name":"Apellido materno", "data":"string","id":"apellidoMaterno"},  
-  {"filter":"AdminAdelantos","name":"Folio solicitud", "data":"string","id":"folioSolicitud"},
-  {"filter":"AdminAdelantos","name":"Fecha solicitud", "data":"date","id":"fechaSolicitud"},  
-
   {"filter":"AdminCliente", "name":"Cliente", "data":"string","id":"cliente"},
   {"filter":"AdminCliente", "name":"Proyecto", "data":"string","id":"proyecto"},
   {"filter":"AdminCliente", "name":"Fecha solicitud", "data":"date","id":"fechaSolicitud"},  

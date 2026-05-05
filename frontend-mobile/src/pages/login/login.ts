@@ -69,7 +69,9 @@ export class LoginPage {
   }
 
   ionViewDidEnter(){
-    this.splashScreen.hide();
+    if ((<any>window).cordova) {
+      this.splashScreen.hide();
+    }
   }
 
   ionViewDidLoad() {
@@ -102,19 +104,25 @@ export class LoginPage {
 
   optionsResponse( options:LoginTO ) {
     switch ( options.flag ) {
-      case 0:        
+      case 0:
       this.localProvider.saveItem( KEYS_STORAGE.USER,options.user );
-      this.notification.configToken();
-      this.notification.onRegistration()
-      .subscribe((registration: any) => {
-        console.log('Registration', registration.registrationId);
-        this.notification.setNotificationToken(registration.registrationId);
-        this.notification.setUserToken(options.user.id)
-        .subscribe(() => {
-          this.getDataPerfil(options.user.id);
-          this.getImagesForUser();
+      if ((<any>window).cordova) {
+        this.notification.configToken();
+        this.notification.onRegistration()
+        .subscribe((registration: any) => {
+          console.log('Registration', registration.registrationId);
+          this.notification.setNotificationToken(registration.registrationId);
+          this.notification.setUserToken(options.user.id)
+          .subscribe(() => {
+            this.getDataPerfil(options.user.id);
+            this.getImagesForUser();
+          });
         });
-      });
+      } else {
+        // Browser mode: skip push notifications, navigate directly
+        this.getDataPerfil(options.user.id);
+        this.getImagesForUser();
+      }
       this.eventManager.setIsLoadingEvent(false);
       break;
       case 1:
@@ -246,17 +254,22 @@ export class LoginPage {
     loginTO.flag=0;
     loginTO.block=false;
 
-    this.notification.configToken();
-    this.notification.onRegistration()
-    .subscribe((registration: any) => {
-      console.log('Registration', registration.registrationId);
-      this.notification.setNotificationToken(registration.registrationId);
-      this.notification.setUserToken(loginTO.user.id)
-      .subscribe(() => {
-        this.getDataPerfil(loginTO.user.id);
-        this.getImagesForUserReload();
+    if ((<any>window).cordova) {
+      this.notification.configToken();
+      this.notification.onRegistration()
+      .subscribe((registration: any) => {
+        console.log('Registration', registration.registrationId);
+        this.notification.setNotificationToken(registration.registrationId);
+        this.notification.setUserToken(loginTO.user.id)
+        .subscribe(() => {
+          this.getDataPerfil(loginTO.user.id);
+          this.getImagesForUserReload();
+        });
       });
-    });
+    } else {
+      this.getDataPerfil(loginTO.user.id);
+      this.getImagesForUserReload();
+    }
     this.eventManager.setIsLoadingEvent(false);
   }
 

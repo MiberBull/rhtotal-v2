@@ -16,11 +16,9 @@ public class Constants {
     public static final String EMAIL_NOT_EXIST = "El correo no se encuentra dentro de nuestros registros";
     public static final String INVALID_CODE = "El código de seguridad es incorrecto, intenta nuevamente";
     public static final String USER_WITH_NO_TOKEN = "no existe este token asociado a este usuario";
-    public static final String SICO_FAIL_ERROR = "Ocurrió un error en el sistema, intenta confirmar tu cuenta nuevamente";
 
 
     public static final String SECURITY_SERVICE_ENDPOINT = "http://security-service/email/getParameterEmailConfig";
-    public static final String SICO_DATA_ENDPOINT = "http://paysheetsico-service/sico/SicoEmployee";
     public static final String EMAIL_SERVICE_ENDPOINT = "http://security-service/email/sendEmail";
 
     public static final String TEMPLATE_CHANGE_PASSWORD_EMAIL = "layoutOlvidePass";

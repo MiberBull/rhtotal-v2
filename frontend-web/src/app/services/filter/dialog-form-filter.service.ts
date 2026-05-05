@@ -41,8 +41,7 @@ export class DialogFormFilterService {
           (textTitle === 'Beneficios y Descuentos') ? 'AdminDescu' :
           (textTitle === 'Notificaciones') ? 'AdminNotificaciones' :
           (textTitle === 'Seguros') ? 'AdminSeguros' :
-          (textTitle === 'Clientes') ? 'AdminCliente' : 
-          (textTitle) === 'Anticipo' ? 'AdminAdelantos' : '') ;
+          (textTitle === 'Clientes') ? 'AdminCliente' : '') ;
   }
 
   getIconSearch(){

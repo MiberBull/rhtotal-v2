@@ -9,7 +9,6 @@ import { MyAccountPage } from '../my-account/my-account';
 import { ViewEventProvider } from '../../providers/view-event/view-event';
 import { ImagesApiProvider } from '../../providers/images-api/images-api';
 import { BenefitsPage } from '../benefits/benefits';
-import { FintechPage } from '../fintech/fintech';
 import { RhPage } from '../rh/rh';
 import { StorageProvider } from '../../providers/storage/storage';
 import { TYPE_USER, KEYS_STORAGE } from '../../environments/environments';
@@ -37,7 +36,6 @@ export class HomePage {
   autoplay:any;
   user:any;
   benefitsIntern = 'assets/icon/beneficios.svg';
-  fintechIntern = 'assets/icon/fintech_gris.svg';
   rhIntern = 'assets/icon/rh_gris.svg';
   arrowIntern = 'assets/icon/arrow_gris.svg';
   userType:string = '';
@@ -70,11 +68,9 @@ export class HomePage {
     this.user = this.storage_provider.getUser();
     this.userType = this.user.userType;
     if( this.userType == TYPE_USER.IN ) {
-      this.fintechIntern = 'assets/icon/fintech.svg';
       this.rhIntern = 'assets/icon/rh.svg';
       this.arrowIntern = 'assets/icon/arrow.svg';
     } else {
-      this.fintechIntern = 'assets/icon/fintech_gris.svg';
       this.rhIntern = 'assets/icon/rh_gris.svg';
       this.arrowIntern = 'assets/icon/arrow_gris.svg';
     }
@@ -82,7 +78,9 @@ export class HomePage {
   }
 
   ionViewDidEnter(){
-    this.splashScreen.hide();
+    if ((<any>window).cordova) {
+      this.splashScreen.hide();
+    }
     this.blockService();
   }
 
@@ -140,11 +138,6 @@ export class HomePage {
     switch(section) {
       case 'benefits':
       this.navCtrl.push( BenefitsPage );
-      break;
-      case 'fintech':
-      if( TYPE_USER.IN === this.userType ) {
-        this.navCtrl.push( FintechPage );
-      }
       break;
       case 'rh':
       if( TYPE_USER.IN === this.userType ) {

@@ -12,8 +12,7 @@ import { LocalStorageService } from '../../services/local-sotorage/localstorage.
 import { saveAs } from 'file-saver';
 import { DataService } from '../../services/data.service';
 import { DialogLoadingComponent } from '../../components/dialog-loading/dialog-loading.component';
-import { PaysheetService } from '../../services/paysheet/paysheet.service';
-import { TABS_FINTECH, environment, TABLE_ROUTE_USERS } from '../../../environments/environment.prod';
+import { environment, TABLE_ROUTE_USERS } from '../../../environments/environment.prod';
 import { Information } from '../../util/date';
 
 
@@ -34,8 +33,6 @@ export class ToolbarFabComponent implements OnInit, OnDestroy{
     ocultar:boolean=true;
     dialogRef:any;
 
-    tabFintech:number;
-
     showInputUpdate:boolean=true;
 
     constructor(
@@ -47,8 +44,7 @@ export class ToolbarFabComponent implements OnInit, OnDestroy{
         private _router:Router,
         private _tableService: GenericTableService,
         private _dowload: DownloadService,
-        private _data: DataService,
-        private _fintechService: PaysheetService) {
+        private _data: DataService) {
 
         this._toolbarFab.getVisible()
                         .subscribe( arrayToolbar => {
@@ -57,9 +53,6 @@ export class ToolbarFabComponent implements OnInit, OnDestroy{
 
         this._tableService.getHeadersInactive().subscribe( inactive => this.headersInactive = inactive );
         this._tableService.getHeadersActive().subscribe( active => this.headersActive = active );
-        this._fintechService.getTabFintech().subscribe(tab => {
-            this.tabFintech = Number(tab);
-        });
 
         this._toolbarFab.getRolUserRead().subscribe( (idRol:boolean) => {
             this.showInputUpdate = idRol;
@@ -83,25 +76,14 @@ export class ToolbarFabComponent implements OnInit, OnDestroy{
         dialogConfig.disableClose = true;
         dialogConfig.data={
           actives: this.headersActive,
-          inactives: this.headersInactive,          
-          tabFintech: this.tabFintech
+          inactives: this.headersInactive
         }
-        
+
         const dialogRef = this.dialog.open(SelectorColumnsComponent, dialogConfig);
 
         dialogRef.afterClosed().subscribe(result=>{
           let varLocalStorage = this._localStorageService.getVarLocalStorage( this._router.url.toString() );
-            if (varLocalStorage == null ){
-                if (this._router.url.toString() == '/home/adelantos/my-advance') {
-                    let nameStorage = this._localStorageService.getVarStorageFintechAdvance(this.tabFintech);
-                    localStorage.setItem(nameStorage, JSON.stringify(result));
-                    this._tableService.setColumnsGroups(result);                    
-                } else if (this._router.url.toString() == '/home/adelantos/velo-cash') {
-                    let nameStorage = this._localStorageService.getVarStorageFintechVeloCash(this.tabFintech);
-                    localStorage.setItem(nameStorage, JSON.stringify(result));
-                    this._tableService.setColumnsGroups(result);
-                }
-            }else{
+            if (varLocalStorage != null ){
                 console.log("prueba del local storage ", this._router.url.toString());
                 console.log("prueba del local storage ", varLocalStorage);
                 localStorage.setItem(varLocalStorage, JSON.stringify(result));
@@ -137,25 +119,6 @@ export class ToolbarFabComponent implements OnInit, OnDestroy{
 
                 URL = TABLE_ROUTE_USERS.EXCEL_USER
 
-            }
-
-            this._saveRouteService.setSectionExcel(this._router.url.toString());
-
-            if (this._saveRouteService.getSectionExcel() == 20){
-                let tabSelect = this._fintechService.getTabFintechSelection();
-                section = tabSelect == 0 ? TABS_FINTECH.FINTECH_ADVANCE_ES : 
-                    (tabSelect == 1 ? TABS_FINTECH.FINTECH_ADVANCE_AP : 
-                    (tabSelect == 2 ? TABS_FINTECH.FINTECH_ADVANCE_R : 11));
-
-                URL = PATH_EXCEL.GENERIC;
-                
-            } else if (this._saveRouteService.getSectionExcel() == 21){
-                let tabSelect = this._fintechService.getTabFintechSelection();
-                section = tabSelect == 0 ? TABS_FINTECH.FINTECH_VELOCASH_ES :
-                    (tabSelect == 1 ? TABS_FINTECH.FINTECH_VELOCASH_AP :
-                        (tabSelect == 2 ? TABS_FINTECH.FINTECH_VELOCASH_R : 12));
-
-                URL = PATH_EXCEL.GENERIC;
             }
 
             this._dowload.downloadExcel( URL,section).subscribe((data:any) => {

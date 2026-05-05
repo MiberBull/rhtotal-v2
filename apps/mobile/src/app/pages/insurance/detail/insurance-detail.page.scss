@@ -1,0 +1,126 @@
+.segment-content {
+  padding: 20px;
+}
+
+.insurance-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+
+  h1 {
+    margin: 0;
+    font-size: 1.375rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    flex: 1;
+  }
+
+  .type-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+}
+
+.provider {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ion-color-medium);
+  font-size: 0.875rem;
+  margin-bottom: 16px;
+
+  ion-icon {
+    font-size: 18px;
+  }
+}
+
+.description {
+  margin-bottom: 20px;
+
+  p {
+    margin: 0;
+    font-size: 0.875rem;
+    color: #424242;
+    line-height: 1.5;
+  }
+}
+
+.contact-section {
+  h3 {
+    margin: 0 0 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1a1a2e;
+  }
+
+  ion-item {
+    --padding-start: 0;
+    --inner-padding-end: 0;
+  }
+
+  ion-icon {
+    font-size: 20px;
+    margin-right: 12px;
+  }
+
+  ion-label {
+    font-size: 0.875rem;
+  }
+}
+
+ion-list {
+  ion-item {
+    --padding-start: 0;
+
+    h3 {
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: #1a1a2e;
+    }
+
+    p {
+      font-size: 0.8125rem;
+      color: #424242;
+    }
+
+    .coverage-amount {
+      font-weight: 600;
+      color: #1565c0;
+    }
+  }
+}
+
+.action-buttons {
+  padding: 16px 20px 32px;
+
+  ion-button {
+    --border-radius: 12px;
+    font-weight: 600;
+  }
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+
+  ion-icon {
+    font-size: 48px;
+    color: var(--ion-color-medium);
+    margin-bottom: 12px;
+  }
+
+  p {
+    font-size: 0.875rem;
+    color: var(--ion-color-medium);
+    text-align: center;
+  }
+}

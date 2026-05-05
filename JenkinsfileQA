@@ -5,12 +5,20 @@ pipeline {
     }*/
     tools {
         maven 'M3'
-        jdk 'jdk10'
+        jdk 'jdk21'
     }
     stages {
         stage('Build Components') {
             failFast true
             parallel {
+                stage('Build Eureka') {
+                    steps {
+                        echo 'Building Eureka Service Spring boot'
+                        dir ('eureka-service/'){
+                            sh 'mvn clean package'
+                        }
+                    }
+                }
                 stage('Build Gateway') {
                     steps {
                         echo 'Building Webservice Spring boot'
@@ -48,19 +56,6 @@ pipeline {
                         }
                     }
                 }
-                stage('Build Fintech') {
-                    steps {
-                        echo 'Building Webservice Spring boot'
-                        dir ('fintech-service/fintech-web/src/main/resources/'){
-                            sh 'sed -i "s/postgres:5432/postgresqa:5432/g" application.yml'
-                            sh 'sed -i "s/gatewayservice:8000/gatewayservice:9000/g" application.yml'
-                            sh 'sed -i "s/port: 8093/port: 9093/g" application.yml'
-                        }
-                        dir ('fintech-service/'){
-                            sh 'mvn clean package'
-                        }
-                    }
-                }
                 stage('Build User') {
                     steps {
                         echo 'Building Webservice Spring boot'
@@ -70,19 +65,6 @@ pipeline {
                             sh 'sed -i "s/port: 8092/port: 9092/g" application.yml'
                         }
                         dir ('user-service/'){
-                            sh 'mvn clean package'
-                        }
-                    }
-                }
-                stage('Build Paysheetsico') {
-                    steps {
-                        echo 'Building Webservice Spring boot'
-                        dir ('paysheetsico-service/paysheetsico-web/src/main/resources/'){
-                            sh 'sed -i "s/postgres:5432/postgresqa:5432/g" application.yml'
-                            sh 'sed -i "s/gatewayservice:8000/gatewayservice:9000/g" application.yml'
-                            sh 'sed -i "s/port: 8094/port: 9094/g" application.yml'
-                        }
-                        dir ('paysheetsico-service/'){
                             sh 'mvn clean package'
                         }
                     }
@@ -131,8 +113,8 @@ pipeline {
             }
         }
     }
-    post { 
-        always { 
+    post {
+        always {
             deleteDir()
         }
         success {

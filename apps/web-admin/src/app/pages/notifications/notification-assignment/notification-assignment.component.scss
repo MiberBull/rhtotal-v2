@@ -1,0 +1,260 @@
+// --- Notification Assignment Page ---
+
+.notification-assignment-page {
+  max-width: 1200px;
+}
+
+// --- Page Header ---
+
+.page-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+
+  .back-button {
+    color: #616161;
+
+    &:hover {
+      color: #1a1a2e;
+    }
+  }
+
+  .header-info {
+    h1 {
+      margin: 0;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #1a1a2e;
+    }
+
+    .subtitle {
+      margin: 4px 0 0;
+      font-size: 0.875rem;
+      color: #757575;
+    }
+  }
+}
+
+// --- Loading State ---
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 24px;
+  gap: 16px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+
+  .loading-text {
+    font-size: 0.875rem;
+    color: #757575;
+  }
+}
+
+// --- Assignment Container ---
+
+.assignment-container {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 24px;
+  align-items: start;
+
+  @media (max-width: 960px) {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+// --- Panel ---
+
+.panel {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  max-height: 600px;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #e5e7eb;
+
+  h3 {
+    margin: 0;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: #1a1a2e;
+  }
+
+  .count-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 24px;
+    height: 24px;
+    padding: 0 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    background: #e3f2fd;
+    color: #1565c0;
+
+    &.assigned {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+  }
+}
+
+.panel-search {
+  padding: 12px 16px 0;
+
+  .search-field {
+    width: 100%;
+
+    ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+      display: none;
+    }
+  }
+}
+
+.panel-list {
+  overflow-y: auto;
+  padding: 8px;
+  flex: 1;
+  min-height: 300px;
+
+  &.full-height {
+    min-height: 360px;
+  }
+}
+
+// --- Employee Item ---
+
+.employee-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background: #f5f7ff;
+  }
+
+  &.selected {
+    background: #e3f2fd;
+  }
+
+  .employee-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+
+    .employee-name {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: #1a1a2e;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .employee-email {
+      font-size: 0.75rem;
+      color: #9e9e9e;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}
+
+// --- Empty Panel ---
+
+.empty-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 16px;
+  text-align: center;
+
+  p {
+    margin: 0;
+    font-size: 0.875rem;
+    color: #9e9e9e;
+  }
+}
+
+// --- Transfer Buttons ---
+
+.transfer-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding-top: 120px;
+
+  button {
+    width: 48px;
+    height: 48px;
+
+    mat-icon {
+      font-size: 24px;
+    }
+  }
+
+  @media (max-width: 960px) {
+    flex-direction: row;
+    padding-top: 0;
+
+    button mat-icon {
+      transform: rotate(90deg);
+    }
+  }
+}
+
+// --- Save Actions ---
+
+.save-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+
+  button {
+    border-radius: 8px;
+    text-transform: none;
+    font-weight: 500;
+    letter-spacing: 0;
+  }
+
+  button[mat-flat-button] {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 20px;
+    height: 40px;
+  }
+
+  @media (max-width: 600px) {
+    flex-direction: column-reverse;
+
+    button {
+      width: 100%;
+    }
+  }
+}

@@ -38,15 +38,9 @@ import { UserFormContractingDataComponent } from './user-admin/user-form-contrac
 import { UserFormLastJobComponent } from './user-admin/user-form-last-job/user-form-last-job.component';
 import { UserFormCompenPackageComponent } from './user-admin/user-form-compen-package/user-form-compen-package.component';
 import { UserFormAssignmentDataComponent } from './user-admin/user-form-assignment-data/user-form-assignment-data.component';
-import { PaysheetComponent } from './paysheet/paysheet.component';
 import { StickyBelowViewDirective } from '../directives/sticky-below-view.directive';
 import { MycurrencyDirective } from '../directives/mycurrency.directive';
-import { PaysheetFormsComponent } from './paysheet/paysheet-forms/paysheet-forms.component';
-import { PaysheetVeloCashComponent } from './paysheet/paysheet-velo-cash/paysheet-velo-cash.component';
-import { PaysheetMyAdvanceComponent } from './paysheet/paysheet-my-advance/paysheet-my-advance.component';
-import { InfoTablePaysheetComponent } from './paysheet/info-table-paysheet/info-table-paysheet.component';
 import { ThreeStepsSelectorModule } from 'three-steps-selector';
-import { DialogFintechComponent } from './paysheet/dialog-fintech/dialog-fintech.component';
 import { VehicleInsuranceComponent } from './insurance-admin/vehicle-insurance/vehicle-insurance.component';
 import { LifeInsuranceComponent } from './insurance-admin/life-insurance/life-insurance.component';
 import { InsuranceMedicalExpensesComponent } from './insurance-admin/insurance-medical-expenses/insurance-medical-expenses.component';
@@ -92,13 +86,7 @@ import { CustomCurrencyPipe } from '../pipes/CustomCurrencyPipe';
         UserFormLastJobComponent,
         UserFormCompenPackageComponent,
         UserFormAssignmentDataComponent,
-        PaysheetComponent,
         StickyBelowViewDirective,
-        PaysheetFormsComponent,
-        PaysheetVeloCashComponent,
-        PaysheetMyAdvanceComponent,
-        InfoTablePaysheetComponent,
-        DialogFintechComponent,
         VehicleInsuranceComponent,
         LifeInsuranceComponent,
         InsuranceMedicalExpensesComponent,
@@ -139,7 +127,6 @@ import { CustomCurrencyPipe } from '../pipes/CustomCurrencyPipe';
         
     ],
     entryComponents:[
-        DialogFintechComponent,
         DialogEventualitiesComponent,
         PlanCoverageComponent,
         ConfirmationDialogComponent

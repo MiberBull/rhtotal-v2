@@ -1,0 +1,76 @@
+<div class="discounts-list-page">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-info">
+      <h1>Beneficios y Descuentos</h1>
+      <p class="subtitle">Gestiona los descuentos y beneficios disponibles para los empleados.</p>
+    </div>
+    <button mat-flat-button color="primary" (click)="navigateToNew()">
+      <mat-icon>add_circle</mat-icon>
+      Nuevo Beneficio
+    </button>
+  </div>
+
+  <!-- Category Filter -->
+  <div class="filter-bar">
+    <mat-form-field appearance="outline" class="category-filter">
+      <mat-label>Filtrar por categoria</mat-label>
+      <mat-select [value]="selectedCategory()" (selectionChange)="onCategoryChange($event.value)">
+        <mat-option [value]="null">Todas las categorias</mat-option>
+        @for (cat of categories(); track cat.idCategory ?? $index) {
+          <mat-option [value]="cat.idCategory ?? cat.id">{{ cat.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <!-- Content -->
+  @if (loading()) {
+    <div class="loading-container">
+      <mat-spinner diameter="40"></mat-spinner>
+      <span class="loading-text">Cargando beneficios...</span>
+    </div>
+  } @else {
+    @if (filteredDiscounts().length === 0) {
+      <div class="empty-state">
+        <mat-icon>local_offer</mat-icon>
+        <h3>No se encontraron beneficios</h3>
+        <p>
+          @if (selectedCategory()) {
+            No hay beneficios en esta categoria. Intenta con otra.
+          } @else {
+            Aun no hay beneficios registrados. Crea uno nuevo para comenzar.
+          }
+        </p>
+      </div>
+    } @else {
+      <div class="card-grid">
+        @for (discount of filteredDiscounts(); track discount.idDiscount ?? discount.id ?? $index) {
+          <div class="discount-card" (click)="navigateToEdit(discount)">
+            <div class="card-image">
+              @if (getImageUrl(discount)) {
+                <img [src]="getImageUrl(discount)" [alt]="discount.name" />
+              } @else {
+                <div class="image-placeholder">
+                  <mat-icon>image</mat-icon>
+                </div>
+              }
+              <div class="card-overlay">
+                <button mat-mini-fab color="primary" (click)="navigateToEdit(discount); $event.stopPropagation()">
+                  <mat-icon>edit</mat-icon>
+                </button>
+              </div>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">{{ discount.name }}</h3>
+              <span class="card-category">{{ getCategoryName(discount) }}</span>
+              @if (discount.discountPercentage) {
+                <span class="card-discount">{{ discount.discountPercentage }}% descuento</span>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    }
+  }
+</div>

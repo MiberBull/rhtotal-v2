@@ -1,0 +1,57 @@
+<div class="user-detail-container">
+  <!-- Header -->
+  <div class="page-header">
+    <button mat-icon-button (click)="goBack()" class="back-btn">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <div class="header-info">
+      <h1>{{ getEmployeeName() || 'Detalle del empleado' }}</h1>
+      <p class="subtitle">Administra la informacion del empleado</p>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  @if (loading()) {
+    <div class="loading-container">
+      <mat-spinner diameter="48"></mat-spinner>
+      <p>Cargando datos del empleado...</p>
+    </div>
+  } @else if (employee()) {
+    <!-- Tabs -->
+    <mat-tab-group animationDuration="200ms" class="detail-tabs">
+      <mat-tab label="Datos Personales">
+        <app-personal-info [idUser]="idUser()" [employeeData]="employee()" />
+      </mat-tab>
+
+      <mat-tab label="Domicilio">
+        <app-address [idUser]="idUser()" [employeeData]="employee()" />
+      </mat-tab>
+
+      <mat-tab label="Redes Sociales">
+        <app-social-networks [idUser]="idUser()" />
+      </mat-tab>
+
+      <mat-tab label="Contratacion">
+        <app-contracting [idUser]="idUser()" />
+      </mat-tab>
+
+      <mat-tab label="Historial Laboral">
+        <app-history [idUser]="idUser()" />
+      </mat-tab>
+
+      <mat-tab label="Compensacion">
+        <app-compensation [idUser]="idUser()" />
+      </mat-tab>
+
+      <mat-tab label="Asignacion">
+        <app-assignment [idUser]="idUser()" />
+      </mat-tab>
+    </mat-tab-group>
+  } @else {
+    <div class="empty-state">
+      <mat-icon>person_off</mat-icon>
+      <p>No se encontro informacion del empleado</p>
+      <button mat-stroked-button (click)="goBack()">Regresar a la lista</button>
+    </div>
+  }
+</div>

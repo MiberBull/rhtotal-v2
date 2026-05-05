@@ -1,0 +1,78 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Acerca de Nosotros</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="companyInfo">
+  <!-- Logo / Header -->
+  <div class="about-header">
+    <div class="logo-placeholder" *ngIf="!companyInfo.logo">
+      <ion-icon name="business-outline"></ion-icon>
+    </div>
+    <img *ngIf="companyInfo.logo" [src]="companyInfo.logo" alt="Logo" class="company-logo" />
+    <h1>{{ companyInfo.name || 'DCH Know Who' }}</h1>
+  </div>
+
+  <!-- Mission -->
+  <div class="info-section" *ngIf="companyInfo.mission">
+    <div class="section-header">
+      <ion-icon name="flag-outline" color="primary"></ion-icon>
+      <h3>Mision</h3>
+    </div>
+    <p>{{ companyInfo.mission }}</p>
+  </div>
+
+  <!-- Vision -->
+  <div class="info-section" *ngIf="companyInfo.vision">
+    <div class="section-header">
+      <ion-icon name="eye-outline" color="primary"></ion-icon>
+      <h3>Vision</h3>
+    </div>
+    <p>{{ companyInfo.vision }}</p>
+  </div>
+
+  <!-- Values -->
+  <div class="info-section" *ngIf="companyInfo.values">
+    <div class="section-header">
+      <ion-icon name="heart-outline" color="primary"></ion-icon>
+      <h3>Valores</h3>
+    </div>
+    <p>{{ companyInfo.values }}</p>
+  </div>
+
+  <!-- Contact Info -->
+  <div class="contact-section">
+    <h3>Contacto</h3>
+    <ion-card class="contact-card">
+      <ion-card-content>
+        <ion-list lines="none">
+          <ion-item *ngIf="companyInfo.phone">
+            <ion-icon name="call-outline" slot="start" color="primary"></ion-icon>
+            <ion-label>{{ companyInfo.phone }}</ion-label>
+          </ion-item>
+          <ion-item *ngIf="companyInfo.email">
+            <ion-icon name="mail-outline" slot="start" color="primary"></ion-icon>
+            <ion-label>{{ companyInfo.email }}</ion-label>
+          </ion-item>
+          <ion-item *ngIf="companyInfo.address">
+            <ion-icon name="location-outline" slot="start" color="primary"></ion-icon>
+            <ion-label class="ion-text-wrap">{{ companyInfo.address }}</ion-label>
+          </ion-item>
+          <ion-item *ngIf="companyInfo.website" (click)="openWebsite()" detail>
+            <ion-icon name="globe-outline" slot="start" color="primary"></ion-icon>
+            <ion-label>{{ companyInfo.website }}</ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- App version -->
+  <div class="version-section">
+    <p>Version 1.0.0</p>
+  </div>
+</ion-content>

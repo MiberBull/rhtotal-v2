@@ -25,13 +25,9 @@ export class DownloadService {
               (ruta === '/home/notificaciones' ? `Notificaciones_${fecha}.xlsx`:
               (ruta === '/home/descuentos' ? `Beneficios y Descuentos_${fecha}.xlsx`:
               (ruta === '/home/banners' ? `Banners_${fecha}.xlsx`:
-              (ruta === '/home/adelantos' ? `Anticipo_${fecha}.xlsx`:
               (ruta === '/home/clientes' ? `Clientes_${fecha}.xlsx`:
-              (ruta === '/home/descuentos' ? `Beneficios y Descuentos_${fecha}.xlsx` : 
-              (ruta === '/home/adelantos/my-advance' ? `FintechMiAdelanto${fecha}.xlsx` :
-              (ruta === '/home/adelantos/velo-cash') ? `FintechVeloCash_${fecha}.xlsx` : 
-              (ruta === '/home/seguros' ? `Seguros_${fecha}.xlsx` : 
-              (ruta === '/home/usuarios' ? `Usuarios_${fecha}.xlsx` : '')) )))))));
+              (ruta === '/home/seguros' ? `Seguros_${fecha}.xlsx` :
+              (ruta === '/home/usuarios' ? `Usuarios_${fecha}.xlsx` : ''))))));
     }
 
 }

@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Seguros</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="insurances.length > 0" lines="none" class="insurance-list">
+    <ion-card *ngFor="let insurance of insurances" (click)="navigateToDetail(insurance)" class="insurance-card">
+      <ion-card-header>
+        <div class="card-header-row">
+          <ion-card-title>{{ insurance.name }}</ion-card-title>
+          <span
+            class="type-badge"
+            *ngIf="insurance.type"
+            [style.background]="getTypeBadgeColor(insurance.type) + '15'"
+            [style.color]="getTypeBadgeColor(insurance.type)"
+          >
+            {{ insurance.type }}
+          </span>
+        </div>
+        <ion-card-subtitle *ngIf="insurance.provider">{{ insurance.provider }}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content *ngIf="insurance.description">
+        <p class="insurance-description">{{ insurance.description }}</p>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+
+  <!-- Empty state -->
+  <div class="empty-state" *ngIf="insurances.length === 0">
+    <ion-icon name="shield-checkmark-outline"></ion-icon>
+    <p>No hay seguros disponibles</p>
+  </div>
+</ion-content>

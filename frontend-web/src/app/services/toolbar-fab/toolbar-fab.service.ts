@@ -134,34 +134,6 @@ const toolbarVisible = [
                                       {"item":"excel", "visible":true},
                                       {"item":"settings", "visible":true},
                                     ]},                                    
-    {"url":"/home/adelantos","toolbar": [
-                                      {"item":"search", "visible":true},
-                                      {"item":"add", "visible":false},
-                                      {"item":"excel", "visible":true},
-                                      {"item":"settings", "visible":true},
-                                    ]}, 
-    {"url": "/home/adelantos/my-advance", "toolbar": [
-                                        { "item": "search", "visible": true },
-                                        { "item": "add", "visible": false },
-                                        { "item": "excel", "visible": true },
-                                        { "item": "settings", "visible": true },
-                                    ]
-                                },  
-    {"url": "/home/adelantos/velo-cash", "toolbar": [
-                                        { "item": "search", "visible": true },
-                                        { "item": "add", "visible": false },
-                                        { "item": "excel", "visible": true },
-                                        { "item": "settings", "visible": true },
-                                    ]
-                                },   
-
-    {"url": "/home/adelantos-detalle", "toolbar": [
-                                    { "item": "search", "visible": false },
-                                    { "item": "add", "visible": false },
-                                    { "item": "excel", "visible": false },
-                                    { "item": "settings", "visible": false },
-                                ]
-                            },
     {"url":"/home/clientes","toolbar": [
                                       {"item":"search", "visible":false},
                                       {"item":"add", "visible":true},

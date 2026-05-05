@@ -82,16 +82,18 @@ export class AsignationDataPage {
   getSicoAsignacionData(curp:string, name:string){
     let nameCompouse  = name.trim().replace(' ','+');
     this.users.getWorkInfoSico(curp,nameCompouse).subscribe(data=>{
-      console.log(data);
-      let sicoAsignacion  = new AsignationDataTO();
-
-      this.client = data.data.pago[0].nombreCliente;
-      this.project = data.data.pago[0].nombreProyecto;
-      sicoAsignacion.employeePosition = data.data.personal.puesto;
-      this.loadFormInput(sicoAsignacion);
-      console.log(data);
+      if(data && data.data && data.data.pago && data.data.pago.length > 0) {
+        let asignacionData  = new AsignationDataTO();
+        this.client = data.data.pago[0].nombreCliente;
+        this.project = data.data.pago[0].nombreProyecto;
+        asignacionData.employeePosition = data.data.personal.puesto;
+        this.loadFormInput(asignacionData);
+      } else {
+        this.loading.setIsLoadingEvent(false);
+      }
       },error=>{
       console.log(error);
+      this.loading.setIsLoadingEvent(false);
     });
   }
 
