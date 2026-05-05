@@ -202,6 +202,11 @@ docker-compose.override.yml
 #Eclipse IDE
 .project
 
+# Secrets
+.env
+.env.local
+.env.production
+
 # Release
 *.apk
 *.ipa

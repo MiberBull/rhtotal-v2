@@ -21,7 +21,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 
-@CrossOrigin(origins = "*", allowedHeaders = "*", allowCredentials = "true")
 @RestController
 @RequestMapping("sico")
 public class EmployeeResource {

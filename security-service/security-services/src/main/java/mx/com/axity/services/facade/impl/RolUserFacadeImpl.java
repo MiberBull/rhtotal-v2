@@ -59,7 +59,6 @@ public class RolUserFacadeImpl implements IRolUserFacade {
                     return Boolean.FALSE;
                 }
                 var pwd_decrypt = AES.decrypt( role.getRoleList().get(0).getPassword() );
-                System.out.println(pwd_decrypt);
                 var pwd_encrypt_sha = SHA.encrypt( pwd_decrypt );
 
                 role.getRoleList().get(0).setLastModification(LocalDateTime.now());

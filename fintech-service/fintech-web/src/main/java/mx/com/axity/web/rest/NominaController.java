@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@CrossOrigin( origins = "*", allowedHeaders = "*", allowCredentials = "true")
 @RestController
 @RequestMapping("nomina")
 public class NominaController {
