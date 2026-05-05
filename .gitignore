@@ -203,8 +203,8 @@ docker-compose.override.yml
 .project
 
 # Secrets
-secret
 .env
+.env.local.env
 .env.local
 .env.production
 
