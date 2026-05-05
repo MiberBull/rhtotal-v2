@@ -1,0 +1,129 @@
+// DCH Know Who — Design Tokens
+// Brand colors, typography, spacing
+
+// ============================================
+// COLORS
+// ============================================
+
+// Primary palette
+$dch-primary-50: #e3f2fd;
+$dch-primary-100: #bbdefb;
+$dch-primary-200: #90caf9;
+$dch-primary-300: #64b5f6;
+$dch-primary-400: #42a5f5;
+$dch-primary-500: #1565c0; // Main brand blue
+$dch-primary-600: #1255a1;
+$dch-primary-700: #0d4788;
+$dch-primary-800: #093a6f;
+$dch-primary-900: #052d56;
+
+// Accent palette
+$dch-accent-50: #fce4ec;
+$dch-accent-100: #f8bbd0;
+$dch-accent-200: #f48fb1;
+$dch-accent-300: #f06292;
+$dch-accent-400: #ec407a;
+$dch-accent-500: #e91e63;
+$dch-accent-600: #d81b60;
+$dch-accent-700: #c2185b;
+$dch-accent-800: #ad1457;
+$dch-accent-900: #880e4f;
+
+// Neutral palette
+$dch-neutral-50: #fafafa;
+$dch-neutral-100: #f5f5f5;
+$dch-neutral-200: #eeeeee;
+$dch-neutral-300: #e0e0e0;
+$dch-neutral-400: #bdbdbd;
+$dch-neutral-500: #9e9e9e;
+$dch-neutral-600: #757575;
+$dch-neutral-700: #616161;
+$dch-neutral-800: #424242;
+$dch-neutral-900: #212121;
+
+// Semantic colors
+$dch-success: #4caf50;
+$dch-warning: #ff9800;
+$dch-error: #f44336;
+$dch-info: #2196f3;
+
+// Background
+$dch-bg-primary: #ffffff;
+$dch-bg-secondary: #f8f9fa;
+$dch-bg-dark: #1a1a2e;
+
+// ============================================
+// TYPOGRAPHY
+// ============================================
+
+$dch-font-family: 'Inter', 'Roboto', sans-serif;
+$dch-font-family-mono: 'JetBrains Mono', monospace;
+
+$dch-font-size-xs: 0.75rem;    // 12px
+$dch-font-size-sm: 0.875rem;   // 14px
+$dch-font-size-base: 1rem;     // 16px
+$dch-font-size-lg: 1.125rem;   // 18px
+$dch-font-size-xl: 1.25rem;    // 20px
+$dch-font-size-2xl: 1.5rem;    // 24px
+$dch-font-size-3xl: 1.875rem;  // 30px
+$dch-font-size-4xl: 2.25rem;   // 36px
+
+$dch-font-weight-regular: 400;
+$dch-font-weight-medium: 500;
+$dch-font-weight-semibold: 600;
+$dch-font-weight-bold: 700;
+
+$dch-line-height-tight: 1.25;
+$dch-line-height-normal: 1.5;
+$dch-line-height-relaxed: 1.75;
+
+// ============================================
+// SPACING
+// ============================================
+
+$dch-space-1: 0.25rem;   // 4px
+$dch-space-2: 0.5rem;    // 8px
+$dch-space-3: 0.75rem;   // 12px
+$dch-space-4: 1rem;      // 16px
+$dch-space-5: 1.25rem;   // 20px
+$dch-space-6: 1.5rem;    // 24px
+$dch-space-8: 2rem;      // 32px
+$dch-space-10: 2.5rem;   // 40px
+$dch-space-12: 3rem;     // 48px
+$dch-space-16: 4rem;     // 64px
+
+// ============================================
+// BORDERS & SHADOWS
+// ============================================
+
+$dch-radius-sm: 4px;
+$dch-radius-md: 8px;
+$dch-radius-lg: 12px;
+$dch-radius-xl: 16px;
+$dch-radius-full: 9999px;
+
+$dch-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+$dch-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+$dch-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+$dch-shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
+
+// ============================================
+// BREAKPOINTS
+// ============================================
+
+$dch-breakpoint-sm: 576px;
+$dch-breakpoint-md: 768px;
+$dch-breakpoint-lg: 992px;
+$dch-breakpoint-xl: 1200px;
+$dch-breakpoint-xxl: 1400px;
+
+// ============================================
+// Z-INDEX
+// ============================================
+
+$dch-z-dropdown: 1000;
+$dch-z-sticky: 1020;
+$dch-z-fixed: 1030;
+$dch-z-modal-backdrop: 1040;
+$dch-z-modal: 1050;
+$dch-z-tooltip: 1070;

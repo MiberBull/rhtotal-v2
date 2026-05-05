@@ -33,6 +33,10 @@ export class NetworkService {
      * 
      **/
      startNetworkService(){
+         if(!(<any>window).cordova){
+             this.isConnected = true;
+             return;
+         }
          try{
              this.connected = this.network.onConnect().subscribe(data => {                
                  if(this.previousStatus === ConnectionStatusEnum.Offline){
@@ -95,6 +99,7 @@ export class NetworkService {
      }
 
      stopNetworkService(){
+         if(!(<any>window).cordova) return;
          try {
              this.connected.unsubscribe();
              this.disconnected.unsubscribe();

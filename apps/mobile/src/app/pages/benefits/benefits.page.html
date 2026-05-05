@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Beneficios</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="categories-section">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6" *ngFor="let category of categories; let i = index">
+          <div class="category-card" (click)="navigateToCategory(category)">
+            <div
+              class="category-icon-circle"
+              [style.background]="getCategoryColor(i) + '15'"
+            >
+              <ion-icon
+                [name]="getCategoryIcon(category, i)"
+                [style.color]="getCategoryColor(i)"
+              ></ion-icon>
+            </div>
+            <span class="category-name">{{ category.name }}</span>
+            <span class="category-count" *ngIf="category.discountCount">
+              {{ category.discountCount }} descuentos
+            </span>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <!-- Empty state -->
+  <div class="empty-state" *ngIf="categories.length === 0">
+    <ion-icon name="gift-outline"></ion-icon>
+    <p>No hay beneficios disponibles</p>
+  </div>
+</ion-content>

@@ -1,0 +1,36 @@
+<div
+  class="upload-zone"
+  [class.drag-over]="isDragOver()"
+  [class.has-file]="fileName()"
+  [class.has-error]="error()"
+  (dragover)="onDragOver($event)"
+  (dragleave)="onDragLeave($event)"
+  (drop)="onDrop($event)"
+>
+  <input
+    #fileInput
+    type="file"
+    [accept]="accept()"
+    (change)="onFileInputChange($event)"
+    hidden
+  />
+
+  <div class="upload-content" (click)="fileInput.click()">
+    @if (fileName()) {
+      <mat-icon class="file-icon">description</mat-icon>
+      <p class="file-name">{{ fileName() }}</p>
+      <button mat-button color="primary" (click)="$event.stopPropagation(); fileInput.click()">
+        Change file
+      </button>
+    } @else {
+      <mat-icon class="upload-icon">cloud_upload</mat-icon>
+      <p class="label">{{ label() }}</p>
+      <p class="hint">Drag & drop or click to browse</p>
+      <p class="size-hint">Max size: {{ maxSize() }}MB</p>
+    }
+  </div>
+</div>
+
+@if (error()) {
+  <p class="error-message">{{ error() }}</p>
+}

@@ -1,0 +1,91 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/insurance"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Solicitar Cotizacion</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Success state -->
+  <div class="success-state" *ngIf="success">
+    <div class="success-icon">
+      <ion-icon name="checkmark-circle-outline"></ion-icon>
+    </div>
+    <h2>Solicitud enviada</h2>
+    <p>Tu solicitud de cotizacion ha sido enviada exitosamente. Nos pondremos en contacto contigo pronto.</p>
+    <ion-button expand="block" routerLink="/insurance">
+      Volver a Seguros
+    </ion-button>
+  </div>
+
+  <!-- Form -->
+  <div class="form-container" *ngIf="!success">
+    <p class="form-description">
+      Completa el formulario para solicitar una cotizacion de seguro. Un asesor se comunicara contigo.
+    </p>
+
+    <form [formGroup]="quoteForm" (ngSubmit)="onSubmit()">
+      <!-- Type -->
+      <ion-item class="form-item" [class.ion-invalid]="submitted && quoteForm.get('type')?.invalid">
+        <ion-label position="stacked">Tipo de seguro *</ion-label>
+        <ion-select formControlName="type" placeholder="Selecciona un tipo">
+          <ion-select-option *ngFor="let type of insuranceTypes" [value]="type.value">
+            {{ type.label }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+      <div class="error-message" *ngIf="submitted && quoteForm.get('type')?.hasError('required')">
+        Selecciona un tipo de seguro
+      </div>
+
+      <!-- Name -->
+      <ion-item class="form-item" [class.ion-invalid]="submitted && quoteForm.get('name')?.invalid">
+        <ion-label position="stacked">Nombre completo *</ion-label>
+        <ion-input formControlName="name" type="text" placeholder="Tu nombre"></ion-input>
+      </ion-item>
+      <div class="error-message" *ngIf="submitted && quoteForm.get('name')?.hasError('required')">
+        El nombre es requerido
+      </div>
+
+      <!-- Email -->
+      <ion-item class="form-item" [class.ion-invalid]="submitted && quoteForm.get('email')?.invalid">
+        <ion-label position="stacked">Correo electronico *</ion-label>
+        <ion-input formControlName="email" type="email" placeholder="tu@correo.com"></ion-input>
+      </ion-item>
+      <div class="error-message" *ngIf="submitted && quoteForm.get('email')?.hasError('required')">
+        El correo es requerido
+      </div>
+      <div class="error-message" *ngIf="submitted && quoteForm.get('email')?.hasError('email')">
+        Ingresa un correo valido
+      </div>
+
+      <!-- Phone -->
+      <ion-item class="form-item" [class.ion-invalid]="submitted && quoteForm.get('phone')?.invalid">
+        <ion-label position="stacked">Telefono (10 digitos) *</ion-label>
+        <ion-input formControlName="phone" type="tel" placeholder="5512345678"></ion-input>
+      </ion-item>
+      <div class="error-message" *ngIf="submitted && quoteForm.get('phone')?.hasError('required')">
+        El telefono es requerido
+      </div>
+      <div class="error-message" *ngIf="submitted && quoteForm.get('phone')?.hasError('pattern')">
+        Ingresa un telefono de 10 digitos
+      </div>
+
+      <!-- Message -->
+      <ion-item class="form-item">
+        <ion-label position="stacked">Mensaje (opcional)</ion-label>
+        <ion-textarea formControlName="message" rows="4" placeholder="Comentarios adicionales..."></ion-textarea>
+      </ion-item>
+
+      <!-- Submit -->
+      <div class="form-actions">
+        <ion-button expand="block" type="submit">
+          <ion-icon name="send-outline" slot="start"></ion-icon>
+          Enviar solicitud
+        </ion-button>
+      </div>
+    </form>
+  </div>
+</ion-content>

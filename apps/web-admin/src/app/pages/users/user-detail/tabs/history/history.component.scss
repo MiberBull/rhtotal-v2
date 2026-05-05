@@ -1,0 +1,35 @@
+@use '../tab-shared';
+
+.tab-content {
+  .history-entry {
+    margin-bottom: 24px;
+
+    .entry-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+
+      h4 {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 500;
+        color: rgba(0, 0, 0, 0.7);
+      }
+    }
+
+    mat-divider {
+      margin-top: 24px;
+    }
+  }
+
+  .add-entry {
+    margin: 16px 0;
+
+    button {
+      mat-icon {
+        margin-right: 4px;
+      }
+    }
+  }
+}

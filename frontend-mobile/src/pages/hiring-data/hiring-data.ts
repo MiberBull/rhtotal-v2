@@ -62,12 +62,17 @@ geContratingDataRHTotal(){
 getSicoContratingData(curp:string, name:string){
   name = name.replace(' ', '+'); // Patch for complex names
   this.users.getWorkInfoSico(curp,name).subscribe(data=>{
-  let contrect = new ContratingDataTO();
-  contrect.qtSalary = data.data.pago[0].salarioRealPercibidoMes
-  contrect.job = data.data.personal.puesto
-  this.loadFormInput(contrect);
+    if(data && data.data && data.data.pago && data.data.pago.length > 0) {
+      let contrect = new ContratingDataTO();
+      contrect.qtSalary = data.data.pago[0].salarioRealPercibidoMes;
+      contrect.job = data.data.personal.puesto;
+      this.loadFormInput(contrect);
+    } else {
+      this.loading.setIsLoadingEvent(false);
+    }
   },error=>{
     console.log(error);
+    this.loading.setIsLoadingEvent(false);
   });
 }
 

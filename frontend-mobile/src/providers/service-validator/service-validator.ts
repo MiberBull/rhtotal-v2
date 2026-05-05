@@ -60,15 +60,17 @@ export class ServiceValidator {
    * @function checkServiceStatus check if service is available to set service
    **/
    checkServiceStatus(){
-     this.validatorTemp.getEmailsToSend('loansActive').subscribe( (res:any) => 
-     { 
+     this.validatorTemp.getEmailsToSend('loansActive').subscribe( (res:any) =>
+     {
        this.isActiveService = res[0][0] === '1' ? true : false;
        this.statusDeactivated = res[0][0];
 
        console.log('loansActive: ', JSON.stringify(res));
      },
      error => {
-       console.log('Error Property: ', JSON.stringify(error));
+       console.log('Error Property (assuming active): ', JSON.stringify(error));
+       this.isActiveService = true;
+       this.statusDeactivated = "1";
      },
      ()=>{
        console.log('SERVICE? ', this.isActiveService);

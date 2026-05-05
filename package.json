@@ -1,0 +1,38 @@
+{
+  "name": "dch-knowwho-platform",
+  "version": "1.0.0",
+  "private": true,
+  "description": "DCH Know Who Platform - Monorepo",
+  "workspaces": [
+    "apps/web-admin",
+    "apps/mobile",
+    "libs/shared"
+  ],
+  "scripts": {
+    "start:web": "npm run start -w apps/web-admin",
+    "build:web": "npm run build -w apps/web-admin",
+    "start:mobile": "npm run start -w apps/mobile",
+    "build:mobile": "npm run build -w apps/mobile",
+    "build:shared": "npm run build -w libs/shared",
+    "lint": "npm run lint --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "prepare": "husky"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.3.0",
+    "eslint-config-prettier": "^10.1.8",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
+    "prettier": "^3.8.3",
+    "typescript-eslint": "^8.59.1"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": ["eslint --fix", "prettier --write"],
+    "*.{html,scss,css,json,md}": ["prettier --write"]
+  }
+}

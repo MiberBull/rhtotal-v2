@@ -12,12 +12,20 @@ pipeline {
     }
     tools {
         maven 'M3'
-        jdk 'jdk10'
+        jdk 'jdk21'
     }
     stages {
         stage('Build Components') {
             failFast true
             parallel {
+                stage('Build Eureka') {
+                    steps {
+                        echo 'Building Eureka Service Spring boot'
+                        dir ('eureka-service/'){
+                            sh 'mvn clean package'
+                        }
+                    }
+                }
                 stage('Build Gateway') {
                     steps {
                         echo 'Building Webservice Spring boot'
@@ -59,21 +67,6 @@ pipeline {
                         }
                     }
                 }
-                stage('Build Fintech') {
-                    steps {
-                        echo 'Building Webservice Spring boot'
-                        dir ('fintech-service/fintech-web/src/main/resources/'){
-                            sh 'sed -i "s/postgres:5432/${RDS_HOST}:5432/g" application.yml'
-                            sh 'sed -i "s/unbound/rhtotal/g" application.yml'
-                            sh 'sed -i "s/username: postgres/username: rhtotal/g" application.yml'
-                            sh 'sed -i "s/project123/${DB_PASS_PROD}/g" application.yml'
-                            sh 'sed -i "s/gatewayservice/${EC2_HOST}/g" application.yml'
-                        }
-                        dir ('fintech-service/'){
-                            sh 'mvn clean package'
-                        }
-                    }
-                }
                 stage('Build User') {
                     steps {
                         echo 'Building Webservice Spring boot'
@@ -85,21 +78,6 @@ pipeline {
                             sh 'sed -i "s/gatewayservice/${EC2_HOST}/g" application.yml'
                         }
                         dir ('user-service/'){
-                            sh 'mvn clean package'
-                        }
-                    }
-                }
-                stage('Build Paysheetsico') {
-                    steps {
-                        echo 'Building Webservice Spring boot'
-                        dir ('paysheetsico-service/paysheetsico-web/src/main/resources/'){
-                            sh 'sed -i "s/postgres:5432/${RDS_HOST}:5432/g" application.yml'
-                            sh 'sed -i "s/unbound/rhtotal/g" application.yml'
-                            sh 'sed -i "s/username: postgres/username: rhtotal/g" application.yml'
-                            sh 'sed -i "s/project123/${DB_PASS_PROD}/g" application.yml'
-                            sh 'sed -i "s/gatewayservice/${EC2_HOST}/g" application.yml'
-                        }
-                        dir ('paysheetsico-service/'){
                             sh 'mvn clean package'
                         }
                     }
@@ -131,10 +109,9 @@ pipeline {
         stage('Docker build') {
             steps {
                 echo 'Build on Docker'
+                sh 'docker build -f "Dockerfile-eureka-service" -t rhtotal-eureka-service .'
                 sh 'docker build -f "Dockerfile-gateway-service" -t rhtotal-gateway-service .'
                 sh 'docker build -f "Dockerfile-application-service" -t rhtotal-application-repository .'
-                sh 'docker build -f "Dockerfile-fintech-service" -t rhtotal-fintech-repository .'
-                sh 'docker build -f "Dockerfile-paysheetsico-service" -t rhtotal-paysheetsico-repository .'
                 sh 'docker build -f "Dockerfile-security-service" -t rhtotal-security-repository .'
                 sh 'docker build -f "Dockerfile-user-service" -t rhtotal-user-repository .'
                 sh 'docker build -f "Dockerfile-frontend" -t rhtotal-frontend-repository .'
@@ -143,10 +120,9 @@ pipeline {
         stage('Docker tag') {
             steps {
                 echo 'Tag Docker images'
+                sh 'docker tag rhtotal-eureka-service:latest ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-eureka-service:$IMAGE_VERSION'
                 sh 'docker tag rhtotal-gateway-service:latest ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-gateway-service:$IMAGE_VERSION'
                 sh 'docker tag rhtotal-application-repository:latest ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-application-repository:$IMAGE_VERSION'
-                sh 'docker tag rhtotal-fintech-repository:latest ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-fintech-repository:$IMAGE_VERSION'
-                sh 'docker tag rhtotal-paysheetsico-repository:latest ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-paysheetsico-repository:$IMAGE_VERSION'
                 sh 'docker tag rhtotal-security-repository:latest ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-security-repository:$IMAGE_VERSION'
                 sh 'docker tag rhtotal-user-repository:latest ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-user-repository:$IMAGE_VERSION'
                 sh 'docker tag rhtotal-frontend-repository:latest ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-frontend-repository:$IMAGE_VERSION'
@@ -157,10 +133,9 @@ pipeline {
                 //echo 'Login to ECS Registry'
                 //sh '$(/root/.local/bin/aws ecr get-login --no-include-email --region us-east-1)'
                 echo 'Push on AWS'
+                sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-eureka-service:$IMAGE_VERSION'
                 sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-gateway-service:$IMAGE_VERSION'
                 sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-application-repository:$IMAGE_VERSION'
-                sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-fintech-repository:$IMAGE_VERSION'
-                sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-paysheetsico-repository:$IMAGE_VERSION'
                 sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-security-repository:$IMAGE_VERSION'
                 sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-user-repository:$IMAGE_VERSION'
                 sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-frontend-repository:$IMAGE_VERSION'
@@ -180,8 +155,8 @@ pipeline {
             }
         }*/
     }
-    post { 
-        always { 
+    post {
+        always {
             deleteDir()
         }
         success {

@@ -18,19 +18,7 @@ spring:
             - Path=/api/application/**
           filters:
             - StripPrefix=2
-        - id: fintech-service
-          uri: lb://fintech-service
-          predicates:
-            - Path=/api/fintech/**
-          filters:
-            - StripPrefix=2
-        - id: paysheetsico-service
-          uri: lb://paysheetsico-service
-          predicates:
-            - Path=/api/paysheetsico/**
-          filters:
-            - StripPrefix=2
-        - id: user-service
+- id: user-service
           uri: lb://user-service
           predicates:
             - Path=/api/user/**
@@ -62,12 +50,8 @@ springdoc:
         url: /api/security/v3/api-docs
       - name: application-service
         url: /api/application/v3/api-docs
-      - name: fintech-service
-        url: /api/fintech/v3/api-docs
       - name: user-service
         url: /api/user/v3/api-docs
-      - name: paysheetsico-service
-        url: /api/paysheetsico/v3/api-docs
 
 management:
   endpoints:

@@ -23,10 +23,8 @@ export class HeaderComponent implements OnInit {
   isLoading:boolean=false;
   menuToolbar:any = [];
   urlActual: string = null;
-  urlFintech: string = environment.URL_FINTECH;
-  urlFintechDetails: string = environment.URL_FINTECH_DETAILS;
 
- 
+
   constructor(
     private _localStorage: LocalStorageService,
     private _loginService: LoginService,

@@ -30,12 +30,12 @@ public class UserDO {
     @Column(name = "ds_password")
     private String password;
     @Column(name = "ds_level_rh")
-    private Long level;
+    private String level;
 
     public UserDO() {
     }
 
-    public UserDO(Long id, String email, String userType, String userStatus, String lastUserModifier, LocalDateTime lastModification, String creationUser, LocalDateTime creationDate, boolean active, String password, Long level, EmployeeDO employee) {
+    public UserDO(Long id, String email, String userType, String userStatus, String lastUserModifier, LocalDateTime lastModification, String creationUser, LocalDateTime creationDate, boolean active, String password, String level, EmployeeDO employee) {
         this.id = id;
         this.email = email;
         this.userType = userType;
@@ -129,11 +129,11 @@ public class UserDO {
         this.password = password;
     }
 
-    public Long getLevel() {
+    public String getLevel() {
         return level;
     }
 
-    public void setLevel(Long level) {
+    public void setLevel(String level) {
         this.level = level;
     }
 

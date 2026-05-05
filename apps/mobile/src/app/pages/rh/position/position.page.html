@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/rh"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Posicion Actual</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card *ngIf="data" class="position-card">
+    <ion-card-header>
+      <ion-card-title>{{ data.position }}</ion-card-title>
+      <ion-card-subtitle>{{ data.area }}</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-list lines="none" class="info-list">
+        <ion-item>
+          <ion-icon name="business-outline" slot="start" color="primary"></ion-icon>
+          <ion-label>
+            <p class="field-label">Departamento</p>
+            <h3>{{ data.department || 'No especificado' }}</h3>
+          </ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-icon name="calendar-outline" slot="start" color="primary"></ion-icon>
+          <ion-label>
+            <p class="field-label">Fecha de Ingreso</p>
+            <h3>{{ data.startDate || 'No especificado' }}</h3>
+          </ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-icon name="document-outline" slot="start" color="primary"></ion-icon>
+          <ion-label>
+            <p class="field-label">Tipo de Contrato</p>
+            <h3>{{ data.contractType || 'No especificado' }}</h3>
+          </ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-icon name="people-outline" slot="start" color="primary"></ion-icon>
+          <ion-label>
+            <p class="field-label">Jefe Directo</p>
+            <h3>{{ data.directManager || 'No especificado' }}</h3>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <div *ngIf="!data" class="empty-state">
+    <ion-icon name="business-outline" color="medium"></ion-icon>
+    <p>No se encontraron datos de posicion</p>
+  </div>
+</ion-content>

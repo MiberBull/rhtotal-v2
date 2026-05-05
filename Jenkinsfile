@@ -8,12 +8,20 @@ pipeline {
     }
     tools {
         maven 'M3'
-        jdk 'jdk10'
+        jdk 'jdk21'
     }
     stages {
         stage('Build Components') {
             failFast true
             parallel {
+                stage('Build Eureka') {
+                    steps {
+                        echo 'Building Eureka Service Spring boot'
+                        dir ('eureka-service/'){
+                            sh 'mvn clean package'
+                        }
+                    }
+                }
                 stage('Build Gateway') {
                     steps {
                         echo 'Building Webservice Gateway Spring boot'
@@ -38,26 +46,10 @@ pipeline {
                         }
                     }
                 }
-                stage('Build Fintech') {
-                    steps {
-                        echo 'Building Webservice Fintech Spring boot'
-                        dir ('fintech-service/'){
-                            sh 'mvn clean package'
-                        }
-                    }
-                }
                 stage('Build User') {
                     steps {
                         echo 'Building Webservice Spring boot'
                         dir ('user-service/'){
-                            sh 'mvn clean package'
-                        }
-                    }
-                }
-                stage('Build Sico') {
-                    steps {
-                        echo 'Building Webservice Spring boot'
-                        dir ('paysheetsico-service/'){
                             sh 'mvn clean package'
                         }
                     }
@@ -88,7 +80,7 @@ pipeline {
             parallel {
                 stage('Sonar Security') {
                     tools {
-                        jdk "jdk8"
+                        jdk "jdk21"
                     }
                     steps {
                         dir ('security-service/'){
@@ -105,7 +97,7 @@ pipeline {
                 }
                 stage('Sonar Application') {
                     tools {
-                        jdk "jdk8"
+                        jdk "jdk21"
                     }
                     steps {
                         dir ('application-service/'){
@@ -120,49 +112,15 @@ pipeline {
                         }
                     }
                 }
-                 stage('Sonar Fintech') {
-                    tools {
-                        jdk "jdk8"
-                    }
-                    steps {
-                        dir ('fintech-service/'){
-                            sh 'mvn sonar:sonar \
-                                -Dsonar.projectKey=18_WorkPoint_RHTotal_Fintech \
-                                -Dsonar.projectName=18_WorkPoint_RHTotal_Fintech \
-                                -Dsonar.sources=src/main \
-                                -Dsonar.tests=src/test \
-                                -Dsonar.coverage.exclusions=**/*TO.java,**/*DO.java \
-                                -Dsonar.host.url=http://devtools.axity.com/sonar7 \
-                                -Dsonar.login=${SONAR_TOKEN}'
-                        }
-                    }
-                }
                 stage('Sonar User') {
                     tools {
-                        jdk "jdk8"
+                        jdk "jdk21"
                     }
                     steps {
                         dir ('user-service/'){
                             sh 'mvn sonar:sonar \
                                 -Dsonar.projectKey=18_WorkPoint_RHTotal_User \
                                 -Dsonar.projectName=18_WorkPoint_RHTotal_User \
-                                -Dsonar.sources=src/main \
-                                -Dsonar.tests=src/test \
-                                -Dsonar.coverage.exclusions=**/*TO.java,**/*DO.java \
-                                -Dsonar.host.url=http://devtools.axity.com/sonar7 \
-                                -Dsonar.login=${SONAR_TOKEN}'
-                        }
-                    }
-                }
-                stage('Sonar Sico') {
-                    tools {
-                        jdk "jdk8"
-                    }
-                    steps {
-                        dir ('paysheetsico-service/'){
-                            sh 'mvn sonar:sonar \
-                                -Dsonar.projectKey=18_WorkPoint_RHTotal_Paysheetsico \
-                                -Dsonar.projectName=18_WorkPoint_RHTotal_Paysheetsico \
                                 -Dsonar.sources=src/main \
                                 -Dsonar.tests=src/test \
                                 -Dsonar.coverage.exclusions=**/*TO.java,**/*DO.java \
@@ -219,8 +177,8 @@ pipeline {
             }
         }
     }
-    post { 
-        always { 
+    post {
+        always {
             deleteDir()
         }
         success {

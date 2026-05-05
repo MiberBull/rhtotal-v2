@@ -1,9 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from '../../../node_modules/rxjs';
-import { PATH_USER, PATH_SICO } from '../../environments/environments';
+import { PATH_USER } from '../../environments/environments';
 import { Camera, CameraOptions } from '@ionic-native/camera';
-import { SicoRawRequestTO } from '../../models/Sico.model';
 import {File, FileEntry, IFile} from "@ionic-native/file";
 import { 
   EmployeeDomicileTO,
@@ -60,9 +59,7 @@ import {
     }
 
     getExistUserSico(nombre:string,aPaterno:string,fechaNacimiento:string){
-      let sico = new SicoRawRequestTO();
-      sico.url = `${PATH_SICO.URI_CICO}nombres=${nombre}&apellidoPaterno=${aPaterno}&fechaNacimiento=${fechaNacimiento}`;
-      return this.http.post(`${PATH_SICO.DOMAINT}/${PATH_SICO.GET_EXIST_USER_FOR_URI}`,sico).catch(this.handleError);
+      return Observable.of({ total: 0, data: [] });
     }
 
     handleError(error: any) {
@@ -267,9 +264,7 @@ import {
 
     getWorkInfoSico(curp,name)
     {
-      let info= new SicoRawRequestTO();
-      info.url=`${PATH_USER.USER_SICO_URL}${PATH_USER.USER_SICO_WORK_INFORMATION}nombres=${name}&curp=${curp}&tipo=2&mesConsulta=#fecha`;
-      return this.http.post(`${PATH_SICO.DOMAINT}/${PATH_SICO.GET_EXIST_USER_FOR_URI}`,info).catch(this.handleError);
+      return Observable.of({ data: { personal: {}, pago: [] } });
     }
 
 
@@ -341,36 +336,26 @@ import {
      return this.http.get(`${apiurl}${sendParameters}`).timeout(5000).catch(this.handleError); // return the response or error
    }
    /**
-    * @function getEmployeeInfoSico
+    * @function getEmployeeInfoSico (DEPRECATED - SICO service removed)
     * @param {any} curp
     * @param {any} nombres
     * @param {any} fechaNacimiento
     * @param {any} rfc
-    **/ 
+    **/
     getEmployeeInfoSico(curp: any,nombres: any,fechaNacimiento: any,rfc: any)
     {
-      let info= new SicoRawRequestTO();
-      nombres = nombres.toUpperCase().replace(' ','+').replace('Ñ','N');
-      info.url=`${PATH_USER.USER_SICO_URL}${PATH_USER.USER_SICO_WORK_INFORMATION}nombres=${nombres}&curp=${curp}&tipo=1&fechaNacimiento=${fechaNacimiento}&rfc=${rfc}`;
-      //console.log(info.url);
-      return this.http.post(`${PATH_SICO.DOMAINT}/${PATH_SICO.GET_EXIST_USER_FOR_URI}`,info).catch(this.handleError);
+      return Observable.of({ data: { personal: {}, pago: [] } });
     }
 
    /**
-    * @function getEmployeeCFDI
+    * @function getEmployeeCFDI (DEPRECATED - SICO service removed)
     * @param {any} nombres
     * @param {any} apellidoPAterno
     * @param {any} mesConsulta
     * @param {any} rfc
-    **/ 
+    **/
     getEmployeeCFDI(nombres: string, apellidoPaterno: string, rfc: string, mesConsulta: any){
-      let info= new SicoRawRequestTO();
-      nombres = nombres.toUpperCase().replace(' ','+').replace('Ñ','N');
-      apellidoPaterno = apellidoPaterno.toUpperCase().replace('Ñ','N');
-      rfc = rfc.toUpperCase();
-      info.url=`${PATH_USER.USER_SICO_URL}${PATH_USER.USER_SICO_WORK_INFORMATION}nombres=${nombres}&apellidoPaterno=${apellidoPaterno}&tipo=4&rfc=${rfc}&mesConsulta=${mesConsulta}`;
-      //console.log(info.url);
-      return this.http.post(`${PATH_SICO.DOMAINT}/${PATH_SICO.GET_EXIST_USER_FOR_URI}`,info).catch(this.handleError);
+      return Observable.of({ data: [] });
     }
 
   /**

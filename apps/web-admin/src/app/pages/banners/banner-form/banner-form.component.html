@@ -1,0 +1,110 @@
+<div class="banner-form-page">
+  <!-- Page Header -->
+  <div class="page-header">
+    <button mat-icon-button routerLink="/banners" class="back-button">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <div class="header-info">
+      <h1>{{ isEdit() ? 'Editar Banner' : 'Nuevo Banner' }}</h1>
+      <p class="subtitle">
+        {{ isEdit() ? 'Modifica la informacion del banner.' : 'Crea un nuevo banner para la plataforma.' }}
+      </p>
+    </div>
+  </div>
+
+  @if (loading()) {
+    <div class="loading-container">
+      <mat-spinner diameter="40"></mat-spinner>
+      <span class="loading-text">Cargando datos del banner...</span>
+    </div>
+  } @else {
+    <!-- Form Card -->
+    <div class="form-card">
+      <form [formGroup]="form" (ngSubmit)="onSave()">
+        <!-- Image Preview Section -->
+        <div class="image-section">
+          <label class="image-label">Imagen del Banner</label>
+          <div class="image-preview-container">
+            @if (imagePreview()) {
+              <img [src]="imagePreview()" alt="Vista previa" class="image-preview" />
+            } @else {
+              <div class="image-placeholder">
+                <mat-icon>image</mat-icon>
+                <span>Sin imagen seleccionada</span>
+              </div>
+            }
+          </div>
+          <div class="file-input-wrapper">
+            <input
+              type="file"
+              accept="image/*"
+              (change)="onFileSelected($event)"
+              id="bannerImageInput"
+              #fileInput
+            />
+            <button mat-stroked-button type="button" (click)="fileInput.click()">
+              <mat-icon>upload</mat-icon>
+              Seleccionar Imagen
+            </button>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <!-- Nombre -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Nombre</mat-label>
+            <input matInput formControlName="name" placeholder="Nombre del banner" />
+            <mat-icon matPrefix>label</mat-icon>
+            @if (form.controls.name.hasError('required') && form.controls.name.touched) {
+              <mat-error>El nombre es requerido</mat-error>
+            }
+          </mat-form-field>
+
+          <!-- URL -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>URL (enlace)</mat-label>
+            <input matInput formControlName="url" placeholder="https://ejemplo.com" />
+            <mat-icon matPrefix>link</mat-icon>
+          </mat-form-field>
+
+          <!-- Orden -->
+          <mat-form-field appearance="outline">
+            <mat-label>Orden</mat-label>
+            <input matInput type="number" formControlName="order" placeholder="0" />
+            <mat-icon matPrefix>sort</mat-icon>
+          </mat-form-field>
+
+          <!-- Estatus -->
+          <mat-form-field appearance="outline">
+            <mat-label>Estatus</mat-label>
+            <mat-select formControlName="status">
+              <mat-option value="A">Activo</mat-option>
+              <mat-option value="I">Inactivo</mat-option>
+            </mat-select>
+            <mat-icon matPrefix>toggle_on</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <!-- Actions -->
+        <div class="form-actions">
+          <button mat-button type="button" (click)="onCancel()">
+            Cancelar
+          </button>
+          <button
+            mat-flat-button
+            color="primary"
+            type="submit"
+            [disabled]="saving()"
+          >
+            @if (saving()) {
+              <mat-spinner diameter="20"></mat-spinner>
+            } @else {
+              <mat-icon>save</mat-icon>
+              {{ isEdit() ? 'Actualizar' : 'Guardar' }}
+            }
+          </button>
+        </div>
+      </form>
+    </div>
+  }
+</div>

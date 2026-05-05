@@ -1,13 +1,21 @@
 version: '3'
 services:
-  frontend:
+  web-admin:
     build:
       context: .
-      dockerfile: "Dockerfile-frontend"
+      dockerfile: "Dockerfile-web-admin"
     ports:
       - "80:80"
     networks:
-      - rhtotalnet
+      - dchnet
+  eurekaservice:
+    build:
+      context: .
+      dockerfile: "Dockerfile-eureka-service"
+    ports:
+      - "8761:8761"
+    networks:
+      - dchnet
   gatewayservice:
     build:
       context: .
@@ -15,9 +23,11 @@ services:
     ports:
       - "8000:8000"
     networks:
-      - rhtotalnet
+      - dchnet
     environment:
       - CORS_ALLOWED_ORIGINS=${CORS_ALLOWED_ORIGINS:-http://localhost:*}
+    depends_on:
+      - eurekaservice
   postgres:
     build:
       context: .
@@ -25,7 +35,7 @@ services:
     ports:
       - "5432:5432"
     networks:
-      - rhtotalnet
+      - dchnet
     environment:
       - POSTGRES_PASSWORD=${DB_PASS:-project123}
   securityservice:
@@ -35,12 +45,13 @@ services:
     ports:
       - "8090:8090"
     networks:
-      - rhtotalnet
+      - dchnet
     environment:
       - TZ=America/Mexico_City
       - DB_PASS=${DB_PASS:-project123}
       - AES_SECRET_KEY=${AES_SECRET_KEY}
     depends_on:
+      - eurekaservice
       - gatewayservice
       - postgres
   applicationservice:
@@ -50,11 +61,12 @@ services:
     ports:
       - "8091:8091"
     networks:
-      - rhtotalnet
+      - dchnet
     environment:
       - TZ=America/Mexico_City
       - DB_PASS=${DB_PASS:-project123}
     depends_on:
+      - eurekaservice
       - gatewayservice
       - postgres
   userservice:
@@ -64,37 +76,14 @@ services:
     ports:
       - "8092:8092"
     networks:
-      - rhtotalnet
+      - dchnet
     environment:
       - DB_PASS=${DB_PASS:-project123}
       - AES_SECRET_KEY=${AES_SECRET_KEY}
     depends_on:
+      - eurekaservice
       - gatewayservice
-      - paysheetsicoservice
       - securityservice
       - postgres
-  fintechservice:
-    build:
-      context: .
-      dockerfile: "Dockerfile-fintech-service"
-    ports:
-      - "8093:8093"
-    networks:
-      - rhtotalnet      
-    environment:
-      - TZ=America/Mexico_City
-    depends_on:
-      - gatewayservice
-      - paysheetsicoservice
-  paysheetsicoservice:
-    build:
-      context: .
-      dockerfile: "Dockerfile-paysheetsico-service"
-    ports:
-      - "8094:8094"
-    networks:
-      - rhtotalnet
-    depends_on:
-      - gatewayservice
 networks:
-  rhtotalnet:
+  dchnet:

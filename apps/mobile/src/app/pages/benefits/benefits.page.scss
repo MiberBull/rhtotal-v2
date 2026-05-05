@@ -1,0 +1,69 @@
+.categories-section {
+  padding: 16px 8px;
+}
+
+.category-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 12px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+  min-height: 140px;
+  justify-content: center;
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  .category-icon-circle {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+
+    ion-icon {
+      font-size: 28px;
+    }
+  }
+
+  .category-name {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #1a1a2e;
+    text-align: center;
+    line-height: 1.2;
+  }
+
+  .category-count {
+    font-size: 0.6875rem;
+    color: var(--ion-color-medium);
+    margin-top: 4px;
+  }
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 24px;
+
+  ion-icon {
+    font-size: 64px;
+    color: var(--ion-color-medium);
+    margin-bottom: 16px;
+  }
+
+  p {
+    font-size: 0.9375rem;
+    color: var(--ion-color-medium);
+    text-align: center;
+  }
+}

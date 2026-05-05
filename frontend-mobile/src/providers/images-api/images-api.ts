@@ -19,7 +19,7 @@ export class ImagesApiProvider {
 
   getImagesForHome() {
     let user:UserTO = this.storageProvider.getItem( KEYS_STORAGE.USER );
-    
+
     if( !user ) {
       user.id = 0;
     }
@@ -30,10 +30,10 @@ export class ImagesApiProvider {
     let URL = `${PATH_APLICATION.DOMAIN}banner/showbanners?user=${user.id}`;
     return this.http.get( URL )
                .map( (resp:string[]) => {
-                if( resp.length > 0 ){
+                if( resp && resp.length > 0 ){
                   return resp;
                 }else{
-                  return of(['assets/imgs/default.png']);
+                  return ['assets/imgs/default.png'];
                 }
                }).timeout(20000);
   }
@@ -43,10 +43,10 @@ export class ImagesApiProvider {
     let URL = `${PATH_APLICATION.DOMAIN}banner/showbanners?user=${user.id}`;
     return this.http.get( URL )
                .map( (resp:string[]) => {
-                if( resp.length > 0 ){
+                if( resp && resp.length > 0 ){
                   return resp;
                 }else{
-                  return of(['assets/imgs/default.png']);
+                  return ['assets/imgs/default.png'];
                 }
                });
   }

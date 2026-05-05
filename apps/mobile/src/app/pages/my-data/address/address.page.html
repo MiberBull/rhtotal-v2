@@ -1,0 +1,93 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/my-data"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Domicilio</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="form" (ngSubmit)="save()">
+    <ion-list lines="full">
+      <ion-item>
+        <ion-input
+          label="Calle"
+          labelPlacement="floating"
+          formControlName="street"
+          type="text"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          label="Numero Exterior"
+          labelPlacement="floating"
+          formControlName="exteriorNumber"
+          type="text"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          label="Numero Interior"
+          labelPlacement="floating"
+          formControlName="interiorNumber"
+          type="text"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          label="Colonia"
+          labelPlacement="floating"
+          formControlName="colony"
+          type="text"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          label="Codigo Postal"
+          labelPlacement="floating"
+          formControlName="postalCode"
+          type="text"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          label="Ciudad"
+          labelPlacement="floating"
+          formControlName="city"
+          type="text"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          label="Estado"
+          labelPlacement="floating"
+          formControlName="state"
+          type="text"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          label="Pais"
+          labelPlacement="floating"
+          formControlName="country"
+          type="text"
+        ></ion-input>
+      </ion-item>
+    </ion-list>
+
+    <div class="button-container">
+      <ion-button expand="block" type="submit" color="primary">
+        <ion-icon name="save-outline" slot="start"></ion-icon>
+        Guardar
+      </ion-button>
+    </div>
+  </form>
+</ion-content>

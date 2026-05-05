@@ -12,7 +12,7 @@ import {
   BTN,
   MSG_DIALOG,
   PARAMETER,
-  EMAIL_LOANS,
+  EMAIL_SOPORTE_APP,
   IMG_MAIL_HEADER
 } from "../../environments/environments";
 import { NewAccountTO } from "../../models/user.model";
@@ -71,7 +71,7 @@ import { EmailGeneric } from '../../models/emailgenric.model';
        accessConfirmed: ["", [Validators.required, Validators.maxLength(50)]]
      });
 
-     this.email_provider.getEmailsToSend(EMAIL_LOANS).subscribe( (res:any) => { this.emails_news = res; });
+     this.email_provider.getEmailsToSend(EMAIL_SOPORTE_APP).subscribe( (res:any) => { this.emails_news = res; });
      this.email_provider.getEmailsToSend(IMG_MAIL_HEADER).subscribe( (res:any) => { this.imgEmail = res; }); // get image
    }
 

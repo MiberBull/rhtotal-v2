@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="openMenu()">
+        <ion-icon name="menu-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>DCH Know Who</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/notifications">
+        <ion-icon name="notifications-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Welcome -->
+  <div class="welcome-section">
+    <h2>Hola, {{ userName }}</h2>
+    <p>Bienvenido de vuelta</p>
+  </div>
+
+  <!-- Banner Carousel -->
+  <div class="banner-section" *ngIf="banners.length > 0">
+    <swiper-container
+      [attr.slides-per-view]="1"
+      [attr.space-between]="12"
+      [attr.autoplay-delay]="4000"
+      [attr.pagination]="true"
+      class="banner-swiper"
+    >
+      <swiper-slide *ngFor="let banner of banners">
+        <div class="banner-card">
+          <img [src]="banner.image" [alt]="banner.name" />
+        </div>
+      </swiper-slide>
+    </swiper-container>
+  </div>
+
+  <!-- Quick Access Tiles -->
+  <div class="tiles-section">
+    <h3>Acceso rapido</h3>
+    <div class="tiles-grid">
+      <div
+        class="tile"
+        *ngFor="let tile of tiles"
+        (click)="navigateTo(tile.route)"
+      >
+        <div class="tile-icon" [style.background]="tile.color + '15'">
+          <ion-icon [name]="tile.icon" [style.color]="tile.color"></ion-icon>
+        </div>
+        <span class="tile-label">{{ tile.label }}</span>
+      </div>
+    </div>
+  </div>
+</ion-content>

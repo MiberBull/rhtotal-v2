@@ -25,10 +25,6 @@ import { UserFormSocialNetworksComponent } from './user-admin/user-form-social-n
 import { UserFormLastJobComponent } from './user-admin/user-form-last-job/user-form-last-job.component';
 import { UserFormCompenPackageComponent } from "./user-admin/user-form-compen-package/user-form-compen-package.component";
 import { UserFormAssignmentDataComponent } from './user-admin/user-form-assignment-data/user-form-assignment-data.component';
-import { PaysheetComponent } from "./paysheet/paysheet.component";
-import { PaysheetFormsComponent } from "./paysheet/paysheet-forms/paysheet-forms.component";
-import { PaysheetVeloCashComponent } from "./paysheet/paysheet-velo-cash/paysheet-velo-cash.component";
-import { PaysheetMyAdvanceComponent } from "./paysheet/paysheet-my-advance/paysheet-my-advance.component";
 
 const pagesRoutes: Routes = [
   {
@@ -57,11 +53,7 @@ const pagesRoutes: Routes = [
       { path: "clientes", component: CustomersComponent },
       { path: "dashboard", component: DashboardComponent },
       { path: "banners", component: BannersComponent },
-      { path: "admin-banners", component: BanersAdminComponent },
-      { path: "adelantos", component:PaysheetComponent, children:[
-          { path: "velo-cash", component: PaysheetVeloCashComponent},
-          { path: "my-advance", component: PaysheetMyAdvanceComponent}]},
-      { path: "adelantos-detalle" , component: PaysheetFormsComponent }
+      { path: "admin-banners", component: BanersAdminComponent }
     ]
   }
 ];

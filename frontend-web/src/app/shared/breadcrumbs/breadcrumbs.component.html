@@ -3,20 +3,9 @@
         <mat-icon (click)="goBack()" *ngIf="arrow" >arrow_back</mat-icon>
         <span> {{ textTitle }}</span>
     </div>
-    <div class="contenedor" *ngIf="textTitle == itemsPage">
-        <div *ngFor="let item of itemsPageTitles">
-            <!-- For IE9 or below. -->
-            <a class="colorSubMenu" style="text-decoration:none" routerLinkActive="active" [routerLink]="[ item.url ]">
-                <i class="material-icons">
-                        keyboard_arrow_right
-                </i>           
-                <span>{{ item.name }}</span>
-            </a>        
-        </div>
-    </div>
 </div>
 
-<div class="contenedorFintech breadcrumbs" *ngIf="visible">
+<div class="breadcrumbs" *ngIf="visible">
     <a [routerLink]="[ urlSub ]">
         <mat-icon>arrow_back</mat-icon>
         <span> {{ textTitle }}</span>

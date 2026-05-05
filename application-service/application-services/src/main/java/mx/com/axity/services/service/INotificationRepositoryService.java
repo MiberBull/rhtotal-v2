@@ -8,7 +8,7 @@ public interface INotificationRepositoryService {
     NotificationRepositoryDO findByIds(Long idElement,String type);
     void registerNotificationBanner(NotificationRepositoryDO discount);
     void registerNotificationNotification(NotificationRepositoryDO discount);
-    void registerNotificationFintech(NotificationRepositoryDO discount);
+    void registerNotification(NotificationRepositoryDO discount);
     void registerNotificationSecurity(NotificationRepositoryDO discount);
     void deleteNotificaRepository(String type,Long id);
 }

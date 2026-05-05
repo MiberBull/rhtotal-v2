@@ -6,7 +6,15 @@ services:
       dockerfile: "Dockerfile-frontend"
     ports:
       - "8100:80"
-    networks: 
+    networks:
+      - rhtotalqanet
+  eurekaservice:
+    build:
+      context: .
+      dockerfile: "Dockerfile-eureka-service"
+    ports:
+      - "9761:8761"
+    networks:
       - rhtotalqanet
   gatewayservice:
     build:
@@ -14,19 +22,26 @@ services:
       dockerfile: "Dockerfile-gateway-service"
     ports:
       - "9000:9000"
-    networks: 
+    networks:
       - rhtotalqanet
+    environment:
+      - CORS_ALLOWED_ORIGINS=${CORS_ALLOWED_ORIGINS:-http://localhost:*}
+    depends_on:
+      - eurekaservice
   securityservice:
     build:
       context: .
       dockerfile: "Dockerfile-security-service"
     ports:
       - "9090:9090"
-    networks: 
+    networks:
       - rhtotalqanet
     environment:
       - TZ=America/Mexico_City
+      - DB_PASS=${DB_PASS:-project123}
+      - AES_SECRET_KEY=${AES_SECRET_KEY}
     depends_on:
+      - eurekaservice
       - gatewayservice
   applicationservice:
     build:
@@ -34,11 +49,13 @@ services:
       dockerfile: "Dockerfile-application-service"
     ports:
       - "9091:9091"
-    networks: 
+    networks:
       - rhtotalqanet
     environment:
       - TZ=America/Mexico_City
+      - DB_PASS=${DB_PASS:-project123}
     depends_on:
+      - eurekaservice
       - gatewayservice
   userservice:
     build:
@@ -48,38 +65,13 @@ services:
       - "9092:9092"
     networks:
       - rhtotalqanet
+    environment:
+      - TZ=America/Mexico_City
+      - DB_PASS=${DB_PASS:-project123}
+      - AES_SECRET_KEY=${AES_SECRET_KEY}
     depends_on:
+      - eurekaservice
       - gatewayservice
-      - paysheetsicoservice
       - securityservice
-    environment:
-      - TZ=America/Mexico_City
-    depends_on:
-      - gatewayservice
-  fintechservice:
-    build:
-      context: .
-      dockerfile: "Dockerfile-fintech-service"
-    ports:
-      - "9093:9093"
-    networks: 
-      - rhtotalqanet
-    environment:
-      - TZ=America/Mexico_City
-    depends_on:
-      - gatewayservice
-      - paysheetsicoservice
-  paysheetsicoservice:
-    build:
-      context: .
-      dockerfile: "Dockerfile-paysheetsico-service"
-    ports:
-      - "9094:9094"
-    networks: 
-      - rhtotalqanet
-    environment:
-      - TZ=America/Mexico_City
-    depends_on:
-      - gatewayservice
 networks:
   rhtotalqanet:

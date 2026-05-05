@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Mis Datos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list lines="full" class="menu-list">
+    <ion-item
+      *ngFor="let item of menuItems"
+      button
+      detail
+      (click)="navigateTo(item.route)"
+    >
+      <ion-icon [name]="item.icon" slot="start" color="primary"></ion-icon>
+      <ion-label>{{ item.label }}</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

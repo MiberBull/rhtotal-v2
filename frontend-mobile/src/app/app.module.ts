@@ -49,7 +49,6 @@ import { ImagesApiProvider } from '../providers/images-api/images-api';
 import { StorageProvider } from '../providers/storage/storage';
 import { ConsumeBenefistProvider } from '../providers/consume-benefist/consume-benefist';
 
-import { FintechPage } from '../pages/fintech/fintech';
 import { NotificationsProvider } from '../providers/notifications/notifications';
 import { DiscountOptionPage } from '../pages/discount-option/discount-option';
 import { DetailBenefisPage } from '../pages/detail-benefis/detail-benefis';
@@ -64,9 +63,6 @@ import { ScreenOrientation } from '../../node_modules/@ionic-native/screen-orien
 import { ImagePicker } from '../../node_modules/@ionic-native/image-picker';
 import { Camera } from '../../node_modules/@ionic-native/camera';
 import { UsersProvider } from '../providers/users/users';
-import { VeloCashPage } from '../pages/velo-cash/velo-cash';
-import { PaysheetProvider } from '../providers/paysheet/paysheet';
-import { MyAdvancePage } from '../pages/my-advance/my-advance';
 import { RhPage } from '../pages/rh/rh';
 import { RhProvider } from '../providers/rh/rh';
 import { ActualPositionPage } from '../pages/actual-position/actual-position';
@@ -124,17 +120,13 @@ export const MATERIAL_COMPONENTS = [
     BenefitsPage,
     QuotesafePage,
     BenefitsOptionPage,
-    VeloCashPage,
     DiscountOptionPage,
     DetailBenefisPage,
-    FintechPage,
     MyDataPage,
     AddressPage,
     PersonalInformationPage,
     SocialNetworksPage,
     MyDataPage,
-    VeloCashPage,
-    MyAdvancePage,
     RhPage,
     EmploymentBenefitsPage,
     InsurancePage,
@@ -186,10 +178,8 @@ export const MATERIAL_COMPONENTS = [
     BenefitsPage,
     QuotesafePage,
     BenefitsOptionPage,
-    VeloCashPage,
     DiscountOptionPage,
     DetailBenefisPage,
-    FintechPage,
     MyDataPage,
     AddressPage,
     EmploymentBenefitsPage,
@@ -199,8 +189,6 @@ export const MATERIAL_COMPONENTS = [
     PersonalInformationPage,
     SocialNetworksPage,
     MyDataPage,
-    VeloCashPage,
-    MyAdvancePage,
     RhPage,
     ActualPositionPage,
     PaymentDetailsPage,
@@ -251,7 +239,6 @@ export const MATERIAL_COMPONENTS = [
     ImagePicker,
     Camera,
     UsersProvider,
-    PaysheetProvider,
     RhProvider,
     FileTransferProvider,
     FileTransfer,

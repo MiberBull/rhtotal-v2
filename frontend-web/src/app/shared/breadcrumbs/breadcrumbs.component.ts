@@ -23,8 +23,6 @@ export class BreadcrumbsComponent implements OnInit,OnDestroy{
     dialogFilter:Subscription;
     itemsPage:string;
     itemsPageTitles:any[]=[];
-    itemMyAdvance:string;
-    itemVeloCash:string;
     visible:boolean=false;
     subMenu:string='';
     urlSub:string='';
@@ -47,11 +45,6 @@ export class BreadcrumbsComponent implements OnInit,OnDestroy{
                 this.visible = routeText.visible;
                 this.subMenu = routeText.subMenu;
                 this.urlSub = routeText.urlSub;
-                
-                this.itemsPage = BREADCRUMB.PAYSHEET;
-
-                this.itemMyAdvance = BREADCRUMB.MY_ADVANCE;
-                this.itemVeloCash = BREADCRUMB.VELO_CASH;
                 
             });
 

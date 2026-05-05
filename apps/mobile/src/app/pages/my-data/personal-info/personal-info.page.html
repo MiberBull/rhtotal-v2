@@ -1,0 +1,119 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/my-data"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Informacion Personal</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="form" (ngSubmit)="save()">
+    <ion-list lines="full">
+      <ion-item>
+        <ion-input
+          label="Nombre"
+          labelPlacement="floating"
+          formControlName="name"
+          type="text"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          label="Apellido Paterno"
+          labelPlacement="floating"
+          formControlName="lastName"
+          type="text"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          label="Apellido Materno"
+          labelPlacement="floating"
+          formControlName="middleName"
+          type="text"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          label="Email"
+          labelPlacement="floating"
+          formControlName="email"
+          type="email"
+          readonly
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          label="RFC"
+          labelPlacement="floating"
+          formControlName="rfc"
+          type="text"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          label="CURP"
+          labelPlacement="floating"
+          formControlName="curp"
+          type="text"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          label="NSS"
+          labelPlacement="floating"
+          formControlName="nss"
+          type="text"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          label="Telefono"
+          labelPlacement="floating"
+          formControlName="phone"
+          type="tel"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          label="Fecha de Nacimiento"
+          labelPlacement="floating"
+          formControlName="birthDate"
+          type="date"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-select
+          label="Genero"
+          labelPlacement="floating"
+          formControlName="gender"
+          interface="popover"
+        >
+          <ion-select-option
+            *ngFor="let opt of genderOptions"
+            [value]="opt.value"
+          >
+            {{ opt.label }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+
+    <div class="button-container">
+      <ion-button expand="block" type="submit" color="primary">
+        <ion-icon name="save-outline" slot="start"></ion-icon>
+        Guardar
+      </ion-button>
+    </div>
+  </form>
+</ion-content>

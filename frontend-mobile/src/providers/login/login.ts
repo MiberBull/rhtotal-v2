@@ -15,7 +15,7 @@ export class LoginProvider {
     { title:'Construye', paragraph:'Tu perfil y DNA profesional que te catapultará a las mejores oportunidades profesionales.',next:'Saltar introducción'},
     { title:'Consulta', paragraph:'Tu información de ingresos y recursos humanos.',next:'Saltar introducción'},
     { title:'Descubre', paragraph:'Los beneficios que hemos personalizado para cada perfil profesional.',next:'Saltar introducción'},
-    { title:'Accesa', paragraph:'A un mundo financiero que te permite solicitar adelantos de ingresos y préstamos.',next:'Saltar introducción'},
+    { title:'Accesa', paragraph:'A los servicios y beneficios que tu empresa tiene para ti.',next:'Saltar introducción'},
   ];
 
   outputPayload = {

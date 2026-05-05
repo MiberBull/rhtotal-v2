@@ -1,0 +1,56 @@
+<div class="tab-content">
+  <form [formGroup]="form" (ngSubmit)="onSave()">
+    <div class="form-grid">
+      <mat-form-field appearance="outline">
+        <mat-label>Cliente</mat-label>
+        <mat-select formControlName="clientId" (selectionChange)="onClientChange($event.value)">
+          @for (client of clients(); track client.idClient) {
+            <mat-option [value]="client.idClient">{{ client.dsName }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Proyecto</mat-label>
+        <input matInput formControlName="projectName" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Manager Directo</mat-label>
+        <input matInput formControlName="directManager" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Fecha de inicio</mat-label>
+        <input matInput [matDatepicker]="startPicker" formControlName="startDate" />
+        <mat-datepicker-toggle matIconSuffix [for]="startPicker"></mat-datepicker-toggle>
+        <mat-datepicker #startPicker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Ubicacion (Ciudad, Estado)</mat-label>
+        <input matInput formControlName="location" placeholder="Ciudad, Estado" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Email del Jefe Directo</mat-label>
+        <input matInput type="email" formControlName="emailDirectBoss" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Telefono del Jefe Directo</mat-label>
+        <input matInput formControlName="telephoneDirectBoss" />
+      </mat-form-field>
+    </div>
+
+    <div class="form-actions">
+      <button mat-flat-button color="primary" type="submit" [disabled]="saving()">
+        @if (saving()) {
+          <mat-spinner diameter="20"></mat-spinner>
+        } @else {
+          Guardar
+        }
+      </button>
+    </div>
+  </form>
+</div>

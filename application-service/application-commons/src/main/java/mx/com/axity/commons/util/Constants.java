@@ -13,15 +13,6 @@ public class Constants {
     public static final int SECURE = 6;
     public static final int CUSTOMERS = 7;
     public static final int LIMIT_PAGE = 10;
-    public static final int FINTECH_ADVANCE_ES = 11;
-    public static final int FINTECH_VELOCASH_ES = 12;
-    public static final int FINTECH_ADVANCE_AP = 13;
-    public static final int FINTECH_VELOCASH_AP = 14;
-    public static final int FINTECH_ADVANCE_R = 15;
-    public static final int FINTECH_VELOCASH_R = 16;
-    public static final String STATUS_ES = "ES";
-    public static final String STATUS_AP = "AP";
-    public static final String STATUS_R = "R";
     public static final String FORMAT_DATE = "yyyy-MM-dd";
     public static final String FORMAT_TIME = "HH:mm:ss";
     public static final String FORMAT_DATE_DAY = "dd-MM-YYYY";

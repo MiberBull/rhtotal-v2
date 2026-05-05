@@ -204,6 +204,7 @@ docker-compose.override.yml
 
 # Secrets
 .env
+.env.local.env
 .env.local
 .env.production
 

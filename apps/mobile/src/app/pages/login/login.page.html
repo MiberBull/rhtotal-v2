@@ -1,0 +1,53 @@
+<ion-content class="login-content" [fullscreen]="true">
+  <div class="login-wrapper">
+    <!-- Brand -->
+    <div class="brand-section">
+      <div class="brand-logo">
+        <ion-icon name="shield-checkmark"></ion-icon>
+      </div>
+      <h1>DCH Know Who</h1>
+      <p>Gestion de capital humano</p>
+    </div>
+
+    <!-- Login Form -->
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="login-form">
+      <ion-item lines="none" class="input-item">
+        <ion-icon name="mail-outline" slot="start" class="input-icon"></ion-icon>
+        <ion-input
+          formControlName="email"
+          type="email"
+          placeholder="Correo electronico"
+          autocomplete="email"
+        ></ion-input>
+      </ion-item>
+      <div class="error-text" *ngIf="loginForm.controls.email.touched && loginForm.controls.email.invalid">
+        Ingresa un correo valido
+      </div>
+
+      <ion-item lines="none" class="input-item">
+        <ion-icon name="lock-closed-outline" slot="start" class="input-icon"></ion-icon>
+        <ion-input
+          formControlName="password"
+          [type]="showPassword ? 'text' : 'password'"
+          placeholder="Contrasena"
+          autocomplete="current-password"
+        ></ion-input>
+        <ion-button fill="clear" slot="end" (click)="togglePassword()" class="eye-btn">
+          <ion-icon [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+        </ion-button>
+      </ion-item>
+      <div class="error-text" *ngIf="loginForm.controls.password.touched && loginForm.controls.password.invalid">
+        Minimo 8 caracteres
+      </div>
+
+      <ion-button expand="block" type="submit" class="login-btn" shape="round">
+        Iniciar sesion
+      </ion-button>
+    </form>
+
+    <!-- Links -->
+    <div class="links-section">
+      <a routerLink="/restore-password" class="link">Olvide mi contrasena</a>
+    </div>
+  </div>
+</ion-content>

@@ -30,7 +30,7 @@ export const PATH_USER = {
     CREATE:`user/create`,
     CODE:`user/confirmation`,
     CIVIL_STATUS:'user/getCivilStatus',
-    USER_EXIST_RH_TOTAL:'user/getUserRegisterSico',
+    USER_EXIST_RH_TOTAL:'user/getUserRegister',
     SAVE_EMPLOYE:'user/saveOrUpdateEmployeeComplementary',
     GET_EMPLOYEE_COMPL_BY_ID:'user/getUserRegisterById',
     GET_CITY:'user/getCity',
@@ -48,8 +48,6 @@ export const PATH_USER = {
     GET_COMPENSATION:'user/getEmployeeCompensationByIdUser',
     SAVE_JOBS:'user/job/add',
     GET_JOBS:'user/job',
-    USER_SICO_URL:'https://nominaenlanube.com:8085/api-nomen/v1/',
-    USER_SICO_WORK_INFORMATION:'get_informacion_empleado?',
     USER_SAVE_UPDATE_EMPLOYEE_CONTRATING:'user/saveOrUpdateContrating',
     USER_GET_EMPLOYEE_CONTRATING_BY_ID_USER:'user/getContratingDataByIdUser',
     SAVE_UPDATE_ASIGNATION_DATA:'user/saveOrUpdateAsignationData',
@@ -58,7 +56,10 @@ export const PATH_USER = {
     USER_SAVE_UPDATE_EMPLOYEE_HISTORY:'user/saveOrUpdateHistory',
     PONDERATION_DATA:'user/getPonderationSection',
     CREDENTIAL_INFO:'user/credential',
-    DELETE_JOBS:'user/job/delete'
+    DELETE_JOBS:'user/job/delete',
+    ACTUAL_POSITION:'recursos/puesto',
+    PAYMENT_DETAILS:'recursos/pagos',
+    CFDI:'recursos/cfdi'
 
 }
 
@@ -76,17 +77,11 @@ export const GENERO =[] = [{id:'F',name:'Femenino'},{id:'M',name:'Masculino'}];
 
 // Tipos de seguro id 1 - 4
 export const SEGURO =[] = [{id:'0',name:'Seleccione un tipo de seguro.'},{id:'1',name:'Auto'},{id:'2',name:'Hogar'},{id:'3',name:'Vida Ahorro'},{id:'4',name:'Mascotas'}];
-// Correos para velocash y my advance
-export const EMAILS = [] = [{id:'1', email:'rodrigo@rhtotal.com'},{id:'2', email:'ismael@rhtotal.com'}]; //roberto.mdcc
-export const EMAILS_SUPPORT = [] = [{id:'1', email:'adrakiel@gmail.com'},{id:'2', email:'ismael@rhtotal.com'}];
-export const TEMPLATES_FINTECH = { REQUEST: 'request', SUPPORT: 'support' };
-export const EMAIL_LOANS = 'emailLoans';
-export const EMAIL_SUPPORT = 'emailSupport';
 export const EMAIL_SEGURO = 'emailSeguro';
 export const IMG_EMAIL = 'imgEmailUnbound';
 export const IMG_MAIL_HEADER = 'emailHeadImg';
 export const EMAIL_SOPORTE_APP = 'emailSupportApp';
-export const TIPOS_SOPORTES =[] = [{id:'0',name:'¿Cómo podemos ayudarle?'},{id:'1',name:'Anticipos'},{id:'2',name:'Recibos de Nómina'},{id:'3',name:'Beneficios'},{id:'4',name:'Otros Servicios'}];
+export const TIPOS_SOPORTES =[] = [{id:'0',name:'¿Cómo podemos ayudarle?'},{id:'1',name:'Recibos de Nómina'},{id:'2',name:'Beneficios'},{id:'3',name:'Otros Servicios'}];
 
 
 export const SEGUROS = {
@@ -101,12 +96,6 @@ export const PATH_NOTIFICATION = {
     SET_USER_TOKEN:`notification/setUserToken`,
     INACTIVE_USER_TOKEN:`notification/inactiveUserToken`,
     LAST_NOTIFICATIONS:`notification/notificationUser`,
-}
-
-export const PATH_SICO ={
-    DOMAINT:`${DEV_GATEWAY}/api/paysheetsico`,
-    GET_EXIST_USER_FOR_URI:'sico/raw',
-    URI_CICO:'https://nominaenlanube.com:8085/api-nomen/v1/get_empleado_general?'
 }
 
 export const PATH_APLICATION = {
@@ -235,16 +224,6 @@ export const KEYS_STORAGE = {
     IMAGES_BANNER: 'imagesBanner'
 }
 
-export const PATH_FINTECH = {
-    DOMAIN:`${DEV_GATEWAY}/api/fintech`,
-    VELOCAHS:'nomina/velocahs',
-    MY_ADVANCE:'nomina/adelanto',
-    ACTUAL_POSITION:'recursos/puesto',
-    PAYMENT_DETAILS:'recursos/pagos',
-    CFDI:'recursos/cfdi',
-    VISIT_SWAP:'fintech/visitSwap'
-}
-
 export const CLEAN_LOCAL_STORAGE = ['user','infoCredential','jobs','imagesBanner']
 
 export const LINKS = {
@@ -257,9 +236,3 @@ export const TYPE_USER = {
 }
 
 export const SOCIAL_NETWORK= ['Facebook','Twitter','LinkedIn','Google+','Instagram','Snapchat','Spotify'];
-
-export const MSG_LOAN_BLOCK = {
-    1:'Esta opción solo está disponible para los empleados que tengan más de 3 meses de antigüedad.',
-    2:'Esta opción solo está disponible para los empleados que tengan más de 6 meses de antigüedad.',
-    3:'Esta opción solo está disponible para los empleados que tengan más de 9 meses de antigüedad.'
-}

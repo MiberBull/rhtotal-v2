@@ -1,0 +1,158 @@
+<div class="users-list-page">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-info">
+      <h1>Empleados</h1>
+      <p class="subtitle">Gestiona los empleados registrados en la plataforma.</p>
+    </div>
+    <button mat-flat-button color="primary" (click)="navigateToNew()">
+      <mat-icon>person_add</mat-icon>
+      Nuevo Empleado
+    </button>
+  </div>
+
+  <!-- Search & Filters -->
+  <div class="search-bar">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-icon matPrefix>search</mat-icon>
+      <input
+        matInput
+        placeholder="Buscar por nombre, email, RFC..."
+        [ngModel]="searchTerm()"
+        (ngModelChange)="onSearchChange($event)"
+      />
+      @if (searchTerm()) {
+        <button matSuffix mat-icon-button (click)="onSearchChange('')">
+          <mat-icon>close</mat-icon>
+        </button>
+      }
+    </mat-form-field>
+  </div>
+
+  <!-- Table Card -->
+  <div class="table-card">
+    @if (loading()) {
+      <!-- Loading skeleton -->
+      <div class="loading-container">
+        <mat-spinner diameter="40"></mat-spinner>
+        <span class="loading-text">Cargando empleados...</span>
+      </div>
+    } @else {
+      @if (employees().length === 0) {
+        <!-- Empty state -->
+        <div class="empty-state">
+          <mat-icon>person_off</mat-icon>
+          <h3>No se encontraron empleados</h3>
+          <p>
+            @if (searchTerm()) {
+              No hay resultados para "{{ searchTerm() }}". Intenta con otro termino.
+            } @else {
+              Aun no hay empleados registrados.
+            }
+          </p>
+        </div>
+      } @else {
+        <!-- Data table -->
+        <div class="table-wrapper">
+          <table mat-table [dataSource]="employees()" matSort (matSortChange)="onSortChange($event)">
+            <!-- Name/Email Column -->
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+              <td mat-cell *matCellDef="let row">
+                <div class="cell-name">
+                  <div class="avatar">
+                    {{ row.name.charAt(0) }}{{ row.lastName.charAt(0) }}
+                  </div>
+                  <div class="name-info">
+                    <span class="name-text">{{ row.name }} {{ row.lastName }}</span>
+                    <span class="email-text">{{ row.email }}</span>
+                  </div>
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- RFC Column -->
+            <ng-container matColumnDef="rfc">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>RFC</th>
+              <td mat-cell *matCellDef="let row">
+                <span class="mono-text">{{ row.rfc }}</span>
+              </td>
+            </ng-container>
+
+            <!-- CURP Column -->
+            <ng-container matColumnDef="curp">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>CURP</th>
+              <td mat-cell *matCellDef="let row">
+                <span class="mono-text">{{ row.curp }}</span>
+              </td>
+            </ng-container>
+
+            <!-- Role Column -->
+            <ng-container matColumnDef="role">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Rol</th>
+              <td mat-cell *matCellDef="let row">
+                <span class="role-badge">{{ row.role }}</span>
+              </td>
+            </ng-container>
+
+            <!-- Status Column -->
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Estatus</th>
+              <td mat-cell *matCellDef="let row">
+                <span
+                  class="status-chip"
+                  [class.status-active]="row.status"
+                  [class.status-inactive]="!row.status"
+                >
+                  {{ getStatusLabel(row.status) }}
+                </span>
+              </td>
+            </ng-container>
+
+            <!-- Actions Column -->
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef>Acciones</th>
+              <td mat-cell *matCellDef="let row">
+                <div class="actions-cell">
+                  <button
+                    mat-icon-button
+                    matTooltip="Editar"
+                    (click)="navigateToEdit(row)"
+                  >
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button
+                    mat-icon-button
+                    matTooltip="Eliminar"
+                    color="warn"
+                    (click)="confirmDelete(row)"
+                  >
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr
+              mat-row
+              *matRowDef="let row; columns: displayedColumns"
+              class="table-row"
+              (click)="navigateToEdit(row)"
+            ></tr>
+          </table>
+        </div>
+
+        <!-- Paginator -->
+        <mat-paginator
+          [length]="totalCount()"
+          [pageIndex]="pageIndex()"
+          [pageSize]="pageSize()"
+          [pageSizeOptions]="[5, 10, 25, 50]"
+          (page)="onPageChange($event)"
+          showFirstLastButtons
+        ></mat-paginator>
+      }
+    }
+  </div>
+</div>

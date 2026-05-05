@@ -767,10 +767,10 @@ public class EmployeeFacade implements IEmployeeFacade {
 
             //var responseJson = rest.postForObject(urlApplication,info, ExcelGenericFormatExportTO.class);
 
-            HttpHeaders headerFintech = new HttpHeaders();
-            headerFintech.set("Content-Type", "application/json");
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.set("Content-Type", "application/json");
 
-            var request = new HttpEntity<>(info, headerFintech);
+            var request = new HttpEntity<>(info, httpHeaders);
 
             var resp = this.restTemplate.exchange(urlApplication, HttpMethod.POST, request, String.class);
 

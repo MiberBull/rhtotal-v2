@@ -18,14 +18,23 @@ public interface ImageDAO extends CrudRepository<ImageDO,Long> {
     @Query("select n from ImageDO n where n.idBanner.idBanner = :idBanner")
     List<ImageDO> findAllByIdBanner(@Param("idBanner") Long idBanner);
 
-    @Query("SELECT img.base64 FROM NotificationAssignmentDO n \n" +
-            "INNER JOIN BannerDO b ON b.idBanner = n.idNotification \n" +
-            "   and n.typeNotification ='B' \n" +
-            "INNER JOIN ImageDO img ON img.idBanner = b.idBanner \n " +
-            "WHERE n.idUser = :idUser \n" +
-            "AND CAST((CONCAT( CAST(b.startDate AS java.time.LocalDate),' ',b.timePublication)) AS java.time.LocalDateTime ) <= :currentDateTime \n" +
-            "AND CAST(b.endDate AS java.time.LocalDate) >= :currentDate \n" +
-            "AND b.status = 'A' ORDER BY b.lastModification DESC, img.lastModification DESC, img.typeImage desc")
+    @Query(value = "SELECT bi.ds_image FROM k_notification_assignment n " +
+            "INNER JOIN k_banner b ON b.id_banner = n.id_notification " +
+            "   AND n.ds_type_notification = 'B' " +
+            "INNER JOIN k_banner_images bi ON bi.id_banner = b.id_banner " +
+            "WHERE n.id_user = :idUser " +
+            "AND CAST(CONCAT(CAST(b.dt_start_date AS date), ' ', b.dt_time_publicacion) AS timestamp) <= CAST(:currentDateTime AS timestamp) " +
+            "AND CAST(b.dt_end_date AS date) >= CAST(:currentDate AS date) " +
+            "AND b.ds_status = 'A' ORDER BY b.dt_last_modification DESC, bi.dt_last_modification DESC, bi.ds_type_image DESC",
+            countQuery = "SELECT count(bi.ds_image) FROM k_notification_assignment n " +
+            "INNER JOIN k_banner b ON b.id_banner = n.id_notification " +
+            "   AND n.ds_type_notification = 'B' " +
+            "INNER JOIN k_banner_images bi ON bi.id_banner = b.id_banner " +
+            "WHERE n.id_user = :idUser " +
+            "AND CAST(CONCAT(CAST(b.dt_start_date AS date), ' ', b.dt_time_publicacion) AS timestamp) <= CAST(:currentDateTime AS timestamp) " +
+            "AND CAST(b.dt_end_date AS date) >= CAST(:currentDate AS date) " +
+            "AND b.ds_status = 'A'",
+            nativeQuery = true)
     Page<String> findImagesBannerByIdUser(Pageable page, @Param("idUser") Long idUser,
                                           @Param("currentDate") LocalDate endDate,
                                           @Param("currentDateTime") LocalDateTime dateTime);

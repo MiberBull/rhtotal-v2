@@ -1,0 +1,70 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/rh"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Pagos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- Filter Section -->
+  <div class="filter-row">
+    <ion-item class="filter-item">
+      <ion-select
+        label="Mes"
+        labelPlacement="floating"
+        [(ngModel)]="selectedMonth"
+        (ionChange)="onFilterChange()"
+        interface="popover"
+      >
+        <ion-select-option *ngFor="let m of months" [value]="m.value">
+          {{ m.label }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item class="filter-item">
+      <ion-select
+        label="Anio"
+        labelPlacement="floating"
+        [(ngModel)]="selectedYear"
+        (ionChange)="onFilterChange()"
+        interface="popover"
+      >
+        <ion-select-option *ngFor="let y of years" [value]="y">
+          {{ y }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+  </div>
+
+  <!-- Payment List -->
+  <ion-list *ngIf="payments.length > 0" class="payment-list">
+    <ion-card *ngFor="let payment of payments" class="payment-card" button (click)="openPayment(payment)">
+      <ion-card-content>
+        <div class="payment-header">
+          <span class="payment-period">{{ payment.period }}</span>
+          <span class="payment-date">{{ payment.date }}</span>
+        </div>
+        <div class="payment-amounts">
+          <div class="amount-item">
+            <span class="amount-label">Neto</span>
+            <span class="amount-value net">${{ payment.netAmount | number:'1.2-2' }}</span>
+          </div>
+          <div class="amount-item">
+            <span class="amount-label">Bruto</span>
+            <span class="amount-value">${{ payment.grossAmount | number:'1.2-2' }}</span>
+          </div>
+        </div>
+        <ion-icon name="chevron-forward-outline" class="chevron-icon"></ion-icon>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+
+  <!-- Empty State -->
+  <div *ngIf="payments.length === 0" class="empty-state">
+    <ion-icon name="cash-outline" color="medium"></ion-icon>
+    <p>No se encontraron pagos para el periodo seleccionado</p>
+  </div>
+</ion-content>

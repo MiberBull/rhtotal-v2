@@ -1,0 +1,237 @@
+<div class="insurance-form-page">
+  <!-- Page Header -->
+  <div class="page-header">
+    <button mat-icon-button (click)="onCancel()" class="back-button">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h1>{{ isEdit() ? insuranceName() : 'Nuevo Seguro' }}</h1>
+  </div>
+
+  @if (loading()) {
+    <div class="loading-container">
+      <mat-spinner diameter="40"></mat-spinner>
+      <span class="loading-text">Cargando seguro...</span>
+    </div>
+  } @else {
+    <div class="form-card">
+      <mat-tab-group animationDuration="200ms">
+        <!-- Tab 1: Informacion General -->
+        <mat-tab label="Informacion General">
+          <div class="tab-content">
+            <form [formGroup]="form">
+              <div class="form-grid">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Nombre</mat-label>
+                  <input matInput formControlName="name" placeholder="Nombre del seguro" />
+                  @if (form.get('name')?.hasError('required') && form.get('name')?.touched) {
+                    <mat-error>El nombre es requerido.</mat-error>
+                  }
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Descripcion</mat-label>
+                  <textarea
+                    matInput
+                    formControlName="description"
+                    placeholder="Descripcion del seguro..."
+                    rows="3"
+                  ></textarea>
+                </mat-form-field>
+
+                <div class="form-row">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Tipo</mat-label>
+                    <mat-select formControlName="type">
+                      <mat-option value="AUTO">Auto</mat-option>
+                      <mat-option value="VIDA">Vida</mat-option>
+                      <mat-option value="GASTOS_MEDICOS">Gastos Medicos</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline">
+                    <mat-label>Proveedor</mat-label>
+                    <input matInput formControlName="provider" placeholder="Nombre del proveedor" />
+                  </mat-form-field>
+                </div>
+
+                <div class="form-row">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Telefono</mat-label>
+                    <input matInput formControlName="phone" placeholder="Telefono de contacto" />
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline">
+                    <mat-label>Email</mat-label>
+                    <input matInput formControlName="email" placeholder="correo@proveedor.com" />
+                    @if (form.get('email')?.hasError('email') && form.get('email')?.touched) {
+                      <mat-error>Ingresa un email valido.</mat-error>
+                    }
+                  </mat-form-field>
+                </div>
+
+                <div class="form-row">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Sitio Web</mat-label>
+                    <input matInput formControlName="website" placeholder="https://..." />
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline">
+                    <mat-label>Estado</mat-label>
+                    <mat-select formControlName="status">
+                      <mat-option value="A">Activo</mat-option>
+                      <mat-option value="I">Inactivo</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+            </form>
+          </div>
+        </mat-tab>
+
+        <!-- Tab 2: Eventualidades -->
+        <mat-tab label="Eventualidades">
+          <div class="tab-content">
+            <div class="tab-header">
+              <p class="tab-description">Define las eventualidades que cubre este seguro.</p>
+              <button mat-flat-button color="primary" (click)="addEventuality()">
+                <mat-icon>add</mat-icon>
+                Agregar Eventualidad
+              </button>
+            </div>
+
+            @if (eventualities.length === 0) {
+              <div class="empty-array-state">
+                <mat-icon>warning_amber</mat-icon>
+                <p>No hay eventualidades registradas. Agrega una para comenzar.</p>
+              </div>
+            } @else {
+              <div class="array-items">
+                @for (control of eventualities.controls; track $index) {
+                  <div class="array-item-card" [formGroup]="$any(control)">
+                    <div class="item-header">
+                      <span class="item-number">{{ $index + 1 }}</span>
+                      <button
+                        mat-icon-button
+                        color="warn"
+                        (click)="removeEventuality($index)"
+                        matTooltip="Eliminar"
+                      >
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    </div>
+                    <div class="item-fields">
+                      <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Nombre</mat-label>
+                        <input matInput formControlName="name" placeholder="Nombre de la eventualidad" />
+                      </mat-form-field>
+                      <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Descripcion</mat-label>
+                        <textarea
+                          matInput
+                          formControlName="description"
+                          placeholder="Descripcion..."
+                          rows="2"
+                        ></textarea>
+                      </mat-form-field>
+                      <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Instrucciones</mat-label>
+                        <textarea
+                          matInput
+                          formControlName="instructions"
+                          placeholder="Instrucciones para el usuario..."
+                          rows="2"
+                        ></textarea>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        </mat-tab>
+
+        <!-- Tab 3: Coberturas -->
+        <mat-tab label="Coberturas">
+          <div class="tab-content">
+            <div class="tab-header">
+              <p class="tab-description">Administra los planes de cobertura de este seguro.</p>
+              <button mat-flat-button color="primary" (click)="addCoverage()">
+                <mat-icon>add</mat-icon>
+                Agregar Cobertura
+              </button>
+            </div>
+
+            @if (coverages.length === 0) {
+              <div class="empty-array-state">
+                <mat-icon>verified_user</mat-icon>
+                <p>No hay coberturas registradas. Agrega una para comenzar.</p>
+              </div>
+            } @else {
+              <div class="array-items">
+                @for (control of coverages.controls; track $index) {
+                  <div class="array-item-card" [formGroup]="$any(control)">
+                    <div class="item-header">
+                      <span class="item-number">{{ $index + 1 }}</span>
+                      <button
+                        mat-icon-button
+                        color="warn"
+                        (click)="removeCoverage($index)"
+                        matTooltip="Eliminar"
+                      >
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    </div>
+                    <div class="item-fields">
+                      <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Nombre</mat-label>
+                        <input matInput formControlName="name" placeholder="Nombre de la cobertura" />
+                      </mat-form-field>
+                      <div class="form-row">
+                        <mat-form-field appearance="outline">
+                          <mat-label>Monto de Cobertura</mat-label>
+                          <input matInput formControlName="coverageAmount" placeholder="$0.00" />
+                        </mat-form-field>
+                        <mat-form-field appearance="outline">
+                          <mat-label>Deducible</mat-label>
+                          <input matInput formControlName="deductible" placeholder="$0.00" />
+                        </mat-form-field>
+                      </div>
+                      <div class="form-row">
+                        <mat-form-field appearance="outline">
+                          <mat-label>Coaseguro</mat-label>
+                          <input matInput formControlName="coinsurance" placeholder="Ej: 10%" />
+                        </mat-form-field>
+                        <mat-form-field appearance="outline">
+                          <mat-label>Notas</mat-label>
+                          <input matInput formControlName="notes" placeholder="Notas adicionales" />
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+
+      <!-- Actions -->
+      <div class="form-actions">
+        <button mat-button type="button" (click)="onCancel()">Cancelar</button>
+        <button
+          mat-flat-button
+          color="primary"
+          (click)="onSave()"
+          [disabled]="saving()"
+        >
+          @if (saving()) {
+            <mat-spinner diameter="20" class="button-spinner"></mat-spinner>
+          } @else {
+            <mat-icon>save</mat-icon>
+          }
+          {{ isEdit() ? 'Actualizar' : 'Guardar' }}
+        </button>
+      </div>
+    </div>
+  }
+</div>

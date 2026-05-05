@@ -1,0 +1,31 @@
+<ion-content class="onboarding-content" [fullscreen]="true">
+  <div class="onboarding-wrapper">
+    <!-- Slides -->
+    <div class="slide" *ngFor="let slide of slides; let i = index" [class.active]="i === currentIndex">
+      <div class="slide-icon">
+        <ion-icon [name]="slide.icon"></ion-icon>
+      </div>
+      <h2>{{ slide.title }}</h2>
+      <p>{{ slide.description }}</p>
+    </div>
+
+    <!-- Dots -->
+    <div class="dots">
+      <span
+        *ngFor="let slide of slides; let i = index"
+        class="dot"
+        [class.active]="i === currentIndex"
+      ></span>
+    </div>
+
+    <!-- Actions -->
+    <div class="actions">
+      <ion-button fill="clear" (click)="skip()" class="skip-btn" *ngIf="currentIndex < slides.length - 1">
+        Omitir
+      </ion-button>
+      <ion-button expand="block" shape="round" (click)="next()" class="next-btn">
+        {{ currentIndex < slides.length - 1 ? 'Siguiente' : 'Comenzar' }}
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

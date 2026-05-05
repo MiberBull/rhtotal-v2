@@ -152,47 +152,15 @@ export class UserService{
     }
 
     getEmployeeSico(nombre:string,apellidoPaterno:string,fechaNacimiento:Date)
-    {  
-        let info= new sico; 
-       debugger
-if(fechaNacimiento.toString().length==10)
-{
-    
-    var dt=fechaNacimiento.toString().split('/');
-    info.url = `${PATH_USER.USER_SICO_URL}${PATH_USER.USER_SICO_EMPPLOYEE_GENERAL}nombres=${nombre.trim().replace(' ', '+')}&apellidoPaterno=${apellidoPaterno.toUpperCase().trim().replace(' ','+')}&fechaNacimiento=${dt[0]}/${dt[1]}/${dt[2]}`;
-    
-        
-}
-else
-{
-    let ofecha= new Date(fechaNacimiento);
-    let day= ('0'+ofecha.getDate().toString()).slice (-2);
-    let month=ofecha.getMonth()+1;
-    let oMonth=('0' + month.toString()).slice (-2);
-    let year=ofecha.getFullYear();
-    info.url = `${PATH_USER.USER_SICO_URL}${PATH_USER.USER_SICO_EMPPLOYEE_GENERAL}nombres=${nombre.trim().replace(' ', '+')}&apellidoPaterno=${apellidoPaterno.trim().replace(' ','+')}&fechaNacimiento=${day}/${oMonth}/${year}`;
-    
-    
-}
-
-    let URL = `${PATH_USER.USER_SW_DOMAIN}`;
-    var resp= this.http.post(URL,info);
-       return resp;
+    {
+        // SICO integration removed - return empty observable
+        return of({total: 0, data: []});
     }
-
 
     getWorkInfoSico(curp,name)
     {
-        let info= new sico;
-        let nOMBRE = name.toUpperCase().trim().replace(' ', '+')
-        console.log('fsdfsfds NAME SICO', nOMBRE);
-
-        info.url=`${PATH_USER.USER_SICO_URL}${PATH_USER.USER_SICO_WORK_INFORMATION}nombres=${name.trim().replace(' ','+')}&curp=${curp}&tipo=2&mesConsulta=#fecha`;
-        let URL = `${PATH_USER.USER_SW_DOMAIN}`;
-       var resp= this.http.post(URL,info);
-        console.log('INFO DE USUARIO MAYRA ', resp);
-       
-       return resp;
+        // SICO integration removed - return empty observable
+        return of({total: 0, data: null});
     }
 
 
@@ -545,9 +513,5 @@ getTabs(idUser:number)
       this.rootHeaderActivate.next(root);
   }
 
-}
-export class sico{
-    url:string
-    
 }
 

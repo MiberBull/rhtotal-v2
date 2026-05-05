@@ -1,0 +1,51 @@
+<div class="dashboard">
+  <!-- Welcome section -->
+  <div class="welcome-section">
+    <h1>{{ getGreeting() }}, {{ getUserName() }}</h1>
+    <p>Aqui tienes un resumen de tu plataforma.</p>
+  </div>
+
+  <!-- Metric cards -->
+  <div class="metrics-grid">
+    @for (card of metrics(); track card.label) {
+      <div class="metric-card">
+        <div class="metric-icon" [style.background]="card.bgColor">
+          <mat-icon [style.color]="card.color">{{ card.icon }}</mat-icon>
+        </div>
+        <div class="metric-info">
+          <span class="metric-value">
+            @if (loading()) {
+              <mat-spinner diameter="20"></mat-spinner>
+            } @else {
+              {{ card.value }}
+            }
+          </span>
+          <span class="metric-label">{{ card.label }}</span>
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- Quick actions -->
+  <div class="section">
+    <h2>Acciones rapidas</h2>
+    <div class="quick-actions">
+      <div class="action-card">
+        <mat-icon>person_add</mat-icon>
+        <span>Nuevo usuario</span>
+      </div>
+      <div class="action-card">
+        <mat-icon>campaign</mat-icon>
+        <span>Enviar notificacion</span>
+      </div>
+      <div class="action-card">
+        <mat-icon>upload_file</mat-icon>
+        <span>Subir documento</span>
+      </div>
+      <div class="action-card">
+        <mat-icon>bar_chart</mat-icon>
+        <span>Ver reportes</span>
+      </div>
+    </div>
+  </div>
+</div>

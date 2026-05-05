@@ -15,7 +15,7 @@ public class UserTO implements Serializable {
     private LocalDateTime creationDate;
     private boolean active;
     private String password;
-    private Long level;
+    private String level;
 
     public Long getId() {
         return id;
@@ -97,11 +97,11 @@ public class UserTO implements Serializable {
         this.password = password;
     }
 
-    public Long getLevel() {
+    public String getLevel() {
         return level;
     }
 
-    public void setLevel(Long level) {
+    public void setLevel(String level) {
         this.level = level;
     }
 }

@@ -15,7 +15,7 @@
         "idRol": {
             "idRol": 2,
             "descriptionRol": null,
-            "permission": "{\"idRol\":2,\"nombreRol\":\"Administrador Web\",\"permisos\":[{\"nameMenu\":\"Home\",\"nameUrl\":\"\/home\/dashboard\"},{\"nameMenu\":\"Usuarios\",\"nameUrl\":\"\/home\/usuarios\"},{\"nameMenu\":\"Beneficios y Descuentos\",\"nameUrl\":\"\/home\/descuentos\"},{\"nameMenu\":\"Banners\",\"nameUrl\":\"\/home\/banners\"},{\"nameMenu\":\"Notificaciones\",\"nameUrl\":\"\/home\/notificaciones\"},{\"nameMenu\":\"Seguros\",\"nameUrl\":\"\/home\/seguros\"},{\"nameMenu\":\"Anticipo\",\"nameUrl\":\"\/home\/adelantos\"},{\"nameMenu\":\"Clientes\",\"nameUrl\":\"\/home\/clientes\"},{\"nameMenu\":\"Roles\",\"nameUrl\":\"\/home\/roles\"}]}",
+            "permission": "{\"idRol\":2,\"nombreRol\":\"Administrador Web\",\"permisos\":[{\"nameMenu\":\"Home\",\"nameUrl\":\"\/home\/dashboard\"},{\"nameMenu\":\"Usuarios\",\"nameUrl\":\"\/home\/usuarios\"},{\"nameMenu\":\"Beneficios y Descuentos\",\"nameUrl\":\"\/home\/descuentos\"},{\"nameMenu\":\"Banners\",\"nameUrl\":\"\/home\/banners\"},{\"nameMenu\":\"Notificaciones\",\"nameUrl\":\"\/home\/notificaciones\"},{\"nameMenu\":\"Seguros\",\"nameUrl\":\"\/home\/seguros\"},{\"nameMenu\":\"Clientes\",\"nameUrl\":\"\/home\/clientes\"},{\"nameMenu\":\"Roles\",\"nameUrl\":\"\/home\/roles\"}]}",
             "lastUserModifier": "rhtotal",
             "lastModification": "2018-08-07",
             "creationDate": "2018-08-07"

@@ -1,0 +1,131 @@
+<div class="document-upload-page">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-info">
+      <button mat-icon-button (click)="goBack()" class="back-btn">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <div>
+        <h1>Subir Documentos</h1>
+        <p class="subtitle">Carga archivos PDF o XML para asignarlos a empleados.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="upload-content">
+    <!-- Form Fields -->
+    <div class="form-section">
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Tipo de documento</mat-label>
+        <mat-select [value]="selectedType()" (selectionChange)="selectedType.set($event.value)">
+          @for (type of documentTypes; track type.value) {
+            <mat-option [value]="type.value">{{ type.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Asignar a empleado</mat-label>
+        <input
+          matInput
+          [formControl]="employeeSearchCtrl"
+          [matAutocomplete]="autoEmp"
+          (input)="onEmployeeSearch(employeeSearchCtrl.value || '')"
+        />
+        <mat-autocomplete
+          #autoEmp="matAutocomplete"
+          [displayWith]="displayEmployee"
+          (optionSelected)="onEmployeeSelected($event.option.value)"
+        >
+          @for (emp of employeeSuggestions(); track emp.id) {
+            <mat-option [value]="emp">
+              {{ emp.name }} {{ emp.lastName }}
+            </mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+
+    <!-- Drag and Drop Zone -->
+    <div
+      class="drop-zone"
+      [class.drag-over]="isDragOver()"
+      (dragover)="onDragOver($event)"
+      (dragleave)="onDragLeave($event)"
+      (drop)="onDrop($event)"
+    >
+      <mat-icon class="drop-icon">cloud_upload</mat-icon>
+      <p class="drop-text">Arrastra y suelta archivos aqui</p>
+      <p class="drop-hint">o haz clic para seleccionar</p>
+      <input
+        type="file"
+        class="file-input"
+        multiple
+        accept=".pdf,.xml"
+        (change)="onFileSelected($event)"
+      />
+    </div>
+
+    <!-- File List -->
+    @if (files().length > 0) {
+      <div class="file-list">
+        <h3>Archivos seleccionados ({{ files().length }})</h3>
+        <div class="file-entries">
+          @for (entry of files(); track entry.name; let i = $index) {
+            <div class="file-entry" [class.file-done]="entry.status === 'done'" [class.file-error]="entry.status === 'error'">
+              <div class="file-info">
+                <mat-icon class="file-type-icon">
+                  @if (entry.name.endsWith('.pdf')) {
+                    picture_as_pdf
+                  } @else {
+                    code
+                  }
+                </mat-icon>
+                <div class="file-details">
+                  <span class="file-name">{{ entry.name }}</span>
+                  <span class="file-size">{{ entry.size }}</span>
+                </div>
+                <div class="file-status">
+                  @if (entry.status === 'pending') {
+                    <span class="status-badge status-pending">Pendiente</span>
+                  } @else if (entry.status === 'uploading') {
+                    <span class="status-badge status-uploading">Subiendo...</span>
+                  } @else if (entry.status === 'done') {
+                    <mat-icon class="status-icon status-done">check_circle</mat-icon>
+                  } @else if (entry.status === 'error') {
+                    <mat-icon class="status-icon status-error">error</mat-icon>
+                  }
+                </div>
+                @if (entry.status === 'pending') {
+                  <button mat-icon-button (click)="removeFile(i)">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                }
+              </div>
+              @if (entry.status === 'uploading') {
+                <mat-progress-bar mode="determinate" [value]="entry.progress"></mat-progress-bar>
+              }
+            </div>
+          }
+        </div>
+      </div>
+    }
+
+    <!-- Actions -->
+    <div class="actions-bar">
+      <button mat-stroked-button (click)="goBack()">Cancelar</button>
+      <button
+        mat-flat-button
+        color="primary"
+        [disabled]="files().length === 0 || uploading()"
+        (click)="uploadAll()"
+      >
+        @if (uploading()) {
+          Subiendo...
+        } @else {
+          Subir Todo
+        }
+      </button>
+    </div>
+  </div>
+</div>

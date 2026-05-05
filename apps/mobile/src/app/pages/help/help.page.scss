@@ -1,0 +1,81 @@
+.faq-section {
+  padding: 20px 20px 8px;
+
+  h3 {
+    margin: 0 0 16px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1a1a2e;
+  }
+
+  ion-accordion {
+    margin-bottom: 4px;
+
+    ion-item {
+      --padding-start: 0;
+
+      ion-icon {
+        font-size: 20px;
+        margin-right: 12px;
+      }
+
+      ion-label {
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: #1a1a2e;
+      }
+    }
+  }
+
+  .faq-answer {
+    font-size: 0.8125rem;
+    color: #424242;
+    line-height: 1.5;
+    margin: 0;
+  }
+}
+
+.contact-section {
+  padding: 16px 20px;
+
+  h3 {
+    margin: 0 0 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1a1a2e;
+  }
+
+  .contact-card {
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+    ion-item {
+      --padding-start: 0;
+      --inner-padding-end: 0;
+      cursor: pointer;
+
+      .contact-label {
+        font-size: 0.75rem;
+        color: var(--ion-color-medium);
+        margin: 0 0 2px;
+      }
+
+      h3 {
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: #1a1a2e;
+        margin: 0;
+      }
+    }
+  }
+}
+
+.action-buttons {
+  padding: 16px 20px 32px;
+
+  ion-button {
+    --border-radius: 12px;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+}

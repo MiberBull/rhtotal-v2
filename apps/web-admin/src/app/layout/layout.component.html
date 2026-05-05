@@ -1,0 +1,93 @@
+<div class="layout" [class.collapsed]="collapsed()">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="brand">
+        <mat-icon class="brand-icon">shield</mat-icon>
+        @if (!collapsed()) {
+          <span class="brand-text">DCH Know Who</span>
+        }
+      </div>
+      <button mat-icon-button class="toggle-btn" (click)="toggleSidebar()">
+        <mat-icon>{{ collapsed() ? 'chevron_right' : 'chevron_left' }}</mat-icon>
+      </button>
+    </div>
+
+    @if (!collapsed()) {
+      <div class="sidebar-role">
+        <app-role-badge [role]="userRole()" />
+      </div>
+    }
+
+    <nav class="sidebar-nav">
+      @for (item of visibleNavItems(); track item.route) {
+        <a
+          class="nav-item"
+          [routerLink]="item.route"
+          routerLinkActive="active"
+          [matTooltip]="collapsed() ? item.label : ''"
+          matTooltipPosition="right"
+        >
+          <mat-icon>{{ item.icon }}</mat-icon>
+          @if (!collapsed()) {
+            <span class="nav-label">{{ item.label }}</span>
+          }
+        </a>
+      }
+    </nav>
+
+    <div class="sidebar-footer">
+      <a
+        class="nav-item"
+        (click)="logout()"
+        [matTooltip]="collapsed() ? 'Cerrar sesion' : ''"
+        matTooltipPosition="right"
+      >
+        <mat-icon>logout</mat-icon>
+        @if (!collapsed()) {
+          <span class="nav-label">Cerrar sesion</span>
+        }
+      </a>
+    </div>
+  </aside>
+
+  <!-- Main content -->
+  <div class="main">
+    <!-- Toolbar -->
+    <header class="toolbar">
+      <div class="toolbar-left">
+        <button mat-icon-button class="mobile-toggle" (click)="toggleSidebar()">
+          <mat-icon>menu</mat-icon>
+        </button>
+      </div>
+
+      <div class="toolbar-right">
+        <app-role-badge [role]="userRole()" />
+
+        <button mat-icon-button>
+          <mat-icon>notifications_none</mat-icon>
+        </button>
+
+        <button mat-icon-button [matMenuTriggerFor]="userMenu" class="user-avatar">
+          <span class="avatar">{{ getUserInitials() }}</span>
+        </button>
+
+        <mat-menu #userMenu="matMenu" xPosition="before">
+          <div class="user-menu-header">
+            <span class="user-email">{{ currentUser()?.email }}</span>
+          </div>
+          <mat-divider></mat-divider>
+          <button mat-menu-item (click)="logout()">
+            <mat-icon>logout</mat-icon>
+            <span>Cerrar sesion</span>
+          </button>
+        </mat-menu>
+      </div>
+    </header>
+
+    <!-- Page content -->
+    <main class="content">
+      <router-outlet />
+    </main>
+  </div>
+</div>

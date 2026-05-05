@@ -1,0 +1,39 @@
+<ion-app>
+  <!-- Side Menu -->
+  <ion-menu contentId="main-content" side="start" menuId="mainMenu">
+    <ion-header>
+      <ion-toolbar color="primary">
+        <div class="menu-header">
+          <div class="user-avatar">{{ getUserInitial() }}</div>
+          <p class="user-email">{{ userEmail }}</p>
+        </div>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content>
+      <ion-list lines="none" class="menu-list">
+        <ion-item
+          *ngFor="let item of menuItems"
+          button
+          (click)="navigateTo(item.url)"
+          detail="false"
+        >
+          <ion-icon [name]="item.icon" slot="start"></ion-icon>
+          <ion-label>{{ item.title }}</ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+
+    <ion-footer>
+      <ion-toolbar>
+        <ion-item button (click)="logout()" detail="false" lines="none" class="logout-item">
+          <ion-icon name="log-out-outline" slot="start" color="danger"></ion-icon>
+          <ion-label color="danger">Cerrar sesion</ion-label>
+        </ion-item>
+      </ion-toolbar>
+    </ion-footer>
+  </ion-menu>
+
+  <!-- Main Content -->
+  <ion-router-outlet id="main-content"></ion-router-outlet>
+</ion-app>

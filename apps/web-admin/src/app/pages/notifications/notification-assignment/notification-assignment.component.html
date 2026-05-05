@@ -1,0 +1,140 @@
+<div class="notification-assignment-page">
+  <!-- Page Header -->
+  <div class="page-header">
+    <button mat-icon-button routerLink="/notifications" class="back-button">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <div class="header-info">
+      <h1>Asignar Notificacion</h1>
+      <p class="subtitle">Selecciona los empleados que recibiran esta notificacion.</p>
+    </div>
+  </div>
+
+  @if (loading()) {
+    <div class="loading-container">
+      <mat-spinner diameter="40"></mat-spinner>
+      <span class="loading-text">Cargando empleados...</span>
+    </div>
+  } @else {
+    <div class="assignment-container">
+      <!-- Available Employees Panel -->
+      <div class="panel">
+        <div class="panel-header">
+          <h3>Empleados Disponibles</h3>
+          <span class="count-badge">{{ availableEmployees().length }}</span>
+        </div>
+        <div class="panel-search">
+          <mat-form-field appearance="outline" class="search-field">
+            <mat-icon matPrefix>search</mat-icon>
+            <input
+              matInput
+              placeholder="Buscar empleado..."
+              [value]="searchTerm()"
+              (input)="onSearchChange($any($event.target).value)"
+            />
+          </mat-form-field>
+        </div>
+        <div class="panel-list">
+          @if (availableEmployees().length === 0) {
+            <div class="empty-panel">
+              <p>No hay empleados disponibles.</p>
+            </div>
+          } @else {
+            @for (emp of availableEmployees(); track emp.idEmployee) {
+              <div
+                class="employee-item"
+                [class.selected]="isAvailableSelected(emp.idEmployee)"
+                (click)="toggleAvailableSelection(emp.idEmployee)"
+              >
+                <mat-checkbox
+                  [checked]="isAvailableSelected(emp.idEmployee)"
+                  (click)="$event.stopPropagation()"
+                  (change)="toggleAvailableSelection(emp.idEmployee)"
+                ></mat-checkbox>
+                <div class="employee-info">
+                  <span class="employee-name">{{ getEmployeeName(emp) }}</span>
+                  <span class="employee-email">{{ emp.email || '—' }}</span>
+                </div>
+              </div>
+            }
+          }
+        </div>
+      </div>
+
+      <!-- Transfer Buttons -->
+      <div class="transfer-buttons">
+        <button
+          mat-fab
+          color="primary"
+          [disabled]="selectedAvailableIds().size === 0"
+          (click)="addSelected()"
+          matTooltip="Agregar seleccionados"
+        >
+          <mat-icon>chevron_right</mat-icon>
+        </button>
+        <button
+          mat-fab
+          color="warn"
+          [disabled]="selectedAssignedIds().size === 0"
+          (click)="removeSelected()"
+          matTooltip="Remover seleccionados"
+        >
+          <mat-icon>chevron_left</mat-icon>
+        </button>
+      </div>
+
+      <!-- Assigned Employees Panel -->
+      <div class="panel">
+        <div class="panel-header">
+          <h3>Empleados Asignados</h3>
+          <span class="count-badge assigned">{{ assignedEmployees().length }}</span>
+        </div>
+        <div class="panel-list full-height">
+          @if (assignedEmployees().length === 0) {
+            <div class="empty-panel">
+              <p>No hay empleados asignados.</p>
+            </div>
+          } @else {
+            @for (emp of assignedEmployees(); track emp.idEmployee) {
+              <div
+                class="employee-item"
+                [class.selected]="isAssignedSelected(emp.idEmployee)"
+                (click)="toggleAssignedSelection(emp.idEmployee)"
+              >
+                <mat-checkbox
+                  [checked]="isAssignedSelected(emp.idEmployee)"
+                  (click)="$event.stopPropagation()"
+                  (change)="toggleAssignedSelection(emp.idEmployee)"
+                ></mat-checkbox>
+                <div class="employee-info">
+                  <span class="employee-name">{{ getEmployeeName(emp) }}</span>
+                  <span class="employee-email">{{ emp.email || '—' }}</span>
+                </div>
+              </div>
+            }
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- Save Actions -->
+    <div class="save-actions">
+      <button mat-button type="button" (click)="onCancel()">
+        Cancelar
+      </button>
+      <button
+        mat-flat-button
+        color="primary"
+        [disabled]="saving()"
+        (click)="onSave()"
+      >
+        @if (saving()) {
+          <mat-spinner diameter="20"></mat-spinner>
+        } @else {
+          <mat-icon>save</mat-icon>
+          Guardar Asignacion
+        }
+      </button>
+    </div>
+  }
+</div>

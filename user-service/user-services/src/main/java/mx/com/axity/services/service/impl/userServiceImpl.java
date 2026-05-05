@@ -1,9 +1,6 @@
 package mx.com.axity.services.service.impl;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import mx.com.axity.commons.exceptions.BusinessException;
-import mx.com.axity.commons.exceptions.SicoConnectionException;
 import mx.com.axity.commons.to.*;
 import mx.com.axity.commons.util.AES;
 import mx.com.axity.commons.util.Constants;
@@ -19,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -395,65 +391,12 @@ public class userServiceImpl implements IuserService {
         return code;
     }
 
-    private ResponseEntity<String> makeSicoCall(String uri) {
-
-        return restTemplate.getForEntity(
-                uri, String.class
-        );
-
-    }
-
-    private SicoResponseWrapperTO serializeSicoCall(String rawJson, HttpStatus code) throws IOException {
-        SicoResponseWrapperTO responseStatus = new SicoResponseWrapperTO();
-
-
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        SicoResponseRawTO data = objectMapper.readValue(rawJson, SicoResponseRawTO.class);
-
-
-        if (data.getData().size() > 0) {
-            responseStatus.setResponse(data.getData().get(0));
-        } else {
-            responseStatus.setResponse(null);
-        }
-
-
-        responseStatus.setStatus(code);
-
-        return responseStatus;
-    }
-
-
-
     private SicoResponseWrapperTO getDataFromSico(String email) {
+        // SICO/paysheetsico-service has been removed. Return NOT_FOUND so all users register as external (EX).
         SicoResponseWrapperTO responseStatus = new SicoResponseWrapperTO();
-
-        try {
-            UriComponentsBuilder uri = UriComponentsBuilder
-                    .fromUriString(Constants.SICO_DATA_ENDPOINT)
-                    .queryParam("email", email);
-            ResponseEntity<String> response = makeSicoCall(uri.toUriString());
-
-            String responseBody =  decodeCharacter(response.getBody());
-
-            responseStatus = serializeSicoCall(responseBody, (HttpStatus) response.getStatusCode());
-            return responseStatus;
-        } catch (HttpClientErrorException e) {
-            LOG.info(String.format("Error dentro de SERVICE.getDataFromSico: %s", e.getMessage()));
-            LOG.info(e.toString());
-            if (e.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
-                responseStatus.setStatus(HttpStatus.NOT_FOUND);
-                responseStatus.setResponse(null);
-                return responseStatus;
-            }
-            throw new SicoConnectionException(Constants.SICO_FAIL_ERROR, e);
-
-        } catch (Exception e) {
-            LOG.info(String.format("Error dentro de SERVICE.getDataFromSico: %s", e.getMessage()));
-            LOG.info(e.toString());
-            throw new SicoConnectionException(Constants.SICO_FAIL_ERROR, e);
-        }
+        responseStatus.setStatus(HttpStatus.NOT_FOUND);
+        responseStatus.setResponse(null);
+        return responseStatus;
     }
 
     private void parseEmployee(SicoResponseTO response, UserDO user)  {

@@ -32,20 +32,6 @@
             </div>
           </ion-card-content>
         </ion-card>
-        <ion-card class="wrapper-ion-card">
-          <ion-card-content class="wrapper-card" (click)="goSection('fintech')">
-            <div style="width: 25%; display: flex; justify-content: center;">
-              <img [src]="fintechIntern" alt="" class="img-card">
-            </div>
-            <div style="width: 65%">
-              <label [ngClass]="( userType == 'IN' ) ? 'title-card' : 'title-card-extern'"> Adelanta tu ingreso </label>
-              <p [ngClass]="( userType == 'IN' ) ? 'subtitle-card' : 'subtitle-card-extern'"> Financia imprevistos y oportunidades </p>
-            </div>
-            <div style="width: 10%">
-              <img [src]="arrowIntern" alt="" class="wrapper-img-arrow">
-            </div>
-          </ion-card-content>
-        </ion-card>
         <ion-card class="wrapper-ion-card" disabled="true">
           <ion-card-content class="wrapper-card" (click)="goSection('rh')">
             <div style="width: 25%; display: flex; justify-content: center;">

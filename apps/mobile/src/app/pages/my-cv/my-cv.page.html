@@ -1,0 +1,68 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Mi CV</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- CV exists -->
+  <ion-card *ngIf="cvInfo" class="cv-card">
+    <ion-card-header>
+      <ion-icon name="document-text" class="cv-icon" color="primary"></ion-icon>
+      <ion-card-title>CV Cargado</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <div class="file-info">
+        <ion-icon name="attach-outline"></ion-icon>
+        <span class="file-name">{{ cvInfo.fileName }}</span>
+      </div>
+
+      <div class="file-date" *ngIf="cvInfo.uploadDate">
+        <ion-icon name="calendar-outline"></ion-icon>
+        <span>Subido: {{ cvInfo.uploadDate }}</span>
+      </div>
+    </ion-card-content>
+
+    <div class="card-actions">
+      <ion-button expand="block" color="primary" (click)="downloadCv()">
+        <ion-icon name="download-outline" slot="start"></ion-icon>
+        Descargar
+      </ion-button>
+      <ion-button expand="block" color="danger" fill="outline" (click)="deleteCv()">
+        <ion-icon name="trash-outline" slot="start"></ion-icon>
+        Eliminar
+      </ion-button>
+    </div>
+  </ion-card>
+
+  <!-- No CV - Upload area -->
+  <ion-card *ngIf="!cvInfo" class="upload-card">
+    <ion-card-header>
+      <ion-icon name="cloud-upload-outline" class="upload-icon" color="medium"></ion-icon>
+      <ion-card-title>Subir CV</ion-card-title>
+      <ion-card-subtitle>Selecciona un archivo PDF para subir tu curriculum</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <div class="upload-area">
+        <ion-icon name="document-outline" color="medium"></ion-icon>
+        <p>Formato aceptado: PDF</p>
+        <ion-button color="primary" (click)="fileInput.click()">
+          <ion-icon name="cloud-upload-outline" slot="start"></ion-icon>
+          Seleccionar Archivo
+        </ion-button>
+        <input
+          #fileInput
+          type="file"
+          accept="application/pdf"
+          (change)="onFileSelected($event)"
+          hidden
+        />
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

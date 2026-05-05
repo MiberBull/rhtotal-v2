@@ -1,0 +1,99 @@
+<div class="notification-form-page">
+  <!-- Page Header -->
+  <div class="page-header">
+    <button mat-icon-button routerLink="/notifications" class="back-button">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <div class="header-info">
+      <h1>{{ isEdit() ? 'Editar Notificacion' : 'Nueva Notificacion' }}</h1>
+      <p class="subtitle">
+        {{ isEdit() ? 'Modifica la informacion de la notificacion.' : 'Crea una nueva notificacion para los empleados.' }}
+      </p>
+    </div>
+  </div>
+
+  @if (loading()) {
+    <div class="loading-container">
+      <mat-spinner diameter="40"></mat-spinner>
+      <span class="loading-text">Cargando datos de la notificacion...</span>
+    </div>
+  } @else {
+    <!-- Form Card -->
+    <div class="form-card">
+      <form [formGroup]="form" (ngSubmit)="onSave()">
+        <div class="form-grid">
+          <!-- Titulo -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Titulo</mat-label>
+            <input matInput formControlName="title" placeholder="Titulo de la notificacion" />
+            <mat-icon matPrefix>title</mat-icon>
+            @if (form.controls.title.hasError('required') && form.controls.title.touched) {
+              <mat-error>El titulo es requerido</mat-error>
+            }
+          </mat-form-field>
+
+          <!-- Mensaje -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Mensaje</mat-label>
+            <textarea
+              matInput
+              formControlName="message"
+              placeholder="Escribe el mensaje de la notificacion..."
+              rows="5"
+              maxlength="500"
+            ></textarea>
+            <mat-icon matPrefix>message</mat-icon>
+            <mat-hint align="end">{{ messageLength }} / 500</mat-hint>
+            @if (form.controls.message.hasError('required') && form.controls.message.touched) {
+              <mat-error>El mensaje es requerido</mat-error>
+            }
+            @if (form.controls.message.hasError('maxlength') && form.controls.message.touched) {
+              <mat-error>El mensaje no puede exceder 500 caracteres</mat-error>
+            }
+          </mat-form-field>
+
+          <!-- Tipo -->
+          <mat-form-field appearance="outline">
+            <mat-label>Tipo</mat-label>
+            <mat-select formControlName="type">
+              <mat-option value="PUSH">Push</mat-option>
+              <mat-option value="EMAIL">Email</mat-option>
+              <mat-option value="BOTH">Ambos</mat-option>
+            </mat-select>
+            <mat-icon matPrefix>send</mat-icon>
+          </mat-form-field>
+
+          <!-- Estatus -->
+          <mat-form-field appearance="outline">
+            <mat-label>Estatus</mat-label>
+            <mat-select formControlName="status">
+              <mat-option value="A">Activa</mat-option>
+              <mat-option value="I">Inactiva</mat-option>
+            </mat-select>
+            <mat-icon matPrefix>toggle_on</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <!-- Actions -->
+        <div class="form-actions">
+          <button mat-button type="button" (click)="onCancel()">
+            Cancelar
+          </button>
+          <button
+            mat-flat-button
+            color="primary"
+            type="submit"
+            [disabled]="saving()"
+          >
+            @if (saving()) {
+              <mat-spinner diameter="20"></mat-spinner>
+            } @else {
+              <mat-icon>save</mat-icon>
+              {{ isEdit() ? 'Actualizar' : 'Guardar' }}
+            }
+          </button>
+        </div>
+      </form>
+    </div>
+  }
+</div>
