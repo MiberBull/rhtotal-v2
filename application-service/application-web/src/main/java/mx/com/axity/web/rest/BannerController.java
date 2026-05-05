@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collections;
 import java.util.List;
 
-@CrossOrigin(originPatterns = "*", allowedHeaders = "*", allowCredentials = "true")
 @RestController
 @RequestMapping("banner")
 public class BannerController {

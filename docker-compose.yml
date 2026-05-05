@@ -24,8 +24,20 @@ services:
       - "8000:8000"
     networks:
       - dchnet
+    environment:
+      - CORS_ALLOWED_ORIGINS=${CORS_ALLOWED_ORIGINS:-http://localhost:*}
     depends_on:
       - eurekaservice
+  postgres:
+    build:
+      context: .
+      dockerfile: "Dockerfile-postgresql"
+    ports:
+      - "5432:5432"
+    networks:
+      - dchnet
+    environment:
+      - POSTGRES_PASSWORD=${DB_PASS:-project123}
   securityservice:
     build:
       context: .
@@ -36,9 +48,13 @@ services:
       - dchnet
     environment:
       - TZ=America/Mexico_City
+      - DB_PASS=${DB_PASS:-project123}
+      - AES_SECRET_KEY=${AES_SECRET_KEY}
+      - CORS_ALLOWED_ORIGINS=${CORS_ALLOWED_ORIGINS:-http://localhost:*}
     depends_on:
       - eurekaservice
       - gatewayservice
+      - postgres
   applicationservice:
     build:
       context: .
@@ -49,9 +65,11 @@ services:
       - dchnet
     environment:
       - TZ=America/Mexico_City
+      - DB_PASS=${DB_PASS:-project123}
     depends_on:
       - eurekaservice
       - gatewayservice
+      - postgres
   userservice:
     build:
       context: .
@@ -60,9 +78,13 @@ services:
       - "8092:8092"
     networks:
       - dchnet
+    environment:
+      - DB_PASS=${DB_PASS:-project123}
+      - AES_SECRET_KEY=${AES_SECRET_KEY}
     depends_on:
       - eurekaservice
       - gatewayservice
       - securityservice
+      - postgres
 networks:
   dchnet:

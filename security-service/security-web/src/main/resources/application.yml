@@ -2,11 +2,11 @@ spring:
   datasource:
     url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:rhtotal}
     username: ${DB_USER:rhtotal}
-    password: ${DB_PASS:UPi0TiKY4vzpdHRntejrh1v40Jp}
+    password: ${DB_PASS}
     driver-class-name: org.postgresql.Driver
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-    show-sql: true
+    show-sql: ${SHOW_SQL:false}
   application:
     name: security-service
   profiles:
@@ -41,4 +41,4 @@ management:
 logging:
   level:
     root: INFO
-    mx.com.axity: DEBUG
+    mx.com.axity: ${LOG_LEVEL:INFO}

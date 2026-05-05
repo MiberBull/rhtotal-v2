@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
-@CrossOrigin(originPatterns = "*", allowedHeaders = "*", allowCredentials = "true")
 @RestController
 @RequestMapping("insurance")
 public class InsuranceController {

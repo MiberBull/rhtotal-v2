@@ -13,7 +13,16 @@ public class CorsConfig {
     public CorsWebFilter corsWebFilter() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOriginPattern("*");
+
+        String allowedOrigins = System.getenv("CORS_ALLOWED_ORIGINS");
+        if (allowedOrigins != null && !allowedOrigins.isEmpty()) {
+            for (String origin : allowedOrigins.split(",")) {
+                config.addAllowedOriginPattern(origin.trim());
+            }
+        } else {
+            config.addAllowedOriginPattern("http://localhost:*");
+        }
+
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
 

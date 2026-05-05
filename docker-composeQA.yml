@@ -24,6 +24,8 @@ services:
       - "9000:9000"
     networks:
       - rhtotalqanet
+    environment:
+      - CORS_ALLOWED_ORIGINS=${CORS_ALLOWED_ORIGINS:-http://localhost:*}
     depends_on:
       - eurekaservice
   securityservice:
@@ -36,6 +38,8 @@ services:
       - rhtotalqanet
     environment:
       - TZ=America/Mexico_City
+      - DB_PASS=${DB_PASS:-project123}
+      - AES_SECRET_KEY=${AES_SECRET_KEY}
     depends_on:
       - eurekaservice
       - gatewayservice
@@ -49,6 +53,7 @@ services:
       - rhtotalqanet
     environment:
       - TZ=America/Mexico_City
+      - DB_PASS=${DB_PASS:-project123}
     depends_on:
       - eurekaservice
       - gatewayservice
@@ -62,6 +67,8 @@ services:
       - rhtotalqanet
     environment:
       - TZ=America/Mexico_City
+      - DB_PASS=${DB_PASS:-project123}
+      - AES_SECRET_KEY=${AES_SECRET_KEY}
     depends_on:
       - eurekaservice
       - gatewayservice

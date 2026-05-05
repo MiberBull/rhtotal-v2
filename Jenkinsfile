@@ -3,6 +3,9 @@ pipeline {
     /*agent {
         label 'RhTotal'
     }*/
+    environment {
+        SONAR_TOKEN = credentials('sonarqube-token')
+    }
     tools {
         maven 'M3'
         jdk 'jdk21'
@@ -88,7 +91,7 @@ pipeline {
                                 -Dsonar.tests=src/test \
                                 -Dsonar.coverage.exclusions=**/*TO.java,**/*DO.java \
                                 -Dsonar.host.url=http://devtools.axity.com/sonar7 \
-                                -Dsonar.login=e7a8085ab0f60254c49a1a9296e1cc4be0d99c73'
+                                -Dsonar.login=${SONAR_TOKEN}'
                         }
                     }
                 }
@@ -105,7 +108,7 @@ pipeline {
                                 -Dsonar.tests=src/test \
                                 -Dsonar.coverage.exclusions=**/*TO.java,**/*DO.java \
                                 -Dsonar.host.url=http://devtools.axity.com/sonar7 \
-                                -Dsonar.login=e7a8085ab0f60254c49a1a9296e1cc4be0d99c73'
+                                -Dsonar.login=${SONAR_TOKEN}'
                         }
                     }
                 }
@@ -122,7 +125,7 @@ pipeline {
                                 -Dsonar.tests=src/test \
                                 -Dsonar.coverage.exclusions=**/*TO.java,**/*DO.java \
                                 -Dsonar.host.url=http://devtools.axity.com/sonar7 \
-                                -Dsonar.login=e7a8085ab0f60254c49a1a9296e1cc4be0d99c73'
+                                -Dsonar.login=${SONAR_TOKEN}'
                         }
                     }
                 }
@@ -136,7 +139,7 @@ pipeline {
                                 -Dsonar.sources=src \
                                 -Dsonar.coverage.exclusions=**/*TO.java,**/*DO.java \
                                 -Dsonar.host.url=http://devtools.axity.com/sonar7 \
-                                -Dsonar.login=e7a8085ab0f60254c49a1a9296e1cc4be0d99c73'
+                                -Dsonar.login=${SONAR_TOKEN}'
                         }
                     }
                 }
@@ -149,7 +152,7 @@ pipeline {
                                 -Dsonar.projectName=18_WorkPoint_RHTotal_Mobile \
                                 -Dsonar.sources=src \
                                 -Dsonar.host.url=http://devtools.axity.com/sonar7 \
-                                -Dsonar.login=e7a8085ab0f60254c49a1a9296e1cc4be0d99c73'
+                                -Dsonar.login=${SONAR_TOKEN}'
                         }
                     }
                 }*/

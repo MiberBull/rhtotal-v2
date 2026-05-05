@@ -204,6 +204,9 @@ docker-compose.override.yml
 
 # Secrets
 secret
+.env
+.env.local
+.env.production
 
 # Release
 *.apk

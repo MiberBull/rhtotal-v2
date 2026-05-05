@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(originPatterns = "*", allowedHeaders = "*", allowCredentials = "true")
 @RestController
 @RequestMapping("login")
 public class LoginController {
@@ -23,7 +22,7 @@ public class LoginController {
 
     @RequestMapping(value = "/loginWeb" , method = RequestMethod.POST , produces = "application/json")
     public ResponseEntity<AnswerLoginTO> loginWeb(@RequestBody  AnswerLoginTO answerLoginTO){
-        LOG.info("init loginWeb " + answerLoginTO.toString());
+        LOG.info("init loginWeb");
         var login = loginFacadeImpl.loginWeb(answerLoginTO);
         LOG.info("loginWeb finalizado correctamente");
         return new ResponseEntity<>(login, HttpStatus.OK);
@@ -31,7 +30,7 @@ public class LoginController {
 
     @RequestMapping(value = "/loginMobile" , method = RequestMethod.POST , produces = "application/json")
     public ResponseEntity<AnswerLoginMobileTO> loginMobile(@RequestBody  AnswerLoginMobileTO answerLoginMobileTO){
-        LOG.info("init loginMobile " + answerLoginMobileTO.toString());
+        LOG.info("init loginMobile");
         var login = loginFacadeImpl.loginMobile(answerLoginMobileTO);
         LOG.info("loginMobile finalizado correctamente");
         return new ResponseEntity<>(login, HttpStatus.OK);
