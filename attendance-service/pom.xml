@@ -29,6 +29,7 @@
         <h2db.version>2.2.224</h2db.version>
         <postgresql.version>42.7.3</postgresql.version>
         <springdoc.version>2.5.0</springdoc.version>
+        <poi.version>5.2.5</poi.version>
     </properties>
 
     <dependencyManagement>
@@ -92,6 +93,11 @@
                 <artifactId>h2</artifactId>
                 <version>${h2db.version}</version>
                 <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml</artifactId>
+                <version>${poi.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
