@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <!-- ================================================================== -->
+    <!-- 0.0.6-001: Tabla k_document_type (catálogo de tipos de documentos) -->
+    <!-- ================================================================== -->
+    <changeSet id="0.0.6-001" author="roberto.esparza">
+        <createTable tableName="k_document_type">
+            <column name="id_document_type" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="tenant_id" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_code" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_name" type="VARCHAR(150)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_description" type="VARCHAR(500)"/>
+            <column name="fg_required_onboarding" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fg_employee_uploadable" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fg_active" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_creation_date" type="TIMESTAMP"/>
+            <column name="dt_modification_date" type="TIMESTAMP"/>
+            <column name="ds_creation_user" type="VARCHAR(200)"/>
+            <column name="ds_modification_user" type="VARCHAR(200)"/>
+        </createTable>
+    </changeSet>
+
+    <!-- ================================================================== -->
+    <!-- 0.0.6-002: Índice en k_document_type                               -->
+    <!-- ================================================================== -->
+    <changeSet id="0.0.6-002" author="roberto.esparza">
+        <createIndex indexName="idx_document_type_tenant_code" tableName="k_document_type">
+            <column name="tenant_id"/>
+            <column name="ds_code"/>
+        </createIndex>
+    </changeSet>
+
+    <!-- ================================================================== -->
+    <!-- 0.0.6-003: Datos iniciales k_document_type para tenant dchkw       -->
+    <!-- ================================================================== -->
+    <changeSet id="0.0.6-003" author="roberto.esparza">
+        <insert tableName="k_document_type">
+            <column name="tenant_id" value="dchkw"/>
+            <column name="ds_code" value="INE"/>
+            <column name="ds_name" value="Identificación Oficial (INE/IFE)"/>
+            <column name="fg_required_onboarding" valueBoolean="true"/>
+            <column name="fg_employee_uploadable" valueBoolean="true"/>
+            <column name="fg_active" valueBoolean="true"/>
+        </insert>
+        <insert tableName="k_document_type">
+            <column name="tenant_id" value="dchkw"/>
+            <column name="ds_code" value="CURP"/>
+            <column name="ds_name" value="CURP"/>
+            <column name="fg_required_onboarding" valueBoolean="true"/>
+            <column name="fg_employee_uploadable" valueBoolean="true"/>
+            <column name="fg_active" valueBoolean="true"/>
+        </insert>
+        <insert tableName="k_document_type">
+            <column name="tenant_id" value="dchkw"/>
+            <column name="ds_code" value="NSS"/>
+            <column name="ds_name" value="Número de Seguridad Social (IMSS)"/>
+            <column name="fg_required_onboarding" valueBoolean="true"/>
+            <column name="fg_employee_uploadable" valueBoolean="true"/>
+            <column name="fg_active" valueBoolean="true"/>
+        </insert>
+        <insert tableName="k_document_type">
+            <column name="tenant_id" value="dchkw"/>
+            <column name="ds_code" value="ACTA_NACIMIENTO"/>
+            <column name="ds_name" value="Acta de Nacimiento"/>
+            <column name="fg_required_onboarding" valueBoolean="true"/>
+            <column name="fg_employee_uploadable" valueBoolean="true"/>
+            <column name="fg_active" valueBoolean="true"/>
+        </insert>
+        <insert tableName="k_document_type">
+            <column name="tenant_id" value="dchkw"/>
+            <column name="ds_code" value="COMPROBANTE_DOMICILIO"/>
+            <column name="ds_name" value="Comprobante de Domicilio"/>
+            <column name="fg_required_onboarding" valueBoolean="true"/>
+            <column name="fg_employee_uploadable" valueBoolean="true"/>
+            <column name="fg_active" valueBoolean="true"/>
+        </insert>
+        <insert tableName="k_document_type">
+            <column name="tenant_id" value="dchkw"/>
+            <column name="ds_code" value="RFC"/>
+            <column name="ds_name" value="Constancia de Situación Fiscal (RFC)"/>
+            <column name="fg_required_onboarding" valueBoolean="false"/>
+            <column name="fg_employee_uploadable" valueBoolean="true"/>
+            <column name="fg_active" valueBoolean="true"/>
+        </insert>
+        <insert tableName="k_document_type">
+            <column name="tenant_id" value="dchkw"/>
+            <column name="ds_code" value="TITULO"/>
+            <column name="ds_name" value="Título Profesional / Cédula"/>
+            <column name="fg_required_onboarding" valueBoolean="false"/>
+            <column name="fg_employee_uploadable" valueBoolean="true"/>
+            <column name="fg_active" valueBoolean="true"/>
+        </insert>
+        <insert tableName="k_document_type">
+            <column name="tenant_id" value="dchkw"/>
+            <column name="ds_code" value="CUENTA_BANCARIA"/>
+            <column name="ds_name" value="Estado de Cuenta Bancaria"/>
+            <column name="fg_required_onboarding" valueBoolean="false"/>
+            <column name="fg_employee_uploadable" valueBoolean="true"/>
+            <column name="fg_active" valueBoolean="true"/>
+        </insert>
+    </changeSet>
+
+    <!-- ================================================================== -->
+    <!-- 0.0.6-004: Tabla k_employee_document (documentos del colaborador)  -->
+    <!-- ================================================================== -->
+    <changeSet id="0.0.6-004" author="roberto.esparza">
+        <createTable tableName="k_employee_document">
+            <column name="id_document" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="tenant_id" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_employee" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_document_type" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_filename" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_mime_type" type="VARCHAR(100)"/>
+            <column name="ds_content" type="TEXT"/>
+            <column name="ds_s3_key" type="VARCHAR(500)"/>
+            <column name="ds_status" type="VARCHAR(50)" defaultValue="PENDIENTE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_rejection_reason" type="VARCHAR(500)"/>
+            <column name="ds_validated_by" type="VARCHAR(200)"/>
+            <column name="dt_validated_date" type="TIMESTAMP"/>
+            <column name="ds_notes" type="VARCHAR(500)"/>
+            <column name="fg_active" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_creation_date" type="TIMESTAMP"/>
+            <column name="dt_modification_date" type="TIMESTAMP"/>
+            <column name="ds_creation_user" type="VARCHAR(200)"/>
+            <column name="ds_modification_user" type="VARCHAR(200)"/>
+        </createTable>
+    </changeSet>
+
+    <!-- ================================================================== -->
+    <!-- 0.0.6-005: FK y índices en k_employee_document                     -->
+    <!-- ================================================================== -->
+    <changeSet id="0.0.6-005" author="roberto.esparza">
+        <addForeignKeyConstraint baseTableName="k_employee_document"
+                                 baseColumnNames="id_document_type"
+                                 referencedTableName="k_document_type"
+                                 referencedColumnNames="id_document_type"
+                                 constraintName="fk_emp_doc_type"/>
+        <createIndex indexName="idx_emp_doc_employee_tenant" tableName="k_employee_document">
+            <column name="id_employee"/>
+            <column name="tenant_id"/>
+        </createIndex>
+        <createIndex indexName="idx_emp_doc_status" tableName="k_employee_document">
+            <column name="ds_status"/>
+            <column name="tenant_id"/>
+        </createIndex>
+    </changeSet>
+
+    <!-- ================================================================== -->
+    <!-- 0.0.6-006: Tabla k_cfdi (recibos de nómina CFDI)                  -->
+    <!-- ================================================================== -->
+    <changeSet id="0.0.6-006" author="roberto.esparza">
+        <createTable tableName="k_cfdi">
+            <column name="id_cfdi" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="tenant_id" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_employee" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_period" type="VARCHAR(7)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_type" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_uuid" type="VARCHAR(100)"/>
+            <column name="ds_rfc_emisor" type="VARCHAR(13)"/>
+            <column name="ds_rfc_receptor" type="VARCHAR(13)"/>
+            <column name="nb_total" type="DECIMAL(12,2)"/>
+            <column name="nb_total_percepciones" type="DECIMAL(12,2)"/>
+            <column name="nb_total_deducciones" type="DECIMAL(12,2)"/>
+            <column name="ds_xml_content" type="TEXT"/>
+            <column name="ds_xml_s3_key" type="VARCHAR(500)"/>
+            <column name="ds_pdf_s3_key" type="VARCHAR(500)"/>
+            <column name="fg_active" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_creation_date" type="TIMESTAMP"/>
+            <column name="dt_modification_date" type="TIMESTAMP"/>
+            <column name="ds_creation_user" type="VARCHAR(200)"/>
+            <column name="ds_modification_user" type="VARCHAR(200)"/>
+        </createTable>
+    </changeSet>
+
+    <!-- ================================================================== -->
+    <!-- 0.0.6-007: Índices en k_cfdi                                       -->
+    <!-- ================================================================== -->
+    <changeSet id="0.0.6-007" author="roberto.esparza">
+        <createIndex indexName="idx_cfdi_employee_period" tableName="k_cfdi">
+            <column name="id_employee"/>
+            <column name="tenant_id"/>
+            <column name="ds_period"/>
+        </createIndex>
+        <createIndex indexName="idx_cfdi_uuid" tableName="k_cfdi" unique="true">
+            <column name="ds_uuid"/>
+            <column name="tenant_id"/>
+        </createIndex>
+    </changeSet>
+
+    <!-- ================================================================== -->
+    <!-- 0.0.6-008: Tabla k_personal_update_request (R-20 self-service)    -->
+    <!-- ================================================================== -->
+    <changeSet id="0.0.6-008" author="roberto.esparza">
+        <createTable tableName="k_personal_update_request">
+            <column name="id_update_request" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="tenant_id" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_employee" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_field_name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_current_value" type="VARCHAR(500)"/>
+            <column name="ds_new_value" type="VARCHAR(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_status" type="VARCHAR(50)" defaultValue="PENDIENTE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_approved_by" type="VARCHAR(200)"/>
+            <column name="dt_approved_date" type="TIMESTAMP"/>
+            <column name="ds_rejection_reason" type="VARCHAR(500)"/>
+            <column name="fg_active" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_creation_date" type="TIMESTAMP"/>
+            <column name="dt_modification_date" type="TIMESTAMP"/>
+            <column name="ds_creation_user" type="VARCHAR(200)"/>
+            <column name="ds_modification_user" type="VARCHAR(200)"/>
+        </createTable>
+    </changeSet>
+
+    <!-- ================================================================== -->
+    <!-- 0.0.6-009: Índices en k_personal_update_request                   -->
+    <!-- ================================================================== -->
+    <changeSet id="0.0.6-009" author="roberto.esparza">
+        <createIndex indexName="idx_personal_update_employee" tableName="k_personal_update_request">
+            <column name="id_employee"/>
+            <column name="tenant_id"/>
+        </createIndex>
+        <createIndex indexName="idx_personal_update_status" tableName="k_personal_update_request">
+            <column name="ds_status"/>
+            <column name="tenant_id"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

@@ -132,5 +132,20 @@ services:
       - eurekaservice
       - gatewayservice
       - postgres
+  documentservice:
+    build:
+      context: .
+      dockerfile: "Dockerfile-document-service"
+    ports:
+      - "8096:8096"
+    networks:
+      - dchnet
+    environment:
+      - TZ=America/Mexico_City
+      - DB_PASS=${DB_PASS:-project123}
+    depends_on:
+      - eurekaservice
+      - gatewayservice
+      - postgres
 networks:
   dchnet:

@@ -78,6 +78,14 @@ pipeline {
                         }
                     }
                 }
+                stage('Build Document') {
+                    steps {
+                        echo 'Building Document Service Spring boot'
+                        dir ('document-service/'){
+                            sh 'mvn clean package'
+                        }
+                    }
+                }
                 stage('Build Frontend Web') {
                     steps {
                         echo 'Building Frontend Angular'
@@ -196,6 +204,23 @@ pipeline {
                             sh 'mvn sonar:sonar \
                                 -Dsonar.projectKey=18_WorkPoint_DCH_HR \
                                 -Dsonar.projectName=18_WorkPoint_DCH_HR \
+                                -Dsonar.sources=src/main \
+                                -Dsonar.tests=src/test \
+                                -Dsonar.coverage.exclusions=**/*TO.java,**/*DO.java \
+                                -Dsonar.host.url=http://devtools.axity.com/sonar7 \
+                                -Dsonar.login=${SONAR_TOKEN}'
+                        }
+                    }
+                }
+                stage('Sonar Document') {
+                    tools {
+                        jdk "jdk21"
+                    }
+                    steps {
+                        dir ('document-service/'){
+                            sh 'mvn sonar:sonar \
+                                -Dsonar.projectKey=18_WorkPoint_DCH_Document \
+                                -Dsonar.projectName=18_WorkPoint_DCH_Document \
                                 -Dsonar.sources=src/main \
                                 -Dsonar.tests=src/test \
                                 -Dsonar.coverage.exclusions=**/*TO.java,**/*DO.java \

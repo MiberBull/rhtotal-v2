@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>mx.com.axity</groupId>
+    <artifactId>document-service</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <modules>
+        <module>document-web</module>
+        <module>document-services</module>
+        <module>document-persistence</module>
+        <module>document-model</module>
+        <module>document-commons</module>
+    </modules>
+    <packaging>pom</packaging>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <snapshot.version>0.0.1-SNAPSHOT</snapshot.version>
+        <java.version>21</java.version>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <maven.compiler.release>21</maven.compiler.release>
+        <spring.version>3.2.5</spring.version>
+        <spring-cloud.version>2023.0.1</spring-cloud.version>
+        <postgresql.version>42.7.3</postgresql.version>
+        <springdoc.version>2.5.0</springdoc.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>mx.com.axity</groupId>
+                <artifactId>document-commons</artifactId>
+                <version>${snapshot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>mx.com.axity</groupId>
+                <artifactId>document-model</artifactId>
+                <version>${snapshot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>mx.com.axity</groupId>
+                <artifactId>document-persistence</artifactId>
+                <version>${snapshot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>mx.com.axity</groupId>
+                <artifactId>document-services</artifactId>
+                <version>${snapshot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-parent</artifactId>
+                <version>${spring.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+                <version>${springdoc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${postgresql.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>

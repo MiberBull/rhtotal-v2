@@ -42,6 +42,12 @@ spring:
             - Path=/api/hr/**
           filters:
             - StripPrefix=2
+        - id: document-service
+          uri: lb://document-service
+          predicates:
+            - Path=/api/document/**
+          filters:
+            - StripPrefix=2
       discovery:
         locator:
           enabled: true
@@ -76,6 +82,8 @@ springdoc:
         url: /api/attendance/v3/api-docs
       - name: hr-service
         url: /api/hr/v3/api-docs
+      - name: document-service
+        url: /api/document/v3/api-docs
 
 management:
   endpoints:

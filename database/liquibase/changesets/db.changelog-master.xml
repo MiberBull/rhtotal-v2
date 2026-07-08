@@ -10,5 +10,6 @@
     <include file="changesets/db.changelog-0.0.3-onboarding.xml"/>
     <include file="changesets/db.changelog-0.0.4-attendance.xml"/>
     <include file="changesets/db.changelog-0.0.5-hr.xml"/>
+    <include file="changesets/db.changelog-0.0.6-document.xml"/>
 
 </databaseChangeLog> 
