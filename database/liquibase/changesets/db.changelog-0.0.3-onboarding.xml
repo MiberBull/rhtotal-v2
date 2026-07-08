@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <!-- Tabla de candidatos -->
+    <changeSet id="0.0.3-001" author="dch-knowwho">
+        <createTable tableName="k_candidate" schemaName="public">
+            <column name="id_candidate" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="tenant_id" type="VARCHAR(50)" defaultValue="dchkw">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_email" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_name" type="VARCHAR(200)"/>
+            <column name="ds_last_name" type="VARCHAR(200)"/>
+            <column name="ds_m_last_name" type="VARCHAR(200)"/>
+            <column name="ds_phone" type="VARCHAR(20)"/>
+            <column name="ds_rfc" type="VARCHAR(13)"/>
+            <column name="ds_curp" type="VARCHAR(18)"/>
+            <column name="ds_nss" type="VARCHAR(11)"/>
+            <column name="ds_address" type="TEXT"/>
+            <column name="ds_source" type="VARCHAR(100)"/>
+            <column name="ds_current_stage" type="VARCHAR(50)" defaultValue="POSTULADO">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_client" type="BIGINT"/>
+            <column name="id_project" type="BIGINT"/>
+            <column name="ds_notes" type="TEXT"/>
+            <column name="fg_active" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_creation_date" type="TIMESTAMP" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_modification_date" type="TIMESTAMP"/>
+            <column name="ds_creation_user" type="VARCHAR(200)"/>
+            <column name="ds_modification_user" type="VARCHAR(200)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0.0.3-002" author="dch-knowwho">
+        <addForeignKeyConstraint
+            baseTableSchemaName="public"
+            baseTableName="k_candidate"
+            baseColumnNames="tenant_id"
+            constraintName="fk_k_candidate_tenant"
+            referencedTableSchemaName="public"
+            referencedTableName="w_tenant"
+            referencedColumnNames="id_tenant"/>
+    </changeSet>
+
+    <changeSet id="0.0.3-003" author="dch-knowwho">
+        <addForeignKeyConstraint
+            baseTableSchemaName="public"
+            baseTableName="k_candidate"
+            baseColumnNames="id_client"
+            constraintName="fk_k_candidate_client"
+            referencedTableSchemaName="public"
+            referencedTableName="c_customer"
+            referencedColumnNames="id_customer"/>
+    </changeSet>
+
+    <changeSet id="0.0.3-004" author="dch-knowwho">
+        <addForeignKeyConstraint
+            baseTableSchemaName="public"
+            baseTableName="k_candidate"
+            baseColumnNames="id_project"
+            constraintName="fk_k_candidate_project"
+            referencedTableSchemaName="public"
+            referencedTableName="k_project"
+            referencedColumnNames="id_project"/>
+    </changeSet>
+
+    <!-- Tabla de historial de etapas del pipeline -->
+    <changeSet id="0.0.3-005" author="dch-knowwho">
+        <createTable tableName="k_pipeline_stage" schemaName="public">
+            <column name="id_stage" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="tenant_id" type="VARCHAR(50)" defaultValue="dchkw">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_candidate" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_stage" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_stage_date" type="TIMESTAMP" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_notes" type="TEXT"/>
+            <column name="ds_created_by" type="VARCHAR(200)"/>
+            <column name="fg_active" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_creation_date" type="TIMESTAMP" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_modification_date" type="TIMESTAMP"/>
+            <column name="ds_creation_user" type="VARCHAR(200)"/>
+            <column name="ds_modification_user" type="VARCHAR(200)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0.0.3-006" author="dch-knowwho">
+        <addForeignKeyConstraint
+            baseTableSchemaName="public"
+            baseTableName="k_pipeline_stage"
+            baseColumnNames="tenant_id"
+            constraintName="fk_k_pipeline_stage_tenant"
+            referencedTableSchemaName="public"
+            referencedTableName="w_tenant"
+            referencedColumnNames="id_tenant"/>
+    </changeSet>
+
+    <changeSet id="0.0.3-007" author="dch-knowwho">
+        <addForeignKeyConstraint
+            baseTableSchemaName="public"
+            baseTableName="k_pipeline_stage"
+            baseColumnNames="id_candidate"
+            constraintName="fk_k_pipeline_stage_candidate"
+            referencedTableSchemaName="public"
+            referencedTableName="k_candidate"
+            referencedColumnNames="id_candidate"/>
+    </changeSet>
+
+    <!-- Tabla de documentos del expediente digital -->
+    <changeSet id="0.0.3-008" author="dch-knowwho">
+        <createTable tableName="k_candidate_document" schemaName="public">
+            <column name="id_document" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="tenant_id" type="VARCHAR(50)" defaultValue="dchkw">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_candidate" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_document_type" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_status" type="VARCHAR(50)" defaultValue="PENDIENTE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_file_name" type="VARCHAR(500)"/>
+            <column name="ds_file_content" type="TEXT"/>
+            <column name="ds_mime_type" type="VARCHAR(100)"/>
+            <column name="ds_rejection_reason" type="TEXT"/>
+            <column name="ds_reviewed_by" type="VARCHAR(200)"/>
+            <column name="dt_reviewed_date" type="TIMESTAMP"/>
+            <column name="fg_active" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_creation_date" type="TIMESTAMP" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_modification_date" type="TIMESTAMP"/>
+            <column name="ds_creation_user" type="VARCHAR(200)"/>
+            <column name="ds_modification_user" type="VARCHAR(200)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0.0.3-009" author="dch-knowwho">
+        <addForeignKeyConstraint
+            baseTableSchemaName="public"
+            baseTableName="k_candidate_document"
+            baseColumnNames="tenant_id"
+            constraintName="fk_k_candidate_document_tenant"
+            referencedTableSchemaName="public"
+            referencedTableName="w_tenant"
+            referencedColumnNames="id_tenant"/>
+    </changeSet>
+
+    <changeSet id="0.0.3-010" author="dch-knowwho">
+        <addForeignKeyConstraint
+            baseTableSchemaName="public"
+            baseTableName="k_candidate_document"
+            baseColumnNames="id_candidate"
+            constraintName="fk_k_candidate_document_candidate"
+            referencedTableSchemaName="public"
+            referencedTableName="k_candidate"
+            referencedColumnNames="id_candidate"/>
+    </changeSet>
+
+    <!-- Tabla de firma electrónica OTP -->
+    <changeSet id="0.0.3-011" author="dch-knowwho">
+        <createTable tableName="k_digital_signature" schemaName="public">
+            <column name="id_signature" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="tenant_id" type="VARCHAR(50)" defaultValue="dchkw">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_candidate" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_otp_hash" type="VARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fg_used" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fg_signed" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_otp_expiry" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_signed_date" type="TIMESTAMP"/>
+            <column name="ds_ip_address" type="VARCHAR(50)"/>
+            <column name="ds_document_hash" type="VARCHAR(64)"/>
+            <column name="fg_active" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_creation_date" type="TIMESTAMP" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_modification_date" type="TIMESTAMP"/>
+            <column name="ds_creation_user" type="VARCHAR(200)"/>
+            <column name="ds_modification_user" type="VARCHAR(200)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0.0.3-012" author="dch-knowwho">
+        <addForeignKeyConstraint
+            baseTableSchemaName="public"
+            baseTableName="k_digital_signature"
+            baseColumnNames="tenant_id"
+            constraintName="fk_k_digital_signature_tenant"
+            referencedTableSchemaName="public"
+            referencedTableName="w_tenant"
+            referencedColumnNames="id_tenant"/>
+    </changeSet>
+
+    <changeSet id="0.0.3-013" author="dch-knowwho">
+        <addForeignKeyConstraint
+            baseTableSchemaName="public"
+            baseTableName="k_digital_signature"
+            baseColumnNames="id_candidate"
+            constraintName="fk_k_digital_signature_candidate"
+            referencedTableSchemaName="public"
+            referencedTableName="k_candidate"
+            referencedColumnNames="id_candidate"/>
+    </changeSet>
+
+</databaseChangeLog>

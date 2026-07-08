@@ -54,6 +54,14 @@ pipeline {
                         }
                     }
                 }
+                stage('Build Onboarding') {
+                    steps {
+                        echo 'Building Onboarding Service Spring boot'
+                        dir ('onboarding-service/'){
+                            sh 'mvn clean package'
+                        }
+                    }
+                }
                 stage('Build Frontend Web') {
                     steps {
                         echo 'Building Frontend Angular'
@@ -121,6 +129,23 @@ pipeline {
                             sh 'mvn sonar:sonar \
                                 -Dsonar.projectKey=18_WorkPoint_RHTotal_User \
                                 -Dsonar.projectName=18_WorkPoint_RHTotal_User \
+                                -Dsonar.sources=src/main \
+                                -Dsonar.tests=src/test \
+                                -Dsonar.coverage.exclusions=**/*TO.java,**/*DO.java \
+                                -Dsonar.host.url=http://devtools.axity.com/sonar7 \
+                                -Dsonar.login=${SONAR_TOKEN}'
+                        }
+                    }
+                }
+                stage('Sonar Onboarding') {
+                    tools {
+                        jdk "jdk21"
+                    }
+                    steps {
+                        dir ('onboarding-service/'){
+                            sh 'mvn sonar:sonar \
+                                -Dsonar.projectKey=18_WorkPoint_DCH_Onboarding \
+                                -Dsonar.projectName=18_WorkPoint_DCH_Onboarding \
                                 -Dsonar.sources=src/main \
                                 -Dsonar.tests=src/test \
                                 -Dsonar.coverage.exclusions=**/*TO.java,**/*DO.java \
