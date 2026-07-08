@@ -17,7 +17,7 @@ public class MessageRegistry {
 
     @PostMapping
     public ResponseEntity<MessageTO> send(@RequestBody MessageTO messageTO) {
-        return ResponseEntity.ok(messageFacade.send(messageTO, TenantContext.getTenantId()));
+        return ResponseEntity.ok(messageFacade.send(messageTO, TenantContext.getCurrentTenant()));
     }
 
     @GetMapping("/{id}")
@@ -27,12 +27,12 @@ public class MessageRegistry {
 
     @GetMapping("/type/{type}")
     public ResponseEntity<List<MessageTO>> getByType(@PathVariable String type) {
-        return ResponseEntity.ok(messageFacade.getByType(TenantContext.getTenantId(), type));
+        return ResponseEntity.ok(messageFacade.getByType(TenantContext.getCurrentTenant(), type));
     }
 
     @GetMapping("/employee/{employeeId}")
     public ResponseEntity<List<MessageTO>> getByEmployee(@PathVariable Long employeeId) {
-        return ResponseEntity.ok(messageFacade.getByEmployee(employeeId, TenantContext.getTenantId()));
+        return ResponseEntity.ok(messageFacade.getByEmployee(employeeId, TenantContext.getCurrentTenant()));
     }
 
     @PutMapping("/{id}/read")

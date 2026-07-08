@@ -24,18 +24,18 @@ public class VacationRegistry {
             @RequestParam int yearsOfService,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate periodStart,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate periodEnd) {
-        String tenantId = TenantContext.getTenantId();
+        String tenantId = TenantContext.getCurrentTenant();
         return ResponseEntity.ok(vacationFacade.initBalance(employeeId, tenantId, yearsOfService, periodStart, periodEnd));
     }
 
     @GetMapping("/balance/{employeeId}")
     public ResponseEntity<VacationBalanceTO> getBalance(@PathVariable Long employeeId) {
-        return ResponseEntity.ok(vacationFacade.getCurrentBalance(employeeId, TenantContext.getTenantId()));
+        return ResponseEntity.ok(vacationFacade.getCurrentBalance(employeeId, TenantContext.getCurrentTenant()));
     }
 
     @PostMapping("/request")
     public ResponseEntity<VacationRequestTO> createRequest(@RequestBody VacationRequestTO requestTO) {
-        return ResponseEntity.ok(vacationFacade.createRequest(requestTO, TenantContext.getTenantId()));
+        return ResponseEntity.ok(vacationFacade.createRequest(requestTO, TenantContext.getCurrentTenant()));
     }
 
     @PutMapping("/request/{id}/approve")
@@ -52,11 +52,11 @@ public class VacationRegistry {
 
     @GetMapping("/request/employee/{employeeId}")
     public ResponseEntity<List<VacationRequestTO>> getByEmployee(@PathVariable Long employeeId) {
-        return ResponseEntity.ok(vacationFacade.getEmployeeRequests(employeeId, TenantContext.getTenantId()));
+        return ResponseEntity.ok(vacationFacade.getEmployeeRequests(employeeId, TenantContext.getCurrentTenant()));
     }
 
     @GetMapping("/request/pending")
     public ResponseEntity<List<VacationRequestTO>> getPending() {
-        return ResponseEntity.ok(vacationFacade.getPendingRequests(TenantContext.getTenantId()));
+        return ResponseEntity.ok(vacationFacade.getPendingRequests(TenantContext.getCurrentTenant()));
     }
 }

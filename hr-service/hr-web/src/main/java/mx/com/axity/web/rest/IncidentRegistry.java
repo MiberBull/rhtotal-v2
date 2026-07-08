@@ -19,7 +19,7 @@ public class IncidentRegistry {
 
     @PostMapping
     public ResponseEntity<IncidentTO> create(@RequestBody IncidentTO incidentTO) {
-        return ResponseEntity.ok(incidentFacade.create(incidentTO, TenantContext.getTenantId()));
+        return ResponseEntity.ok(incidentFacade.create(incidentTO, TenantContext.getCurrentTenant()));
     }
 
     @GetMapping("/{id}")
@@ -29,14 +29,14 @@ public class IncidentRegistry {
 
     @GetMapping("/employee/{employeeId}")
     public ResponseEntity<List<IncidentTO>> getByEmployee(@PathVariable Long employeeId) {
-        return ResponseEntity.ok(incidentFacade.getByEmployee(employeeId, TenantContext.getTenantId()));
+        return ResponseEntity.ok(incidentFacade.getByEmployee(employeeId, TenantContext.getCurrentTenant()));
     }
 
     @GetMapping("/period")
     public ResponseEntity<List<IncidentTO>> getByPeriod(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to) {
-        return ResponseEntity.ok(incidentFacade.getByPeriod(TenantContext.getTenantId(), from, to));
+        return ResponseEntity.ok(incidentFacade.getByPeriod(TenantContext.getCurrentTenant(), from, to));
     }
 
     @PutMapping("/{id}/validate")

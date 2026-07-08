@@ -18,7 +18,7 @@ public class TicketRegistry {
 
     @PostMapping
     public ResponseEntity<TicketTO> create(@RequestBody TicketTO ticketTO) {
-        return ResponseEntity.ok(ticketFacade.create(ticketTO, TenantContext.getTenantId()));
+        return ResponseEntity.ok(ticketFacade.create(ticketTO, TenantContext.getCurrentTenant()));
     }
 
     @GetMapping("/{id}")
@@ -28,12 +28,12 @@ public class TicketRegistry {
 
     @GetMapping("/employee/{employeeId}")
     public ResponseEntity<List<TicketTO>> getByEmployee(@PathVariable Long employeeId) {
-        return ResponseEntity.ok(ticketFacade.getByEmployee(employeeId, TenantContext.getTenantId()));
+        return ResponseEntity.ok(ticketFacade.getByEmployee(employeeId, TenantContext.getCurrentTenant()));
     }
 
     @GetMapping("/status/{status}")
     public ResponseEntity<List<TicketTO>> getByStatus(@PathVariable String status) {
-        return ResponseEntity.ok(ticketFacade.getByStatus(TenantContext.getTenantId(), status));
+        return ResponseEntity.ok(ticketFacade.getByStatus(TenantContext.getCurrentTenant(), status));
     }
 
     @PutMapping("/{id}/status")
@@ -45,11 +45,11 @@ public class TicketRegistry {
 
     @PostMapping("/comment")
     public ResponseEntity<TicketCommentTO> addComment(@RequestBody TicketCommentTO commentTO) {
-        return ResponseEntity.ok(ticketFacade.addComment(commentTO, TenantContext.getTenantId()));
+        return ResponseEntity.ok(ticketFacade.addComment(commentTO, TenantContext.getCurrentTenant()));
     }
 
     @GetMapping("/{idTicket}/comments")
     public ResponseEntity<List<TicketCommentTO>> getComments(@PathVariable Long idTicket) {
-        return ResponseEntity.ok(ticketFacade.getComments(idTicket, TenantContext.getTenantId()));
+        return ResponseEntity.ok(ticketFacade.getComments(idTicket, TenantContext.getCurrentTenant()));
     }
 }

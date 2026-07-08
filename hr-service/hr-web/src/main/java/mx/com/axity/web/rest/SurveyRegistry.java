@@ -19,7 +19,7 @@ public class SurveyRegistry {
 
     @PostMapping
     public ResponseEntity<SurveyTO> create(@RequestBody SurveyTO surveyTO) {
-        return ResponseEntity.ok(surveyFacade.create(surveyTO, TenantContext.getTenantId()));
+        return ResponseEntity.ok(surveyFacade.create(surveyTO, TenantContext.getCurrentTenant()));
     }
 
     @GetMapping("/{id}")
@@ -29,7 +29,7 @@ public class SurveyRegistry {
 
     @GetMapping
     public ResponseEntity<List<SurveyTO>> getAll() {
-        return ResponseEntity.ok(surveyFacade.getAll(TenantContext.getTenantId()));
+        return ResponseEntity.ok(surveyFacade.getAll(TenantContext.getCurrentTenant()));
     }
 
     @PutMapping("/{id}/publish")
@@ -44,21 +44,21 @@ public class SurveyRegistry {
 
     @PostMapping("/question")
     public ResponseEntity<SurveyQuestionTO> addQuestion(@RequestBody SurveyQuestionTO questionTO) {
-        return ResponseEntity.ok(surveyFacade.addQuestion(questionTO, TenantContext.getTenantId()));
+        return ResponseEntity.ok(surveyFacade.addQuestion(questionTO, TenantContext.getCurrentTenant()));
     }
 
     @GetMapping("/{idSurvey}/questions")
     public ResponseEntity<List<SurveyQuestionTO>> getQuestions(@PathVariable Long idSurvey) {
-        return ResponseEntity.ok(surveyFacade.getQuestions(idSurvey, TenantContext.getTenantId()));
+        return ResponseEntity.ok(surveyFacade.getQuestions(idSurvey, TenantContext.getCurrentTenant()));
     }
 
     @PostMapping("/response")
     public ResponseEntity<SurveyResponseTO> submitResponse(@RequestBody SurveyResponseTO responseTO) {
-        return ResponseEntity.ok(surveyFacade.submitResponse(responseTO, TenantContext.getTenantId()));
+        return ResponseEntity.ok(surveyFacade.submitResponse(responseTO, TenantContext.getCurrentTenant()));
     }
 
     @GetMapping("/{idSurvey}/results")
     public ResponseEntity<List<SurveyResponseTO>> getResults(@PathVariable Long idSurvey) {
-        return ResponseEntity.ok(surveyFacade.getResults(idSurvey, TenantContext.getTenantId()));
+        return ResponseEntity.ok(surveyFacade.getResults(idSurvey, TenantContext.getCurrentTenant()));
     }
 }
