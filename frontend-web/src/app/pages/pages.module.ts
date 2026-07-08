@@ -56,6 +56,7 @@ import { RepseCumplimientoComponent } from './repse-cumplimiento/repse-cumplimie
 import { RepsePerfilComponent } from './repse-perfil/repse-perfil.component';
 import { DocumentosComponent } from './documentos/documentos.component';
 import { CfdiComponent } from './cfdi/cfdi.component';
+import { TenantsComponent } from './tenants/tenants.component';
 
 @NgModule({
   declarations: [
@@ -107,6 +108,7 @@ import { CfdiComponent } from './cfdi/cfdi.component';
     RepsePerfilComponent,
     DocumentosComponent,
     CfdiComponent,
+    TenantsComponent,
   ],
   exports: [
     ClientComponent,

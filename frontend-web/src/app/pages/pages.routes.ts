@@ -33,6 +33,7 @@ import { RepseCumplimientoComponent } from './repse-cumplimiento/repse-cumplimie
 import { RepsePerfilComponent } from './repse-perfil/repse-perfil.component';
 import { DocumentosComponent } from './documentos/documentos.component';
 import { CfdiComponent } from './cfdi/cfdi.component';
+import { TenantsComponent } from './tenants/tenants.component';
 
 const pagesRoutes: Routes = [
   {
@@ -75,6 +76,7 @@ const pagesRoutes: Routes = [
       { path: 'repse-perfil', component: RepsePerfilComponent },
       { path: 'documentos', component: DocumentosComponent },
       { path: 'cfdi', component: CfdiComponent },
+      { path: 'tenants', component: TenantsComponent },
     ],
   },
 ];

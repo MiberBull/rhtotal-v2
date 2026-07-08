@@ -14,5 +14,6 @@
     <include file="changesets/db.changelog-0.0.7-repse.xml"/>
     <include file="changesets/db.changelog-0.0.8-menus-hr.xml"/>
     <include file="changesets/db.changelog-0.0.9-menus-repse-docs.xml"/>
+    <include file="changesets/db.changelog-0.0.10-demo-tenant.xml"/>
 
 </databaseChangeLog> 
