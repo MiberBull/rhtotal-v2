@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <!-- ================================================================== -->
+    <!-- 0.0.7-001: Tabla k_repse_profile (perfil REPSE del tenant)         -->
+    <!-- ================================================================== -->
+    <changeSet id="0.0.7-001" author="roberto.esparza">
+        <createTable tableName="k_repse_profile">
+            <column name="id_repse_profile" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="tenant_id" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_registro_stps" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_vigencia" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_razon_social" type="VARCHAR(300)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_rfc" type="VARCHAR(13)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_representante_legal" type="VARCHAR(300)"/>
+            <column name="ds_actividad_economica" type="VARCHAR(500)"/>
+            <column name="ds_status" type="VARCHAR(50)" defaultValue="ACTIVO">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fg_active" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_creation_date" type="TIMESTAMP"/>
+            <column name="dt_modification_date" type="TIMESTAMP"/>
+            <column name="ds_creation_user" type="VARCHAR(200)"/>
+            <column name="ds_modification_user" type="VARCHAR(200)"/>
+        </createTable>
+    </changeSet>
+
+    <!-- ================================================================== -->
+    <!-- 0.0.7-002: Índice único en k_repse_profile por tenant              -->
+    <!-- ================================================================== -->
+    <changeSet id="0.0.7-002" author="roberto.esparza">
+        <createIndex indexName="idx_repse_profile_tenant" tableName="k_repse_profile" unique="true">
+            <column name="tenant_id"/>
+        </createIndex>
+    </changeSet>
+
+    <!-- ================================================================== -->
+    <!-- 0.0.7-003: Tabla k_repse_client (clientes contratantes REPSE)      -->
+    <!-- ================================================================== -->
+    <changeSet id="0.0.7-003" author="roberto.esparza">
+        <createTable tableName="k_repse_client">
+            <column name="id_repse_client" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="tenant_id" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_razon_social" type="VARCHAR(300)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_rfc" type="VARCHAR(13)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_contacto" type="VARCHAR(200)"/>
+            <column name="ds_email_contacto" type="VARCHAR(200)"/>
+            <column name="ds_telefono" type="VARCHAR(20)"/>
+            <column name="nb_empleados_asignados" type="INT" defaultValueNumeric="0"/>
+            <column name="ds_status" type="VARCHAR(50)" defaultValue="ACTIVO">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fg_active" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_creation_date" type="TIMESTAMP"/>
+            <column name="dt_modification_date" type="TIMESTAMP"/>
+            <column name="ds_creation_user" type="VARCHAR(200)"/>
+            <column name="ds_modification_user" type="VARCHAR(200)"/>
+        </createTable>
+    </changeSet>
+
+    <!-- ================================================================== -->
+    <!-- 0.0.7-004: Índice en k_repse_client                                -->
+    <!-- ================================================================== -->
+    <changeSet id="0.0.7-004" author="roberto.esparza">
+        <createIndex indexName="idx_repse_client_tenant" tableName="k_repse_client">
+            <column name="tenant_id"/>
+        </createIndex>
+        <createIndex indexName="idx_repse_client_rfc" tableName="k_repse_client">
+            <column name="ds_rfc"/>
+            <column name="tenant_id"/>
+        </createIndex>
+    </changeSet>
+
+    <!-- ================================================================== -->
+    <!-- 0.0.7-005: Tabla k_repse_document (docs de cumplimiento mensual)   -->
+    <!-- ================================================================== -->
+    <changeSet id="0.0.7-005" author="roberto.esparza">
+        <createTable tableName="k_repse_document">
+            <column name="id_repse_doc" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="tenant_id" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_repse_client" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_period" type="VARCHAR(7)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_type" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_status" type="VARCHAR(50)" defaultValue="PENDIENTE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_filename" type="VARCHAR(255)"/>
+            <column name="ds_content" type="TEXT"/>
+            <column name="ds_s3_key" type="VARCHAR(500)"/>
+            <column name="ds_notes" type="VARCHAR(500)"/>
+            <column name="ds_validated_by" type="VARCHAR(200)"/>
+            <column name="dt_validated_date" type="TIMESTAMP"/>
+            <column name="ds_rejection_reason" type="VARCHAR(500)"/>
+            <column name="fg_active" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_creation_date" type="TIMESTAMP"/>
+            <column name="dt_modification_date" type="TIMESTAMP"/>
+            <column name="ds_creation_user" type="VARCHAR(200)"/>
+            <column name="ds_modification_user" type="VARCHAR(200)"/>
+        </createTable>
+    </changeSet>
+
+    <!-- ================================================================== -->
+    <!-- 0.0.7-006: FK e índices en k_repse_document                        -->
+    <!-- ================================================================== -->
+    <changeSet id="0.0.7-006" author="roberto.esparza">
+        <addForeignKeyConstraint baseTableName="k_repse_document"
+                                 baseColumnNames="id_repse_client"
+                                 referencedTableName="k_repse_client"
+                                 referencedColumnNames="id_repse_client"
+                                 constraintName="fk_repse_doc_client"/>
+        <createIndex indexName="idx_repse_doc_client_period" tableName="k_repse_document">
+            <column name="id_repse_client"/>
+            <column name="ds_period"/>
+            <column name="tenant_id"/>
+        </createIndex>
+        <createIndex indexName="idx_repse_doc_type" tableName="k_repse_document">
+            <column name="ds_type"/>
+            <column name="ds_status"/>
+        </createIndex>
+    </changeSet>
+
+    <!-- ================================================================== -->
+    <!-- 0.0.7-007: Tabla k_repse_compliance (semáforo por cliente/periodo) -->
+    <!-- ================================================================== -->
+    <changeSet id="0.0.7-007" author="roberto.esparza">
+        <createTable tableName="k_repse_compliance">
+            <column name="id_compliance" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="tenant_id" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_repse_client" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_period" type="VARCHAR(7)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nb_documents_required" type="INT" defaultValueNumeric="0"/>
+            <column name="nb_documents_submitted" type="INT" defaultValueNumeric="0"/>
+            <column name="nb_documents_validated" type="INT" defaultValueNumeric="0"/>
+            <column name="nb_documents_rejected" type="INT" defaultValueNumeric="0"/>
+            <column name="ds_semaforo" type="VARCHAR(20)" defaultValue="ROJO">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fg_active" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_creation_date" type="TIMESTAMP"/>
+            <column name="dt_modification_date" type="TIMESTAMP"/>
+            <column name="ds_creation_user" type="VARCHAR(200)"/>
+            <column name="ds_modification_user" type="VARCHAR(200)"/>
+        </createTable>
+    </changeSet>
+
+    <!-- ================================================================== -->
+    <!-- 0.0.7-008: FK e índices en k_repse_compliance                      -->
+    <!-- ================================================================== -->
+    <changeSet id="0.0.7-008" author="roberto.esparza">
+        <addForeignKeyConstraint baseTableName="k_repse_compliance"
+                                 baseColumnNames="id_repse_client"
+                                 referencedTableName="k_repse_client"
+                                 referencedColumnNames="id_repse_client"
+                                 constraintName="fk_repse_compliance_client"/>
+        <createIndex indexName="idx_repse_compliance_client_period" tableName="k_repse_compliance" unique="true">
+            <column name="id_repse_client"/>
+            <column name="ds_period"/>
+            <column name="tenant_id"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>
