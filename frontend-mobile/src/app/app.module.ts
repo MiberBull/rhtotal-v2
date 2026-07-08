@@ -104,6 +104,12 @@ import { Toast } from '@ionic-native/toast';
 import { ServiceValidator } from '../providers/service-validator/service-validator';
 import { AppVersion } from '@ionic-native/app-version';
 import { TenantProvider } from '../providers/tenant/tenant';
+import { AsistenciaPage } from '../pages/asistencia/asistencia';
+import { MisVacacionesPage } from '../pages/mis-vacaciones/mis-vacaciones';
+import { MisTicketsPage } from '../pages/mis-tickets/mis-tickets';
+import { MisEncuestasPage } from '../pages/mis-encuestas/mis-encuestas';
+import { AttendanceProvider } from '../providers/attendance/attendance';
+import { HrEmployeeProvider } from '../providers/hr-employee/hr-employee';
 
 export const MATERIAL_COMPONENTS = [MatProgressBarModule];
 
@@ -150,6 +156,10 @@ export const MATERIAL_COMPONENTS = [MatProgressBarModule];
     LastJobPage,
     InsuranceBenefitsPage,
     DetailInsurancePage,
+    AsistenciaPage,
+    MisVacacionesPage,
+    MisTicketsPage,
+    MisEncuestasPage,
   ],
   imports: [
     BrowserModule,
@@ -218,6 +228,10 @@ export const MATERIAL_COMPONENTS = [MatProgressBarModule];
     LastJobPage,
     InsuranceBenefitsPage,
     DetailInsurancePage,
+    AsistenciaPage,
+    MisVacacionesPage,
+    MisTicketsPage,
+    MisEncuestasPage,
   ],
   providers: [
     StatusBar,
@@ -269,6 +283,8 @@ export const MATERIAL_COMPONENTS = [MatProgressBarModule];
     ServiceValidator,
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
     TenantProvider,
+    AttendanceProvider,
+    HrEmployeeProvider,
   ],
 })
 export class AppModule {}

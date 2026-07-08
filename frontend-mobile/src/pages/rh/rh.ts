@@ -10,6 +10,9 @@ import { MSG_DIALOG } from '../../environments/environments';
 import { CfdiPage } from '../cfdi/cfdi';
 import { ConsumeApiProvider } from '../../providers/consume-api/consume-api';
 import { MessageGeneral } from '../../iterface/create-account.interface';
+import { MisVacacionesPage } from '../mis-vacaciones/mis-vacaciones';
+import { MisTicketsPage } from '../mis-tickets/mis-tickets';
+import { MisEncuestasPage } from '../mis-encuestas/mis-encuestas';
 
 @Component({
   selector: 'page-rh',
@@ -65,6 +68,18 @@ export class RhPage {
   showAlert(title: string, msg: string) {
     const objMessage: MessageGeneral = { msg, title };
     this.events_provider.setGeneralNotificationMessage(objMessage);
+  }
+
+  goVacaciones() {
+    this.navCtrl.push(MisVacacionesPage);
+  }
+
+  goTickets() {
+    this.navCtrl.push(MisTicketsPage);
+  }
+
+  goEncuestas() {
+    this.navCtrl.push(MisEncuestasPage);
   }
 
   backRHGeneral() {
