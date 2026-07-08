@@ -11,7 +11,11 @@ public interface ILoginService {
 
     UserDO findUserByEmail(String email);
 
+    UserDO findUserByEmailAndTenantId(String email, String tenantId);
+
     RolesUserDO findRolUserByEmail(String email,Long id);
+
+    RolesUserDO findRolUserByEmailAndTenantId(String email, Long id, String tenantId);
 
     void updateRoleUser(RolesUserDO role);
 

@@ -32,6 +32,8 @@ public class UserDO {
     private String password;
     @Column(name = "ds_level_rh")
     private Long level;
+    @Column(name = "tenant_id")
+    private String tenantId;
     @OneToOne(mappedBy = "user")
     private EmployeeDO employee;
 
@@ -139,6 +141,14 @@ public class UserDO {
 
     public void setLevel(Long level) {
         this.level = level;
+    }
+
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
     }
 
     public EmployeeDO getEmployee() {

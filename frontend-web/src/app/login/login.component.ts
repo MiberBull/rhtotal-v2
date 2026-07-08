@@ -8,25 +8,22 @@ import { LocalStorageService } from './../services/local-sotorage/localstorage.s
 import { LoginService } from './../services/login/login.service';
 
 import { ForgetPasswordModal } from './forget-password/forget-password.component';
-import { environment, parameters, routesWeb,EXPRESSION } from './../../environments/environment';
+import { environment, parameters, routesWeb, EXPRESSION } from './../../environments/environment';
 import { LoginTO, UserTO } from './../models/user.model';
 import { ResetComponent } from '../reset/reset.component';
 import { PATH_SECURITY } from '../../environments/environment.prod';
 
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
-
-export class LoginComponent implements OnInit,OnDestroy{
-
+export class LoginComponent implements OnInit, OnDestroy {
   formLogin: FormGroup;
-  intents:number;
+  intents: number;
   isLoading = false;
-  response:LoginTO = new LoginTO();
-  enable:boolean = true;
+  response: LoginTO = new LoginTO();
+  enable: boolean = true;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -37,151 +34,157 @@ export class LoginComponent implements OnInit,OnDestroy{
     private _route: Router
   ) {
     localStorage.clear();
-   }
+  }
 
   ngOnInit() {
     this.formLogin = this.formBuilder.group({
-      email:[ environment.EMPTY_INPUT,[ Validators.required,
-                                        Validators.email,
-                                        Validators.maxLength(environment.LONG_EMAIL)]],
-      password:[ environment.EMPTY_INPUT,[ Validators.required,
-                                           Validators.maxLength(environment.MAX_LENGTH_PASSWORD),
-                                           Validators.minLength(environment.MIN_LENGTH_PASSWORD)]]
+      email: [
+        environment.EMPTY_INPUT,
+        [Validators.required, Validators.email, Validators.maxLength(environment.LONG_EMAIL)],
+      ],
+      password: [
+        environment.EMPTY_INPUT,
+        [
+          Validators.required,
+          Validators.maxLength(environment.MAX_LENGTH_PASSWORD),
+          Validators.minLength(environment.MIN_LENGTH_PASSWORD),
+        ],
+      ],
     });
 
     this.fillParameters();
 
-    this._data
-        .getIsLoadingEvent()
-        .subscribe(isLoad => this.isLoading = isLoad);
-        
+    this._data.getIsLoadingEvent().subscribe((isLoad) => (this.isLoading = isLoad));
   }
 
-  fillParameters()
-  {
-    this._loginService
-        .getParameters(parameters.intents)
-        .subscribe( (params:any) => 
-        {
-          this.intents = params;
-          this._localStorage.addItem(environment.PARAMS,(params));
-        },
-        error => 
-        {
-          console.log( error );
-        });
+  fillParameters() {
+    this._loginService.getParameters(parameters.intents).subscribe(
+      (params: any) => {
+        this.intents = params;
+        this._localStorage.addItem(environment.PARAMS, params);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
-  onSubmit(){
-
-    
-    if (isNaN(this.intents))
-    {
+  onSubmit() {
+    if (isNaN(this.intents)) {
       this.fillParameters();
     }
 
     this.enable = false;
-    this.validateEmail(this.formLogin.value.email) && this.formLogin.valid ? this.onLogin() :  this._data.setGeneralNotificationMessage(environment.USER_ERROR);
+    if (this.validateEmail(this.formLogin.value.email) && this.formLogin.valid) {
+      this.onLogin();
+    } else {
+      this._data.setGeneralNotificationMessage(environment.USER_ERROR);
+    }
     this.enable = true;
   }
 
-  validateEmail(email:string){
-    let emailRegex = EXPRESSION.EMAIL;
-    return emailRegex.test(email);    
+  validateEmail(email: string) {
+    const emailRegex = EXPRESSION.EMAIL;
+    return emailRegex.test(email);
   }
 
-  decreaseIntents(){
-    return this.intents -= 1;
+  decreaseIntents() {
+    return (this.intents -= 1);
   }
 
-  onLogin(){
-      
+  onLogin() {
     this._data.setIsLoadingEvent(true);
-    let userLogin:UserTO = new UserTO();
+    const userLogin: UserTO = new UserTO();
     userLogin.email = this.formLogin.value.email;
     userLogin.password = this.formLogin.value.password;
 
-    let loginTO: LoginTO = new LoginTO();
+    const loginTO: LoginTO = new LoginTO();
     loginTO.user = userLogin;
     loginTO.user.email = loginTO.user.email.toLocaleLowerCase();
     loginTO.device = 2;
 
-    this._loginService.login(loginTO)
-                      .subscribe( response => {
-                        this.response = response;
-                        this.optionsResponse( response ); 
-                      }, error => {
-                        this._data.setGeneralNotificationMessage(environment.ERROR_SERVIDOR);
-                        this._data.setIsLoadingEvent(false);
-                      },()=>   this._data.setIsLoadingEvent(false));
+    this._loginService.login(loginTO).subscribe(
+      (response) => {
+        this.response = response;
+        this.optionsResponse(response);
+      },
+      (error) => {
+        this._data.setGeneralNotificationMessage(environment.ERROR_SERVIDOR);
+        this._data.setIsLoadingEvent(false);
+      },
+      () => this._data.setIsLoadingEvent(false)
+    );
   }
 
-  optionsResponse( options:LoginTO ){
-    switch( options.flag ){
+  optionsResponse(options: LoginTO) {
+    switch (options.flag) {
       case 0:
-        this.goHome( options );
-      break;
+        this.goHome(options);
+        break;
       case 1:
-      this._data.setGeneralNotificationMessage(options.message);
-      this.enable = true;
-      break;
-      case 2:
-        this.decreaseIntents() <= 0 ? this.blockUser(options) : this._data.setGeneralNotificationMessage(options.message);   
-        this.enable = true;     
-      break;
-      case 3:
-        this._data.setGeneralNotificationMessage(options.message)        
+        this._data.setGeneralNotificationMessage(options.message);
         this.enable = true;
-      break;
+        break;
+      case 2:
+        if (this.decreaseIntents() <= 0) {
+          this.blockUser(options);
+        } else {
+          this._data.setGeneralNotificationMessage(options.message);
+        }
+        this.enable = true;
+        break;
+      case 3:
+        this._data.setGeneralNotificationMessage(options.message);
+        this.enable = true;
+        break;
       case 4:
-        this._route.navigate([routesWeb.NEW_USER],{queryParams:{website:parameters.WEB}});
-      break;
+        this._route.navigate([routesWeb.NEW_USER], { queryParams: { website: parameters.WEB } });
+        break;
     }
   }
 
-  resetIntents(){
-    if( this.validateEmail(this.formLogin.value.email)  )
-      this.response.block = false;
-      this.response.flag = -1;
-      this.response.message = null;
-      this._localStorage.getItem(environment.PARAMS,environment.INTENTS)
-                        .subscribe( intent => 
-                          this.intents = Number.parseInt(intent) );
+  resetIntents() {
+    if (this.validateEmail(this.formLogin.value.email)) this.response.block = false;
+    this.response.flag = -1;
+    this.response.message = null;
+    this._localStorage
+      .getItem(environment.PARAMS, environment.INTENTS)
+      .subscribe((intent) => (this.intents = Number.parseInt(intent)));
   }
 
-  blockUser(reposne:LoginTO){
-
-    let userBlock: UserTO = new UserTO();
+  blockUser(reposne: LoginTO) {
+    const userBlock: UserTO = new UserTO();
     userBlock.email = this.formLogin.value.email;
     userBlock.password = this.formLogin.value.password;
-    
+
     reposne.block = true;
     reposne.user = userBlock;
 
-    this._loginService.blockingUserByIntents(reposne)
-                      .subscribe( (result:any) => {
-                        this._data.setGeneralNotificationMessage( result.message );
-                      }, error => {
-                        this._data.setGeneralNotificationMessage( error.message );
-                      }, () => this.enable = true);
+    this._loginService.blockingUserByIntents(reposne).subscribe(
+      (result: any) => {
+        this._data.setGeneralNotificationMessage(result.message);
+      },
+      (error) => {
+        this._data.setGeneralNotificationMessage(error.message);
+      },
+      () => (this.enable = true)
+    );
   }
 
-  openForgetPassword(){
-    this._route.navigate([routesWeb.NEW_USER],{
-      queryParams:{
-        website:parameters.WEB
-      }
-    });  
+  openForgetPassword() {
+    this._route.navigate([routesWeb.NEW_USER], {
+      queryParams: {
+        website: parameters.WEB,
+      },
+    });
   }
 
-  goHome( response ){
-    this._localStorage.addItem(environment.ANSWER_LOGIN,response);
+  goHome(response) {
+    this._localStorage.addItem(environment.ANSWER_LOGIN, response);
+    localStorage.setItem('tenantId', response.tenantId || 'dchkw');
     this._loginService.setIsLogged(true);
     this._route.navigate([routesWeb.HOME]);
   }
 
-  ngOnDestroy(){
-  } 
-
+  ngOnDestroy() {}
 }
- 

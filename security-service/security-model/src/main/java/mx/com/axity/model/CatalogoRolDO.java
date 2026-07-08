@@ -21,6 +21,8 @@ public class CatalogoRolDO {
     private LocalDate creationDate;
     @Column(name = "fg_active")
     private Boolean active;
+    @Column(name = "tenant_id")
+    private String tenantId;
 
     public Long getIdRol() {
         return idRol;
@@ -76,5 +78,13 @@ public class CatalogoRolDO {
 
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
     }
 }

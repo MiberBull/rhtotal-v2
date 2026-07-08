@@ -1,6 +1,6 @@
-import { BrowserModule} from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -9,7 +9,11 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { ConsumeApiProvider } from '../providers/consume-api/consume-api';
 import { EventsManagerProvider } from '../providers/events-manager/events-manager';
-import { MatProgressBarModule, ErrorStateMatcher, ShowOnDirtyErrorStateMatcher} from '@angular/material';
+import {
+  MatProgressBarModule,
+  ErrorStateMatcher,
+  ShowOnDirtyErrorStateMatcher,
+} from '@angular/material';
 import { LoginProvider } from '../providers/login/login';
 import { LoginPage } from '../pages/login/login';
 import { OnboardingPage } from '../pages/onboarding/onboarding';
@@ -29,14 +33,16 @@ import { FilePath } from '@ionic-native/file-path';
 import { Base64 } from '@ionic-native/base64';
 import { PdfViewerModule } from '../../node_modules/ng2-pdf-viewer';
 import { ConsumeHelpProvider } from '../providers/consume-help/consume-help';
-import { //BrMaskerIonic3, 
-        BrMaskerModule } from 'brmasker-ionic-3';
+import {
+  //BrMaskerIonic3,
+  BrMaskerModule,
+} from 'brmasker-ionic-3';
 import { ConsumeSaveInfoProvider } from '../providers/consume-save-info/consume-save-info';
 import { DbStorageRhtotalProvider } from '../providers/db-storage-rhtotal/db-storage-rhtotal';
-import { SQLite} from '@ionic-native/sqlite';
+import { SQLite } from '@ionic-native/sqlite';
 import { Dialogs } from '@ionic-native/dialogs';
-import { LocalNotifications } from "@ionic-native/local-notifications";
-import { Crashlytics } from "@ionic-native/fabric";
+import { LocalNotifications } from '@ionic-native/local-notifications';
+import { Crashlytics } from '@ionic-native/fabric';
 
 import { ViewEventProvider } from '../providers/view-event/view-event';
 import { CypherProvider } from '../providers/cypher/cypher';
@@ -66,7 +72,6 @@ import { UsersProvider } from '../providers/users/users';
 import { RhPage } from '../pages/rh/rh';
 import { RhProvider } from '../providers/rh/rh';
 import { ActualPositionPage } from '../pages/actual-position/actual-position';
-import { PaymentDetailsPage } from '../pages/payment-details/payment-details';
 import { CfdiPage } from '../pages/cfdi/cfdi';
 import { FileTransferProvider } from '../providers/file-transfer/file-transfer';
 import { FileTransfer } from '@ionic-native/file-transfer';
@@ -93,15 +98,14 @@ import { IOSFilePicker } from '../../node_modules/@ionic-native/file-picker';
 import { InsuranceBenefitsPage } from '../pages/insurance-benefits/insurance-benefits';
 import { DetailInsurancePage } from '../pages/detail-insurance/detail-insurance';
 import { EmailServices } from '../providers/email-services/email-services';
-import { NetworkService } from '../providers/network-service/network.service' 
+import { NetworkService } from '../providers/network-service/network.service';
 import { Network } from '@ionic-native/network';
 import { Toast } from '@ionic-native/toast';
 import { ServiceValidator } from '../providers/service-validator/service-validator';
 import { AppVersion } from '@ionic-native/app-version';
+import { TenantProvider } from '../providers/tenant/tenant';
 
-export const MATERIAL_COMPONENTS = [
-  MatProgressBarModule
-]
+export const MATERIAL_COMPONENTS = [MatProgressBarModule];
 
 @NgModule({
   declarations: [
@@ -134,7 +138,6 @@ export const MATERIAL_COMPONENTS = [
     SalaryPage,
     ActualPositionPage,
     CompensationPackagePage,
-    PaymentDetailsPage,
     CfdiPage,
     RestorePasswordPage,
     PositionHistoryPage,
@@ -146,7 +149,7 @@ export const MATERIAL_COMPONENTS = [
     AsignationDataPage,
     LastJobPage,
     InsuranceBenefitsPage,
-    DetailInsurancePage
+    DetailInsurancePage,
   ],
   imports: [
     BrowserModule,
@@ -157,8 +160,21 @@ export const MATERIAL_COMPONENTS = [
     PdfViewerModule,
     BrMaskerModule,
     ChartsModule,
-    IonicModule.forRoot(MyApp,{
-      monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
+    IonicModule.forRoot(MyApp, {
+      monthNames: [
+        'Enero',
+        'Febrero',
+        'Marzo',
+        'Abril',
+        'Mayo',
+        'Junio',
+        'Julio',
+        'Agosto',
+        'Septiembre',
+        'Octubre',
+        'Noviembre',
+        'Diciembre',
+      ],
     }),
   ],
   bootstrap: [IonicApp],
@@ -191,7 +207,6 @@ export const MATERIAL_COMPONENTS = [
     MyDataPage,
     RhPage,
     ActualPositionPage,
-    PaymentDetailsPage,
     CfdiPage,
     CompensationPackagePage,
     RestorePasswordPage,
@@ -202,12 +217,12 @@ export const MATERIAL_COMPONENTS = [
     AsignationDataPage,
     LastJobPage,
     InsuranceBenefitsPage,
-    DetailInsurancePage
+    DetailInsurancePage,
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
     ConsumeApiProvider,
     EventsManagerProvider,
     LoginProvider,
@@ -252,7 +267,8 @@ export const MATERIAL_COMPONENTS = [
     Network,
     AppVersion,
     ServiceValidator,
-    {provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher}
-    ]
+    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
+    TenantProvider,
+  ],
 })
 export class AppModule {}

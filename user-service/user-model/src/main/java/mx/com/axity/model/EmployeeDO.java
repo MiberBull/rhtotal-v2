@@ -52,6 +52,9 @@ public class EmployeeDO {
     @Column(name = "fg_active")
     private boolean active;
 
+    @Column(name = "tenant_id")
+    private String tenantId;
+
     @OneToOne(mappedBy = "employee")
     private EmployeeComplementaryDO employeeComplementary;
 
@@ -187,6 +190,14 @@ public class EmployeeDO {
 
     public void setEmployeeAddress(EmployeeAddressDO employeeAddress) {
         this.employeeAddress = employeeAddress;
+    }
+
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
     }
 
     @Nullable

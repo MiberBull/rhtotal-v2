@@ -31,6 +31,8 @@ public class UserDO {
     private String password;
     @Column(name = "ds_level_rh")
     private String level;
+    @Column(name = "tenant_id")
+    private String tenantId;
 
     public UserDO() {
     }
@@ -135,6 +137,14 @@ public class UserDO {
 
     public void setLevel(String level) {
         this.level = level;
+    }
+
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
     }
 
 }

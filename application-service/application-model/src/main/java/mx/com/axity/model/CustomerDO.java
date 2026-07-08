@@ -38,6 +38,8 @@ public class CustomerDO {
     private LocalDateTime creationDate;
     @Column(name = "fg_active")
     private Boolean active;
+    @Column(name = "tenant_id")
+    private String tenantId;
 
     public Long getIdCliente() {
         return idCliente;
@@ -149,5 +151,13 @@ public class CustomerDO {
 
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
     }
 }

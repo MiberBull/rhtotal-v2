@@ -17,11 +17,17 @@ public interface RolesUserDAO extends CrudRepository<RolesUserDO,Long> {
     @Query("select n from RolesUserDO n where (n.email = :email and (:id is null or n.idRolAssig <>:id))")
     List<RolesUserDO> findByEmail(@Param("email") String email, @Param("id") Long id);
 
+    @Query("select n from RolesUserDO n where (n.email = :email and (:id is null or n.idRolAssig <>:id)) and n.tenantId = :tenantId")
+    List<RolesUserDO> findByEmailAndTenantId(@Param("email") String email, @Param("id") Long id, @Param("tenantId") String tenantId);
+
     @Query("select count(n) from RolesUserDO n where n.nameRol not in('Administrador Master')")
     Long getNumberRow();
 
     @Query("select n from RolesUserDO n where (n.email = :email) and status <>'I' ")
     Optional<RolesUserDO> findByEmailReset(@Param("email") String email);
+
+    @Query("select n from RolesUserDO n where (n.email = :email) and status <>'I' and n.tenantId = :tenantId")
+    Optional<RolesUserDO> findByEmailResetAndTenantId(@Param("email") String email, @Param("tenantId") String tenantId);
 
     @Query("select n from RolesUserDO n \n" +
             "order by n.lastModification DESC")

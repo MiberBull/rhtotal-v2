@@ -73,6 +73,10 @@ public class RolesUserDO {
     @ExelAnnotations( getMethod = "N/R")
     private Boolean active;
 
+    @Column(name = "tenant_id")
+    @ExelAnnotations( getMethod = "N/R")
+    private String tenantId;
+
     public Long getIdRolAssig() {
         return idRolAssig;
     }
@@ -191,5 +195,13 @@ public class RolesUserDO {
 
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
     }
 }
