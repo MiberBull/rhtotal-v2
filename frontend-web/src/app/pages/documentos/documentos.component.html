@@ -1,0 +1,174 @@
+<div class="dch-page-bg">
+  <mat-tab-group [(selectedIndex)]="selectedTab" class="dch-card doc-tabs">
+    <!-- Tab 1: Cola de validación (pendientes) -->
+    <mat-tab label="Pendientes de validación ({{ pendingDocs.length }})">
+      <div class="tab-content">
+        <div *ngIf="pendingDocs.length === 0" class="empty-state">
+          <mat-icon>task_alt</mat-icon>
+          <p>No hay documentos pendientes de validación</p>
+        </div>
+
+        <mat-table [dataSource]="pendingDocs" class="doc-table" *ngIf="pendingDocs.length > 0">
+          <ng-container matColumnDef="idEmployee">
+            <mat-header-cell *matHeaderCellDef>ID Empleado</mat-header-cell>
+            <mat-cell *matCellDef="let row">{{ row.idEmployee }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="idDocumentType">
+            <mat-header-cell *matHeaderCellDef>Tipo</mat-header-cell>
+            <mat-cell *matCellDef="let row">{{ docTypeName(row.idDocumentType) }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="dsFilename">
+            <mat-header-cell *matHeaderCellDef>Archivo</mat-header-cell>
+            <mat-cell *matCellDef="let row">{{ row.dsFilename }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="dsStatus">
+            <mat-header-cell *matHeaderCellDef>Estatus</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+              <span [ngClass]="docStatusClass(row.dsStatus)" class="doc-badge">{{
+                row.dsStatus
+              }}</span>
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="acciones">
+            <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+              <button mat-icon-button color="primary" title="Validar" (click)="validate(row)">
+                <mat-icon>check_circle</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" title="Rechazar" (click)="reject(row)">
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="pendingColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: pendingColumns"></mat-row>
+        </mat-table>
+      </div>
+    </mat-tab>
+
+    <!-- Tab 2: Expediente por empleado -->
+    <mat-tab label="Expediente digital">
+      <div class="tab-content">
+        <!-- Búsqueda + upload -->
+        <div class="search-row">
+          <mat-form-field class="employee-input">
+            <input
+              matInput
+              type="number"
+              placeholder="ID Empleado"
+              [(ngModel)]="searchEmployeeId"
+            />
+          </mat-form-field>
+          <button mat-raised-button color="primary" (click)="searchEmployee()">
+            <mat-icon>search</mat-icon> Buscar
+          </button>
+          <button mat-raised-button color="accent" (click)="showUploadForm = !showUploadForm">
+            <mat-icon>upload_file</mat-icon> Subir documento
+          </button>
+        </div>
+
+        <!-- Upload form inline -->
+        <mat-card class="dch-card inline-form" *ngIf="showUploadForm">
+          <mat-card-content>
+            <mat-form-field class="half-width">
+              <input
+                matInput
+                type="number"
+                placeholder="ID Empleado *"
+                [(ngModel)]="newDoc.idEmployee"
+                required
+              />
+            </mat-form-field>
+            <mat-form-field class="half-width">
+              <mat-select placeholder="Tipo de documento *" [(ngModel)]="newDoc.idDocumentType">
+                <mat-option *ngFor="let t of docTypes" [value]="t.id">{{ t.dsName }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field class="half-width">
+              <input
+                matInput
+                placeholder="Nombre del archivo *"
+                [(ngModel)]="newDoc.dsFilename"
+                required
+              />
+            </mat-form-field>
+            <mat-form-field class="half-width">
+              <input matInput placeholder="MIME type" [(ngModel)]="newDoc.dsMimeType" />
+            </mat-form-field>
+            <div class="form-actions">
+              <button mat-raised-button color="primary" (click)="uploadDoc()">Guardar</button>
+              <button mat-button (click)="showUploadForm = false">Cancelar</button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <!-- Employee documents table -->
+        <div *ngIf="employeeDocs.length === 0 && searchEmployeeId" class="empty-state">
+          <mat-icon>folder_open</mat-icon>
+          <p>No se encontraron documentos para el empleado {{ searchEmployeeId }}</p>
+        </div>
+
+        <mat-table [dataSource]="employeeDocs" class="doc-table" *ngIf="employeeDocs.length > 0">
+          <ng-container matColumnDef="idDocumentType">
+            <mat-header-cell *matHeaderCellDef>Tipo</mat-header-cell>
+            <mat-cell *matCellDef="let row">{{ docTypeName(row.idDocumentType) }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="dsFilename">
+            <mat-header-cell *matHeaderCellDef>Archivo</mat-header-cell>
+            <mat-cell *matCellDef="let row">{{ row.dsFilename }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="dsStatus">
+            <mat-header-cell *matHeaderCellDef>Estatus</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+              <span [ngClass]="docStatusClass(row.dsStatus)" class="doc-badge">{{
+                row.dsStatus
+              }}</span>
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="dsRejectionReason">
+            <mat-header-cell *matHeaderCellDef>Rechazo</mat-header-cell>
+            <mat-cell *matCellDef="let row">{{ row.dsRejectionReason }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="acciones">
+            <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+              <button
+                mat-icon-button
+                color="primary"
+                title="Validar"
+                (click)="validate(row)"
+                *ngIf="row.dsStatus === 'PENDIENTE'"
+              >
+                <mat-icon>check_circle</mat-icon>
+              </button>
+              <button
+                mat-icon-button
+                color="warn"
+                title="Rechazar"
+                (click)="reject(row)"
+                *ngIf="row.dsStatus === 'PENDIENTE'"
+              >
+                <mat-icon>cancel</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" title="Eliminar" (click)="deleteDoc(row)">
+                <mat-icon>delete_outline</mat-icon>
+              </button>
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="employeeColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: employeeColumns"></mat-row>
+        </mat-table>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

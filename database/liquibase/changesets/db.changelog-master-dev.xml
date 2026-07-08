@@ -12,4 +12,6 @@
     <include file="changesets/db.changelog-0.0.5-hr.xml"/>
     <include file="changesets/db.changelog-0.0.6-document.xml"/>
     <include file="changesets/db.changelog-0.0.7-repse.xml"/>
+    <include file="changesets/db.changelog-0.0.8-menus-hr.xml"/>
+    <include file="changesets/db.changelog-0.0.9-menus-repse-docs.xml"/>
 </databaseChangeLog> 

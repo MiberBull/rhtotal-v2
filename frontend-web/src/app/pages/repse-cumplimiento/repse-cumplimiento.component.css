@@ -1,0 +1,109 @@
+.repse-header {
+  margin-bottom: 20px;
+}
+
+.repse-period-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.period-input {
+  width: 180px;
+}
+
+.export-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.kpi-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.kpi-card {
+  flex: 1;
+  min-width: 150px;
+  position: relative;
+  overflow: hidden;
+}
+
+.kpi-card mat-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.kpi-number {
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.kpi-label {
+  font-size: 13px;
+  color: #546e7a;
+  margin-top: 4px;
+}
+
+.kpi-icon {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 48px;
+  opacity: 0.12;
+}
+
+.kpi-verde .kpi-number {
+  color: #2e7d32;
+}
+.kpi-amarillo .kpi-number {
+  color: #f57f17;
+}
+.kpi-rojo .kpi-number {
+  color: #c62828;
+}
+.kpi-total .kpi-number {
+  color: #005696;
+}
+
+.repse-tabs {
+  border-radius: 8px;
+}
+
+.repse-table {
+  width: 100%;
+}
+
+.repse-badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.loading-row {
+  display: flex;
+  justify-content: center;
+  padding: 40px;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60px 20px;
+  color: #90a4ae;
+}
+
+.empty-state mat-icon {
+  font-size: 64px;
+  margin-bottom: 12px;
+  opacity: 0.4;
+}

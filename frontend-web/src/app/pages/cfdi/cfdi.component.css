@@ -1,0 +1,77 @@
+.cfdi-card {
+  border-radius: 8px;
+}
+
+.search-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.employee-input {
+  width: 180px;
+}
+
+.period-input {
+  width: 200px;
+}
+
+.cfdi-table {
+  width: 100%;
+}
+
+.uuid-cell {
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: monospace;
+  font-size: 12px;
+}
+
+.cfdi-type {
+  background: #e3f2fd;
+  color: #1565c0;
+  padding: 3px 8px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.inline-form {
+  margin-bottom: 20px;
+}
+
+.inline-form mat-card-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.half-width {
+  flex: 1;
+  min-width: 200px;
+}
+
+.form-actions {
+  width: 100%;
+  display: flex;
+  gap: 8px;
+  padding-top: 8px;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60px 20px;
+  color: #90a4ae;
+}
+
+.empty-state mat-icon {
+  font-size: 64px;
+  margin-bottom: 12px;
+  opacity: 0.4;
+}

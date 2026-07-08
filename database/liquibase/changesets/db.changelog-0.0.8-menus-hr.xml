@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <!-- ================================================================
+         Sprint 8 — Menús HR en roles del sistema
+         Agrega Vacaciones, Incidencias, Tickets y Encuestas al menú de:
+           id_rol=1  Administrador Master
+           id_rol=2  Administrador Web
+           id_rol=5  Administrador RH
+         ================================================================ -->
+
+    <changeSet id="0.0.8-001" author="bambu-tech">
+        <comment>Agregar módulos HR (vacaciones, incidencias, tickets, encuestas) al menú de Administrador Master</comment>
+        <sql>
+            UPDATE c_rol
+            SET ds_permission = '{"idRol":1,"nombreRol":"Administrador Master","permisos":[{"nameMenu":"Usuarios","nameUrl":"/home/usuarios"},{"nameMenu":"Descuentos","nameUrl":"/home/descuentos"},{"nameMenu":"Banners","nameUrl":"/home/banners"},{"nameMenu":"Notificaciones","nameUrl":"/home/notificaciones"},{"nameMenu":"Seguros","nameUrl":"/home/seguros"},{"nameMenu":"Anticipo de Nomina","nameUrl":"/home/anticipoNomina"},{"nameMenu":"Clientes","nameUrl":"/home/clientes"},{"nameMenu":"Roles","nameUrl":"/home/roles"},{"nameMenu":"Vacaciones","nameUrl":"/home/vacaciones"},{"nameMenu":"Incidencias","nameUrl":"/home/incidencias"},{"nameMenu":"Tickets","nameUrl":"/home/tickets"},{"nameMenu":"Encuestas","nameUrl":"/home/encuestas"}]}'
+            WHERE id_rol = 1;
+        </sql>
+        <rollback>
+            UPDATE c_rol
+            SET ds_permission = '{"idRol":1,"nombreRol":"Administrador Master","permisos":[{"nameMenu":"Usuarios","nameUrl":"/home/usuarios"},{"nameMenu":"Descuentos","nameUrl":"/home/descuentos"},{"nameMenu":"Banners","nameUrl":"/home/banners"},{"nameMenu":"Notificaciones","nameUrl":"/home/notificaciones"},{"nameMenu":"Seguros","nameUrl":"/home/seguros"},{"nameMenu":"Anticipo de Nomina","nameUrl":"/home/anticipoNomina"},{"nameMenu":"Clientes","nameUrl":"/home/clientes"},{"nameMenu":"Roles","nameUrl":"/home/roles"}]}'
+            WHERE id_rol = 1;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="0.0.8-002" author="bambu-tech">
+        <comment>Agregar módulos HR (vacaciones, incidencias, tickets, encuestas) al menú de Administrador Web</comment>
+        <sql>
+            UPDATE c_rol
+            SET ds_permission = '{"idRol":2,"nombreRol":"Administrador Web","permisos":[{"nameMenu":"Usuarios","nameUrl":"/home/usuarios"},{"nameMenu":"Descuentos","nameUrl":"/home/descuentos"},{"nameMenu":"Banners","nameUrl":"/home/banners"},{"nameMenu":"Notificaciones","nameUrl":"/home/notificaciones"},{"nameMenu":"Seguros","nameUrl":"/home/seguros"},{"nameMenu":"Anticipo de Nomina","nameUrl":"/home/anticipoNomina"},{"nameMenu":"Clientes","nameUrl":"/home/clientes"},{"nameMenu":"Vacaciones","nameUrl":"/home/vacaciones"},{"nameMenu":"Incidencias","nameUrl":"/home/incidencias"},{"nameMenu":"Tickets","nameUrl":"/home/tickets"},{"nameMenu":"Encuestas","nameUrl":"/home/encuestas"}]}'
+            WHERE id_rol = 2;
+        </sql>
+        <rollback>
+            UPDATE c_rol
+            SET ds_permission = '{"idRol":2,"nombreRol":"Administrador Web","permisos":[{"nameMenu":"Usuarios","nameUrl":"/home/usuarios"},{"nameMenu":"Descuentos","nameUrl":"/home/descuentos"},{"nameMenu":"Banners","nameUrl":"/home/banners"},{"nameMenu":"Notificaciones","nameUrl":"/home/notificaciones"},{"nameMenu":"Seguros","nameUrl":"/home/seguros"},{"nameMenu":"Anticipo de Nomina","nameUrl":"/home/anticipoNomina"},{"nameMenu":"Clientes","nameUrl":"/home/clientes"}]}'
+            WHERE id_rol = 2;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="0.0.8-003" author="bambu-tech">
+        <comment>Agregar módulos HR (vacaciones, incidencias, tickets, encuestas) al menú de Administrador RH</comment>
+        <sql>
+            UPDATE c_rol
+            SET ds_permission = '{"idRol":5,"nombreRol":"Administrador RH","permisos":[{"nameMenu":"Usuarios","nameUrl":"/home/usuarios"},{"nameMenu":"Clientes","nameUrl":"/home/clientes"},{"nameMenu":"Vacaciones","nameUrl":"/home/vacaciones"},{"nameMenu":"Incidencias","nameUrl":"/home/incidencias"},{"nameMenu":"Tickets","nameUrl":"/home/tickets"},{"nameMenu":"Encuestas","nameUrl":"/home/encuestas"}]}'
+            WHERE id_rol = 5;
+        </sql>
+        <rollback>
+            UPDATE c_rol
+            SET ds_permission = '{"idRol":5,"nombreRol":"Administrador RH","permisos":[{"nameMenu":"Usuarios","nameUrl":"/home/usuarios"},{"nameMenu":"Clientes","nameUrl":"/home/clientes"}]}'
+            WHERE id_rol = 5;
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,115 @@
+.create-form-card {
+  margin-bottom: 24px;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.form-field-full {
+  width: 100%;
+}
+
+.form-field-half {
+  flex: 2;
+  min-width: 200px;
+}
+
+.form-field-quarter {
+  flex: 1;
+  min-width: 140px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.results-card {
+  margin-bottom: 24px;
+}
+
+.result-item {
+  background: #f5f7fa;
+  border-radius: 6px;
+  padding: 8px;
+  margin-bottom: 8px;
+  font-size: 12px;
+}
+
+.surveys-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.survey-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.survey-dates {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  color: #546e7a;
+  margin-top: 8px;
+}
+
+.date-icon {
+  font-size: 16px;
+  height: 16px;
+  width: 16px;
+  vertical-align: middle;
+  margin-right: 4px;
+}
+
+.anon-icon {
+  font-size: 16px;
+  height: 16px;
+  width: 16px;
+  vertical-align: middle;
+  color: #78909c;
+}
+
+.dch-status-badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 0;
+  color: #90a4ae;
+  grid-column: 1 / -1;
+}
+
+.empty-state mat-icon {
+  font-size: 48px;
+  height: 48px;
+  width: 48px;
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.dch-fab {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  z-index: 100;
+}

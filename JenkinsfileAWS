@@ -82,6 +82,66 @@ pipeline {
                         }
                     }
                 }
+                stage('Build Onboarding') {
+                    steps {
+                        echo 'Building Onboarding Service Spring boot'
+                        dir ('onboarding-service/onboarding-web/src/main/resources/'){
+                            sh 'sed -i "s/postgres:5432/${RDS_HOST}:5432/g" application.yml'
+                            sh 'sed -i "s/unbound/rhtotal/g" application.yml'
+                            sh 'sed -i "s/username: postgres/username: rhtotal/g" application.yml'
+                            sh 'sed -i "s/project123/${DB_PASS_PROD}/g" application.yml'
+                            sh 'sed -i "s/gatewayservice/${EC2_HOST}/g" application.yml'
+                        }
+                        dir ('onboarding-service/'){
+                            sh 'mvn clean package'
+                        }
+                    }
+                }
+                stage('Build Attendance') {
+                    steps {
+                        echo 'Building Attendance Service Spring boot'
+                        dir ('attendance-service/attendance-web/src/main/resources/'){
+                            sh 'sed -i "s/postgres:5432/${RDS_HOST}:5432/g" application.yml'
+                            sh 'sed -i "s/unbound/rhtotal/g" application.yml'
+                            sh 'sed -i "s/username: postgres/username: rhtotal/g" application.yml'
+                            sh 'sed -i "s/project123/${DB_PASS_PROD}/g" application.yml'
+                            sh 'sed -i "s/gatewayservice/${EC2_HOST}/g" application.yml'
+                        }
+                        dir ('attendance-service/'){
+                            sh 'mvn clean package'
+                        }
+                    }
+                }
+                stage('Build HR') {
+                    steps {
+                        echo 'Building HR Service Spring boot'
+                        dir ('hr-service/hr-web/src/main/resources/'){
+                            sh 'sed -i "s/postgres:5432/${RDS_HOST}:5432/g" application.yml'
+                            sh 'sed -i "s/unbound/rhtotal/g" application.yml'
+                            sh 'sed -i "s/username: postgres/username: rhtotal/g" application.yml'
+                            sh 'sed -i "s/project123/${DB_PASS_PROD}/g" application.yml'
+                            sh 'sed -i "s/gatewayservice/${EC2_HOST}/g" application.yml'
+                        }
+                        dir ('hr-service/'){
+                            sh 'mvn clean package'
+                        }
+                    }
+                }
+                stage('Build Document') {
+                    steps {
+                        echo 'Building Document Service Spring boot'
+                        dir ('document-service/document-web/src/main/resources/'){
+                            sh 'sed -i "s/postgres:5432/${RDS_HOST}:5432/g" application.yml'
+                            sh 'sed -i "s/unbound/rhtotal/g" application.yml'
+                            sh 'sed -i "s/username: postgres/username: rhtotal/g" application.yml'
+                            sh 'sed -i "s/project123/${DB_PASS_PROD}/g" application.yml'
+                            sh 'sed -i "s/gatewayservice/${EC2_HOST}/g" application.yml'
+                        }
+                        dir ('document-service/'){
+                            sh 'mvn clean package'
+                        }
+                    }
+                }
                 stage('Build Frontend Web') {
                     steps {
                         echo 'Building Frontend Angular'
@@ -114,6 +174,10 @@ pipeline {
                 sh 'docker build -f "Dockerfile-application-service" -t rhtotal-application-repository .'
                 sh 'docker build -f "Dockerfile-security-service" -t rhtotal-security-repository .'
                 sh 'docker build -f "Dockerfile-user-service" -t rhtotal-user-repository .'
+                sh 'docker build -f "Dockerfile-onboarding-service" -t rhtotal-onboarding-repository .'
+                sh 'docker build -f "Dockerfile-attendance-service" -t rhtotal-attendance-repository .'
+                sh 'docker build -f "Dockerfile-hr-service" -t rhtotal-hr-repository .'
+                sh 'docker build -f "Dockerfile-document-service" -t rhtotal-document-repository .'
                 sh 'docker build -f "Dockerfile-frontend" -t rhtotal-frontend-repository .'
             }
         }
@@ -125,6 +189,10 @@ pipeline {
                 sh 'docker tag rhtotal-application-repository:latest ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-application-repository:$IMAGE_VERSION'
                 sh 'docker tag rhtotal-security-repository:latest ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-security-repository:$IMAGE_VERSION'
                 sh 'docker tag rhtotal-user-repository:latest ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-user-repository:$IMAGE_VERSION'
+                sh 'docker tag rhtotal-onboarding-repository:latest ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-onboarding-repository:$IMAGE_VERSION'
+                sh 'docker tag rhtotal-attendance-repository:latest ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-attendance-repository:$IMAGE_VERSION'
+                sh 'docker tag rhtotal-hr-repository:latest ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-hr-repository:$IMAGE_VERSION'
+                sh 'docker tag rhtotal-document-repository:latest ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-document-repository:$IMAGE_VERSION'
                 sh 'docker tag rhtotal-frontend-repository:latest ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-frontend-repository:$IMAGE_VERSION'
             }
         }
@@ -138,6 +206,10 @@ pipeline {
                 sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-application-repository:$IMAGE_VERSION'
                 sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-security-repository:$IMAGE_VERSION'
                 sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-user-repository:$IMAGE_VERSION'
+                sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-onboarding-repository:$IMAGE_VERSION'
+                sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-attendance-repository:$IMAGE_VERSION'
+                sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-hr-repository:$IMAGE_VERSION'
+                sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-document-repository:$IMAGE_VERSION'
                 sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-frontend-repository:$IMAGE_VERSION'
             }
         }

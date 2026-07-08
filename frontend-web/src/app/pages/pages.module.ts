@@ -1,18 +1,16 @@
 import { FormRolesComponent } from './roles/form-roles/form-roles.component';
-import { NgModule } from "@angular/core";
-import { PAGES_ROUTES  } from './pages.routes';
-import { ReactiveFormsModule, FormsModule} from '@angular/forms';
+import { NgModule } from '@angular/core';
+import { PAGES_ROUTES } from './pages.routes';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { BrowserModule } from '@angular/platform-browser';
-
-
 
 //componentes
 import { ClientComponent } from '../pages/client/client.component';
 import { CreateClientComponent } from '../pages/create-client/create-client.component';
-import { CommonModule } from "@angular/common";
-import { MATERIAL_COMPONENTS } from "../app.material";
-import { PagesComponent } from "./pages.component";
+import { CommonModule } from '@angular/common';
+import { MATERIAL_COMPONENTS } from '../app.material';
+import { PagesComponent } from './pages.component';
 import { RolesComponent } from './roles/roles.component';
 import { InsuranceComponent } from './insurance/insurance.component';
 import { CreateDiscountComponent } from './create-discount/create-discount.component';
@@ -49,88 +47,96 @@ import { PlanCoverageComponent } from './insurance-admin/plan-coverage/plan-cove
 import { ConfirmationDialogComponent } from './insurance-admin/confirmation-dialog/confirmation-dialog.component';
 import { LoadingComponent } from '../components/loading/loading.component';
 import { CustomCurrencyPipe } from '../pipes/CustomCurrencyPipe';
-
-
-
-
-
+import { VacacionesComponent } from './vacaciones/vacaciones.component';
+import { IncidenciasComponent } from './incidencias/incidencias.component';
+import { DialogCreateIncidentComponent } from './incidencias/dialog-create-incident/dialog-create-incident.component';
+import { TicketsComponent } from './tickets/tickets.component';
+import { EncuestasComponent } from './encuestas/encuestas.component';
+import { RepseCumplimientoComponent } from './repse-cumplimiento/repse-cumplimiento.component';
+import { RepsePerfilComponent } from './repse-perfil/repse-perfil.component';
+import { DocumentosComponent } from './documentos/documentos.component';
+import { CfdiComponent } from './cfdi/cfdi.component';
 
 @NgModule({
-    declarations:[
-        ClientComponent,
-        CreateClientComponent,
-        PagesComponent,
-        RolesComponent,
-        InsuranceComponent,
-        CreateDiscountComponent,
-        FormRolesComponent,
-        InsuranceComponent,
-        NotificationComponent,
-        UsersComponent,
-        CustomersComponent,
-        HomeComponent,
-        NotificationsAdminComponent,
-        DashboardComponent,
-        InsuranceAdminComponent,
-        BannersComponent,
-        BanersAdminComponent,
-        BannersFormComponent,
-        DiscountComponent,
-        DiscountAdminComponent,
-        UserAdminComponent,
-        UserToolbarComponent,
-        UserFormPersonaleInfoComponent,
-        UserFormDomicileComponent,
-        UserFormSocialNetworksComponent,
-        UserFormContractingDataComponent,
-        UserFormLastJobComponent,
-        UserFormCompenPackageComponent,
-        UserFormAssignmentDataComponent,
-        StickyBelowViewDirective,
-        VehicleInsuranceComponent,
-        LifeInsuranceComponent,
-        InsuranceMedicalExpensesComponent,
-        DialogEventualitiesComponent,
-        PlanCoverageComponent,
-        ConfirmationDialogComponent,
-        LoadingComponent,
-        MycurrencyDirective,
-        CustomCurrencyPipe
-        
-    ],
-    exports:[
-        ClientComponent,
-        CreateClientComponent,
-        PagesComponent,
-        RolesComponent,
-        FormRolesComponent,
-        InsuranceComponent,
-        NotificationComponent,
-        UsersComponent,
-        CustomersComponent,
-        BannersComponent,
-        LoadingComponent
-        
-
-    ],
-    imports:[
-        PAGES_ROUTES,
-        ReactiveFormsModule,
-        CommonModule,
-        MATERIAL_COMPONENTS,
-        SharedModule,
-        ComponentModule,
-        ThreeStepsSelectorModule,
-        FormsModule,
-        BrowserModule
-         
-        
-    ],
-    entryComponents:[
-        DialogEventualitiesComponent,
-        PlanCoverageComponent,
-        ConfirmationDialogComponent
-    ]
+  declarations: [
+    ClientComponent,
+    CreateClientComponent,
+    PagesComponent,
+    RolesComponent,
+    InsuranceComponent,
+    CreateDiscountComponent,
+    FormRolesComponent,
+    InsuranceComponent,
+    NotificationComponent,
+    UsersComponent,
+    CustomersComponent,
+    HomeComponent,
+    NotificationsAdminComponent,
+    DashboardComponent,
+    InsuranceAdminComponent,
+    BannersComponent,
+    BanersAdminComponent,
+    BannersFormComponent,
+    DiscountComponent,
+    DiscountAdminComponent,
+    UserAdminComponent,
+    UserToolbarComponent,
+    UserFormPersonaleInfoComponent,
+    UserFormDomicileComponent,
+    UserFormSocialNetworksComponent,
+    UserFormContractingDataComponent,
+    UserFormLastJobComponent,
+    UserFormCompenPackageComponent,
+    UserFormAssignmentDataComponent,
+    StickyBelowViewDirective,
+    VehicleInsuranceComponent,
+    LifeInsuranceComponent,
+    InsuranceMedicalExpensesComponent,
+    DialogEventualitiesComponent,
+    PlanCoverageComponent,
+    ConfirmationDialogComponent,
+    LoadingComponent,
+    MycurrencyDirective,
+    CustomCurrencyPipe,
+    VacacionesComponent,
+    IncidenciasComponent,
+    DialogCreateIncidentComponent,
+    TicketsComponent,
+    EncuestasComponent,
+    RepseCumplimientoComponent,
+    RepsePerfilComponent,
+    DocumentosComponent,
+    CfdiComponent,
+  ],
+  exports: [
+    ClientComponent,
+    CreateClientComponent,
+    PagesComponent,
+    RolesComponent,
+    FormRolesComponent,
+    InsuranceComponent,
+    NotificationComponent,
+    UsersComponent,
+    CustomersComponent,
+    BannersComponent,
+    LoadingComponent,
+  ],
+  imports: [
+    PAGES_ROUTES,
+    ReactiveFormsModule,
+    CommonModule,
+    MATERIAL_COMPONENTS,
+    SharedModule,
+    ComponentModule,
+    ThreeStepsSelectorModule,
+    FormsModule,
+    BrowserModule,
+  ],
+  entryComponents: [
+    DialogEventualitiesComponent,
+    PlanCoverageComponent,
+    ConfirmationDialogComponent,
+    DialogCreateIncidentComponent,
+  ],
 })
-
-export class PagesModule { }
+export class PagesModule {}

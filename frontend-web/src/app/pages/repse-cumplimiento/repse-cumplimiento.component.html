@@ -1,0 +1,147 @@
+<div class="dch-page-bg">
+  <!-- Header: periodo + exportar -->
+  <div class="repse-header">
+    <div class="repse-period-row">
+      <mat-form-field class="period-input">
+        <input matInput type="month" [(ngModel)]="period" (change)="load()" placeholder="Periodo" />
+      </mat-form-field>
+      <button mat-raised-button color="primary" (click)="exportExcel()" class="export-btn">
+        <mat-icon>grid_on</mat-icon> Excel
+      </button>
+      <button mat-raised-button color="accent" (click)="exportPdf()" class="export-btn">
+        <mat-icon>picture_as_pdf</mat-icon> PDF
+      </button>
+    </div>
+  </div>
+
+  <!-- KPI Cards: semáforo summary -->
+  <div class="kpi-row">
+    <mat-card class="dch-card kpi-card kpi-verde">
+      <mat-card-content>
+        <div class="kpi-number">{{ verdeCount }}</div>
+        <div class="kpi-label">En regla</div>
+        <mat-icon class="kpi-icon">check_circle</mat-icon>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="dch-card kpi-card kpi-amarillo">
+      <mat-card-content>
+        <div class="kpi-number">{{ amarilloCount }}</div>
+        <div class="kpi-label">En proceso</div>
+        <mat-icon class="kpi-icon">warning</mat-icon>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="dch-card kpi-card kpi-rojo">
+      <mat-card-content>
+        <div class="kpi-number">{{ rojoCount }}</div>
+        <div class="kpi-label">Incumplidos</div>
+        <mat-icon class="kpi-icon">cancel</mat-icon>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="dch-card kpi-card kpi-total">
+      <mat-card-content>
+        <div class="kpi-number">{{ compliance.length }}</div>
+        <div class="kpi-label">Clientes REPSE</div>
+        <mat-icon class="kpi-icon">business</mat-icon>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Tabs: cumplimiento / por vencer -->
+  <mat-tab-group [(selectedIndex)]="selectedTab" class="dch-card repse-tabs">
+    <!-- Tab 1: Dashboard de cumplimiento -->
+    <mat-tab label="Cumplimiento mensual">
+      <div *ngIf="isLoading" class="loading-row">
+        <mat-spinner diameter="40"></mat-spinner>
+      </div>
+      <mat-table [dataSource]="compliance" class="repse-table" *ngIf="!isLoading">
+        <ng-container matColumnDef="dsNombreCliente">
+          <mat-header-cell *matHeaderCellDef>Cliente</mat-header-cell>
+          <mat-cell *matCellDef="let row">{{ row.dsNombreCliente }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="nuRequired">
+          <mat-header-cell *matHeaderCellDef>Requeridos</mat-header-cell>
+          <mat-cell *matCellDef="let row">{{ row.nuRequired }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="nuSubmitted">
+          <mat-header-cell *matHeaderCellDef>Entregados</mat-header-cell>
+          <mat-cell *matCellDef="let row">{{ row.nuSubmitted }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="nuValidated">
+          <mat-header-cell *matHeaderCellDef>Validados</mat-header-cell>
+          <mat-cell *matCellDef="let row">{{ row.nuValidated }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="nuRejected">
+          <mat-header-cell *matHeaderCellDef>Rechazados</mat-header-cell>
+          <mat-cell *matCellDef="let row">{{ row.nuRejected }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="dsSemaforo">
+          <mat-header-cell *matHeaderCellDef>Semáforo</mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            <span [ngClass]="semaforoClass(row.dsSemaforo)" class="repse-badge">
+              {{ row.dsSemaforo }}
+            </span>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="acciones">
+          <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            <button mat-icon-button title="Recalcular" (click)="recalculate(row)" color="primary">
+              <mat-icon>refresh</mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+      </mat-table>
+
+      <div *ngIf="!isLoading && compliance.length === 0" class="empty-state">
+        <mat-icon>assignment_turned_in</mat-icon>
+        <p>No hay datos de cumplimiento para el periodo {{ period }}</p>
+      </div>
+    </mat-tab>
+
+    <!-- Tab 2: Registros por vencer -->
+    <mat-tab label="Registros por vencer">
+      <mat-table [dataSource]="expiring" class="repse-table">
+        <ng-container matColumnDef="dsRazonSocial">
+          <mat-header-cell *matHeaderCellDef>Razón Social</mat-header-cell>
+          <mat-cell *matCellDef="let row">{{ row.dsRazonSocial }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="dsNumeroRepse">
+          <mat-header-cell *matHeaderCellDef># REPSE</mat-header-cell>
+          <mat-cell *matCellDef="let row">{{ row.dsNumeroRepse }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="dtVigencia">
+          <mat-header-cell *matHeaderCellDef>Vencimiento</mat-header-cell>
+          <mat-cell *matCellDef="let row">{{ row.dtVigencia | date: 'dd/MM/yyyy' }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="nuDaysToExpiry">
+          <mat-header-cell *matHeaderCellDef>Días restantes</mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            <span [ngClass]="expiryClass(row.nuDaysToExpiry)" class="repse-badge">
+              {{ row.nuDaysToExpiry }} días
+            </span>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="expiringColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: expiringColumns"></mat-row>
+      </mat-table>
+
+      <div *ngIf="expiring.length === 0" class="empty-state">
+        <mat-icon>verified</mat-icon>
+        <p>No hay registros REPSE por vencer en los próximos 90 días</p>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>
