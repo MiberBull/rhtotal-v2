@@ -1,0 +1,87 @@
+<div class="tenants-container">
+  <div class="tenants-header">
+    <h2>Gestión de Tenants</h2>
+    <button mat-raised-button color="primary" (click)="showForm = !showForm">
+      <mat-icon>add</mat-icon> Nuevo Tenant
+    </button>
+  </div>
+
+  <mat-card *ngIf="showForm" class="form-card">
+    <mat-card-title>Crear Tenant</mat-card-title>
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="save()">
+        <mat-form-field class="full-width">
+          <input matInput placeholder="ID (ej: mi-empresa)" formControlName="id" />
+          <mat-error *ngIf="form.get('id').hasError('required')">Requerido</mat-error>
+          <mat-error *ngIf="form.get('id').hasError('pattern')"
+            >Solo letras minúsculas, números y guiones</mat-error
+          >
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Nombre" formControlName="name" />
+          <mat-error *ngIf="form.get('name').hasError('required')">Requerido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <input
+            matInput
+            placeholder="Dominio (ej: mi-empresa.dchkw.com.mx)"
+            formControlName="domain"
+          />
+        </mat-form-field>
+
+        <div class="form-actions">
+          <button mat-button type="button" (click)="showForm = false">Cancelar</button>
+          <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+            Guardar
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+
+  <mat-table [dataSource]="tenants" class="tenants-table">
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
+      <mat-cell *matCellDef="let t">{{ t.id }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef>Nombre</mat-header-cell>
+      <mat-cell *matCellDef="let t">{{ t.name }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="domain">
+      <mat-header-cell *matHeaderCellDef>Dominio</mat-header-cell>
+      <mat-cell *matCellDef="let t">{{ t.domain }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="active">
+      <mat-header-cell *matHeaderCellDef>Activo</mat-header-cell>
+      <mat-cell *matCellDef="let t">
+        <mat-slide-toggle
+          [checked]="t.active"
+          (change)="toggle(t)"
+          color="primary"
+        ></mat-slide-toggle>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef>Estado</mat-header-cell>
+      <mat-cell *matCellDef="let t">
+        <mat-chip [color]="t.active ? 'primary' : ''" [selected]="t.active">
+          {{ t.active ? 'Activo' : 'Inactivo' }}
+        </mat-chip>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+  </mat-table>
+
+  <p *ngIf="!loading && tenants.length === 0" class="empty-state">No hay tenants registrados.</p>
+</div>

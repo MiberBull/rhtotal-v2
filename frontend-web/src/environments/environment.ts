@@ -161,6 +161,7 @@ export const routesWeb = {
   REPSE_PERFIL: 'repse-perfil',
   DOCUMENTOS: 'documentos',
   CFDI: 'cfdi',
+  TENANTS: 'tenants',
 };
 
 export const BUTTON = {
