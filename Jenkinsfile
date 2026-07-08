@@ -3,6 +3,9 @@ pipeline {
     /*agent {
         label 'RhTotal'
     }*/
+    triggers {
+        pollSCM('H/5 * * * *')
+    }
     environment {
         SONAR_TOKEN = credentials('sonarqube-token')
     }
@@ -12,6 +15,7 @@ pipeline {
     }
     stages {
         stage('Build Components') {
+            when { branch 'develop' }
             failFast true
             parallel {
                 stage('Build Eureka') {
@@ -91,7 +95,6 @@ pipeline {
                         echo 'Building Frontend Angular'
                         dir ('frontend-web/'){
                             sh 'npm install'
-                            sh 'npm install three-steps-selector --registry http://devtools.axity.com/nexus3/repository/npm-group/ --save'
                             sh 'npm run build'
                         }
                     }
@@ -108,6 +111,7 @@ pipeline {
             }
         }
         stage('Sonar Analisis') {
+            when { branch 'develop' }
             failFast true
             parallel {
                 stage('Sonar Security') {
@@ -117,12 +121,12 @@ pipeline {
                     steps {
                         dir ('security-service/'){
                             sh 'mvn sonar:sonar \
-                                -Dsonar.projectKey=18_WorkPoint_RHTotal_Security \
-                                -Dsonar.projectName=18_WorkPoint_RHTotal_Security \
+                                -Dsonar.projectKey=DCH_Total_Security \
+                                -Dsonar.projectName=DCH_Total_Security \
                                 -Dsonar.sources=src/main \
                                 -Dsonar.tests=src/test \
                                 -Dsonar.coverage.exclusions=**/*TO.java,**/*DO.java \
-                                -Dsonar.host.url=http://devtools.axity.com/sonar7 \
+                                -Dsonar.host.url=${SONAR_HOST_URL} \
                                 -Dsonar.login=${SONAR_TOKEN}'
                         }
                     }
@@ -134,12 +138,12 @@ pipeline {
                     steps {
                         dir ('application-service/'){
                             sh 'mvn sonar:sonar \
-                                -Dsonar.projectKey=18_WorkPoint_RHTotal_Application \
-                                -Dsonar.projectName=18_WorkPoint_RHTotal_Application \
+                                -Dsonar.projectKey=DCH_Total_Application \
+                                -Dsonar.projectName=DCH_Total_Application \
                                 -Dsonar.sources=src/main \
                                 -Dsonar.tests=src/test \
                                 -Dsonar.coverage.exclusions=**/*TO.java,**/*DO.java \
-                                -Dsonar.host.url=http://devtools.axity.com/sonar7 \
+                                -Dsonar.host.url=${SONAR_HOST_URL} \
                                 -Dsonar.login=${SONAR_TOKEN}'
                         }
                     }
@@ -151,12 +155,12 @@ pipeline {
                     steps {
                         dir ('user-service/'){
                             sh 'mvn sonar:sonar \
-                                -Dsonar.projectKey=18_WorkPoint_RHTotal_User \
-                                -Dsonar.projectName=18_WorkPoint_RHTotal_User \
+                                -Dsonar.projectKey=DCH_Total_User \
+                                -Dsonar.projectName=DCH_Total_User \
                                 -Dsonar.sources=src/main \
                                 -Dsonar.tests=src/test \
                                 -Dsonar.coverage.exclusions=**/*TO.java,**/*DO.java \
-                                -Dsonar.host.url=http://devtools.axity.com/sonar7 \
+                                -Dsonar.host.url=${SONAR_HOST_URL} \
                                 -Dsonar.login=${SONAR_TOKEN}'
                         }
                     }
@@ -168,12 +172,12 @@ pipeline {
                     steps {
                         dir ('onboarding-service/'){
                             sh 'mvn sonar:sonar \
-                                -Dsonar.projectKey=18_WorkPoint_DCH_Onboarding \
-                                -Dsonar.projectName=18_WorkPoint_DCH_Onboarding \
+                                -Dsonar.projectKey=DCH_Total_Onboarding \
+                                -Dsonar.projectName=DCH_Total_Onboarding \
                                 -Dsonar.sources=src/main \
                                 -Dsonar.tests=src/test \
                                 -Dsonar.coverage.exclusions=**/*TO.java,**/*DO.java \
-                                -Dsonar.host.url=http://devtools.axity.com/sonar7 \
+                                -Dsonar.host.url=${SONAR_HOST_URL} \
                                 -Dsonar.login=${SONAR_TOKEN}'
                         }
                     }
@@ -185,12 +189,12 @@ pipeline {
                     steps {
                         dir ('attendance-service/'){
                             sh 'mvn sonar:sonar \
-                                -Dsonar.projectKey=18_WorkPoint_DCH_Attendance \
-                                -Dsonar.projectName=18_WorkPoint_DCH_Attendance \
+                                -Dsonar.projectKey=DCH_Total_Attendance \
+                                -Dsonar.projectName=DCH_Total_Attendance \
                                 -Dsonar.sources=src/main \
                                 -Dsonar.tests=src/test \
                                 -Dsonar.coverage.exclusions=**/*TO.java,**/*DO.java \
-                                -Dsonar.host.url=http://devtools.axity.com/sonar7 \
+                                -Dsonar.host.url=${SONAR_HOST_URL} \
                                 -Dsonar.login=${SONAR_TOKEN}'
                         }
                     }
@@ -202,12 +206,12 @@ pipeline {
                     steps {
                         dir ('hr-service/'){
                             sh 'mvn sonar:sonar \
-                                -Dsonar.projectKey=18_WorkPoint_DCH_HR \
-                                -Dsonar.projectName=18_WorkPoint_DCH_HR \
+                                -Dsonar.projectKey=DCH_Total_HR \
+                                -Dsonar.projectName=DCH_Total_HR \
                                 -Dsonar.sources=src/main \
                                 -Dsonar.tests=src/test \
                                 -Dsonar.coverage.exclusions=**/*TO.java,**/*DO.java \
-                                -Dsonar.host.url=http://devtools.axity.com/sonar7 \
+                                -Dsonar.host.url=${SONAR_HOST_URL} \
                                 -Dsonar.login=${SONAR_TOKEN}'
                         }
                     }
@@ -219,26 +223,26 @@ pipeline {
                     steps {
                         dir ('document-service/'){
                             sh 'mvn sonar:sonar \
-                                -Dsonar.projectKey=18_WorkPoint_DCH_Document \
-                                -Dsonar.projectName=18_WorkPoint_DCH_Document \
+                                -Dsonar.projectKey=DCH_Total_Document \
+                                -Dsonar.projectName=DCH_Total_Document \
                                 -Dsonar.sources=src/main \
                                 -Dsonar.tests=src/test \
                                 -Dsonar.coverage.exclusions=**/*TO.java,**/*DO.java \
-                                -Dsonar.host.url=http://devtools.axity.com/sonar7 \
+                                -Dsonar.host.url=${SONAR_HOST_URL} \
                                 -Dsonar.login=${SONAR_TOKEN}'
                         }
                     }
                 }
                 stage('Sonar Frontend Web') {
                     steps {
-                        echo 'Building Frontend Angular'
+                        echo 'Analyzing Frontend Angular'
                         dir ('frontend-web/'){
                             sh 'mvn sonar:sonar \
-                                -Dsonar.projectKey=18_WorkPoint_RHTotal_Web \
-                                -Dsonar.projectName=18_WorkPoint_RHTotal_Web \
+                                -Dsonar.projectKey=DCH_Total_Web \
+                                -Dsonar.projectName=DCH_Total_Web \
                                 -Dsonar.sources=src \
                                 -Dsonar.coverage.exclusions=**/*TO.java,**/*DO.java \
-                                -Dsonar.host.url=http://devtools.axity.com/sonar7 \
+                                -Dsonar.host.url=${SONAR_HOST_URL} \
                                 -Dsonar.login=${SONAR_TOKEN}'
                         }
                     }
@@ -248,10 +252,10 @@ pipeline {
                         echo 'Building Frontend Angular'
                         dir ('frontend-mobile/'){
                             sh 'mvn sonar:sonar \
-                                -Dsonar.projectKey=18_WorkPoint_RHTotal_Mobile \
-                                -Dsonar.projectName=18_WorkPoint_RHTotal_Mobile \
+                                -Dsonar.projectKey=DCH_Total_Mobile \
+                                -Dsonar.projectName=DCH_Total_Mobile \
                                 -Dsonar.sources=src \
-                                -Dsonar.host.url=http://devtools.axity.com/sonar7 \
+                                -Dsonar.host.url=${SONAR_HOST_URL} \
                                 -Dsonar.login=${SONAR_TOKEN}'
                         }
                     }
@@ -259,6 +263,7 @@ pipeline {
             }
         }
         stage('Docker up') {
+            when { branch 'develop' }
             steps {
                 echo 'Running on Docker'
                 sh 'docker network disconnect rhtotal_rhtotalnet postgres'
@@ -268,9 +273,10 @@ pipeline {
             }
         }
         stage('Liquibase') {
+            when { branch 'develop' }
             steps {
                 sleep 10
-                echo 'Building Webservice Spring boot'
+                echo 'Running Liquibase migrations'
                 dir ('database/liquibase/'){
                     sh '$LIQUIBASE_PATH/liquibase --changeLogFile="changesets/db.changelog-master-dev.xml" update'
                 }

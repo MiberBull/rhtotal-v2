@@ -4,7 +4,6 @@ pipeline {
         label 'RhTotal'
     }*/
     environment {
-        IMAGE_VERSION = '19.0'
         DB_PASS_PROD = credentials('db-pass-prod')
         AWS_ACCOUNT_ID = credentials('aws-account-id')
         EC2_HOST = credentials('ec2-hostname')
@@ -15,7 +14,19 @@ pipeline {
         jdk 'jdk21'
     }
     stages {
+        stage('Set Version') {
+            steps {
+                script {
+                    env.IMAGE_VERSION = sh(
+                        returnStdout: true,
+                        script: "git describe --tags --always 2>/dev/null || git rev-parse --short HEAD"
+                    ).trim()
+                    echo "IMAGE_VERSION = ${env.IMAGE_VERSION}"
+                }
+            }
+        }
         stage('Build Components') {
+            when { branch 'main' }
             failFast true
             parallel {
                 stage('Build Eureka') {
@@ -167,6 +178,7 @@ pipeline {
             }
         }
         stage('Docker build') {
+            when { branch 'main' }
             steps {
                 echo 'Build on Docker'
                 sh 'docker build -f "Dockerfile-eureka-service" -t rhtotal-eureka-service .'
@@ -182,6 +194,7 @@ pipeline {
             }
         }
         stage('Docker tag') {
+            when { branch 'main' }
             steps {
                 echo 'Tag Docker images'
                 sh 'docker tag rhtotal-eureka-service:latest ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-eureka-service:$IMAGE_VERSION'
@@ -197,9 +210,10 @@ pipeline {
             }
         }
         stage('Docker push') {
+            when { branch 'main' }
             steps {
-                //echo 'Login to ECS Registry'
-                //sh '$(/root/.local/bin/aws ecr get-login --no-include-email --region us-east-1)'
+                echo 'Login to ECR'
+                sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com'
                 echo 'Push on AWS'
                 sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-eureka-service:$IMAGE_VERSION'
                 sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-gateway-service:$IMAGE_VERSION'
@@ -213,19 +227,21 @@ pipeline {
                 sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-frontend-repository:$IMAGE_VERSION'
             }
         }
-        /*stage('Liquibase') {
+        stage('Liquibase') {
+            when { branch 'main' }
             steps {
-                echo 'Building Webservice Spring boot'
+                echo 'Running Liquibase migrations on RDS'
                 sleep 10
                 dir ('database/liquibase/'){
-                    sh 'sed -i "s/localhost:5432/${RDS_HOST}:5432/g" liquibase.properties'
-                    sh 'sed -i "s/unbound/rhtotal/g" liquibase.properties'
-                    sh 'sed -i "s/username: postgres/username: rhtotal/g" liquibase.properties'
-                    sh 'sed -i "s/project123/${DB_PASS_PROD}/g" liquibase.properties'
-                    sh '$LIQUIBASE_PATH/liquibase --changeLogFile="changesets/db.changelog-master.xml" update'
+                    sh """$LIQUIBASE_PATH/liquibase \
+                        --url=jdbc:postgresql://${RDS_HOST}:5432/rhtotal \
+                        --username=rhtotal \
+                        --password=${DB_PASS_PROD} \
+                        --changeLogFile="changesets/db.changelog-master.xml" \
+                        update"""
                 }
             }
-        }*/
+        }
     }
     post {
         always {
@@ -235,11 +251,9 @@ pipeline {
             echo 'I succeeeded!'
         }
         unstable {
-            sh 'docker-compose down'
             echo 'I am unstable :/'
         }
         failure {
-            sh 'docker-compose down'
             echo 'I failed :('
         }
         changed {
