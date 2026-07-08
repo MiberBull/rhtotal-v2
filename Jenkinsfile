@@ -70,6 +70,14 @@ pipeline {
                         }
                     }
                 }
+                stage('Build HR') {
+                    steps {
+                        echo 'Building HR Service Spring boot'
+                        dir ('hr-service/'){
+                            sh 'mvn clean package'
+                        }
+                    }
+                }
                 stage('Build Frontend Web') {
                     steps {
                         echo 'Building Frontend Angular'
@@ -171,6 +179,23 @@ pipeline {
                             sh 'mvn sonar:sonar \
                                 -Dsonar.projectKey=18_WorkPoint_DCH_Attendance \
                                 -Dsonar.projectName=18_WorkPoint_DCH_Attendance \
+                                -Dsonar.sources=src/main \
+                                -Dsonar.tests=src/test \
+                                -Dsonar.coverage.exclusions=**/*TO.java,**/*DO.java \
+                                -Dsonar.host.url=http://devtools.axity.com/sonar7 \
+                                -Dsonar.login=${SONAR_TOKEN}'
+                        }
+                    }
+                }
+                stage('Sonar HR') {
+                    tools {
+                        jdk "jdk21"
+                    }
+                    steps {
+                        dir ('hr-service/'){
+                            sh 'mvn sonar:sonar \
+                                -Dsonar.projectKey=18_WorkPoint_DCH_HR \
+                                -Dsonar.projectName=18_WorkPoint_DCH_HR \
                                 -Dsonar.sources=src/main \
                                 -Dsonar.tests=src/test \
                                 -Dsonar.coverage.exclusions=**/*TO.java,**/*DO.java \

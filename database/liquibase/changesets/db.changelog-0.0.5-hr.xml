@@ -1,0 +1,524 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <!-- ===== VACACIONES ===== -->
+
+    <!-- 0.0.5-001: Tabla k_vacation_balance (saldo LFT por empleado) -->
+    <changeSet id="0.0.5-001" author="dch-knowwho">
+        <createTable tableName="k_vacation_balance" schemaName="public">
+            <column name="id_balance" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="tenant_id" type="VARCHAR(50)" defaultValue="dchkw">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_employee" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nb_year_of_service" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nb_days_entitled" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nb_days_taken" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nb_days_pending" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_period_start" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_period_end" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fg_active" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_creation_date" type="TIMESTAMP" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_modification_date" type="TIMESTAMP"/>
+            <column name="ds_creation_user" type="VARCHAR(200)"/>
+            <column name="ds_modification_user" type="VARCHAR(200)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0.0.5-002" author="dch-knowwho">
+        <addForeignKeyConstraint
+            baseTableSchemaName="public"
+            baseTableName="k_vacation_balance"
+            baseColumnNames="tenant_id"
+            constraintName="fk_k_vacation_balance_tenant"
+            referencedTableSchemaName="public"
+            referencedTableName="w_tenant"
+            referencedColumnNames="id_tenant"/>
+    </changeSet>
+
+    <!-- 0.0.5-003: Tabla k_vacation_request (solicitudes de vacaciones) -->
+    <changeSet id="0.0.5-003" author="dch-knowwho">
+        <createTable tableName="k_vacation_request" schemaName="public">
+            <column name="id_request" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="tenant_id" type="VARCHAR(50)" defaultValue="dchkw">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_employee" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_start_date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_end_date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nb_days_requested" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_status" type="VARCHAR(50)" defaultValue="PENDIENTE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_notes" type="TEXT"/>
+            <column name="ds_rejection_reason" type="TEXT"/>
+            <column name="ds_approved_by" type="VARCHAR(200)"/>
+            <column name="dt_approved_date" type="TIMESTAMP"/>
+            <column name="fg_active" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_creation_date" type="TIMESTAMP" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_modification_date" type="TIMESTAMP"/>
+            <column name="ds_creation_user" type="VARCHAR(200)"/>
+            <column name="ds_modification_user" type="VARCHAR(200)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0.0.5-004" author="dch-knowwho">
+        <addForeignKeyConstraint
+            baseTableSchemaName="public"
+            baseTableName="k_vacation_request"
+            baseColumnNames="tenant_id"
+            constraintName="fk_k_vacation_request_tenant"
+            referencedTableSchemaName="public"
+            referencedTableName="w_tenant"
+            referencedColumnNames="id_tenant"/>
+    </changeSet>
+
+    <!-- ===== INCIDENCIAS ===== -->
+
+    <!-- 0.0.5-005: Tabla k_incident -->
+    <changeSet id="0.0.5-005" author="dch-knowwho">
+        <createTable tableName="k_incident" schemaName="public">
+            <column name="id_incident" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="tenant_id" type="VARCHAR(50)" defaultValue="dchkw">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_employee" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_type" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_incident_date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_end_date" type="DATE"/>
+            <column name="ds_notes" type="TEXT"/>
+            <column name="ds_status" type="VARCHAR(50)" defaultValue="REGISTRADA">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_approved_by" type="VARCHAR(200)"/>
+            <column name="dt_approved_date" type="TIMESTAMP"/>
+            <column name="ds_document_ref" type="VARCHAR(500)"/>
+            <column name="fg_active" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_creation_date" type="TIMESTAMP" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_modification_date" type="TIMESTAMP"/>
+            <column name="ds_creation_user" type="VARCHAR(200)"/>
+            <column name="ds_modification_user" type="VARCHAR(200)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0.0.5-006" author="dch-knowwho">
+        <addForeignKeyConstraint
+            baseTableSchemaName="public"
+            baseTableName="k_incident"
+            baseColumnNames="tenant_id"
+            constraintName="fk_k_incident_tenant"
+            referencedTableSchemaName="public"
+            referencedTableName="w_tenant"
+            referencedColumnNames="id_tenant"/>
+    </changeSet>
+
+    <!-- ===== MESA DE AYUDA ===== -->
+
+    <!-- 0.0.5-007: Tabla k_ticket -->
+    <changeSet id="0.0.5-007" author="dch-knowwho">
+        <createTable tableName="k_ticket" schemaName="public">
+            <column name="id_ticket" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="tenant_id" type="VARCHAR(50)" defaultValue="dchkw">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_employee" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_number" type="VARCHAR(30)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="ds_subject" type="VARCHAR(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_description" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_category" type="VARCHAR(100)"/>
+            <column name="ds_priority" type="VARCHAR(20)" defaultValue="NORMAL"/>
+            <column name="ds_status" type="VARCHAR(50)" defaultValue="ABIERTO">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_assigned_to" type="VARCHAR(200)"/>
+            <column name="dt_resolved_date" type="TIMESTAMP"/>
+            <column name="fg_active" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_creation_date" type="TIMESTAMP" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_modification_date" type="TIMESTAMP"/>
+            <column name="ds_creation_user" type="VARCHAR(200)"/>
+            <column name="ds_modification_user" type="VARCHAR(200)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0.0.5-008" author="dch-knowwho">
+        <addForeignKeyConstraint
+            baseTableSchemaName="public"
+            baseTableName="k_ticket"
+            baseColumnNames="tenant_id"
+            constraintName="fk_k_ticket_tenant"
+            referencedTableSchemaName="public"
+            referencedTableName="w_tenant"
+            referencedColumnNames="id_tenant"/>
+    </changeSet>
+
+    <!-- 0.0.5-009: Tabla k_ticket_comment -->
+    <changeSet id="0.0.5-009" author="dch-knowwho">
+        <createTable tableName="k_ticket_comment" schemaName="public">
+            <column name="id_comment" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="tenant_id" type="VARCHAR(50)" defaultValue="dchkw">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_ticket" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_author" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_content" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fg_internal" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fg_active" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_creation_date" type="TIMESTAMP" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_modification_date" type="TIMESTAMP"/>
+            <column name="ds_creation_user" type="VARCHAR(200)"/>
+            <column name="ds_modification_user" type="VARCHAR(200)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0.0.5-010" author="dch-knowwho">
+        <addForeignKeyConstraint
+            baseTableSchemaName="public"
+            baseTableName="k_ticket_comment"
+            baseColumnNames="tenant_id"
+            constraintName="fk_k_ticket_comment_tenant"
+            referencedTableSchemaName="public"
+            referencedTableName="w_tenant"
+            referencedColumnNames="id_tenant"/>
+    </changeSet>
+
+    <changeSet id="0.0.5-011" author="dch-knowwho">
+        <addForeignKeyConstraint
+            baseTableSchemaName="public"
+            baseTableName="k_ticket_comment"
+            baseColumnNames="id_ticket"
+            constraintName="fk_k_ticket_comment_ticket"
+            referencedTableSchemaName="public"
+            referencedTableName="k_ticket"
+            referencedColumnNames="id_ticket"/>
+    </changeSet>
+
+    <!-- 0.0.5-012: Tabla k_faq -->
+    <changeSet id="0.0.5-012" author="dch-knowwho">
+        <createTable tableName="k_faq" schemaName="public">
+            <column name="id_faq" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="tenant_id" type="VARCHAR(50)" defaultValue="dchkw">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_category" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_question" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_answer" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nb_order" type="INT" defaultValueNumeric="0"/>
+            <column name="fg_active" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_creation_date" type="TIMESTAMP" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_modification_date" type="TIMESTAMP"/>
+            <column name="ds_creation_user" type="VARCHAR(200)"/>
+            <column name="ds_modification_user" type="VARCHAR(200)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0.0.5-013" author="dch-knowwho">
+        <addForeignKeyConstraint
+            baseTableSchemaName="public"
+            baseTableName="k_faq"
+            baseColumnNames="tenant_id"
+            constraintName="fk_k_faq_tenant"
+            referencedTableSchemaName="public"
+            referencedTableName="w_tenant"
+            referencedColumnNames="id_tenant"/>
+    </changeSet>
+
+    <!-- ===== MENSAJES (DIRECCIÓN + QUEJAS) ===== -->
+
+    <!-- 0.0.5-014: Tabla k_message -->
+    <changeSet id="0.0.5-014" author="dch-knowwho">
+        <createTable tableName="k_message" schemaName="public">
+            <column name="id_message" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="tenant_id" type="VARCHAR(50)" defaultValue="dchkw">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_employee" type="BIGINT"/>
+            <column name="ds_type" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_subject" type="VARCHAR(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_content" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fg_anonymous" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_status" type="VARCHAR(50)" defaultValue="RECIBIDO">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_response" type="TEXT"/>
+            <column name="ds_responded_by" type="VARCHAR(200)"/>
+            <column name="dt_responded_date" type="TIMESTAMP"/>
+            <column name="fg_active" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_creation_date" type="TIMESTAMP" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_modification_date" type="TIMESTAMP"/>
+            <column name="ds_creation_user" type="VARCHAR(200)"/>
+            <column name="ds_modification_user" type="VARCHAR(200)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0.0.5-015" author="dch-knowwho">
+        <addForeignKeyConstraint
+            baseTableSchemaName="public"
+            baseTableName="k_message"
+            baseColumnNames="tenant_id"
+            constraintName="fk_k_message_tenant"
+            referencedTableSchemaName="public"
+            referencedTableName="w_tenant"
+            referencedColumnNames="id_tenant"/>
+    </changeSet>
+
+    <!-- ===== ENCUESTAS ===== -->
+
+    <!-- 0.0.5-016: Tabla k_survey -->
+    <changeSet id="0.0.5-016" author="dch-knowwho">
+        <createTable tableName="k_survey" schemaName="public">
+            <column name="id_survey" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="tenant_id" type="VARCHAR(50)" defaultValue="dchkw">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_title" type="VARCHAR(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_description" type="TEXT"/>
+            <column name="ds_type" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_start_date" type="DATE"/>
+            <column name="dt_end_date" type="DATE"/>
+            <column name="fg_anonymous" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fg_active" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_creation_date" type="TIMESTAMP" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_modification_date" type="TIMESTAMP"/>
+            <column name="ds_creation_user" type="VARCHAR(200)"/>
+            <column name="ds_modification_user" type="VARCHAR(200)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0.0.5-017" author="dch-knowwho">
+        <addForeignKeyConstraint
+            baseTableSchemaName="public"
+            baseTableName="k_survey"
+            baseColumnNames="tenant_id"
+            constraintName="fk_k_survey_tenant"
+            referencedTableSchemaName="public"
+            referencedTableName="w_tenant"
+            referencedColumnNames="id_tenant"/>
+    </changeSet>
+
+    <!-- 0.0.5-018: Tabla k_survey_question -->
+    <changeSet id="0.0.5-018" author="dch-knowwho">
+        <createTable tableName="k_survey_question" schemaName="public">
+            <column name="id_question" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="tenant_id" type="VARCHAR(50)" defaultValue="dchkw">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_survey" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_question" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_type" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_options" type="TEXT"/>
+            <column name="nb_order" type="INT" defaultValueNumeric="0"/>
+            <column name="fg_required" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fg_active" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_creation_date" type="TIMESTAMP" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_modification_date" type="TIMESTAMP"/>
+            <column name="ds_creation_user" type="VARCHAR(200)"/>
+            <column name="ds_modification_user" type="VARCHAR(200)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0.0.5-019" author="dch-knowwho">
+        <addForeignKeyConstraint
+            baseTableSchemaName="public"
+            baseTableName="k_survey_question"
+            baseColumnNames="tenant_id"
+            constraintName="fk_k_survey_question_tenant"
+            referencedTableSchemaName="public"
+            referencedTableName="w_tenant"
+            referencedColumnNames="id_tenant"/>
+    </changeSet>
+
+    <changeSet id="0.0.5-020" author="dch-knowwho">
+        <addForeignKeyConstraint
+            baseTableSchemaName="public"
+            baseTableName="k_survey_question"
+            baseColumnNames="id_survey"
+            constraintName="fk_k_survey_question_survey"
+            referencedTableSchemaName="public"
+            referencedTableName="k_survey"
+            referencedColumnNames="id_survey"/>
+    </changeSet>
+
+    <!-- 0.0.5-021: Tabla k_survey_response -->
+    <changeSet id="0.0.5-021" author="dch-knowwho">
+        <createTable tableName="k_survey_response" schemaName="public">
+            <column name="id_response" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="tenant_id" type="VARCHAR(50)" defaultValue="dchkw">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_survey" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_question" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_employee" type="BIGINT"/>
+            <column name="ds_answer" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fg_active" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_creation_date" type="TIMESTAMP" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_modification_date" type="TIMESTAMP"/>
+            <column name="ds_creation_user" type="VARCHAR(200)"/>
+            <column name="ds_modification_user" type="VARCHAR(200)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0.0.5-022" author="dch-knowwho">
+        <addForeignKeyConstraint
+            baseTableSchemaName="public"
+            baseTableName="k_survey_response"
+            baseColumnNames="tenant_id"
+            constraintName="fk_k_survey_response_tenant"
+            referencedTableSchemaName="public"
+            referencedTableName="w_tenant"
+            referencedColumnNames="id_tenant"/>
+    </changeSet>
+
+    <changeSet id="0.0.5-023" author="dch-knowwho">
+        <addForeignKeyConstraint
+            baseTableSchemaName="public"
+            baseTableName="k_survey_response"
+            baseColumnNames="id_question"
+            constraintName="fk_k_survey_response_question"
+            referencedTableSchemaName="public"
+            referencedTableName="k_survey_question"
+            referencedColumnNames="id_question"/>
+    </changeSet>
+
+</databaseChangeLog>

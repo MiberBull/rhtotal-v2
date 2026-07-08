@@ -117,5 +117,20 @@ services:
       - eurekaservice
       - gatewayservice
       - postgres
+  hrservice:
+    build:
+      context: .
+      dockerfile: "Dockerfile-hr-service"
+    ports:
+      - "8095:8095"
+    networks:
+      - dchnet
+    environment:
+      - TZ=America/Mexico_City
+      - DB_PASS=${DB_PASS:-project123}
+    depends_on:
+      - eurekaservice
+      - gatewayservice
+      - postgres
 networks:
   dchnet:
