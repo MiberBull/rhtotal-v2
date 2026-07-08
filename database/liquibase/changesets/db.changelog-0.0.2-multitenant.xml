@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <!-- Crear tabla de tenants -->
+    <changeSet id="0.0.2-001" author="dch-knowwho">
+        <createTable tableName="w_tenant" schemaName="public">
+            <column name="id_tenant" type="VARCHAR(50)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="ds_name" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_domain" type="VARCHAR(200)"/>
+            <column name="fg_active" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_creation_date" type="TIMESTAMP" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- Insertar el primer tenant -->
+    <changeSet id="0.0.2-002" author="dch-knowwho">
+        <insert tableName="w_tenant" schemaName="public">
+            <column name="id_tenant" value="dchkw"/>
+            <column name="ds_name" value="DCH Know Who"/>
+            <column name="ds_domain" value="dchkw.com.mx"/>
+            <column name="fg_active" valueBoolean="true"/>
+            <column name="dt_creation_date" valueComputed="NOW()"/>
+        </insert>
+    </changeSet>
+
+    <!-- Agregar tenant_id a k_user -->
+    <changeSet id="0.0.2-003" author="dch-knowwho">
+        <addColumn tableName="k_user" schemaName="public">
+            <column name="tenant_id" type="VARCHAR(50)" defaultValue="dchkw">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <addForeignKeyConstraint
+            baseTableSchemaName="public"
+            baseTableName="k_user"
+            baseColumnNames="tenant_id"
+            constraintName="fk_k_user_tenant"
+            referencedTableSchemaName="public"
+            referencedTableName="w_tenant"
+            referencedColumnNames="id_tenant"/>
+    </changeSet>
+
+    <!-- Agregar tenant_id a k_employee -->
+    <changeSet id="0.0.2-004" author="dch-knowwho">
+        <addColumn tableName="k_employee" schemaName="public">
+            <column name="tenant_id" type="VARCHAR(50)" defaultValue="dchkw">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <addForeignKeyConstraint
+            baseTableSchemaName="public"
+            baseTableName="k_employee"
+            baseColumnNames="tenant_id"
+            constraintName="fk_k_employee_tenant"
+            referencedTableSchemaName="public"
+            referencedTableName="w_tenant"
+            referencedColumnNames="id_tenant"/>
+    </changeSet>
+
+    <!-- Agregar tenant_id a k_rol_assignment -->
+    <changeSet id="0.0.2-005" author="dch-knowwho">
+        <addColumn tableName="k_rol_assignment" schemaName="public">
+            <column name="tenant_id" type="VARCHAR(50)" defaultValue="dchkw">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <addForeignKeyConstraint
+            baseTableSchemaName="public"
+            baseTableName="k_rol_assignment"
+            baseColumnNames="tenant_id"
+            constraintName="fk_k_rol_assignment_tenant"
+            referencedTableSchemaName="public"
+            referencedTableName="w_tenant"
+            referencedColumnNames="id_tenant"/>
+    </changeSet>
+
+    <!-- Agregar tenant_id a c_rol -->
+    <changeSet id="0.0.2-006" author="dch-knowwho">
+        <addColumn tableName="c_rol" schemaName="public">
+            <column name="tenant_id" type="VARCHAR(50)" defaultValue="dchkw">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <addForeignKeyConstraint
+            baseTableSchemaName="public"
+            baseTableName="c_rol"
+            baseColumnNames="tenant_id"
+            constraintName="fk_c_rol_tenant"
+            referencedTableSchemaName="public"
+            referencedTableName="w_tenant"
+            referencedColumnNames="id_tenant"/>
+    </changeSet>
+
+    <!-- Agregar tenant_id a c_customer -->
+    <changeSet id="0.0.2-007" author="dch-knowwho">
+        <addColumn tableName="c_customer" schemaName="public">
+            <column name="tenant_id" type="VARCHAR(50)" defaultValue="dchkw">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <addForeignKeyConstraint
+            baseTableSchemaName="public"
+            baseTableName="c_customer"
+            baseColumnNames="tenant_id"
+            constraintName="fk_c_customer_tenant"
+            referencedTableSchemaName="public"
+            referencedTableName="w_tenant"
+            referencedColumnNames="id_tenant"/>
+    </changeSet>
+
+    <!-- Agregar tenant_id a k_project -->
+    <changeSet id="0.0.2-008" author="dch-knowwho">
+        <addColumn tableName="k_project" schemaName="public">
+            <column name="tenant_id" type="VARCHAR(50)" defaultValue="dchkw">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <addForeignKeyConstraint
+            baseTableSchemaName="public"
+            baseTableName="k_project"
+            baseColumnNames="tenant_id"
+            constraintName="fk_k_project_tenant"
+            referencedTableSchemaName="public"
+            referencedTableName="w_tenant"
+            referencedColumnNames="id_tenant"/>
+    </changeSet>
+
+</databaseChangeLog>

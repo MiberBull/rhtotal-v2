@@ -1,5 +1,6 @@
 package mx.com.axity.services.facade.impl;
 
+import mx.com.axity.commons.context.TenantContext;
 import mx.com.axity.commons.exceptions.BusinessException;
 import mx.com.axity.commons.to.*;
 import mx.com.axity.commons.util.AES;
@@ -41,13 +42,14 @@ public class LoginFacadeImpl implements ILoginFacade {
     @Override
     public AnswerLoginMobileTO loginMobile(AnswerLoginMobileTO login) {
         AnswerLoginMobileTO answerLoginMobileTO = new AnswerLoginMobileTO();
+        String tenantId = TenantContext.getCurrentTenant();
         UserDO user;
 
         try {
             Optional.ofNullable(login).map(AnswerLoginMobileTO::getUser).map(UserTO::getEmail).orElseThrow();
             Optional.of(login).map(AnswerLoginMobileTO::getUser).map(UserTO::getPassword).orElseThrow();
 
-            if ((user = loginService.findUserByEmail(login.getUser().getEmail())) == null) {
+            if ((user = loginService.findUserByEmailAndTenantId(login.getUser().getEmail(), tenantId)) == null) {
                 return UtilAnswerLogin.loginMobileResult(EnumMessageSystem.WRONG_USER, answerLoginMobileTO);
             }
 
@@ -82,6 +84,7 @@ public class LoginFacadeImpl implements ILoginFacade {
             }
 
             answerLoginMobileTO.setUser(this.modelMapper.map(user, UserTO.class));
+            answerLoginMobileTO.setTenantId(tenantId);
 
             return UtilAnswerLogin.loginMobileResult(EnumMessageSystem.CORRECT_USER, answerLoginMobileTO);
 
@@ -94,12 +97,13 @@ public class LoginFacadeImpl implements ILoginFacade {
     @Override
     public AnswerLoginTO loginWeb(AnswerLoginTO login) {
         AnswerLoginTO answerLoginTO = new AnswerLoginTO();
+        String tenantId = TenantContext.getCurrentTenant();
         RolesUserDO role;
         try {
             Optional.ofNullable(login).map(AnswerLoginTO::getUser).map(RolesUserTO::getEmail).orElseThrow();
             Optional.of(login).map(AnswerLoginTO::getUser).map(RolesUserTO::getPassword).orElseThrow();
 
-            if ((role = loginService.findRolUserByEmail(login.getUser().getEmail(),null)) == null) {
+            if ((role = loginService.findRolUserByEmailAndTenantId(login.getUser().getEmail(), null, tenantId)) == null) {
                 return UtilAnswerLogin.loginWebResult(EnumMessageSystem.WRONG_USER, answerLoginTO);
             }
 
@@ -136,6 +140,7 @@ public class LoginFacadeImpl implements ILoginFacade {
             }
 
             answerLoginTO.setUser(this.modelMapper.map(role, RolesUserTO.class));
+            answerLoginTO.setTenantId(tenantId);
 
             return UtilAnswerLogin.loginWebResult(EnumMessageSystem.CORRECT_USER, answerLoginTO);
 

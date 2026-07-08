@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule,FormsModule} from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { TenantInterceptor } from './interceptors/tenant.interceptor';
 
 import { RecaptchaModule } from 'ng-recaptcha';
 import { DragulaModule } from 'ng2-dragula';
@@ -25,10 +26,6 @@ import { ResetConfirmationComponent } from './reset-confirmation/reset.confirmat
 import { PipeTree } from './pipes/pipe-tree';
 import { InputMaskDirective } from './input-mask.directive';
 
-
-
-
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,9 +35,6 @@ import { InputMaskDirective } from './input-mask.directive';
     ResetComponent,
     ResetConfirmationComponent,
     InputMaskDirective,
-   
-   
-  
   ],
   imports: [
     BrowserModule,
@@ -55,21 +49,12 @@ import { InputMaskDirective } from './input-mask.directive';
     DragulaModule.forRoot(),
     APP_ROUTES,
     PagesModule,
-    
-    
-    
   ],
-  entryComponents:[
-    ForgetPasswordModal,
-    
+  entryComponents: [ForgetPasswordModal],
+  bootstrap: [AppComponent],
+  providers: [
+    APP_PROVIDERS,
+    { provide: HTTP_INTERCEPTORS, useClass: TenantInterceptor, multi: true },
   ],
-  bootstrap: [
-    AppComponent
-  ],
-  providers:[
-    APP_PROVIDERS
-  ]
 })
-export class AppModule { }
-
-
+export class AppModule {}

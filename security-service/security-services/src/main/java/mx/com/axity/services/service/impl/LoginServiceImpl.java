@@ -56,8 +56,19 @@ public class LoginServiceImpl implements ILoginService {
     }
 
     @Override
+    public UserDO findUserByEmailAndTenantId(String email, String tenantId) {
+        return this.userLoginDAO.findByEmailAndTenantId(email, tenantId);
+    }
+
+    @Override
     public RolesUserDO findRolUserByEmail(String email,Long id) {
         return this.rolesUserDAO.findByEmail(email,id).size() > 0  ?this.rolesUserDAO.findByEmail(email,id).get(0) :null;
+    }
+
+    @Override
+    public RolesUserDO findRolUserByEmailAndTenantId(String email, Long id, String tenantId) {
+        var results = this.rolesUserDAO.findByEmailAndTenantId(email, id, tenantId);
+        return results.size() > 0 ? results.get(0) : null;
     }
 
     @Override

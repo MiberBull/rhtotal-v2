@@ -45,6 +45,8 @@ public class ProjectDO {
     private LocalDateTime creationDate;
     @Column(name = "fg_active")
     private Boolean active;
+    @Column(name = "tenant_id")
+    private String tenantId;
 
     public Long getIdProject() {
         return idProject;
@@ -180,5 +182,13 @@ public class ProjectDO {
 
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
     }
 }

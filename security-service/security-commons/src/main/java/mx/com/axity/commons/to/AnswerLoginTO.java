@@ -7,6 +7,7 @@ public class AnswerLoginTO implements Serializable {
     private String message;
     private int flag;
     private RolesUserTO user;
+    private String tenantId;
 
     public Boolean getBlock() {
         return block;
@@ -38,5 +39,13 @@ public class AnswerLoginTO implements Serializable {
 
     public void setUser(RolesUserTO user) {
         this.user = user;
+    }
+
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
     }
 }

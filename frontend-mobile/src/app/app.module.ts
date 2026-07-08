@@ -103,6 +103,7 @@ import { Network } from '@ionic-native/network';
 import { Toast } from '@ionic-native/toast';
 import { ServiceValidator } from '../providers/service-validator/service-validator';
 import { AppVersion } from '@ionic-native/app-version';
+import { TenantProvider } from '../providers/tenant/tenant';
 
 export const MATERIAL_COMPONENTS = [MatProgressBarModule];
 
@@ -267,6 +268,7 @@ export const MATERIAL_COMPONENTS = [MatProgressBarModule];
     AppVersion,
     ServiceValidator,
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
+    TenantProvider,
   ],
 })
 export class AppModule {}
