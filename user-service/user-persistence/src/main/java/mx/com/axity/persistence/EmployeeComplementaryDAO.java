@@ -6,6 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 
 public interface EmployeeComplementaryDAO extends CrudRepository<EmployeeComplementaryDO, Long> {
@@ -31,6 +32,12 @@ public interface EmployeeComplementaryDAO extends CrudRepository<EmployeeComplem
 
     @Query("select em from EmployeeComplementaryDO em where em.employee.user.id = :id")
     EmployeeComplementaryDO getUserRegisterById(@Param("id") Long id);
+
+    @Query(value = "SELECT * FROM k_employee_complementary e " +
+            "WHERE EXTRACT(MONTH FROM e.ds_birthdate) = :month " +
+            "AND EXTRACT(DAY FROM e.ds_birthdate) = :day " +
+            "AND e.fg_active = true", nativeQuery = true)
+    List<EmployeeComplementaryDO> findBirthdaysToday(@Param("month") int month, @Param("day") int day);
 
     @Query(value = " SELECT  p.nivel ,\n" +
             "            p.total_user ,\n" +

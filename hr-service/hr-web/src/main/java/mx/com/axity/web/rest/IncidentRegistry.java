@@ -2,9 +2,13 @@ package mx.com.axity.web.rest;
 
 import mx.com.axity.commons.context.TenantContext;
 import mx.com.axity.commons.to.IncidentTO;
+import mx.com.axity.services.facade.IIncidentExcelFacade;
 import mx.com.axity.services.facade.impl.IncidentFacadeImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +20,7 @@ import java.util.List;
 public class IncidentRegistry {
 
     @Autowired private IncidentFacadeImpl incidentFacade;
+    @Autowired private IIncidentExcelFacade incidentExcelFacade;
 
     @PostMapping
     public ResponseEntity<IncidentTO> create(@RequestBody IncidentTO incidentTO) {
@@ -47,5 +52,17 @@ public class IncidentRegistry {
     @PutMapping("/{id}/reject")
     public ResponseEntity<IncidentTO> reject(@PathVariable Long id, @RequestParam String approvedBy) {
         return ResponseEntity.ok(incidentFacade.reject(id, approvedBy));
+    }
+
+    @GetMapping("/export/excel")
+    public ResponseEntity<byte[]> exportExcel(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to) {
+        byte[] data = incidentExcelFacade.exportExcel(TenantContext.getCurrentTenant(), from, to);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
+        headers.setContentDisposition(ContentDisposition.attachment()
+                .filename("incidencias-" + from + "-" + to + ".xlsx").build());
+        return ResponseEntity.ok().headers(headers).body(data);
     }
 }

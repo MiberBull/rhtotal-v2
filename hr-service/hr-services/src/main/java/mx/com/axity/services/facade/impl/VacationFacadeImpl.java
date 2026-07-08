@@ -4,6 +4,7 @@ import mx.com.axity.commons.to.VacationBalanceTO;
 import mx.com.axity.commons.to.VacationRequestTO;
 import mx.com.axity.model.VacationBalanceDO;
 import mx.com.axity.model.VacationRequestDO;
+import mx.com.axity.services.client.HrNotificationClient;
 import mx.com.axity.services.impl.VacationServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 public class VacationFacadeImpl {
 
     @Autowired private VacationServiceImpl vacationService;
+    @Autowired private HrNotificationClient hrNotificationClient;
 
     public VacationBalanceTO initBalance(Long idEmployee, String tenantId, int yearsOfService,
                                          LocalDate periodStart, LocalDate periodEnd) {
@@ -33,11 +35,19 @@ public class VacationFacadeImpl {
     }
 
     public VacationRequestTO approveRequest(Long id, String approvedBy) {
-        return toRequestTO(vacationService.approveRequest(id, approvedBy));
+        VacationRequestTO result = toRequestTO(vacationService.approveRequest(id, approvedBy));
+        hrNotificationClient.send(result.getIdEmployee(), "VAC_APROBADA",
+                "Vacaciones aprobadas",
+                "Tu solicitud de vacaciones del " + result.getDtStartDate() + " al " + result.getDtEndDate() + " fue aprobada.");
+        return result;
     }
 
     public VacationRequestTO rejectRequest(Long id, String approvedBy, String reason) {
-        return toRequestTO(vacationService.rejectRequest(id, approvedBy, reason));
+        VacationRequestTO result = toRequestTO(vacationService.rejectRequest(id, approvedBy, reason));
+        hrNotificationClient.send(result.getIdEmployee(), "VAC_RECHAZADA",
+                "Vacaciones rechazadas",
+                "Tu solicitud de vacaciones fue rechazada. Motivo: " + reason);
+        return result;
     }
 
     public List<VacationRequestTO> getEmployeeRequests(Long idEmployee, String tenantId) {

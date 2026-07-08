@@ -11,6 +11,9 @@ import mx.com.axity.model.NotificationRepositoryDO;
 import mx.com.axity.services.facade.INotificationFacade;
 import mx.com.axity.services.facade.IPushNotificationFacade;
 import mx.com.axity.services.service.INotificationRepositoryService;
+
+import java.time.LocalDateTime;
+import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,5 +103,25 @@ public class NotificationController {
         var notificationMobile = this.pushNotificationFacade.getLastNotificationByUser(idUser);
         LOG.info("notificationUser finalizado correctamente");
         return new ResponseEntity<>(notificationMobile, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/hr-event", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity<Void> registerHrEvent(@RequestBody Map<String, Object> body) {
+        LOG.info("init registerHrEvent type={}", body.get("type"));
+        NotificationRepositoryDO notif = new NotificationRepositoryDO();
+        notif.setIdElement(body.get("idElement") != null ? Long.valueOf(body.get("idElement").toString()) : 0L);
+        notif.setType(body.getOrDefault("type", "HR_EVENT").toString());
+        notif.setTitle(body.getOrDefault("title", "").toString());
+        notif.setDescription(body.getOrDefault("description", "").toString());
+        String desc = notif.getDescription();
+        notif.setDescriptionSmall(desc.length() > 100 ? desc.substring(0, 100) : desc);
+        notif.setStatus("E");
+        notif.setDateNotification(LocalDateTime.now());
+        notif.setCreationDate(LocalDateTime.now());
+        notif.setCreationUser("HR-SERVICE");
+        notif.setFgActive(true);
+        notificationRepositoryService.registerNotification(notif);
+        LOG.info("registerHrEvent registrado correctamente");
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

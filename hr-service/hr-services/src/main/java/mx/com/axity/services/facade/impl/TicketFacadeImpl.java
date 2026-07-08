@@ -4,6 +4,7 @@ import mx.com.axity.commons.to.TicketCommentTO;
 import mx.com.axity.commons.to.TicketTO;
 import mx.com.axity.model.TicketCommentDO;
 import mx.com.axity.model.TicketDO;
+import mx.com.axity.services.client.HrNotificationClient;
 import mx.com.axity.services.impl.TicketServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 public class TicketFacadeImpl {
 
     @Autowired private TicketServiceImpl ticketService;
+    @Autowired private HrNotificationClient hrNotificationClient;
 
     public TicketTO create(TicketTO ticketTO, String tenantId) {
         TicketDO d = toDO(ticketTO);
@@ -37,7 +39,11 @@ public class TicketFacadeImpl {
     }
 
     public TicketTO updateStatus(Long id, String newStatus, String assignedTo) {
-        return toTO(ticketService.updateStatus(id, newStatus, assignedTo));
+        TicketTO result = toTO(ticketService.updateStatus(id, newStatus, assignedTo));
+        hrNotificationClient.send(result.getIdEmployee(), "TICKET_ACTUALIZADO",
+                "Ticket actualizado",
+                "Tu ticket #" + result.getDsNumber() + " cambió a estado: " + newStatus);
+        return result;
     }
 
     public TicketCommentTO addComment(TicketCommentTO commentTO, String tenantId) {
