@@ -62,6 +62,14 @@ pipeline {
                         }
                     }
                 }
+                stage('Build Attendance') {
+                    steps {
+                        echo 'Building Attendance Service Spring boot'
+                        dir ('attendance-service/'){
+                            sh 'mvn clean package'
+                        }
+                    }
+                }
                 stage('Build Frontend Web') {
                     steps {
                         echo 'Building Frontend Angular'
@@ -146,6 +154,23 @@ pipeline {
                             sh 'mvn sonar:sonar \
                                 -Dsonar.projectKey=18_WorkPoint_DCH_Onboarding \
                                 -Dsonar.projectName=18_WorkPoint_DCH_Onboarding \
+                                -Dsonar.sources=src/main \
+                                -Dsonar.tests=src/test \
+                                -Dsonar.coverage.exclusions=**/*TO.java,**/*DO.java \
+                                -Dsonar.host.url=http://devtools.axity.com/sonar7 \
+                                -Dsonar.login=${SONAR_TOKEN}'
+                        }
+                    }
+                }
+                stage('Sonar Attendance') {
+                    tools {
+                        jdk "jdk21"
+                    }
+                    steps {
+                        dir ('attendance-service/'){
+                            sh 'mvn sonar:sonar \
+                                -Dsonar.projectKey=18_WorkPoint_DCH_Attendance \
+                                -Dsonar.projectName=18_WorkPoint_DCH_Attendance \
                                 -Dsonar.sources=src/main \
                                 -Dsonar.tests=src/test \
                                 -Dsonar.coverage.exclusions=**/*TO.java,**/*DO.java \

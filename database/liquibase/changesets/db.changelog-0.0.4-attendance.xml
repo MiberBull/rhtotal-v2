@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <!-- 0.0.4-001: Agregar columnas de geofence a k_project -->
+    <changeSet id="0.0.4-001" author="dch-knowwho">
+        <addColumn tableName="k_project" schemaName="public">
+            <column name="nb_latitude" type="DECIMAL(10,7)"/>
+            <column name="nb_longitude" type="DECIMAL(10,7)"/>
+            <column name="nb_geofence_radius" type="INT" defaultValueNumeric="200"/>
+        </addColumn>
+    </changeSet>
+
+    <!-- 0.0.4-002: Tabla k_shift (turnos) -->
+    <changeSet id="0.0.4-002" author="dch-knowwho">
+        <createTable tableName="k_shift" schemaName="public">
+            <column name="id_shift" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="tenant_id" type="VARCHAR(50)" defaultValue="dchkw">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_type" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_start_time" type="TIME"/>
+            <column name="dt_end_time" type="TIME"/>
+            <column name="nb_tolerance_minutes" type="INT" defaultValueNumeric="15"/>
+            <column name="fg_active" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_creation_date" type="TIMESTAMP" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_modification_date" type="TIMESTAMP"/>
+            <column name="ds_creation_user" type="VARCHAR(200)"/>
+            <column name="ds_modification_user" type="VARCHAR(200)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0.0.4-003" author="dch-knowwho">
+        <addForeignKeyConstraint
+            baseTableSchemaName="public"
+            baseTableName="k_shift"
+            baseColumnNames="tenant_id"
+            constraintName="fk_k_shift_tenant"
+            referencedTableSchemaName="public"
+            referencedTableName="w_tenant"
+            referencedColumnNames="id_tenant"/>
+    </changeSet>
+
+    <changeSet id="0.0.4-004" author="dch-knowwho">
+        <createIndex tableName="k_shift" schemaName="public" indexName="idx_k_shift_tenant">
+            <column name="tenant_id"/>
+        </createIndex>
+    </changeSet>
+
+    <!-- 0.0.4-005: Tabla k_employee_shift (asignación turno-empleado) -->
+    <changeSet id="0.0.4-005" author="dch-knowwho">
+        <createTable tableName="k_employee_shift" schemaName="public">
+            <column name="id_employee_shift" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="tenant_id" type="VARCHAR(50)" defaultValue="dchkw">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_employee" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_shift" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_effective_date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_end_date" type="DATE"/>
+            <column name="fg_active" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_creation_date" type="TIMESTAMP" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_modification_date" type="TIMESTAMP"/>
+            <column name="ds_creation_user" type="VARCHAR(200)"/>
+            <column name="ds_modification_user" type="VARCHAR(200)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0.0.4-006" author="dch-knowwho">
+        <addForeignKeyConstraint
+            baseTableSchemaName="public"
+            baseTableName="k_employee_shift"
+            baseColumnNames="tenant_id"
+            constraintName="fk_k_employee_shift_tenant"
+            referencedTableSchemaName="public"
+            referencedTableName="w_tenant"
+            referencedColumnNames="id_tenant"/>
+    </changeSet>
+
+    <changeSet id="0.0.4-007" author="dch-knowwho">
+        <addForeignKeyConstraint
+            baseTableSchemaName="public"
+            baseTableName="k_employee_shift"
+            baseColumnNames="id_shift"
+            constraintName="fk_k_employee_shift_shift"
+            referencedTableSchemaName="public"
+            referencedTableName="k_shift"
+            referencedColumnNames="id_shift"/>
+    </changeSet>
+
+    <!-- 0.0.4-008: Tabla k_attendance_record (registros de checada) -->
+    <changeSet id="0.0.4-008" author="dch-knowwho">
+        <createTable tableName="k_attendance_record" schemaName="public">
+            <column name="id_record" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="tenant_id" type="VARCHAR(50)" defaultValue="dchkw">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_employee" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_project" type="BIGINT"/>
+            <column name="ds_type" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_timestamp" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nb_latitude" type="DECIMAL(10,7)"/>
+            <column name="nb_longitude" type="DECIMAL(10,7)"/>
+            <column name="nb_distance_to_site" type="DECIMAL(10,2)"/>
+            <column name="fg_geofence_valid" type="BOOLEAN"/>
+            <column name="ds_selfie_content" type="TEXT"/>
+            <column name="ds_selfie_mime_type" type="VARCHAR(50)"/>
+            <column name="ds_device_info" type="VARCHAR(200)"/>
+            <column name="ds_notes" type="TEXT"/>
+            <column name="fg_active" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_creation_date" type="TIMESTAMP" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_modification_date" type="TIMESTAMP"/>
+            <column name="ds_creation_user" type="VARCHAR(200)"/>
+            <column name="ds_modification_user" type="VARCHAR(200)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0.0.4-009" author="dch-knowwho">
+        <addForeignKeyConstraint
+            baseTableSchemaName="public"
+            baseTableName="k_attendance_record"
+            baseColumnNames="tenant_id"
+            constraintName="fk_k_attendance_record_tenant"
+            referencedTableSchemaName="public"
+            referencedTableName="w_tenant"
+            referencedColumnNames="id_tenant"/>
+    </changeSet>
+
+    <changeSet id="0.0.4-010" author="dch-knowwho">
+        <createIndex tableName="k_attendance_record" schemaName="public" indexName="idx_k_attendance_record_employee_ts">
+            <column name="id_employee"/>
+            <column name="dt_timestamp"/>
+        </createIndex>
+    </changeSet>
+
+    <!-- 0.0.4-011: Tabla k_overtime_record (horas extra) -->
+    <changeSet id="0.0.4-011" author="dch-knowwho">
+        <createTable tableName="k_overtime_record" schemaName="public">
+            <column name="id_overtime" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="tenant_id" type="VARCHAR(50)" defaultValue="dchkw">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_employee" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nb_minutes_extra" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_status" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_approved_by" type="VARCHAR(200)"/>
+            <column name="dt_approved_date" type="TIMESTAMP"/>
+            <column name="fg_active" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_creation_date" type="TIMESTAMP" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_modification_date" type="TIMESTAMP"/>
+            <column name="ds_creation_user" type="VARCHAR(200)"/>
+            <column name="ds_modification_user" type="VARCHAR(200)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0.0.4-012" author="dch-knowwho">
+        <addForeignKeyConstraint
+            baseTableSchemaName="public"
+            baseTableName="k_overtime_record"
+            baseColumnNames="tenant_id"
+            constraintName="fk_k_overtime_record_tenant"
+            referencedTableSchemaName="public"
+            referencedTableName="w_tenant"
+            referencedColumnNames="id_tenant"/>
+    </changeSet>
+
+    <changeSet id="0.0.4-013" author="dch-knowwho">
+        <createIndex tableName="k_overtime_record" schemaName="public" indexName="idx_k_overtime_record_employee">
+            <column name="id_employee"/>
+            <column name="dt_date"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

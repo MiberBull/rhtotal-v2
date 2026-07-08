@@ -102,5 +102,20 @@ services:
       - eurekaservice
       - gatewayservice
       - postgres
+  attendanceservice:
+    build:
+      context: .
+      dockerfile: "Dockerfile-attendance-service"
+    ports:
+      - "8094:8094"
+    networks:
+      - dchnet
+    environment:
+      - TZ=America/Mexico_City
+      - DB_PASS=${DB_PASS:-project123}
+    depends_on:
+      - eurekaservice
+      - gatewayservice
+      - postgres
 networks:
   dchnet:
