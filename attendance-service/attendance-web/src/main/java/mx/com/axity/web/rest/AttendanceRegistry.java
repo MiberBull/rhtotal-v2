@@ -6,6 +6,7 @@ import mx.com.axity.commons.to.AttendanceSummaryTO;
 import mx.com.axity.commons.to.CheckInRequestTO;
 import mx.com.axity.commons.to.CheckOutRequestTO;
 import mx.com.axity.commons.to.OvertimeRecordTO;
+import mx.com.axity.services.facade.IAttendanceExcelFacade;
 import mx.com.axity.services.facade.IAttendanceFacade;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,6 +29,9 @@ public class AttendanceRegistry {
 
     @Autowired
     IAttendanceFacade attendanceFacade;
+
+    @Autowired
+    IAttendanceExcelFacade attendanceExcelFacade;
 
     @PostMapping(value = "/check-in", produces = "application/json")
     public ResponseEntity<AttendanceRecordTO> checkIn(@RequestBody CheckInRequestTO request) {
@@ -106,5 +110,21 @@ public class AttendanceRegistry {
         LOG.info("Init rejectOvertime: id={}, approvedBy={}", id, approvedBy);
         OvertimeRecordTO result = attendanceFacade.rejectOvertime(id, approvedBy);
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/export/excel")
+    public ResponseEntity<byte[]> exportExcel(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
+            @RequestParam(required = false) Long projectId) {
+        LOG.info("Init exportExcel: from={}, to={}, project={}", from, to, projectId);
+        String tenantId = TenantContext.getCurrentTenant();
+        byte[] excelBytes = attendanceExcelFacade.exportExcel(projectId, from, to, tenantId);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType(
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
+        headers.setContentDispositionFormData("attachment",
+                "asistencia_" + from + "_" + to + ".xlsx");
+        return new ResponseEntity<>(excelBytes, headers, HttpStatus.OK);
     }
 }

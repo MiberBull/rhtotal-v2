@@ -73,5 +73,63 @@ services:
       - eurekaservice
       - gatewayservice
       - securityservice
+  onboardingservice:
+    build:
+      context: .
+      dockerfile: "Dockerfile-onboarding-service"
+    ports:
+      - "9093:9093"
+    networks:
+      - rhtotalqanet
+    environment:
+      - TZ=America/Mexico_City
+      - DB_PASS=${DB_PASS:-project123}
+      - MAIL_USER=${MAIL_USER}
+      - MAIL_PASS=${MAIL_PASS}
+    depends_on:
+      - eurekaservice
+      - gatewayservice
+  attendanceservice:
+    build:
+      context: .
+      dockerfile: "Dockerfile-attendance-service"
+    ports:
+      - "9094:9094"
+    networks:
+      - rhtotalqanet
+    environment:
+      - TZ=America/Mexico_City
+      - DB_PASS=${DB_PASS:-project123}
+    depends_on:
+      - eurekaservice
+      - gatewayservice
+  hrservice:
+    build:
+      context: .
+      dockerfile: "Dockerfile-hr-service"
+    ports:
+      - "9095:9095"
+    networks:
+      - rhtotalqanet
+    environment:
+      - TZ=America/Mexico_City
+      - DB_PASS=${DB_PASS:-project123}
+    depends_on:
+      - eurekaservice
+      - gatewayservice
+  documentservice:
+    build:
+      context: .
+      dockerfile: "Dockerfile-document-service"
+    ports:
+      - "9096:9096"
+    networks:
+      - rhtotalqanet
+    environment:
+      - TZ=America/Mexico_City
+      - DB_PASS=${DB_PASS:-project123}
+    depends_on:
+      - eurekaservice
+      - gatewayservice
 networks:
   rhtotalqanet:

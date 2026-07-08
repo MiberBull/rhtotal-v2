@@ -1,0 +1,282 @@
+<div class="dch-page-bg">
+  <mat-tab-group [(selectedIndex)]="selectedTab" class="dch-card repse-perfil-tabs">
+    <!-- Tab 1: Perfil REPSE -->
+    <mat-tab label="Perfil REPSE">
+      <div class="tab-content">
+        <div class="section-header">
+          <span>Datos del registro REPSE (STPS)</span>
+          <button
+            mat-icon-button
+            color="primary"
+            (click)="editingProfile = !editingProfile"
+            *ngIf="profileExists"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+        </div>
+
+        <div class="profile-form" *ngIf="!profileExists || editingProfile">
+          <mat-form-field class="full-width">
+            <input
+              matInput
+              placeholder="Razón Social *"
+              [(ngModel)]="profile.dsRazonSocial"
+              required
+            />
+          </mat-form-field>
+          <mat-form-field class="half-width">
+            <input matInput placeholder="RFC *" [(ngModel)]="profile.dsRfc" required />
+          </mat-form-field>
+          <mat-form-field class="half-width">
+            <input
+              matInput
+              placeholder="# Registro REPSE *"
+              [(ngModel)]="profile.dsNumeroRepse"
+              required
+            />
+          </mat-form-field>
+          <mat-form-field class="half-width">
+            <input
+              matInput
+              type="date"
+              placeholder="Vigencia *"
+              [(ngModel)]="profile.dtVigencia"
+              required
+            />
+          </mat-form-field>
+          <mat-form-field class="half-width">
+            <mat-select placeholder="Estatus" [(ngModel)]="profile.dsStatus">
+              <mat-option value="ACTIVO">Activo</mat-option>
+              <mat-option value="SUSPENDIDO">Suspendido</mat-option>
+              <mat-option value="CANCELADO">Cancelado</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div class="form-actions">
+            <button mat-raised-button color="primary" (click)="saveProfile()">Guardar</button>
+            <button mat-button (click)="editingProfile = false" *ngIf="profileExists">
+              Cancelar
+            </button>
+          </div>
+        </div>
+
+        <div class="profile-view" *ngIf="profileExists && !editingProfile">
+          <div class="profile-row">
+            <span class="label">Razón Social</span>
+            <span class="value">{{ profile.dsRazonSocial }}</span>
+          </div>
+          <div class="profile-row">
+            <span class="label">RFC</span>
+            <span class="value">{{ profile.dsRfc }}</span>
+          </div>
+          <div class="profile-row">
+            <span class="label"># Registro REPSE</span>
+            <span class="value">{{ profile.dsNumeroRepse }}</span>
+          </div>
+          <div class="profile-row">
+            <span class="label">Vigencia</span>
+            <span class="value">{{ profile.dtVigencia | date: 'dd/MM/yyyy' }}</span>
+          </div>
+          <div class="profile-row">
+            <span class="label">Estatus</span>
+            <span class="value">
+              <span
+                [ngClass]="
+                  profile.dsStatus === 'ACTIVO' ? 'dch-badge-aprobada' : 'dch-badge-rechazada'
+                "
+                class="repse-badge"
+              >
+                {{ profile.dsStatus }}
+              </span>
+            </span>
+          </div>
+        </div>
+
+        <div class="no-profile" *ngIf="!profileExists && !editingProfile">
+          <mat-icon>business_center</mat-icon>
+          <p>No existe un perfil REPSE registrado.</p>
+          <button mat-raised-button color="primary" (click)="editingProfile = true">
+            Registrar perfil
+          </button>
+        </div>
+      </div>
+    </mat-tab>
+
+    <!-- Tab 2: Clientes REPSE -->
+    <mat-tab label="Clientes / Contratos">
+      <div class="tab-content">
+        <div class="section-header">
+          <span>Clientes registrados ({{ clients.length }})</span>
+          <button mat-raised-button color="primary" (click)="showClientForm = !showClientForm">
+            <mat-icon>add</mat-icon> Agregar cliente
+          </button>
+        </div>
+
+        <!-- Nuevo cliente form -->
+        <mat-card class="dch-card inline-form" *ngIf="showClientForm">
+          <mat-card-content>
+            <mat-form-field class="full-width">
+              <input
+                matInput
+                placeholder="Nombre del cliente *"
+                [(ngModel)]="newClient.dsNombreCliente"
+                required
+              />
+            </mat-form-field>
+            <mat-form-field class="half-width">
+              <input matInput placeholder="RFC del cliente" [(ngModel)]="newClient.dsRfcCliente" />
+            </mat-form-field>
+            <mat-form-field class="half-width">
+              <input
+                matInput
+                type="number"
+                placeholder="Docs requeridos"
+                [(ngModel)]="newClient.nuDocumentosRequeridos"
+              />
+            </mat-form-field>
+            <div class="form-actions">
+              <button mat-raised-button color="primary" (click)="saveClient()">Guardar</button>
+              <button mat-button (click)="showClientForm = false">Cancelar</button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-table [dataSource]="clients" class="repse-table">
+          <ng-container matColumnDef="dsNombreCliente">
+            <mat-header-cell *matHeaderCellDef>Cliente</mat-header-cell>
+            <mat-cell *matCellDef="let row">{{ row.dsNombreCliente }}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="dsRfcCliente">
+            <mat-header-cell *matHeaderCellDef>RFC</mat-header-cell>
+            <mat-cell *matCellDef="let row">{{ row.dsRfcCliente }}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="nuDocumentosRequeridos">
+            <mat-header-cell *matHeaderCellDef>Docs requeridos</mat-header-cell>
+            <mat-cell *matCellDef="let row">{{ row.nuDocumentosRequeridos }}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="acciones">
+            <mat-header-cell *matHeaderCellDef>Documentos</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+              <button mat-button color="primary" (click)="selectClient(row); selectedTab = 2">
+                <mat-icon>folder_open</mat-icon> Ver docs
+              </button>
+            </mat-cell>
+          </ng-container>
+          <mat-header-row *matHeaderRowDef="clientColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: clientColumns"></mat-row>
+        </mat-table>
+
+        <div *ngIf="clients.length === 0" class="empty-state">
+          <mat-icon>people_outline</mat-icon>
+          <p>No hay clientes REPSE registrados</p>
+        </div>
+      </div>
+    </mat-tab>
+
+    <!-- Tab 3: Documentos por cliente/periodo -->
+    <mat-tab label="Documentos mensuales">
+      <div class="tab-content">
+        <div *ngIf="!selectedClient" class="empty-state">
+          <mat-icon>touch_app</mat-icon>
+          <p>Selecciona un cliente desde la pestaña "Clientes" para ver sus documentos</p>
+        </div>
+
+        <div *ngIf="selectedClient">
+          <div class="section-header">
+            <span>{{ selectedClient.dsNombreCliente }}</span>
+            <mat-form-field class="period-input">
+              <input
+                matInput
+                type="month"
+                [(ngModel)]="docPeriod"
+                (change)="loadClientDocs()"
+                placeholder="Periodo"
+              />
+            </mat-form-field>
+            <button mat-raised-button color="primary" (click)="showDocForm = !showDocForm">
+              <mat-icon>upload</mat-icon> Subir documento
+            </button>
+          </div>
+
+          <!-- Nuevo documento form -->
+          <mat-card class="dch-card inline-form" *ngIf="showDocForm">
+            <mat-card-content>
+              <mat-form-field class="half-width">
+                <mat-select placeholder="Tipo de documento *" [(ngModel)]="newDoc.dsType">
+                  <mat-option *ngFor="let t of docTypes" [value]="t">{{ t }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field class="half-width">
+                <input
+                  matInput
+                  placeholder="Nombre del archivo *"
+                  [(ngModel)]="newDoc.dsFilename"
+                  required
+                />
+              </mat-form-field>
+              <mat-form-field class="full-width">
+                <input matInput placeholder="Notas" [(ngModel)]="newDoc.dsNotes" />
+              </mat-form-field>
+              <div class="form-actions">
+                <button mat-raised-button color="primary" (click)="saveDoc()">Guardar</button>
+                <button mat-button (click)="showDocForm = false">Cancelar</button>
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+          <mat-table [dataSource]="clientDocs" class="repse-table">
+            <ng-container matColumnDef="dsType">
+              <mat-header-cell *matHeaderCellDef>Tipo</mat-header-cell>
+              <mat-cell *matCellDef="let row">{{ row.dsType }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="dsFilename">
+              <mat-header-cell *matHeaderCellDef>Archivo</mat-header-cell>
+              <mat-cell *matCellDef="let row">{{ row.dsFilename }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="dsStatus">
+              <mat-header-cell *matHeaderCellDef>Estatus</mat-header-cell>
+              <mat-cell *matCellDef="let row">
+                <span [ngClass]="docStatusClass(row.dsStatus)" class="repse-badge">{{
+                  row.dsStatus
+                }}</span>
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="dsNotes">
+              <mat-header-cell *matHeaderCellDef>Notas</mat-header-cell>
+              <mat-cell *matCellDef="let row">{{ row.dsNotes }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="acciones">
+              <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
+              <mat-cell *matCellDef="let row">
+                <button
+                  mat-icon-button
+                  color="primary"
+                  title="Validar"
+                  (click)="validateDoc(row)"
+                  *ngIf="row.dsStatus === 'PENDIENTE'"
+                >
+                  <mat-icon>check_circle</mat-icon>
+                </button>
+                <button
+                  mat-icon-button
+                  color="warn"
+                  title="Rechazar"
+                  (click)="rejectDoc(row)"
+                  *ngIf="row.dsStatus === 'PENDIENTE'"
+                >
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="docColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: docColumns"></mat-row>
+          </mat-table>
+
+          <div *ngIf="clientDocs.length === 0" class="empty-state">
+            <mat-icon>folder_open</mat-icon>
+            <p>No hay documentos para el periodo {{ docPeriod }}</p>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

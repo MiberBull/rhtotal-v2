@@ -1,0 +1,147 @@
+<div class="dch-page-bg">
+  <mat-card class="dch-card cfdi-card">
+    <mat-card-header>
+      <mat-card-title>Recibos de Nómina (CFDIs)</mat-card-title>
+      <mat-card-subtitle>Consulta los CFDIs de nómina por empleado y periodo</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <!-- Búsqueda -->
+      <div class="search-row">
+        <mat-form-field class="employee-input">
+          <input
+            matInput
+            type="number"
+            placeholder="ID Empleado *"
+            [(ngModel)]="searchEmployeeId"
+          />
+        </mat-form-field>
+        <mat-form-field class="period-input">
+          <input
+            matInput
+            type="month"
+            placeholder="Periodo (opcional)"
+            [(ngModel)]="searchPeriod"
+          />
+        </mat-form-field>
+        <button mat-raised-button color="primary" (click)="search()">
+          <mat-icon>search</mat-icon> Buscar
+        </button>
+        <button mat-raised-button color="accent" (click)="showImportForm = !showImportForm">
+          <mat-icon>add</mat-icon> Importar CFDI
+        </button>
+      </div>
+
+      <!-- Import form -->
+      <mat-card class="dch-card inline-form" *ngIf="showImportForm">
+        <mat-card-content>
+          <mat-form-field class="half-width">
+            <input
+              matInput
+              type="number"
+              placeholder="ID Empleado *"
+              [(ngModel)]="newCfdi.idEmployee"
+              required
+            />
+          </mat-form-field>
+          <mat-form-field class="half-width">
+            <input
+              matInput
+              type="month"
+              placeholder="Periodo *"
+              [(ngModel)]="newCfdi.dsPeriod"
+              required
+            />
+          </mat-form-field>
+          <mat-form-field class="half-width">
+            <mat-select placeholder="Tipo" [(ngModel)]="newCfdi.dsType">
+              <mat-option *ngFor="let t of cfdiTypes" [value]="t">{{ t }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="half-width">
+            <input matInput placeholder="UUID" [(ngModel)]="newCfdi.dsUuid" />
+          </mat-form-field>
+          <mat-form-field class="half-width">
+            <input matInput placeholder="RFC Emisor" [(ngModel)]="newCfdi.dsRfcEmisor" />
+          </mat-form-field>
+          <mat-form-field class="half-width">
+            <input matInput placeholder="RFC Receptor" [(ngModel)]="newCfdi.dsRfcReceptor" />
+          </mat-form-field>
+          <mat-form-field class="half-width">
+            <input matInput type="number" placeholder="Total" [(ngModel)]="newCfdi.nbTotal" />
+          </mat-form-field>
+          <div class="form-actions">
+            <button mat-raised-button color="primary" (click)="importCfdi()">Importar</button>
+            <button mat-button (click)="showImportForm = false">Cancelar</button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Results table -->
+      <div *ngIf="cfdis.length === 0 && searchEmployeeId" class="empty-state">
+        <mat-icon>receipt_long</mat-icon>
+        <p>No se encontraron CFDIs para el empleado {{ searchEmployeeId }}</p>
+      </div>
+
+      <div *ngIf="!searchEmployeeId" class="empty-state">
+        <mat-icon>manage_search</mat-icon>
+        <p>Ingresa un ID de empleado para buscar sus CFDIs</p>
+      </div>
+
+      <mat-table [dataSource]="cfdis" class="cfdi-table" *ngIf="cfdis.length > 0">
+        <ng-container matColumnDef="dsPeriod">
+          <mat-header-cell *matHeaderCellDef>Periodo</mat-header-cell>
+          <mat-cell *matCellDef="let row">{{ row.dsPeriod }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="dsType">
+          <mat-header-cell *matHeaderCellDef>Tipo</mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            <span class="cfdi-type">{{ row.dsType }}</span>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="dsUuid">
+          <mat-header-cell *matHeaderCellDef>UUID</mat-header-cell>
+          <mat-cell *matCellDef="let row" class="uuid-cell" title="{{ row.dsUuid }}">{{
+            row.dsUuid
+          }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="dsRfcEmisor">
+          <mat-header-cell *matHeaderCellDef>RFC Emisor</mat-header-cell>
+          <mat-cell *matCellDef="let row">{{ row.dsRfcEmisor }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="dsRfcReceptor">
+          <mat-header-cell *matHeaderCellDef>RFC Receptor</mat-header-cell>
+          <mat-cell *matCellDef="let row">{{ row.dsRfcReceptor }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="nbTotal">
+          <mat-header-cell *matHeaderCellDef>Total</mat-header-cell>
+          <mat-cell *matCellDef="let row">{{
+            row.nbTotal | currency: 'MXN' : 'symbol' : '1.2-2'
+          }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="acciones">
+          <mat-header-cell *matHeaderCellDef>XML</mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            <button
+              mat-icon-button
+              color="primary"
+              title="Descargar XML"
+              (click)="downloadXml(row)"
+              [disabled]="!row.dsXmlContent"
+            >
+              <mat-icon>download</mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+      </mat-table>
+    </mat-card-content>
+  </mat-card>
+</div>

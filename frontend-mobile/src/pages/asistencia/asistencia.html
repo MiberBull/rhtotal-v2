@@ -1,0 +1,86 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-buttons start>
+      <button ion-button (click)="back()">
+        <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Asistencia</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="asistencia-content" padding>
+  <!-- Registro del día -->
+  <ion-card *ngIf="todayRecord" class="record-card">
+    <ion-card-header class="card-header-primary"> Registro de Hoy </ion-card-header>
+    <ion-card-content>
+      <div class="record-row">
+        <ion-icon name="log-in" class="icon-checkin"></ion-icon>
+        <div>
+          <p class="record-label">Entrada</p>
+          <p class="record-value">{{ todayRecord.dtCheckIn | date:'HH:mm' }}</p>
+        </div>
+      </div>
+      <div class="record-row">
+        <ion-icon name="log-out" class="icon-checkout"></ion-icon>
+        <div>
+          <p class="record-label">Salida</p>
+          <p class="record-value">
+            {{ todayRecord.dtCheckOut ? (todayRecord.dtCheckOut | date:'HH:mm') : 'Pendiente' }}
+          </p>
+        </div>
+      </div>
+      <div class="record-row" *ngIf="todayRecord.nbDurationHours">
+        <ion-icon name="time" class="icon-duration"></ion-icon>
+        <div>
+          <p class="record-label">Duración</p>
+          <p class="record-value">{{ todayRecord.nbDurationHours | number:'1.1-2' }} hrs</p>
+        </div>
+      </div>
+      <div
+        class="geo-badge"
+        [class.geo-ok]="todayRecord.fgGeofenceValid"
+        [class.geo-fail]="!todayRecord.fgGeofenceValid"
+      >
+        <ion-icon
+          [name]="todayRecord.fgGeofenceValid ? 'checkmark-circle' : 'close-circle'"
+        ></ion-icon>
+        {{ todayRecord.fgGeofenceValid ? 'Dentro del área de trabajo' : 'Fuera del área de trabajo'
+        }}
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <p *ngIf="!todayRecord" class="no-record-msg">
+    <ion-icon name="calendar"></ion-icon>
+    Sin registros por hoy
+  </p>
+
+  <!-- Botones de acción -->
+  <div class="action-buttons">
+    <button
+      ion-button
+      block
+      color="primary"
+      [disabled]="!canCheckIn"
+      (click)="doCheckIn()"
+      class="btn-action"
+    >
+      <ion-icon name="log-in"></ion-icon>&nbsp; Registrar Entrada
+    </button>
+    <button
+      ion-button
+      block
+      color="secondary"
+      [disabled]="!canCheckOut"
+      (click)="doCheckOut()"
+      class="btn-action"
+    >
+      <ion-icon name="log-out"></ion-icon>&nbsp; Registrar Salida
+    </button>
+  </div>
+
+  <p class="gps-hint" *ngIf="geoLoading">
+    <ion-spinner name="dots"></ion-spinner>&nbsp; Obteniendo ubicación GPS...
+  </p>
+</ion-content>

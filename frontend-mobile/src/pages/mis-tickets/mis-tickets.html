@@ -1,0 +1,129 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-buttons start>
+      <button ion-button (click)="back()">
+        <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>{{ selectedTicket ? 'Ticket #' + selectedTicket.id : 'Mesa de Ayuda' }}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="tickets-content" padding>
+  <!-- Vista de lista de tickets -->
+  <div *ngIf="!selectedTicket">
+    <!-- Formulario nuevo ticket -->
+    <ion-card *ngIf="showForm" class="form-card">
+      <ion-card-header class="card-header-secondary">Nuevo Ticket</ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-label floating>Asunto *</ion-label>
+          <ion-input [(ngModel)]="form.dsSubject"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>Categoría</ion-label>
+          <ion-select [(ngModel)]="form.dsCategory">
+            <ion-option *ngFor="let c of categories" [value]="c">{{ c }}</ion-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label>Prioridad</ion-label>
+          <ion-select [(ngModel)]="form.dsPriority">
+            <ion-option *ngFor="let p of priorities" [value]="p">{{ p }}</ion-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>Descripción *</ion-label>
+          <ion-textarea [(ngModel)]="form.dsDescription" rows="3"></ion-textarea>
+        </ion-item>
+        <div class="form-actions">
+          <button ion-button outline color="medium" (click)="showForm = false">Cancelar</button>
+          <button ion-button color="primary" (click)="crearTicket()">Enviar</button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Lista -->
+    <div *ngIf="tickets.length === 0 && !showForm" class="empty-msg">
+      <ion-icon name="help-buoy"></ion-icon>
+      <p>Sin tickets registrados</p>
+    </div>
+
+    <ion-card *ngFor="let t of tickets" class="ticket-card" (click)="selectTicket(t)">
+      <ion-card-content>
+        <div class="ticket-row">
+          <div class="ticket-info">
+            <p class="ticket-subject">{{ t.dsSubject }}</p>
+            <p class="ticket-meta">{{ t.dsCategory }} · {{ t.dtCreatedAt | date:'dd/MM/yy' }}</p>
+          </div>
+          <div class="ticket-badges">
+            <span [class]="statusClass(t.dsStatus)" class="status-badge">{{ t.dsStatus }}</span>
+            <span [class]="priorityClass(t.dsPriority)" class="priority-badge"
+              >{{ t.dsPriority }}</span
+            >
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- FAB nuevo ticket -->
+    <ion-fab bottom right>
+      <button ion-fab color="secondary" (click)="showForm = !showForm">
+        <ion-icon [name]="showForm ? 'close' : 'add'"></ion-icon>
+      </button>
+    </ion-fab>
+  </div>
+
+  <!-- Vista de detalle + comentarios -->
+  <div *ngIf="selectedTicket">
+    <ion-card class="detail-card">
+      <ion-card-header class="card-header-primary">Detalle</ion-card-header>
+      <ion-card-content>
+        <p><strong>{{ selectedTicket.dsSubject }}</strong></p>
+        <p class="detail-meta">
+          {{ selectedTicket.dsCategory }} · Prioridad: {{ selectedTicket.dsPriority }}
+        </p>
+        <p>{{ selectedTicket.dsDescription }}</p>
+        <div class="detail-footer">
+          <span [class]="statusClass(selectedTicket.dsStatus)" class="status-badge"
+            >{{ selectedTicket.dsStatus }}</span
+          >
+          <span *ngIf="selectedTicket.dsAssignedTo" class="assigned-to"
+            >Asignado: {{ selectedTicket.dsAssignedTo }}</span
+          >
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <div class="section-title">Comentarios</div>
+
+    <div *ngIf="comments.length === 0" class="empty-comments">Sin comentarios aún</div>
+
+    <ion-card *ngFor="let c of comments" class="comment-card">
+      <ion-card-content>
+        <p class="comment-author">{{ c.dsCreatedBy }}</p>
+        <p class="comment-text">{{ c.dsComment }}</p>
+        <p class="comment-date">{{ c.dtCreatedAt | date:'dd/MM/yy HH:mm' }}</p>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Agregar comentario -->
+    <ion-card class="reply-card">
+      <ion-card-content>
+        <ion-item>
+          <ion-label floating>Agregar comentario</ion-label>
+          <ion-textarea [(ngModel)]="newComment" rows="2"></ion-textarea>
+        </ion-item>
+        <button
+          ion-button
+          block
+          color="primary"
+          [disabled]="!newComment.trim()"
+          (click)="sendComment()"
+        >
+          Enviar comentario
+        </button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

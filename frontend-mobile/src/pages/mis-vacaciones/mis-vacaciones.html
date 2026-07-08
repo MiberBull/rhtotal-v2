@@ -1,0 +1,87 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-buttons start>
+      <button ion-button (click)="back()">
+        <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Mis Vacaciones</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="vac-content" padding>
+  <!-- Saldo de días -->
+  <ion-card *ngIf="balance" class="balance-card">
+    <ion-card-header class="card-header-primary">Saldo de Vacaciones</ion-card-header>
+    <ion-card-content>
+      <div class="balance-grid">
+        <div class="balance-item">
+          <p class="balance-num">{{ balance.nuTotalDays || 0 }}</p>
+          <p class="balance-lbl">Totales</p>
+        </div>
+        <div class="balance-item">
+          <p class="balance-num taken">{{ balance.nuTakenDays || 0 }}</p>
+          <p class="balance-lbl">Tomados</p>
+        </div>
+        <div class="balance-item">
+          <p class="balance-num avail">{{ balance.nuAvailableDays || 0 }}</p>
+          <p class="balance-lbl">Disponibles</p>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Formulario de solicitud -->
+  <ion-card *ngIf="showForm" class="form-card">
+    <ion-card-header class="card-header-secondary">Nueva Solicitud</ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label floating>Fecha de inicio</ion-label>
+        <ion-input type="date" [(ngModel)]="form.dtStartDate"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Fecha de fin</ion-label>
+        <ion-input type="date" [(ngModel)]="form.dtEndDate"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Notas (opcional)</ion-label>
+        <ion-textarea [(ngModel)]="form.dsNotes" rows="2"></ion-textarea>
+      </ion-item>
+      <div class="form-actions">
+        <button ion-button outline color="medium" (click)="showForm = false">Cancelar</button>
+        <button ion-button color="primary" (click)="solicitarVacaciones()">Enviar</button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Lista de solicitudes -->
+  <div class="section-title">Mis Solicitudes</div>
+
+  <div *ngIf="requests.length === 0" class="empty-msg">
+    <ion-icon name="calendar-outline"></ion-icon>
+    <p>Sin solicitudes registradas</p>
+  </div>
+
+  <ion-card *ngFor="let req of requests" class="req-card">
+    <ion-card-content>
+      <div class="req-row">
+        <div class="req-dates">
+          <p class="req-date">
+            {{ req.dtStartDate | date:'dd/MM/yyyy' }} — {{ req.dtEndDate | date:'dd/MM/yyyy' }}
+          </p>
+          <p class="req-days">{{ req.nuDays || '—' }} día(s)</p>
+        </div>
+        <span [class]="statusClass(req.dsStatus)" class="status-badge">{{ req.dsStatus }}</span>
+      </div>
+      <p *ngIf="req.dsNotes" class="req-notes">{{ req.dsNotes }}</p>
+      <p *ngIf="req.dsRejectionReason" class="req-reject">Motivo: {{ req.dsRejectionReason }}</p>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- FAB para nueva solicitud -->
+  <ion-fab bottom right>
+    <button ion-fab color="secondary" (click)="showForm = !showForm">
+      <ion-icon [name]="showForm ? 'close' : 'add'"></ion-icon>
+    </button>
+  </ion-fab>
+</ion-content>

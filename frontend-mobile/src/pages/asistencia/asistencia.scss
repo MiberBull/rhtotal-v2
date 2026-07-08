@@ -1,0 +1,107 @@
+page-asistencia {
+  .asistencia-content {
+    background-color: #f5f7fa;
+  }
+
+  .record-card {
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 86, 150, 0.12);
+  }
+
+  .card-header-primary {
+    background: #005696;
+    color: #fff;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 12px 16px;
+    border-radius: 10px 10px 0 0;
+  }
+
+  .record-row {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f0f0;
+
+    ion-icon {
+      font-size: 28px;
+      margin-right: 14px;
+    }
+
+    .record-label {
+      font-size: 12px;
+      color: #888;
+      margin: 0;
+    }
+
+    .record-value {
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+      margin: 0;
+    }
+  }
+
+  .icon-checkin {
+    color: #2e7d32;
+  }
+  .icon-checkout {
+    color: #c62828;
+  }
+  .icon-duration {
+    color: #1565c0;
+  }
+
+  .geo-badge {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border-radius: 6px;
+    margin-top: 12px;
+    font-size: 13px;
+    font-weight: bold;
+
+    ion-icon {
+      font-size: 18px;
+      margin-right: 6px;
+    }
+  }
+
+  .geo-ok {
+    background: #e8f5e9;
+    color: #2e7d32;
+  }
+
+  .geo-fail {
+    background: #ffebee;
+    color: #c62828;
+  }
+
+  .no-record-msg {
+    text-align: center;
+    color: #888;
+    font-size: 16px;
+    margin-top: 40px;
+
+    ion-icon {
+      font-size: 48px;
+      display: block;
+      margin-bottom: 10px;
+    }
+  }
+
+  .action-buttons {
+    margin-top: 24px;
+  }
+
+  .btn-action {
+    margin-bottom: 12px;
+    border-radius: 8px;
+  }
+
+  .gps-hint {
+    text-align: center;
+    color: #888;
+    font-size: 14px;
+  }
+}

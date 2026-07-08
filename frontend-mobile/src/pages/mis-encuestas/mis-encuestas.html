@@ -1,0 +1,95 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-buttons start>
+      <button ion-button (click)="back()">
+        <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>{{ selectedSurvey ? selectedSurvey.dsTitle : 'Encuestas' }}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="encuestas-content" padding>
+  <!-- Lista de encuestas -->
+  <div *ngIf="!selectedSurvey">
+    <div *ngIf="surveys.length === 0" class="empty-msg">
+      <ion-icon name="clipboard"></ion-icon>
+      <p>No hay encuestas disponibles</p>
+    </div>
+
+    <ion-card *ngFor="let s of surveys" class="survey-card" (click)="openSurvey(s)">
+      <ion-card-header class="survey-card-header"> {{ s.dsTitle }} </ion-card-header>
+      <ion-card-content>
+        <p class="survey-desc" *ngIf="s.dsDescription">{{ s.dsDescription }}</p>
+        <div class="survey-meta">
+          <span class="survey-type">{{ s.dsType }}</span>
+          <span class="survey-anonymous" *ngIf="s.fgAnonymous">
+            <ion-icon name="eye-off"></ion-icon> Anónima
+          </span>
+        </div>
+        <div class="survey-dates">
+          <p>
+            Disponible: {{ s.dtStartDate | date:'dd/MM/yyyy' }} – {{ s.dtEndDate | date:'dd/MM/yyyy'
+            }}
+          </p>
+        </div>
+        <button ion-button block color="primary" small style="margin-top: 8px">
+          Responder encuesta
+        </button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Formulario de respuesta -->
+  <div *ngIf="selectedSurvey && !submitted">
+    <ion-card *ngFor="let q of questions; let i = index" class="question-card">
+      <ion-card-content>
+        <p class="question-num">Pregunta {{ i + 1 }}</p>
+        <p class="question-text">{{ q.dsQuestion }}</p>
+
+        <!-- Tipo TEXTO_LIBRE -->
+        <ion-item *ngIf="q.dsType === 'TEXTO_LIBRE' || !q.dsType">
+          <ion-label floating>Tu respuesta</ion-label>
+          <ion-textarea [(ngModel)]="answers[q.id]" rows="2"></ion-textarea>
+        </ion-item>
+
+        <!-- Tipo OPCION_MULTIPLE -->
+        <div *ngIf="q.dsType === 'OPCION_MULTIPLE'">
+          <ion-list>
+            <ion-item *ngFor="let opt of q.options">
+              <ion-label>{{ opt }}</ion-label>
+              <ion-radio [value]="opt" [(ngModel)]="answers[q.id]" name="q{{q.id}}"></ion-radio>
+            </ion-item>
+          </ion-list>
+        </div>
+
+        <!-- Tipo ESCALA (1-5) -->
+        <div *ngIf="q.dsType === 'ESCALA'" class="scale-row">
+          <button
+            *ngFor="let n of [1,2,3,4,5]"
+            ion-button
+            [color]="answers[q.id] == n ? 'primary' : 'light'"
+            (click)="answers[q.id] = n"
+            small
+          >
+            {{ n }}
+          </button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <button ion-button block color="secondary" (click)="submit()" style="margin-top: 16px">
+      Enviar respuestas
+    </button>
+  </div>
+
+  <!-- Confirmación enviada -->
+  <div *ngIf="submitted" class="submitted-view">
+    <ion-icon name="checkmark-circle" class="check-icon"></ion-icon>
+    <h2>¡Gracias por tu respuesta!</h2>
+    <p>Tu encuesta fue enviada correctamente.</p>
+    <button ion-button outline color="primary" (click)="selectedSurvey = null; loadSurveys()">
+      Ver más encuestas
+    </button>
+  </div>
+</ion-content>

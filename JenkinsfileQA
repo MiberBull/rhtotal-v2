@@ -69,6 +69,58 @@ pipeline {
                         }
                     }
                 }
+                stage('Build Onboarding') {
+                    steps {
+                        echo 'Building Onboarding Service Spring boot'
+                        dir ('onboarding-service/onboarding-web/src/main/resources/'){
+                            sh 'sed -i "s/postgres:5432/postgresqa:5432/g" application.yml'
+                            sh 'sed -i "s/gatewayservice:8000/gatewayservice:9000/g" application.yml'
+                            sh 'sed -i "s/port: 8093/port: 9093/g" application.yml'
+                        }
+                        dir ('onboarding-service/'){
+                            sh 'mvn clean package'
+                        }
+                    }
+                }
+                stage('Build Attendance') {
+                    steps {
+                        echo 'Building Attendance Service Spring boot'
+                        dir ('attendance-service/attendance-web/src/main/resources/'){
+                            sh 'sed -i "s/postgres:5432/postgresqa:5432/g" application.yml'
+                            sh 'sed -i "s/gatewayservice:8000/gatewayservice:9000/g" application.yml'
+                            sh 'sed -i "s/port: 8094/port: 9094/g" application.yml'
+                        }
+                        dir ('attendance-service/'){
+                            sh 'mvn clean package'
+                        }
+                    }
+                }
+                stage('Build HR') {
+                    steps {
+                        echo 'Building HR Service Spring boot'
+                        dir ('hr-service/hr-web/src/main/resources/'){
+                            sh 'sed -i "s/postgres:5432/postgresqa:5432/g" application.yml'
+                            sh 'sed -i "s/gatewayservice:8000/gatewayservice:9000/g" application.yml'
+                            sh 'sed -i "s/port: 8095/port: 9095/g" application.yml'
+                        }
+                        dir ('hr-service/'){
+                            sh 'mvn clean package'
+                        }
+                    }
+                }
+                stage('Build Document') {
+                    steps {
+                        echo 'Building Document Service Spring boot'
+                        dir ('document-service/document-web/src/main/resources/'){
+                            sh 'sed -i "s/postgres:5432/postgresqa:5432/g" application.yml'
+                            sh 'sed -i "s/gatewayservice:8000/gatewayservice:9000/g" application.yml'
+                            sh 'sed -i "s/port: 8096/port: 9096/g" application.yml'
+                        }
+                        dir ('document-service/'){
+                            sh 'mvn clean package'
+                        }
+                    }
+                }
                 stage('Build Frontend Web') {
                     steps {
                         echo 'Building Frontend Angular'

@@ -1,0 +1,66 @@
+.doc-tabs {
+  border-radius: 8px;
+}
+
+.tab-content {
+  padding: 24px;
+}
+
+.search-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.employee-input {
+  width: 200px;
+}
+
+.doc-table {
+  width: 100%;
+}
+
+.doc-badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.inline-form {
+  margin-bottom: 20px;
+}
+
+.inline-form mat-card-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.half-width {
+  flex: 1;
+  min-width: 200px;
+}
+
+.form-actions {
+  width: 100%;
+  display: flex;
+  gap: 8px;
+  padding-top: 8px;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60px 20px;
+  color: #90a4ae;
+}
+
+.empty-state mat-icon {
+  font-size: 64px;
+  margin-bottom: 12px;
+  opacity: 0.4;
+}

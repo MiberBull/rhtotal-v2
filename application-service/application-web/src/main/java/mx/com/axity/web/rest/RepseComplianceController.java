@@ -3,10 +3,14 @@ package mx.com.axity.web.rest;
 import mx.com.axity.commons.to.RepseComplianceTO;
 import mx.com.axity.commons.to.RepseProfileTO;
 import mx.com.axity.services.facade.IRepseComplianceFacade;
+import mx.com.axity.services.facade.IRepseExportFacade;
+import mx.com.axity.services.facade.IRepsePdfFacade;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +24,12 @@ public class RepseComplianceController {
 
     @Autowired
     IRepseComplianceFacade repseComplianceFacade;
+
+    @Autowired
+    IRepseExportFacade repseExportFacade;
+
+    @Autowired
+    IRepsePdfFacade repsePdfFacade;
 
     @RequestMapping(value = "/dashboard", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<List<RepseComplianceTO>> getDashboard(
@@ -60,5 +70,32 @@ public class RepseComplianceController {
         var result = repseComplianceFacade.getExpiringProfiles(daysAhead);
         LOG.info("getExpiringProfiles finalizado correctamente");
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/export", method = RequestMethod.GET)
+    public ResponseEntity<byte[]> exportExcel(
+            @RequestHeader(value = "X-Tenant-ID") String tenantId,
+            @RequestParam(value = "period") String period) {
+        LOG.info("init exportExcel tenant={} period={}", tenantId, period);
+        byte[] excelBytes = repseExportFacade.exportComplianceExcel(tenantId, period);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType(
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
+        headers.setContentDispositionFormData("attachment", "repse-" + period + ".xlsx");
+        LOG.info("exportExcel finalizado correctamente");
+        return new ResponseEntity<>(excelBytes, headers, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/report", method = RequestMethod.GET)
+    public ResponseEntity<byte[]> exportPdf(
+            @RequestHeader(value = "X-Tenant-ID") String tenantId,
+            @RequestParam(value = "period") String period) {
+        LOG.info("init exportPdf tenant={} period={}", tenantId, period);
+        byte[] pdfBytes = repsePdfFacade.exportCompliancePdf(tenantId, period);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.setContentDispositionFormData("attachment", "repse-" + period + ".pdf");
+        LOG.info("exportPdf finalizado correctamente");
+        return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
     }
 }
