@@ -21,29 +21,29 @@ public class MessageRegistry {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MessageTO> getById(@PathVariable Long id) {
+    public ResponseEntity<MessageTO> getById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(messageFacade.getById(id));
     }
 
     @GetMapping("/type/{type}")
-    public ResponseEntity<List<MessageTO>> getByType(@PathVariable String type) {
+    public ResponseEntity<List<MessageTO>> getByType(@PathVariable("type") String type) {
         return ResponseEntity.ok(messageFacade.getByType(TenantContext.getCurrentTenant(), type));
     }
 
     @GetMapping("/employee/{employeeId}")
-    public ResponseEntity<List<MessageTO>> getByEmployee(@PathVariable Long employeeId) {
+    public ResponseEntity<List<MessageTO>> getByEmployee(@PathVariable("employeeId") Long employeeId) {
         return ResponseEntity.ok(messageFacade.getByEmployee(employeeId, TenantContext.getCurrentTenant()));
     }
 
     @PutMapping("/{id}/read")
-    public ResponseEntity<MessageTO> markAsRead(@PathVariable Long id) {
+    public ResponseEntity<MessageTO> markAsRead(@PathVariable("id") Long id) {
         return ResponseEntity.ok(messageFacade.markAsRead(id));
     }
 
     @PutMapping("/{id}/reply")
-    public ResponseEntity<MessageTO> reply(@PathVariable Long id,
-                                           @RequestParam String response,
-                                           @RequestParam String respondedBy) {
+    public ResponseEntity<MessageTO> reply(@PathVariable("id") Long id,
+                                           @RequestParam(name = "response") String response,
+                                           @RequestParam(name = "respondedBy") String respondedBy) {
         return ResponseEntity.ok(messageFacade.reply(id, response, respondedBy));
     }
 }

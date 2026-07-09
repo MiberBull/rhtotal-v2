@@ -26,6 +26,7 @@ services:
       - dchnet
     environment:
       - CORS_ALLOWED_ORIGINS=${CORS_ALLOWED_ORIGINS:-http://localhost:*}
+      - EUREKA_HOST=eurekaservice
     depends_on:
       - eurekaservice
   postgres:
@@ -48,8 +49,13 @@ services:
       - dchnet
     environment:
       - TZ=America/Mexico_City
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=unbound
+      - DB_USER=postgres
       - DB_PASS=${DB_PASS}
       - AES_SECRET_KEY=${AES_SECRET_KEY}
+      - EUREKA_HOST=eurekaservice
     depends_on:
       - eurekaservice
       - gatewayservice
@@ -64,7 +70,12 @@ services:
       - dchnet
     environment:
       - TZ=America/Mexico_City
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=unbound
+      - DB_USER=postgres
       - DB_PASS=${DB_PASS}
+      - EUREKA_HOST=eurekaservice
     depends_on:
       - eurekaservice
       - gatewayservice
@@ -78,8 +89,14 @@ services:
     networks:
       - dchnet
     environment:
+      - TZ=America/Mexico_City
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=unbound
+      - DB_USER=postgres
       - DB_PASS=${DB_PASS}
       - AES_SECRET_KEY=${AES_SECRET_KEY}
+      - EUREKA_HOST=eurekaservice
     depends_on:
       - eurekaservice
       - gatewayservice
@@ -95,9 +112,14 @@ services:
       - dchnet
     environment:
       - TZ=America/Mexico_City
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=unbound
+      - DB_USER=postgres
       - DB_PASS=${DB_PASS}
       - MAIL_USER=${MAIL_USER}
       - MAIL_PASS=${MAIL_PASS}
+      - EUREKA_HOST=eurekaservice
     depends_on:
       - eurekaservice
       - gatewayservice
@@ -112,7 +134,12 @@ services:
       - dchnet
     environment:
       - TZ=America/Mexico_City
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=unbound
+      - DB_USER=postgres
       - DB_PASS=${DB_PASS}
+      - EUREKA_HOST=eurekaservice
     depends_on:
       - eurekaservice
       - gatewayservice
@@ -127,7 +154,12 @@ services:
       - dchnet
     environment:
       - TZ=America/Mexico_City
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=unbound
+      - DB_USER=postgres
       - DB_PASS=${DB_PASS}
+      - EUREKA_HOST=eurekaservice
     depends_on:
       - eurekaservice
       - gatewayservice
@@ -142,7 +174,12 @@ services:
       - dchnet
     environment:
       - TZ=America/Mexico_City
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=unbound
+      - DB_USER=postgres
       - DB_PASS=${DB_PASS}
+      - EUREKA_HOST=eurekaservice
     depends_on:
       - eurekaservice
       - gatewayservice

@@ -22,7 +22,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("attendance")
+@RequestMapping("")
 public class AttendanceRegistry {
 
     static final Logger LOG = LogManager.getLogger(AttendanceRegistry.class);
@@ -50,7 +50,7 @@ public class AttendanceRegistry {
     }
 
     @GetMapping(value = "/today/{employeeId}", produces = "application/json")
-    public ResponseEntity<AttendanceSummaryTO> getTodayAttendance(@PathVariable Long employeeId) {
+    public ResponseEntity<AttendanceSummaryTO> getTodayAttendance(@PathVariable("employeeId") Long employeeId) {
         LOG.info("Init getTodayAttendance: employee={}", employeeId);
         String tenantId = TenantContext.getCurrentTenant();
         AttendanceSummaryTO result = attendanceFacade.getTodayAttendance(employeeId, tenantId);
@@ -59,10 +59,10 @@ public class AttendanceRegistry {
 
     @GetMapping(value = "/report", produces = "application/json")
     public ResponseEntity<List<AttendanceSummaryTO>> getReport(
-            @RequestParam(required = false) Long employeeId,
-            @RequestParam(required = false) Long projectId,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to) {
+            @RequestParam(name = "employeeId", required = false) Long employeeId,
+            @RequestParam(name = "projectId", required = false) Long projectId,
+            @RequestParam(name = "from") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
+            @RequestParam(name = "to") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to) {
         LOG.info("Init getReport: employee={}, project={}, from={}, to={}", employeeId, projectId, from, to);
         String tenantId = TenantContext.getCurrentTenant();
         List<AttendanceSummaryTO> result = attendanceFacade.getReport(employeeId, projectId, from, to, tenantId);
@@ -71,9 +71,9 @@ public class AttendanceRegistry {
 
     @GetMapping(value = "/export")
     public ResponseEntity<String> exportCSV(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
-            @RequestParam(required = false) Long projectId) {
+            @RequestParam(name = "from") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
+            @RequestParam(name = "to") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
+            @RequestParam(name = "projectId", required = false) Long projectId) {
         LOG.info("Init exportCSV: from={}, to={}, project={}", from, to, projectId);
         String tenantId = TenantContext.getCurrentTenant();
         String csv = attendanceFacade.exportCSV(from, to, projectId, tenantId);
@@ -86,8 +86,8 @@ public class AttendanceRegistry {
 
     @GetMapping(value = "/overtime", produces = "application/json")
     public ResponseEntity<List<OvertimeRecordTO>> getOvertimeRecords(
-            @RequestParam(required = false) Long employeeId,
-            @RequestParam(defaultValue = "PENDIENTE") String status) {
+            @RequestParam(name = "employeeId", required = false) Long employeeId,
+            @RequestParam(name = "status", defaultValue = "PENDIENTE") String status) {
         LOG.info("Init getOvertimeRecords: employee={}, status={}", employeeId, status);
         String tenantId = TenantContext.getCurrentTenant();
         List<OvertimeRecordTO> result = attendanceFacade.getOvertimeRecords(employeeId, status, tenantId);
@@ -96,8 +96,8 @@ public class AttendanceRegistry {
 
     @PutMapping(value = "/overtime/{id}/approve", produces = "application/json")
     public ResponseEntity<OvertimeRecordTO> approveOvertime(
-            @PathVariable Long id,
-            @RequestParam String approvedBy) {
+            @PathVariable("id") Long id,
+            @RequestParam(name = "approvedBy") String approvedBy) {
         LOG.info("Init approveOvertime: id={}, approvedBy={}", id, approvedBy);
         OvertimeRecordTO result = attendanceFacade.approveOvertime(id, approvedBy);
         return new ResponseEntity<>(result, HttpStatus.OK);
@@ -105,8 +105,8 @@ public class AttendanceRegistry {
 
     @PutMapping(value = "/overtime/{id}/reject", produces = "application/json")
     public ResponseEntity<OvertimeRecordTO> rejectOvertime(
-            @PathVariable Long id,
-            @RequestParam String approvedBy) {
+            @PathVariable("id") Long id,
+            @RequestParam(name = "approvedBy") String approvedBy) {
         LOG.info("Init rejectOvertime: id={}, approvedBy={}", id, approvedBy);
         OvertimeRecordTO result = attendanceFacade.rejectOvertime(id, approvedBy);
         return new ResponseEntity<>(result, HttpStatus.OK);
@@ -114,9 +114,9 @@ public class AttendanceRegistry {
 
     @GetMapping(value = "/export/excel")
     public ResponseEntity<byte[]> exportExcel(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
-            @RequestParam(required = false) Long projectId) {
+            @RequestParam(name = "from") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
+            @RequestParam(name = "to") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
+            @RequestParam(name = "projectId", required = false) Long projectId) {
         LOG.info("Init exportExcel: from={}, to={}, project={}", from, to, projectId);
         String tenantId = TenantContext.getCurrentTenant();
         byte[] excelBytes = attendanceExcelFacade.exportExcel(projectId, from, to, tenantId);

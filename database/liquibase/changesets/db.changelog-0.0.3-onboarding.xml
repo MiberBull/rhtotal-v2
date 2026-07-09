@@ -63,7 +63,7 @@
             constraintName="fk_k_candidate_client"
             referencedTableSchemaName="public"
             referencedTableName="c_customer"
-            referencedColumnNames="id_customer"/>
+            referencedColumnNames="id_client"/>
     </changeSet>
 
     <changeSet id="0.0.3-004" author="dch-knowwho">
