@@ -75,6 +75,11 @@ public class OvertimeServiceImpl implements IOvertimeService {
 
     @Override
     public List<OvertimeRecordTO> findByEmployeeAndStatus(Long employeeId, String status, String tenantId) {
+        if (employeeId == null) {
+            // Admin view: retorna todas las horas extra del tenant con el status dado
+            return overtimeRecordDAO.findByTenantIdAndDsStatus(tenantId, status)
+                .stream().map(this::toTO).collect(Collectors.toList());
+        }
         return overtimeRecordDAO.findByIdEmployeeAndTenantIdAndDsStatus(employeeId, tenantId, status)
             .stream().map(this::toTO).collect(Collectors.toList());
     }

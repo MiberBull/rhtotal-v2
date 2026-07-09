@@ -1,18 +1,56 @@
 <div class="login-container">
   <div class="login-card">
-    <!-- Brand -->
+    <!-- ── Brand ─────────────────────────── -->
     <div class="login-header">
-      <div class="brand-logo">
-        <mat-icon class="brand-icon">shield</mat-icon>
+      <!-- Símbolo ∞ + wordmark DCH Total -->
+      <div class="dch-logo">
+        <svg
+          class="logo-infinity"
+          width="56"
+          height="32"
+          viewBox="0 0 56 32"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <defs>
+            <linearGradient id="infGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="50%" stop-color="#005696" />
+              <stop offset="50%" stop-color="#F18A21" />
+            </linearGradient>
+          </defs>
+          <!-- ∞ path: left loop (blue) → center → right loop (orange) -->
+          <path
+            d="M28 16
+               C 25 9, 20 4, 13 4
+               C 6  4, 1 9, 1 16
+               C 1 23, 6 28, 13 28
+               C 20 28, 25 23, 28 16
+               C 31 9, 36 4, 43 4
+               C 50 4, 55 9, 55 16
+               C 55 23, 50 28, 43 28
+               C 36 28, 31 23, 28 16 Z"
+            stroke="url(#infGrad)"
+            stroke-width="3.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            fill="none"
+          />
+        </svg>
+
+        <div class="logo-wordmark">
+          <span class="wm-d">D</span><span class="wm-ch">CH</span
+          ><span class="wm-total"> Total</span>
+        </div>
       </div>
-      <h1>DCH Know Who</h1>
-      <p class="subtitle">Plataforma de gestion de capital humano</p>
+
+      <p class="tagline">Gestión integral de talento</p>
     </div>
 
-    <!-- Form -->
+    <!-- ── Formulario ────────────────────── -->
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
       <mat-form-field appearance="outline">
-        <mat-label>Correo electronico</mat-label>
+        <mat-label>Correo electrónico</mat-label>
         <input
           matInput
           type="email"
@@ -20,38 +58,37 @@
           placeholder="tu@empresa.com"
           autocomplete="email"
         />
-        <mat-icon matPrefix>mail</mat-icon>
+        <mat-icon matPrefix>mail_outline</mat-icon>
         @if (loginForm.controls.email.hasError('required') && loginForm.controls.email.touched) {
           <mat-error>El correo es requerido</mat-error>
         }
         @if (loginForm.controls.email.hasError('email') && loginForm.controls.email.touched) {
-          <mat-error>Ingresa un correo valido</mat-error>
+          <mat-error>Ingresa un correo válido</mat-error>
         }
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>Contrasena</mat-label>
+        <mat-label>Contraseña</mat-label>
         <input
           matInput
           [type]="hidePassword() ? 'password' : 'text'"
           formControlName="password"
-          placeholder="Min. 8 caracteres"
+          placeholder="Mín. 8 caracteres"
           autocomplete="current-password"
         />
-        <mat-icon matPrefix>lock</mat-icon>
-        <button
-          mat-icon-button
-          matSuffix
-          type="button"
-          (click)="togglePasswordVisibility()"
-        >
+        <mat-icon matPrefix>lock_outline</mat-icon>
+        <button mat-icon-button matSuffix type="button" (click)="togglePasswordVisibility()">
           <mat-icon>{{ hidePassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
         </button>
-        @if (loginForm.controls.password.hasError('required') && loginForm.controls.password.touched) {
-          <mat-error>La contrasena es requerida</mat-error>
+        @if (
+          loginForm.controls.password.hasError('required') && loginForm.controls.password.touched
+        ) {
+          <mat-error>La contraseña es requerida</mat-error>
         }
-        @if (loginForm.controls.password.hasError('minlength') && loginForm.controls.password.touched) {
-          <mat-error>Minimo 8 caracteres</mat-error>
+        @if (
+          loginForm.controls.password.hasError('minlength') && loginForm.controls.password.touched
+        ) {
+          <mat-error>Mínimo 8 caracteres</mat-error>
         }
       </mat-form-field>
 
@@ -72,14 +109,23 @@
         @if (loading()) {
           <mat-spinner diameter="20"></mat-spinner>
         } @else {
-          Iniciar sesion
+          Iniciar sesión
         }
       </button>
     </form>
 
-    <!-- Links -->
-    <div class="login-footer">
-      <a routerLink="/reset-password" class="link">Olvide mi contrasena</a>
+    <!-- ── Links ─────────────────────────── -->
+    <div class="login-links">
+      <a routerLink="/reset-password" class="link">¿Olvidaste tu contraseña?</a>
     </div>
+
+    <!-- ── Footer brand ──────────────────── -->
+    <footer class="login-footer">
+      <span>Un servicio de <strong>DCH Servicios Especializados</strong></span>
+      <span class="footer-dev"
+        >Desarrollado por
+        <a href="https://board-ai.mx" target="_blank" rel="noopener">board-ai.mx</a></span
+      >
+    </footer>
   </div>
 </div>

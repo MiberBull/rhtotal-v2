@@ -1,14 +1,24 @@
 <div class="layout" [class.collapsed]="collapsed()">
-  <!-- Sidebar -->
+  <!-- ── Sidebar ─────────────────────────────────────────── -->
   <aside class="sidebar">
     <div class="sidebar-header">
       <div class="brand">
-        <mat-icon class="brand-icon">shield</mat-icon>
+        <!-- Logo DCH Total compacto (sin ∞ — espacios reducidos) -->
+        <div class="brand-mark"><span class="bm-d">D</span><span class="bm-ch">CH</span></div>
         @if (!collapsed()) {
-          <span class="brand-text">DCH Know Who</span>
+          <span class="brand-name">
+            <span class="bn-d">D</span><span class="bn-ch">CH</span
+            ><span class="bn-total"> Total</span>
+          </span>
         }
       </div>
-      <button mat-icon-button class="toggle-btn" (click)="toggleSidebar()">
+      <button
+        mat-icon-button
+        class="toggle-btn"
+        (click)="toggleSidebar()"
+        [matTooltip]="collapsed() ? 'Expandir' : 'Colapsar'"
+        matTooltipPosition="right"
+      >
         <mat-icon>{{ collapsed() ? 'chevron_right' : 'chevron_left' }}</mat-icon>
       </button>
     </div>
@@ -37,21 +47,24 @@
     </nav>
 
     <div class="sidebar-footer">
+      @if (!collapsed()) {
+        <span class="footer-brand">Un servicio de DCH</span>
+      }
       <a
-        class="nav-item"
+        class="nav-item logout-item"
         (click)="logout()"
-        [matTooltip]="collapsed() ? 'Cerrar sesion' : ''"
+        [matTooltip]="collapsed() ? 'Cerrar sesión' : ''"
         matTooltipPosition="right"
       >
         <mat-icon>logout</mat-icon>
         @if (!collapsed()) {
-          <span class="nav-label">Cerrar sesion</span>
+          <span class="nav-label">Cerrar sesión</span>
         }
       </a>
     </div>
   </aside>
 
-  <!-- Main content -->
+  <!-- ── Main content ──────────────────────────────────────── -->
   <div class="main">
     <!-- Toolbar -->
     <header class="toolbar">
@@ -59,27 +72,33 @@
         <button mat-icon-button class="mobile-toggle" (click)="toggleSidebar()">
           <mat-icon>menu</mat-icon>
         </button>
+        <!-- Brand visible en mobile cuando sidebar está oculto -->
+        <span class="toolbar-brand">
+          <span class="tb-d">D</span><span class="tb-ch">CH</span
+          ><span class="tb-total"> Total</span>
+        </span>
       </div>
 
       <div class="toolbar-right">
         <app-role-badge [role]="userRole()" />
 
-        <button mat-icon-button>
+        <button mat-icon-button matTooltip="Notificaciones">
           <mat-icon>notifications_none</mat-icon>
         </button>
 
-        <button mat-icon-button [matMenuTriggerFor]="userMenu" class="user-avatar">
+        <button mat-icon-button [matMenuTriggerFor]="userMenu" class="user-avatar-btn">
           <span class="avatar">{{ getUserInitials() }}</span>
         </button>
 
         <mat-menu #userMenu="matMenu" xPosition="before">
           <div class="user-menu-header">
-            <span class="user-email">{{ currentUser()?.email }}</span>
+            <span class="user-name">{{ currentUser()?.email }}</span>
+            <span class="user-role">{{ userRole() }}</span>
           </div>
           <mat-divider></mat-divider>
           <button mat-menu-item (click)="logout()">
             <mat-icon>logout</mat-icon>
-            <span>Cerrar sesion</span>
+            <span>Cerrar sesión</span>
           </button>
         </mat-menu>
       </div>

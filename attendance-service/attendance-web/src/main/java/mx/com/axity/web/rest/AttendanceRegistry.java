@@ -86,7 +86,7 @@ public class AttendanceRegistry {
 
     @GetMapping(value = "/overtime", produces = "application/json")
     public ResponseEntity<List<OvertimeRecordTO>> getOvertimeRecords(
-            @RequestParam Long employeeId,
+            @RequestParam(required = false) Long employeeId,
             @RequestParam(defaultValue = "PENDIENTE") String status) {
         LOG.info("Init getOvertimeRecords: employee={}, status={}", employeeId, status);
         String tenantId = TenantContext.getCurrentTenant();

@@ -59,4 +59,9 @@ public class VacationRegistry {
     public ResponseEntity<List<VacationRequestTO>> getPending() {
         return ResponseEntity.ok(vacationFacade.getPendingRequests(TenantContext.getCurrentTenant()));
     }
+
+    @GetMapping("/request/status/{status}")
+    public ResponseEntity<List<VacationRequestTO>> getByStatus(@PathVariable String status) {
+        return ResponseEntity.ok(vacationFacade.getRequestsByStatus(TenantContext.getCurrentTenant(), status));
+    }
 }

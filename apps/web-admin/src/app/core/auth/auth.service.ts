@@ -1,12 +1,6 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import {
-  LoginResponseTO,
-  LoginFlag,
-  UserTO,
-  MenuItem,
-  DchRole,
-} from '@dch/shared';
+import { LoginResponseTO, LoginFlag, UserTO, MenuItem, DchRole } from '@dch/shared';
 import { SecurityApiService, CryptoService } from '@dch/shared';
 import { environment } from '../../../environments/environment';
 
@@ -34,6 +28,22 @@ const ROLE_PERMISSIONS: Record<DchRole, string[]> = {
     'documents.upload',
     'approvals',
     'approvals.action',
+    // HR
+    'vacaciones',
+    'vacaciones.write',
+    'incidencias',
+    'tickets',
+    'tickets.write',
+    'encuestas',
+    'encuestas.write',
+    'repse',
+    'repse.write',
+    'asistencia',
+    'onboarding',
+    'onboarding.write',
+    // Admin
+    'tenants',
+    'tenants.write',
   ],
   DCH_RRHH: [
     'dashboard',
@@ -45,6 +55,16 @@ const ROLE_PERMISSIONS: Record<DchRole, string[]> = {
     'documents.upload',
     'approvals',
     'approvals.action',
+    // HR
+    'vacaciones',
+    'vacaciones.write',
+    'incidencias',
+    'tickets',
+    'tickets.write',
+    'encuestas',
+    'repse',
+    'asistencia',
+    'onboarding',
   ],
   DCH_VIEWER: ['dashboard', 'users', 'clients', 'documents'],
 };
@@ -60,6 +80,14 @@ const ROUTE_PERMISSION_MAP: Record<string, string> = {
   '/banners': 'banners',
   '/documents': 'documents',
   '/approvals': 'approvals',
+  '/vacaciones': 'vacaciones',
+  '/incidencias': 'incidencias',
+  '/tickets': 'tickets',
+  '/encuestas': 'encuestas',
+  '/repse': 'repse',
+  '/asistencia': 'asistencia',
+  '/onboarding': 'onboarding',
+  '/tenants': 'tenants',
 };
 
 @Injectable({ providedIn: 'root' })

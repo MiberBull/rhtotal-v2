@@ -60,6 +60,11 @@ public class VacationFacadeImpl {
             .map(this::toRequestTO).collect(Collectors.toList());
     }
 
+    public List<VacationRequestTO> getRequestsByStatus(String tenantId, String status) {
+        return vacationService.getRequestsByStatus(tenantId, status).stream()
+            .map(this::toRequestTO).collect(Collectors.toList());
+    }
+
     private VacationBalanceTO toBalanceTO(VacationBalanceDO d) {
         VacationBalanceTO to = new VacationBalanceTO();
         to.setIdBalance(d.getIdBalance()); to.setTenantId(d.getTenantId());

@@ -12,6 +12,9 @@ public interface OvertimeRecordDAO extends JpaRepository<OvertimeRecordDO, Long>
     List<OvertimeRecordDO> findByIdEmployeeAndTenantIdAndDsStatus(
             Long idEmployee, String tenantId, String dsStatus);
 
+    // Admin view: all overtime records by status (sin filtro de empleado)
+    List<OvertimeRecordDO> findByTenantIdAndDsStatus(String tenantId, String dsStatus);
+
     Optional<OvertimeRecordDO> findByIdEmployeeAndTenantIdAndDtDate(
             Long idEmployee, String tenantId, LocalDate dtDate);
 }
