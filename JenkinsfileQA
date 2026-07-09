@@ -5,6 +5,7 @@ pipeline {
     }*/
     environment {
         SONAR_TOKEN = credentials('sonarqube-token')
+        AES_SECRET_KEY = credentials('aes-secret-key')
     }
     tools {
         maven 'M3'
@@ -127,26 +128,44 @@ pipeline {
                 }
                 stage('Build Frontend Web') {
                     steps {
-                        echo 'Building Frontend Angular'
+                        echo 'Building Frontend Web Angular 6 QA (Node 12)'
                         dir ('frontend-web/src/environments/'){
+                            sh 'sed -i "s/REPLACE_WITH_AES_SECRET/${AES_SECRET_KEY}/g" environment.ts'
+                            sh 'sed -i "s/REPLACE_WITH_AES_SECRET/${AES_SECRET_KEY}/g" environment.prod.ts'
                             sh 'sed -i "s/192.168.0.65:8000/192.168.0.65:9000/g" environment.prod.ts'
                             sh 'sed -i "s/192.168.0.65:8000/192.168.0.65:9000/g" environment.ts'
                         }
                         dir ('frontend-web/'){
+                            sh '. ~/.nvm/nvm.sh && nvm use 12 && npm install && npm run build -- --configuration=production'
+                        }
+                    }
+                }
+                stage('Build Frontend Mobile') {
+                    steps {
+                        echo 'Building Frontend Mobile Ionic 3 QA (Node 12)'
+                        dir ('frontend-mobile/src/environments/'){
+                            sh 'sed -i "s/REPLACE_WITH_AES_SECRET/${AES_SECRET_KEY}/g" environments.ts'
+                        }
+                        dir ('frontend-mobile/'){
+                            sh '. ~/.nvm/nvm.sh && nvm use 12 && npm rebuild node-sass && npx ionic build --prod'
+                        }
+                    }
+                }
+                stage('Build Web Admin') {
+                    steps {
+                        echo 'Building Web Admin Angular 19 QA (Node 22)'
+                        dir ('apps/web-admin/src/environments/'){
+                            sh 'sed -i "s/REPLACE_WITH_AES_SECRET/${AES_SECRET_KEY}/g" environment.ts'
+                            sh 'sed -i "s/REPLACE_WITH_AES_SECRET/${AES_SECRET_KEY}/g" environment.prod.ts'
+                            sh 'sed -i "s|http://localhost:8000|http://192.168.0.65:9000|g" environment.ts'
+                            sh 'sed -i "s|http://localhost:8000|http://192.168.0.65:9000|g" environment.prod.ts'
+                        }
+                        dir ('apps/web-admin/'){
                             sh 'npm install'
                             sh 'npm run build'
                         }
                     }
                 }
-                /*stage('Build Frontend Mobile') {
-                    steps {
-                        echo 'Building Frontend Angular'
-                        dir ('frontend-mobile/'){
-                            sh 'npm install'
-                            sh 'npm run build'
-                        }
-                    }
-                }*/
             }
         }
         stage('Sonar Analisis') {
@@ -263,11 +282,11 @@ pipeline {
         stage('Docker up') {
             when { branch pattern: 'release/.*', comparator: 'REGEXP' }
             steps {
-                echo 'Running on Docker'
-                sh 'docker network disconnect rhtotalqa_rhtotalqanet postgresqa'
+                echo 'Running on Docker QA'
+                sh 'docker network disconnect rhtotalqa_rhtotalqanet postgresqa || true'
                 sh 'docker-compose -f docker-composeQA.yml down --rmi all'
                 sh 'docker-compose -f docker-composeQA.yml up -d'
-                sh 'docker network connect rhtotalqa_rhtotalqanet postgresqa'
+                sh 'docker network connect rhtotalqa_rhtotalqanet postgresqa || true'
             }
         }
         stage('Liquibase') {

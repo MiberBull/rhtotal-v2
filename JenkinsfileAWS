@@ -8,6 +8,7 @@ pipeline {
         AWS_ACCOUNT_ID = credentials('aws-account-id')
         EC2_HOST = credentials('ec2-hostname')
         RDS_HOST = credentials('rds-endpoint')
+        AES_SECRET_KEY = credentials('aes-secret-key')
     }
     tools {
         maven 'M3'
@@ -15,6 +16,7 @@ pipeline {
     }
     stages {
         stage('Set Version') {
+            when { branch 'main' }
             steps {
                 script {
                     env.IMAGE_VERSION = sh(
@@ -155,58 +157,70 @@ pipeline {
                 }
                 stage('Build Frontend Web') {
                     steps {
-                        echo 'Building Frontend Angular'
+                        echo 'Building Frontend Web Angular 6 PROD (Node 12)'
                         dir ('frontend-web/src/environments/'){
+                            sh 'sed -i "s/REPLACE_WITH_AES_SECRET/${AES_SECRET_KEY}/g" environment.ts'
+                            sh 'sed -i "s/REPLACE_WITH_AES_SECRET/${AES_SECRET_KEY}/g" environment.prod.ts'
                             sh 'sed -i "s/192.168.0.65:8000/${EC2_HOST}:8000/g" environment.prod.ts'
                             sh 'sed -i "s/192.168.0.65:8000/${EC2_HOST}:8000/g" environment.ts'
                         }
                         dir ('frontend-web/'){
-                            sh 'npm install'
-                            sh 'npm run build'
+                            sh '. ~/.nvm/nvm.sh && nvm use 12 && npm install && npm run build -- --configuration=production'
                         }
                     }
                 }
-                /*stage('Build Frontend Mobile') {
+                stage('Build Frontend Mobile') {
                     steps {
-                        echo 'Building Frontend Angular'
+                        echo 'Building Frontend Mobile Ionic 3 PROD (Node 12)'
+                        dir ('frontend-mobile/src/environments/'){
+                            sh 'sed -i "s/REPLACE_WITH_AES_SECRET/${AES_SECRET_KEY}/g" environments.ts'
+                        }
                         dir ('frontend-mobile/'){
-                            sh 'npm install'
-                            sh 'npm run build'
+                            sh '. ~/.nvm/nvm.sh && nvm use 12 && npm rebuild node-sass && npx ionic build --prod'
                         }
                     }
-                }*/
+                }
+                stage('Build Web Admin') {
+                    steps {
+                        echo 'Injecting secrets for Web Admin Docker build (multi-stage: build runs inside Docker)'
+                        dir ('apps/web-admin/src/environments/'){
+                            sh 'sed -i "s/REPLACE_WITH_AES_SECRET/${AES_SECRET_KEY}/g" environment.ts'
+                            sh 'sed -i "s/REPLACE_WITH_AES_SECRET/${AES_SECRET_KEY}/g" environment.prod.ts'
+                        }
+                    }
+                }
             }
         }
         stage('Docker build') {
             when { branch 'main' }
             steps {
-                echo 'Build on Docker'
-                sh 'docker build -f "Dockerfile-eureka-service" -t rhtotal-eureka-service .'
-                sh 'docker build -f "Dockerfile-gateway-service" -t rhtotal-gateway-service .'
+                echo 'Build Docker images'
+                sh 'docker build -f "Dockerfile-eureka-service"     -t rhtotal-eureka-service .'
+                sh 'docker build -f "Dockerfile-gateway-service"    -t rhtotal-gateway-service .'
                 sh 'docker build -f "Dockerfile-application-service" -t rhtotal-application-repository .'
-                sh 'docker build -f "Dockerfile-security-service" -t rhtotal-security-repository .'
-                sh 'docker build -f "Dockerfile-user-service" -t rhtotal-user-repository .'
+                sh 'docker build -f "Dockerfile-security-service"   -t rhtotal-security-repository .'
+                sh 'docker build -f "Dockerfile-user-service"       -t rhtotal-user-repository .'
                 sh 'docker build -f "Dockerfile-onboarding-service" -t rhtotal-onboarding-repository .'
                 sh 'docker build -f "Dockerfile-attendance-service" -t rhtotal-attendance-repository .'
-                sh 'docker build -f "Dockerfile-hr-service" -t rhtotal-hr-repository .'
-                sh 'docker build -f "Dockerfile-document-service" -t rhtotal-document-repository .'
-                sh 'docker build -f "Dockerfile-frontend" -t rhtotal-frontend-repository .'
+                sh 'docker build -f "Dockerfile-hr-service"         -t rhtotal-hr-repository .'
+                sh 'docker build -f "Dockerfile-document-service"   -t rhtotal-document-repository .'
+                sh 'docker build -f "Dockerfile-web-admin"          -t rhtotal-web-admin-repository .'
             }
         }
         stage('Docker tag') {
             when { branch 'main' }
             steps {
                 echo 'Tag Docker images'
-                sh 'docker tag rhtotal-eureka-service:latest ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-eureka-service:$IMAGE_VERSION'
-                sh 'docker tag rhtotal-gateway-service:latest ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-gateway-service:$IMAGE_VERSION'
-                sh 'docker tag rhtotal-application-repository:latest ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-application-repository:$IMAGE_VERSION'
-                sh 'docker tag rhtotal-security-repository:latest ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-security-repository:$IMAGE_VERSION'
-                sh 'docker tag rhtotal-user-repository:latest ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-user-repository:$IMAGE_VERSION'
-                sh 'docker tag rhtotal-onboarding-repository:latest ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-onboarding-repository:$IMAGE_VERSION'
-                sh 'docker tag rhtotal-attendance-repository:latest ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-attendance-repository:$IMAGE_VERSION'
-                sh 'docker tag rhtotal-hr-repository:latest ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-hr-repository:$IMAGE_VERSION'
-                sh 'docker tag rhtotal-document-repository:latest ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-document-repository:$IMAGE_VERSION'
-                sh 'docker tag rhtotal-frontend-repository:latest ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-frontend-repository:$IMAGE_VERSION'
+                sh 'docker tag rhtotal-eureka-service:latest          ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-eureka-service:$IMAGE_VERSION'
+                sh 'docker tag rhtotal-gateway-service:latest         ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-gateway-service:$IMAGE_VERSION'
+                sh 'docker tag rhtotal-application-repository:latest  ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-application-repository:$IMAGE_VERSION'
+                sh 'docker tag rhtotal-security-repository:latest     ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-security-repository:$IMAGE_VERSION'
+                sh 'docker tag rhtotal-user-repository:latest         ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-user-repository:$IMAGE_VERSION'
+                sh 'docker tag rhtotal-onboarding-repository:latest   ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-onboarding-repository:$IMAGE_VERSION'
+                sh 'docker tag rhtotal-attendance-repository:latest   ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-attendance-repository:$IMAGE_VERSION'
+                sh 'docker tag rhtotal-hr-repository:latest           ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-hr-repository:$IMAGE_VERSION'
+                sh 'docker tag rhtotal-document-repository:latest     ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-document-repository:$IMAGE_VERSION'
+                sh 'docker tag rhtotal-web-admin-repository:latest    ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-web-admin-repository:$IMAGE_VERSION'
             }
         }
         stage('Docker push') {
@@ -214,7 +228,7 @@ pipeline {
             steps {
                 echo 'Login to ECR'
                 sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com'
-                echo 'Push on AWS'
+                echo 'Push to AWS ECR'
                 sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-eureka-service:$IMAGE_VERSION'
                 sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-gateway-service:$IMAGE_VERSION'
                 sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-application-repository:$IMAGE_VERSION'
@@ -224,7 +238,7 @@ pipeline {
                 sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-attendance-repository:$IMAGE_VERSION'
                 sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-hr-repository:$IMAGE_VERSION'
                 sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-document-repository:$IMAGE_VERSION'
-                sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-frontend-repository:$IMAGE_VERSION'
+                sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/rhtotal-web-admin-repository:$IMAGE_VERSION'
             }
         }
         stage('Liquibase') {

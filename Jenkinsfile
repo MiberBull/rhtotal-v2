@@ -8,6 +8,7 @@ pipeline {
     }
     environment {
         SONAR_TOKEN = credentials('sonarqube-token')
+        AES_SECRET_KEY = credentials('aes-secret-key')
     }
     tools {
         maven 'M3'
@@ -92,22 +93,40 @@ pipeline {
                 }
                 stage('Build Frontend Web') {
                     steps {
-                        echo 'Building Frontend Angular'
+                        echo 'Building Frontend Web Angular 6 (Node 12)'
+                        dir ('frontend-web/src/environments/'){
+                            sh 'sed -i "s/REPLACE_WITH_AES_SECRET/${AES_SECRET_KEY}/g" environment.ts'
+                            sh 'sed -i "s/REPLACE_WITH_AES_SECRET/${AES_SECRET_KEY}/g" environment.prod.ts'
+                        }
                         dir ('frontend-web/'){
+                            sh '. ~/.nvm/nvm.sh && nvm use 12 && npm install && npm run build -- --configuration=production'
+                        }
+                    }
+                }
+                stage('Build Frontend Mobile') {
+                    steps {
+                        echo 'Building Frontend Mobile Ionic 3 (Node 12)'
+                        dir ('frontend-mobile/src/environments/'){
+                            sh 'sed -i "s/REPLACE_WITH_AES_SECRET/${AES_SECRET_KEY}/g" environments.ts'
+                        }
+                        dir ('frontend-mobile/'){
+                            sh '. ~/.nvm/nvm.sh && nvm use 12 && npm rebuild node-sass && npx ionic build --prod'
+                        }
+                    }
+                }
+                stage('Build Web Admin') {
+                    steps {
+                        echo 'Building Web Admin Angular 19 (Node 22)'
+                        dir ('apps/web-admin/src/environments/'){
+                            sh 'sed -i "s/REPLACE_WITH_AES_SECRET/${AES_SECRET_KEY}/g" environment.ts'
+                            sh 'sed -i "s/REPLACE_WITH_AES_SECRET/${AES_SECRET_KEY}/g" environment.prod.ts'
+                        }
+                        dir ('apps/web-admin/'){
                             sh 'npm install'
                             sh 'npm run build'
                         }
                     }
                 }
-                /*stage('Build Frontend Mobile') {
-                    steps {
-                        echo 'Building Frontend Angular'
-                        dir ('frontend-mobile/'){
-                            sh 'npm install'
-                            sh 'npm run build'
-                        }
-                    }
-                }*/
             }
         }
         stage('Sonar Analisis') {
@@ -235,41 +254,42 @@ pipeline {
                 }
                 stage('Sonar Frontend Web') {
                     steps {
-                        echo 'Analyzing Frontend Angular'
+                        echo 'Analyzing Frontend Web with SonarQube Scanner'
                         dir ('frontend-web/'){
-                            sh 'mvn sonar:sonar \
+                            sh 'npx sonar-scanner \
                                 -Dsonar.projectKey=DCH_Total_Web \
                                 -Dsonar.projectName=DCH_Total_Web \
                                 -Dsonar.sources=src \
-                                -Dsonar.coverage.exclusions=**/*TO.java,**/*DO.java \
+                                -Dsonar.exclusions=**/node_modules/**,**/*.spec.ts \
                                 -Dsonar.host.url=${SONAR_HOST_URL} \
                                 -Dsonar.login=${SONAR_TOKEN}'
                         }
                     }
                 }
-                /*stage('Sonar Frontend Mobile') {
+                stage('Sonar Web Admin') {
                     steps {
-                        echo 'Building Frontend Angular'
-                        dir ('frontend-mobile/'){
-                            sh 'mvn sonar:sonar \
-                                -Dsonar.projectKey=DCH_Total_Mobile \
-                                -Dsonar.projectName=DCH_Total_Mobile \
+                        echo 'Analyzing Web Admin with SonarQube Scanner'
+                        dir ('apps/web-admin/'){
+                            sh 'npx sonar-scanner \
+                                -Dsonar.projectKey=DCH_Total_WebAdmin \
+                                -Dsonar.projectName=DCH_Total_WebAdmin \
                                 -Dsonar.sources=src \
+                                -Dsonar.exclusions=**/node_modules/**,**/*.spec.ts \
                                 -Dsonar.host.url=${SONAR_HOST_URL} \
                                 -Dsonar.login=${SONAR_TOKEN}'
                         }
                     }
-                }*/
+                }
             }
         }
         stage('Docker up') {
             when { branch 'develop' }
             steps {
                 echo 'Running on Docker'
-                sh 'docker network disconnect rhtotal_rhtotalnet postgres'
+                sh 'docker network disconnect rhtotal_rhtotalnet postgres || true'
                 sh 'docker-compose down --rmi all'
                 sh 'docker-compose up -d'
-                sh 'docker network connect rhtotal_rhtotalnet postgres'
+                sh 'docker network connect rhtotal_rhtotalnet postgres || true'
             }
         }
         stage('Liquibase') {
