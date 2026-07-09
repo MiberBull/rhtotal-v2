@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { ErrorHandler, NgModule } from '@angular/core';
+import { ErrorHandler, NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
@@ -61,7 +61,6 @@ import { DetailBenefisPage } from '../pages/detail-benefis/detail-benefis';
 import { InAppBrowser } from '../../node_modules/@ionic-native/in-app-browser';
 import { Push } from '@ionic-native/push';
 import { MyDataPage } from '../pages/my-data/my-data';
-import { ThreeStepsSelectorModule } from 'three-steps-selector';
 import { AddressPage } from '../pages/address/address';
 import { PersonalInformationPage } from '../pages/personal-information/personal-information';
 import { SocialNetworksPage } from '../pages/social-networks/social-networks';
@@ -164,7 +163,6 @@ export const MATERIAL_COMPONENTS = [MatProgressBarModule];
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    ThreeStepsSelectorModule,
     MATERIAL_COMPONENTS,
     HttpClientModule,
     PdfViewerModule,
@@ -286,5 +284,6 @@ export const MATERIAL_COMPONENTS = [MatProgressBarModule];
     AttendanceProvider,
     HrEmployeeProvider,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppModule {}

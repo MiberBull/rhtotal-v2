@@ -155,6 +155,15 @@ export const routesWeb = {
   ADMIN_CUSTOMER: 'crear-cliente',
   INSURANCE: 'seguros',
   INSURANCE_ADMIN: 'admin-seguros',
+  VACACIONES: 'vacaciones',
+  INCIDENCIAS: 'incidencias',
+  TICKETS: 'tickets',
+  ENCUESTAS: 'encuestas',
+  REPSE_CUMPLIMIENTO: 'repse-cumplimiento',
+  REPSE_PERFIL: 'repse-perfil',
+  DOCUMENTOS: 'documentos',
+  CFDI: 'cfdi',
+  TENANTS: 'tenants',
 };
 
 export const BUTTON = {
@@ -183,6 +192,14 @@ export const BREADCRUMB = {
   DETAIL_CLIENT: 'Cliente detalle',
   DETAIL_USER: 'Usuario detalle',
   NEW_USER: 'Usuario nuevo',
+  VACACIONES: 'Vacaciones',
+  INCIDENCIAS: 'Incidencias',
+  TICKETS: 'Mesa de Ayuda',
+  ENCUESTAS: 'Encuestas',
+  REPSE_CUMPLIMIENTO: 'Cumplimiento REPSE',
+  REPSE_PERFIL: 'Perfil REPSE',
+  DOCUMENTOS: 'Expediente Digital',
+  CFDI: 'Recibos de Nómina',
 };
 
 export const NUMBERS = {
@@ -264,11 +281,65 @@ export const PATH_EXCEL = {
 
 export const DIALOG_TITLES = {
   LOGOUT: '¿Deseas cerrar sesión?',
+  CREATE_INCIDENT: 'Nueva Incidencia',
+  SURVEY_RESULTS: 'Resultados de Encuesta',
+  UPLOAD_REPSE_DOC: 'Subir Documento REPSE',
+  UPLOAD_EMP_DOC: 'Subir Documento',
 };
 
-// Set AES_SECRET_KEY via environment variable at build time (see .env.example)
+// Set AES_SECRET_KEY via sed replacement in CI/CD before build (see .env.example)
 export const SECRETS = {
-  AES_PASSWORD_SECRET: process.env['AES_SECRET_KEY'] || 'REPLACE_WITH_AES_SECRET',
+  AES_PASSWORD_SECRET: 'REPLACE_WITH_AES_SECRET',
+};
+
+export const PATH_REPSE = {
+  DOMAIN: 'http://localhost:8000/api/application',
+  PROFILE: 'repse/profile',
+  CLIENT_ALL: 'repse/client/all',
+  CLIENT: 'repse/client',
+  DOCUMENT: 'repse/document',
+  COMPLIANCE_DASHBOARD: 'repse/compliance/dashboard',
+  COMPLIANCE_SEMAFORO: 'repse/compliance/semaforo',
+  COMPLIANCE_RECALCULATE: 'repse/compliance/recalculate',
+  COMPLIANCE_EXPIRING: 'repse/compliance/expiring',
+  COMPLIANCE_EXPORT: 'repse/compliance/export',
+  COMPLIANCE_REPORT: 'repse/compliance/report',
+};
+
+export const PATH_DOCUMENT = {
+  DOMAIN: 'http://localhost:8000/api/document',
+  CFDI_IMPORT: 'cfdi/import',
+  CFDI_BY_EMPLOYEE: 'cfdi/employee',
+  CFDI_BY_PERIOD: 'cfdi/period',
+  DOC_UPLOAD: 'document/upload',
+  DOC_BY_EMPLOYEE: 'document/employee',
+  DOC_PENDING: 'document/pending',
+  DOC_VALIDATE: 'document',
+  DOC_REJECT: 'document',
+  DOC_TYPE_ALL: 'document-type',
+  DOC_TYPE_REQUIRED: 'document-type/required',
+};
+
+export const PATH_HR = {
+  DOMAIN: 'http://localhost:8000/api/hr',
+  VACATION_PENDING: 'vacation/request/pending',
+  VACATION_BY_EMP: 'vacation/request/employee',
+  VACATION_BALANCE: 'vacation/balance',
+  VACATION_APPROVE: 'vacation/request',
+  VACATION_REJECT: 'vacation/request',
+  INCIDENT_PERIOD: 'incident/period',
+  INCIDENT_SAVE: 'incident',
+  INCIDENT_EXCEL: 'incident/export/excel',
+  TICKET_BY_STATUS: 'ticket/status',
+  TICKET_SAVE: 'ticket',
+  TICKET_STATUS: 'ticket',
+  TICKET_COMMENTS: 'ticket',
+  TICKET_COMMENT_ADD: 'ticket/comment',
+  SURVEY_LIST: 'survey',
+  SURVEY_PUBLISH: 'survey',
+  SURVEY_CLOSE: 'survey',
+  SURVEY_RESULTS: 'survey',
+  SURVEY_SAVE: 'survey',
 };
 export const STATUS = [
   { id: 'A', value: 'Activo' },

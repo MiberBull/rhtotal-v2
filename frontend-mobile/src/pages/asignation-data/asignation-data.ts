@@ -23,31 +23,38 @@ import { MyAccountPage } from '../my-account/my-account';
 })
 export class AsignationDataPage {
   todo: FormGroup;
-  employeePositionEnable:boolean = false;
+  employeePositionEnable: boolean = false;
   //private companyEnable:boolean = false;
   //private projectEnable:boolean = false;
-  enableAsignation:boolean = true;
-  minDate:any;
+  enableAsignation: boolean = true;
+  minDate: any;
   msg = new MessageGeneral();
-  asignacion :AsignationDataTO = null;
+  asignacion: AsignationDataTO = null;
   userObejct: UserTO;
-  client:string;
-  project:string;
-  constructor(public navCtrl: NavController, public navParams: NavParams,public loading:EventsManagerProvider, public storage: StorageProvider, public users: UsersProvider,private formBuilder: FormBuilder) {
+  client: string;
+  project: string;
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public loading: EventsManagerProvider,
+    public storage: StorageProvider,
+    public users: UsersProvider,
+    private formBuilder: FormBuilder
+  ) {
     this.loading.setIsLoadingEvent(true);
     this.userObejct = this.storage.getItem(KEYS_STORAGE.USER);
     this.todo = this.formBuilder.group({
-      employeePosition: ['',Validators.maxLength(150)],
-      manager: ['',Validators.maxLength(50)],
-      state: ['',Validators.maxLength(50)],
-      city: ['',Validators.maxLength(50)],
-      emailDirectBoss:['',[Validators.maxLength(50),Validators.pattern(EXPRESSION.EMAIL)]],
-      telephoneDirectBoss:['',Validators.maxLength(10)],
-      startAssigment:[''],
+      employeePosition: ['', Validators.maxLength(150)],
+      manager: ['', Validators.maxLength(50)],
+      state: ['', Validators.maxLength(50)],
+      city: ['', Validators.maxLength(50)],
+      emailDirectBoss: ['', [Validators.maxLength(50), Validators.pattern(EXPRESSION.EMAIL)]],
+      telephoneDirectBoss: ['', Validators.maxLength(10)],
+      startAssigment: [''],
       endAllocation: [''],
-      allocationEmail: ['',[Validators.maxLength(50),Validators.pattern(EXPRESSION.EMAIL)]],
+      allocationEmail: ['', [Validators.maxLength(50), Validators.pattern(EXPRESSION.EMAIL)]],
       allocationSalary: ['', [Validators.minLength(1)]],
-      evaluation: ['',[Validators.maxLength(3),Validators.min(1)]]
+      evaluation: ['', [Validators.maxLength(3), Validators.min(1)]],
     });
     this.validateTypeUSers();
     this.getAsignationDataRHTotal();
@@ -57,57 +64,60 @@ export class AsignationDataPage {
     console.log('ionViewDidLoad AsignationDataPage');
   }
 
-
-  getAsignationDataRHTotal(){
-    this.users.getAsignacionDataByIdUser(this.userObejct.id).subscribe((data:AsignationDataTO) =>{
-      this.asignacion = new AsignationDataTO();
-      this.loadFormInput(data);
-      this.asignacion = data;
-    },error=>{
-      this.getEployeName();
-      this.loading.setIsLoadingEvent(false);
-     console.log(error);
-    });
-  
+  getAsignationDataRHTotal() {
+    this.users.getAsignacionDataByIdUser(this.userObejct.id).subscribe(
+      (data: AsignationDataTO) => {
+        this.asignacion = new AsignationDataTO();
+        this.loadFormInput(data);
+        this.asignacion = data;
+      },
+      (error) => {
+        this.getEployeName();
+        this.loading.setIsLoadingEvent(false);
+        console.log(error);
+      }
+    );
   }
 
-  getEployeName(){
-    this.users.getEmployeeById(this.userObejct.id).subscribe((data:EmployeeComplementaryTO)=>{
-      this.getSicoAsignacionData(data.curp,data.employee.name); 
-    },error=>{
-      console.log(error);
-    });
+  getEployeName() {
+    this.users.getEmployeeById(this.userObejct.id).subscribe(
+      (data: EmployeeComplementaryTO) => {
+        this.getSicoAsignacionData(data.curp, data.employee.name);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
-  
-  getSicoAsignacionData(curp:string, name:string){
-    let nameCompouse  = name.trim().replace(' ','+');
-    this.users.getWorkInfoSico(curp,nameCompouse).subscribe(data=>{
-      if(data && data.data && data.data.pago && data.data.pago.length > 0) {
-        let asignacionData  = new AsignationDataTO();
-        this.client = data.data.pago[0].nombreCliente;
-        this.project = data.data.pago[0].nombreProyecto;
-        asignacionData.employeePosition = data.data.personal.puesto;
-        this.loadFormInput(asignacionData);
-      } else {
+
+  getSicoAsignacionData(curp: string, name: string) {
+    const nameCompouse = name.trim().replace(' ', '+');
+    this.users.getWorkInfoSico(curp, nameCompouse).subscribe(
+      (data) => {
+        if (data && data.data && data.data.pago && data.data.pago.length > 0) {
+          const asignacionData = new AsignationDataTO();
+          this.client = data.data.pago[0].nombreCliente;
+          this.project = data.data.pago[0].nombreProyecto;
+          asignacionData.employeePosition = (data.data.personal as any).puesto;
+          this.loadFormInput(asignacionData);
+        } else {
+          this.loading.setIsLoadingEvent(false);
+        }
+      },
+      (error) => {
+        console.log(error);
         this.loading.setIsLoadingEvent(false);
       }
-      },error=>{
-      console.log(error);
-      this.loading.setIsLoadingEvent(false);
-    });
+    );
   }
-
-
 
   validateTypeUSers() {
     if (this.userObejct.userType === 'IN') {
       this.employeePositionEnable = true;
     }
-}
-
+  }
 
   getInfoInit() {
-
     if (this.asignacion != null) {
       this.asignacion.employeePosition = this.todo.get('employeePosition').value;
       this.asignacion.manager = this.todo.get('manager').value;
@@ -117,7 +127,7 @@ export class AsignationDataPage {
       this.asignacion.idProject = 0;
       this.asignacion.emailDirectBoss = this.todo.get('emailDirectBoss').value;
       this.asignacion.telephoneDirectBoss = this.todo.get('telephoneDirectBoss').value;
-      this.asignacion.startAssigment = new Date( this.todo.get('startAssigment').value);
+      this.asignacion.startAssigment = new Date(this.todo.get('startAssigment').value);
       this.asignacion.endAllocation = new Date(this.todo.get('endAllocation').value);
       this.asignacion.allocationEmail = this.todo.get('allocationEmail').value;
       this.asignacion.allocationSalary = this.todo.get('allocationSalary').value;
@@ -126,7 +136,7 @@ export class AsignationDataPage {
       return;
     }
 
-    let contract = new AsignationDataTO();
+    const contract = new AsignationDataTO();
     contract.employeePosition = this.todo.get('employeePosition').value;
     contract.manager = this.todo.get('manager').value;
     contract.state = this.todo.get('state').value;
@@ -137,7 +147,7 @@ export class AsignationDataPage {
     contract.endAllocation = new Date(this.todo.get('endAllocation').value);
     contract.idClient = 0;
     contract.idProject = 0;
-    contract.project= this.project;
+    contract.project = this.project;
     contract.client = this.client;
     contract.allocationEmail = this.todo.get('allocationEmail').value;
     contract.allocationSalary = this.todo.get('allocationSalary').value;
@@ -157,69 +167,63 @@ export class AsignationDataPage {
   loadFormInput(contract: AsignationDataTO) {
     for (const key in this.todo.controls) {
       for (const prop in contract) {
-      if (prop === 'allocationSalary' && key === 'allocationSalary') {
-         let value :any = contract[prop];
-          this.todo.controls[key].setValue( value === 0 ? '' :contract[prop]);
-        }else{
-          if(key === prop){
+        if (prop === 'allocationSalary' && key === 'allocationSalary') {
+          const value: any = contract[prop];
+          this.todo.controls[key].setValue(value === 0 ? '' : contract[prop]);
+        } else {
+          if (key === prop) {
             this.todo.controls[key].setValue(contract[prop]);
           }
-
         }
       }
     }
     this.disableInitDate(this.todo.get('startAssigment').value);
     this.loading.setIsLoadingEvent(false);
-
   }
-
 
   saveSignationData(asignation: AsignationDataTO) {
     this.loading.setIsLoadingEvent(true);
 
-    this.users.saveOrUpdateAsignationData(asignation).subscribe(data => {
-      if (data) {
-        this.msg.title = MSG_DIALOG.OK;
-        this.msg.msg = MSG_DIALOG.MSG_SAVE;
-        this.loading.setGeneralNotificationMessage(this.msg);
-        
-        this.loading.setIsLoadingEvent(false);
+    this.users.saveOrUpdateAsignationData(asignation).subscribe(
+      (data) => {
+        if (data) {
+          this.msg.title = MSG_DIALOG.OK;
+          this.msg.msg = MSG_DIALOG.MSG_SAVE;
+          this.loading.setGeneralNotificationMessage(this.msg);
 
-        setTimeout(()=>{
-          this.navCtrl.push(MyAccountPage);
-        },2100);
+          this.loading.setIsLoadingEvent(false);
 
-      } else {
+          setTimeout(() => {
+            this.navCtrl.push(MyAccountPage);
+          }, 2100);
+        } else {
+          this.users.showConfirmAlert(MSG_DIALOG.ERROR_TITLE, MSG_DIALOG.ERROR_SERVICE);
+          this.loading.setIsLoadingEvent(false);
+        }
+      },
+      (error) => {
+        console.log(error);
         this.users.showConfirmAlert(MSG_DIALOG.ERROR_TITLE, MSG_DIALOG.ERROR_SERVICE);
         this.loading.setIsLoadingEvent(false);
       }
-    }, error => {
-      console.log(error);
-      this.users.showConfirmAlert(MSG_DIALOG.ERROR_TITLE, MSG_DIALOG.ERROR_SERVICE);
-      this.loading.setIsLoadingEvent(false);
-    });
+    );
   }
 
-  back(){
+  back() {
     this.navCtrl.pop();
   }
 
-
-  onChange(){
-  this.minDate = new Date(this.todo.get('startAssigment').value).toISOString();
-  this.enableAsignation = false;
-  console.log(this.minDate); // Revisión de valor
+  onChange() {
+    this.minDate = new Date(this.todo.get('startAssigment').value).toISOString();
+    this.enableAsignation = false;
+    console.log(this.minDate); // Revisión de valor
   }
 
-
-  disableInitDate(dateInit:string){
-    if(dateInit != '' &&  dateInit != null){
+  disableInitDate(dateInit: string) {
+    if (dateInit != '' && dateInit != null) {
       this.minDate = new Date(dateInit).toISOString();
       this.enableAsignation = false;
       console.log(this.minDate); // Revisión de valor
-    } 
+    }
   }
-
-
-
 }

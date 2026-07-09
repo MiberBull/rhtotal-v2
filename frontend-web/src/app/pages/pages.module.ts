@@ -1,5 +1,5 @@
 import { FormRolesComponent } from './roles/form-roles/form-roles.component';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { PAGES_ROUTES } from './pages.routes';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
@@ -38,7 +38,6 @@ import { UserFormCompenPackageComponent } from './user-admin/user-form-compen-pa
 import { UserFormAssignmentDataComponent } from './user-admin/user-form-assignment-data/user-form-assignment-data.component';
 import { StickyBelowViewDirective } from '../directives/sticky-below-view.directive';
 import { MycurrencyDirective } from '../directives/mycurrency.directive';
-import { ThreeStepsSelectorModule } from 'three-steps-selector';
 import { VehicleInsuranceComponent } from './insurance-admin/vehicle-insurance/vehicle-insurance.component';
 import { LifeInsuranceComponent } from './insurance-admin/life-insurance/life-insurance.component';
 import { InsuranceMedicalExpensesComponent } from './insurance-admin/insurance-medical-expenses/insurance-medical-expenses.component';
@@ -130,7 +129,6 @@ import { TenantsComponent } from './tenants/tenants.component';
     MATERIAL_COMPONENTS,
     SharedModule,
     ComponentModule,
-    ThreeStepsSelectorModule,
     FormsModule,
     BrowserModule,
   ],
@@ -140,5 +138,6 @@ import { TenantsComponent } from './tenants/tenants.component';
     ConfirmationDialogComponent,
     DialogCreateIncidentComponent,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class PagesModule {}
