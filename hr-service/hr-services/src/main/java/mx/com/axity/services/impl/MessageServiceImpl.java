@@ -52,4 +52,16 @@ public class MessageServiceImpl {
         msg.setDsStatus(Constants.MSG_EN_REVISION);
         return messageDAO.save(msg);
     }
+
+    @Transactional
+    public MessageDO markAsRead(Long id) {
+        MessageDO msg = findById(id);
+        msg.setDsStatus("LEIDO");
+        return messageDAO.save(msg);
+    }
+
+    @Transactional
+    public MessageDO reply(Long id, String responseText, String respondedBy) {
+        return respond(id, responseText, respondedBy);
+    }
 }

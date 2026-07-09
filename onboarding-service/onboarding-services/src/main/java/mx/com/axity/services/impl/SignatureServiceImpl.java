@@ -7,6 +7,7 @@ import mx.com.axity.commons.util.Constants;
 import mx.com.axity.commons.util.SHA;
 import mx.com.axity.model.DigitalSignatureDO;
 import mx.com.axity.persistence.DigitalSignatureDAO;
+import mx.com.axity.services.ISignatureService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

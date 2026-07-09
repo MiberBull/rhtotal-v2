@@ -16,6 +16,7 @@ public class SurveyDO {
     @Column(name = "ds_type", nullable = false) private String dsType;
     @Column(name = "dt_start_date") private LocalDate dtStartDate;
     @Column(name = "dt_end_date") private LocalDate dtEndDate;
+    @Column(name = "ds_status", nullable = false) private String dsStatus = "BORRADOR";
     @Column(name = "fg_anonymous", nullable = false) private Boolean fgAnonymous = false;
     @Column(name = "fg_active", nullable = false) private Boolean fgActive = true;
     @Column(name = "dt_creation_date", nullable = false) private LocalDateTime dtCreationDate;
@@ -23,7 +24,7 @@ public class SurveyDO {
     @Column(name = "ds_creation_user") private String dsCreationUser;
     @Column(name = "ds_modification_user") private String dsModificationUser;
 
-    @PrePersist protected void onCreate() { dtCreationDate = LocalDateTime.now(); if (fgActive == null) fgActive = true; if (fgAnonymous == null) fgAnonymous = false; }
+    @PrePersist protected void onCreate() { dtCreationDate = LocalDateTime.now(); if (fgActive == null) fgActive = true; if (fgAnonymous == null) fgAnonymous = false; if (dsStatus == null) dsStatus = "BORRADOR"; }
     @PreUpdate protected void onUpdate() { dtModificationDate = LocalDateTime.now(); }
 
     public Long getIdSurvey() { return idSurvey; } public void setIdSurvey(Long v) { idSurvey = v; }
@@ -31,6 +32,7 @@ public class SurveyDO {
     public String getDsTitle() { return dsTitle; } public void setDsTitle(String v) { dsTitle = v; }
     public String getDsDescription() { return dsDescription; } public void setDsDescription(String v) { dsDescription = v; }
     public String getDsType() { return dsType; } public void setDsType(String v) { dsType = v; }
+    public String getDsStatus() { return dsStatus; } public void setDsStatus(String v) { dsStatus = v; }
     public LocalDate getDtStartDate() { return dtStartDate; } public void setDtStartDate(LocalDate v) { dtStartDate = v; }
     public LocalDate getDtEndDate() { return dtEndDate; } public void setDtEndDate(LocalDate v) { dtEndDate = v; }
     public Boolean getFgAnonymous() { return fgAnonymous; } public void setFgAnonymous(Boolean v) { fgAnonymous = v; }

@@ -11,7 +11,7 @@ public class SurveyQuestionDO {
     @Column(name = "id_question") private Long idQuestion;
     @Column(name = "tenant_id", nullable = false) private String tenantId;
     @Column(name = "id_survey", nullable = false) private Long idSurvey;
-    @Column(name = "ds_question", nullable = false, columnDefinition = "TEXT") private String dsQuestion;
+    @Column(name = "ds_question", nullable = false, columnDefinition = "TEXT") private String dsText;
     @Column(name = "ds_type", nullable = false) private String dsType;
     @Column(name = "ds_options", columnDefinition = "TEXT") private String dsOptions;
     @Column(name = "nb_order") private Integer nbOrder = 0;
@@ -28,7 +28,7 @@ public class SurveyQuestionDO {
     public Long getIdQuestion() { return idQuestion; } public void setIdQuestion(Long v) { idQuestion = v; }
     public String getTenantId() { return tenantId; } public void setTenantId(String v) { tenantId = v; }
     public Long getIdSurvey() { return idSurvey; } public void setIdSurvey(Long v) { idSurvey = v; }
-    public String getDsQuestion() { return dsQuestion; } public void setDsQuestion(String v) { dsQuestion = v; }
+    public String getDsText() { return dsText; } public void setDsText(String v) { dsText = v; }
     public String getDsType() { return dsType; } public void setDsType(String v) { dsType = v; }
     public String getDsOptions() { return dsOptions; } public void setDsOptions(String v) { dsOptions = v; }
     public Integer getNbOrder() { return nbOrder; } public void setNbOrder(Integer v) { nbOrder = v; }

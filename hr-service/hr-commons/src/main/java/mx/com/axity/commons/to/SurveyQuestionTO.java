@@ -4,7 +4,7 @@ public class SurveyQuestionTO {
     private Long idQuestion;
     private String tenantId;
     private Long idSurvey;
-    private String dsQuestion;
+    private String dsText;
     private String dsType;
     private String dsOptions;
     private Integer nbOrder;
@@ -17,8 +17,8 @@ public class SurveyQuestionTO {
     public void setTenantId(String tenantId) { this.tenantId = tenantId; }
     public Long getIdSurvey() { return idSurvey; }
     public void setIdSurvey(Long idSurvey) { this.idSurvey = idSurvey; }
-    public String getDsQuestion() { return dsQuestion; }
-    public void setDsQuestion(String dsQuestion) { this.dsQuestion = dsQuestion; }
+    public String getDsText() { return dsText; }
+    public void setDsText(String dsText) { this.dsText = dsText; }
     public String getDsType() { return dsType; }
     public void setDsType(String dsType) { this.dsType = dsType; }
     public String getDsOptions() { return dsOptions; }
