@@ -37,7 +37,7 @@ services:
     networks:
       - dchnet
     environment:
-      - POSTGRES_PASSWORD=${DB_PASS:-project123}
+      - POSTGRES_PASSWORD=${DB_PASS}
   securityservice:
     build:
       context: .
@@ -48,7 +48,7 @@ services:
       - dchnet
     environment:
       - TZ=America/Mexico_City
-      - DB_PASS=${DB_PASS:-project123}
+      - DB_PASS=${DB_PASS}
       - AES_SECRET_KEY=${AES_SECRET_KEY}
     depends_on:
       - eurekaservice
@@ -64,7 +64,7 @@ services:
       - dchnet
     environment:
       - TZ=America/Mexico_City
-      - DB_PASS=${DB_PASS:-project123}
+      - DB_PASS=${DB_PASS}
     depends_on:
       - eurekaservice
       - gatewayservice
@@ -78,7 +78,7 @@ services:
     networks:
       - dchnet
     environment:
-      - DB_PASS=${DB_PASS:-project123}
+      - DB_PASS=${DB_PASS}
       - AES_SECRET_KEY=${AES_SECRET_KEY}
     depends_on:
       - eurekaservice
@@ -95,7 +95,7 @@ services:
       - dchnet
     environment:
       - TZ=America/Mexico_City
-      - DB_PASS=${DB_PASS:-project123}
+      - DB_PASS=${DB_PASS}
       - MAIL_USER=${MAIL_USER}
       - MAIL_PASS=${MAIL_PASS}
     depends_on:
@@ -112,7 +112,7 @@ services:
       - dchnet
     environment:
       - TZ=America/Mexico_City
-      - DB_PASS=${DB_PASS:-project123}
+      - DB_PASS=${DB_PASS}
     depends_on:
       - eurekaservice
       - gatewayservice
@@ -127,7 +127,7 @@ services:
       - dchnet
     environment:
       - TZ=America/Mexico_City
-      - DB_PASS=${DB_PASS:-project123}
+      - DB_PASS=${DB_PASS}
     depends_on:
       - eurekaservice
       - gatewayservice
@@ -142,7 +142,7 @@ services:
       - dchnet
     environment:
       - TZ=America/Mexico_City
-      - DB_PASS=${DB_PASS:-project123}
+      - DB_PASS=${DB_PASS}
     depends_on:
       - eurekaservice
       - gatewayservice
