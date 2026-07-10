@@ -80,7 +80,7 @@ check() {
     http_code=$(curl -s -o /dev/null -w "%{http_code}" \
         --max-time "$TIMEOUT" \
         -H "Content-Type: application/json" \
-        "${header_args[@]}" \
+        ${header_args[@]+"${header_args[@]}"} \
         "$url" 2>/dev/null) || http_code="000"
 
     if [ "$http_code" = "$expected_code" ] || \
@@ -109,28 +109,31 @@ check_docker_running() {
 check_containers() {
     print_section "2. Contenedores Docker"
 
+    # Patrones de nombre (docker ps --filter name= hace substring match)
     local services=(
-        "postgres"
-        "eurekaservice"
-        "gateway-service"
-        "security-service"
-        "user-service"
-        "application-service"
-        "onboarding-service"
-        "attendance-service"
-        "hr-service"
-        "document-service"
-        "frontend-web"
+        "postgres:PostgreSQL"
+        "eurekaservice:Eureka"
+        "gatewayservice:Gateway"
+        "securityservice:Security"
+        "userservice:User"
+        "applicationservice:Application"
+        "onboardingservice:Onboarding"
+        "attendanceservice:Attendance"
+        "hrservice:HR"
+        "documentservice:Document"
+        "web-admin:Frontend-Web"
     )
 
     local all_up=true
-    for svc in "${services[@]}"; do
+    for entry in "${services[@]}"; do
+        local pattern="${entry%%:*}"
+        local label="${entry##*:}"
         local state
-        state=$(docker inspect --format='{{.State.Status}}' "$svc" 2>/dev/null || echo "not_found")
-        if [ "$state" = "running" ]; then
-            echo -e "  ${GREEN}${PASS}${RESET}  $svc  [running]"
+        state=$(docker ps --filter "name=${pattern}" --format '{{.Status}}' 2>/dev/null | head -1)
+        if [[ "$state" == Up* ]]; then
+            echo -e "  ${GREEN}${PASS}${RESET}  $label  [running]"
         else
-            echo -e "  ${RED}${FAIL}${RESET}  $svc  [$state]"
+            echo -e "  ${RED}${FAIL}${RESET}  $label  [${state:-not_found}]"
             all_up=false
         fi
     done
@@ -177,25 +180,25 @@ check_endpoints() {
 
     local tenant_header="X-Tenant-ID: ${TENANT}"
 
-    # Eureka dashboard
-    check "Eureka Dashboard" \
-        "${EUREKA}/" "200"
+    # Eureka actuator (GET / returns 302 redirect; actuator/health returns 200 directly)
+    check "Eureka Health" \
+        "${EUREKA}/actuator/health" "200"
 
     # Gateway actuator
     check "Gateway Health" \
         "${GATEWAY}/actuator/health" "200"
 
-    # Security Service
+    # Security Service  (StripPrefix=2: /api/security → strips → class @RequestMapping("tenant"))
     check "Security — tenant/all" \
         "${GATEWAY}/api/security/tenant/all" "200" "$tenant_header"
 
-    # User Service
-    check "User — employee/all" \
-        "${GATEWAY}/api/user/employee/all" "200" "$tenant_header"
+    # User Service  (StripPrefix=2: /api/user → strips → class @RequestMapping("user"))
+    check "User — getAllEmployees" \
+        "${GATEWAY}/api/user/user/getAllEmployees" "200" "$tenant_header"
 
-    # Application Service — REPSE
-    check "Application — repse/profile/all" \
-        "${GATEWAY}/api/application/repse/profile/all" "200" "$tenant_header"
+    # Application Service — REPSE  (client/all returns [] when empty, never 500)
+    check "Application — repse/client/all" \
+        "${GATEWAY}/api/application/repse/client/all" "200" "$tenant_header"
 
     # Onboarding Service
     check "Onboarding — candidate/all" \
@@ -205,17 +208,17 @@ check_endpoints() {
     check "Attendance — shift/all" \
         "${GATEWAY}/api/attendance/shift/all" "200" "$tenant_header"
 
-    # HR Service — Vacaciones
+    # HR Service — Vacaciones  (gateway route: /api/hr/**)
     check "HR — vacation/request/pending" \
-        "${GATEWAY}/api/vacation/request/pending" "200" "$tenant_header"
+        "${GATEWAY}/api/hr/vacation/request/pending" "200" "$tenant_header"
 
-    # HR Service — Tickets
+    # HR Service — Tickets  (gateway route: /api/hr/**)
     check "HR — ticket/status/ABIERTO" \
-        "${GATEWAY}/api/ticket/status/ABIERTO" "200" "$tenant_header"
+        "${GATEWAY}/api/hr/ticket/status/ABIERTO" "200" "$tenant_header"
 
-    # Document Service
+    # Document Service  (StripPrefix=2: /api/document → strips → class @RequestMapping("document"))
     check "Document — pending" \
-        "${GATEWAY}/api/document/pending" "200" "$tenant_header"
+        "${GATEWAY}/api/document/document/pending" "200" "$tenant_header"
 
     # Frontend Web
     check "Frontend Web (:80)" \
