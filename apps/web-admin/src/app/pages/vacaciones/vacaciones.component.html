@@ -33,13 +33,13 @@
           <ng-container matColumnDef="employee">
             <th mat-header-cell *matHeaderCellDef>Empleado</th>
             <td mat-cell *matCellDef="let row">
-              <span class="primary-text">{{ row.employeeName ?? row.employee?.name ?? '—' }}</span>
+              <span class="primary-text">Emp. #{{ row.idEmployee }}</span>
             </td>
           </ng-container>
 
           <ng-container matColumnDef="days">
             <th mat-header-cell *matHeaderCellDef>Días</th>
-            <td mat-cell *matCellDef="let row">{{ row.requestedDays ?? '—' }}</td>
+            <td mat-cell *matCellDef="let row">{{ row.nbDaysRequested ?? '—' }}</td>
           </ng-container>
 
           <ng-container matColumnDef="dateFrom">
@@ -53,8 +53,8 @@
           </ng-container>
 
           <ng-container matColumnDef="requestDate">
-            <th mat-header-cell *matHeaderCellDef>Solicitado</th>
-            <td mat-cell *matCellDef="let row">{{ row.dtCreatedAt | date: 'dd/MM/yyyy' }}</td>
+            <th mat-header-cell *matHeaderCellDef>Notas</th>
+            <td mat-cell *matCellDef="let row">{{ row.dsNotes ?? '—' }}</td>
           </ng-container>
 
           <ng-container matColumnDef="status">

@@ -105,7 +105,7 @@ export class VacacionesComponent implements OnInit {
 
   approve(request: any): void {
     this.http
-      .put(`${environment.gatewayUrl}/api/hr/vacation/request/${request.id}/approve`, null, {
+      .put(`${environment.gatewayUrl}/api/hr/vacation/request/${request.idRequest}/approve`, null, {
         params: { approvedBy: 'sistema' },
       })
       .subscribe({
@@ -131,9 +131,13 @@ export class VacacionesComponent implements OnInit {
     ref.afterClosed().subscribe((comment) => {
       if (comment === undefined) return;
       this.http
-        .put(`${environment.gatewayUrl}/api/hr/vacation/request/${request.id}/reject`, null, {
-          params: { approvedBy: 'sistema', reason: comment || 'Sin comentario' },
-        })
+        .put(
+          `${environment.gatewayUrl}/api/hr/vacation/request/${request.idRequest}/reject`,
+          null,
+          {
+            params: { approvedBy: 'sistema', reason: comment || 'Sin comentario' },
+          }
+        )
         .subscribe({
           next: () => {
             this.snackBar.open('Solicitud rechazada', 'Cerrar', {
