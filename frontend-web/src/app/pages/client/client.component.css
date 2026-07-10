@@ -9,11 +9,11 @@
 }
 
 .divider {
-  margin:1.25rem;
+  margin: 1.25rem;
 }
 
 .divider mat-divider {
-  background-color: #1469af;
+  background-color: #005696;
 }
 
 .content-subtitle--wrapper {
@@ -22,7 +22,7 @@
 }
 
 .content-subtitle--wrapper label {
-  color: #1469af;
+  color: #005696;
   font-size: 22px;
   margin-left: 60px;
 }
@@ -33,8 +33,8 @@
   flex-direction: column;
 }
 
-.controls-wrapper button{
-  margin:0 5px; 
+.controls-wrapper button {
+  margin: 0 5px;
 }
 
 .buttons-wrapper {
@@ -54,7 +54,6 @@
   align-items: flex-start;
   flex-wrap: wrap;
 }
-
 
 .create-client-wrapper {
   width: 39%;
@@ -89,6 +88,6 @@
 .controls-form-wrapper button:nth-child(even) {
   margin-left: 5px;
 }
-.uppertxt{
-	text-transform:uppercase;
+.uppertxt {
+  text-transform: uppercase;
 }

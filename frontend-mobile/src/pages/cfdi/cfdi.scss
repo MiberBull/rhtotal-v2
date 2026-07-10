@@ -1,33 +1,32 @@
 page-cfdi {
-
-  .content-header{
+  .content-header {
     height: 120px;
     background-size: cover;
     display: flex;
     flex-direction: column;
   }
 
-  .content-sub-header{
+  .content-sub-header {
     padding: 10px;
     display: flex;
     align-items: center;
   }
 
-  .image-header{
-    color:#1099D6;
-    font-size:30px;
+  .image-header {
+    color: #f18a21;
+    font-size: 30px;
   }
 
-  .text-title{
+  .text-title {
     font-size: 18px;
-    background:-webkit-linear-gradient(#1469AF,#1099D6);
+    background: -webkit-linear-gradient(#005696, #f18a21);
     -webkit-background-clip: text;
     font-weight: bold;
     -webkit-text-fill-color: transparent;
     padding-left: 10px;
   }
 
-  ion-select{
+  ion-select {
     min-width: 60%;
     max-width: 70% !important;
   }
@@ -35,20 +34,20 @@ page-cfdi {
   .toolbar-background {
     background-image: url('./../assets/imgs/datosasignacion.png') !important;
     background-size: cover;
-    background-position:center;
+    background-position: center;
     background-repeat: no-repeat;
   }
 
-  .title{
+  .title {
     font-size: 18px;
-    background:-webkit-linear-gradient(#1469AF,#1099D6);
+    background: -webkit-linear-gradient(#005696, #f18a21);
     -webkit-background-clip: text;
     font-weight: bold;
     -webkit-text-fill-color: transparent;
     margin-left: 10px;
     margin-top: 5px;
   }
-  .encabezado{
+  .encabezado {
     color: black;
     font-size: 16px;
     font-weight: bold;

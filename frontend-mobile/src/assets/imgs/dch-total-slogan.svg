@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 200" width="280" height="200">
+  <!--
+    ∞ bicolor — same bezier arc technique as header logo, scaled up.
+    Center crossing at (140, 45±7). Orange right lobe behind, blue left on top.
+  -->
+
+  <!-- Right lobe — DCH Orange -->
+  <path d="M 140,38 C 144,24 157,15 170,15 C 183,15 192,24 192,45 C 192,66 183,75 170,75 C 157,75 144,66 140,52"
+        fill="none" stroke="#F18A21" stroke-width="7" stroke-linecap="round"/>
+
+  <!-- Left lobe — DCH Blue (on top) -->
+  <path d="M 140,38 C 136,24 123,15 110,15 C 97,15 88,24 88,45 C 88,66 97,75 110,75 C 123,75 136,66 140,52"
+        fill="none" stroke="#005696" stroke-width="7" stroke-linecap="round"/>
+
+  <!-- Wordmark centered -->
+  <text x="140" y="112" text-anchor="middle" font-family="'Inter', 'Helvetica Neue', Arial, sans-serif">
+    <tspan font-size="34" font-weight="800" fill="#F18A21">D</tspan><tspan font-size="34" font-weight="800" fill="#005696">CH</tspan><tspan dx="5" font-size="30" font-weight="400" fill="#005696">Total</tspan>
+  </text>
+
+  <!-- Tagline -->
+  <text x="140" y="135" text-anchor="middle"
+        font-family="'Inter', 'Helvetica Neue', Arial, sans-serif"
+        font-size="13" font-style="italic" fill="#ffffff" opacity="0.85">
+    Gestión integral de talento
+  </text>
+
+  <!-- Separator -->
+  <line x1="90" y1="148" x2="190" y2="148" stroke="#ffffff" stroke-width="0.5" opacity="0.3"/>
+
+  <!-- Footer -->
+  <text x="140" y="163" text-anchor="middle"
+        font-family="'Inter', 'Helvetica Neue', Arial, sans-serif"
+        font-size="9" fill="#ffffff" opacity="0.6">
+    Un servicio de DCH Servicios Especializados
+  </text>
+  <text x="140" y="176" text-anchor="middle"
+        font-family="'Inter', 'Helvetica Neue', Arial, sans-serif"
+        font-size="8" fill="#ffffff" opacity="0.4">
+    Desarrollado por board-ai.mx
+  </text>
+</svg>

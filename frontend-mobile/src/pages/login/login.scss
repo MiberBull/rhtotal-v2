@@ -1,76 +1,82 @@
-page-login { 
+page-login {
+  .wrapper-header {
+    background: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 12px;
+  }
 
-    .wrapper-header {
-        background: white;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
+  .image-header {
+    margin-top: 5%;
+    width: 200px;
+    height: auto;
+  }
 
-    .image-header {
-        margin-top: 5%;
-    }
+  .title {
+    font-weight: 500;
+    color: #005696;
+    font-size: 14px;
+    font-style: italic;
+    margin-top: 4px;
+  }
 
-    .title {
-        font-weight: bold;
-        color: #1469af;
-        font-size: 16px;
-    }
+  .scroll-content {
+    padding: 0% 20%;
+    background: linear-gradient(160deg, #005696 0%, #003d6b 100%);
+  }
 
-    .scroll-content {
-        padding: 0% 20%;
-        background: linear-gradient(70deg,#1469AF,#1099D6);
-    }
+  .wrapper-form {
+    margin-top: 7%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
-    .wrapper-form {
-        margin-top: 7%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
+  .text-input::-moz-placeholder {
+    color: rgba(255, 255, 255, 0.75);
+  }
 
-    .text-input::-moz-placeholder {
-        color: white;
-    }
-    
-    .text-input:-ms-input-placeholder {
-        color: white;
-    }
-    
-    .text-input::-webkit-input-placeholder {
-        color: white;
-    }
+  .text-input:-ms-input-placeholder {
+    color: rgba(255, 255, 255, 0.75);
+  }
 
-    .item {
-        background-color: transparent !important;
-        color: #fff !important;
-    }
+  .text-input::-webkit-input-placeholder {
+    color: rgba(255, 255, 255, 0.75);
+  }
 
-    .btn-login {
-        margin: 10%;
-    }    
+  .item {
+    background-color: transparent !important;
+    color: #fff !important;
+  }
 
-    .content-first-visit {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-top: 15%;
-    }
+  .btn-login {
+    margin: 10%;
+  }
 
-    .wrapper-forget-password {
-        display: flex;
-        justify-content: center;
-        margin-top: 30%;
-    }
+  .content-first-visit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 15%;
+  }
 
-    .labels {
-        color: #fff;
-        text-decoration: underline;
-    }
+  .wrapper-forget-password {
+    display: flex;
+    justify-content: center;
+    margin-top: 30%;
+  }
 
-    .buttons {
-        text-transform: initial;
-        color: #1469af;
-    }
+  .labels {
+    color: #fff;
+    text-decoration: underline;
+  }
 
+  .buttons {
+    text-transform: initial;
+    background-color: #f18a21;
+    color: #1a1a2e;
+    font-weight: 600;
+    border-radius: 4px;
+  }
 }

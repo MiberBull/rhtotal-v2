@@ -1,66 +1,64 @@
 page-actual-position {
+  .content-header {
+    height: 20%;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+  }
 
-    .content-header{
-        height: 20%;
-        background-size: cover;
-        display: flex;
-        flex-direction: column;
-    }
+  .content-sub-header {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+  }
 
-    .content-sub-header{
-        padding: 10px;
-        display: flex;
-        align-items: center;
-    }
+  .image-header {
+    color: #f18a21;
+    font-size: 30px;
+  }
 
-    .image-header{
-        color:#1099D6;
-        font-size:30px;
-    }
+  .text-title {
+    font-size: 18px;
+    background: -webkit-linear-gradient(#005696, #f18a21);
+    -webkit-background-clip: text;
+    font-weight: bold;
+    -webkit-text-fill-color: transparent;
+    padding-left: 10px;
+  }
 
-    .text-title{
-        font-size: 18px;
-        background:-webkit-linear-gradient(#1469AF,#1099D6);
-        -webkit-background-clip: text;
-        font-weight: bold;
-        -webkit-text-fill-color: transparent;
-        padding-left: 10px;
-    }
+  .encabezado {
+    position: absolute;
+    top: 10%;
+    left: 3%;
+    color: black;
+    font-size: 16px;
+    font-weight: bold;
+  }
 
-    .encabezado{
-        position:absolute; 
-        top: 10%; 
-        left: 3%;
-        color: black;
-        font-size: 16px;
-        font-weight: bold;
-    }
+  .information-paragraph {
+    text-align: justify;
+    font-size: 14px;
+  }
 
-    .information-paragraph{
-        text-align: justify;
-        font-size: 14px;
-    }
+  a {
+    text-decoration: underline;
+  }
 
-    a{
-        text-decoration: underline;
-    }
+  .item-divider-md {
+    padding-left: 0px !important;
+  }
 
-    .item-divider-md{
-        padding-left: 0px !important;
-    }
+  .title-info {
+    color: #005696;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
 
-    .title-info{
-        color: #1469AF;
-        font-size: 18px;
-        font-weight: bold;
-        margin-bottom: 5px;
-    }
-
-    .subtitle-info{
-        color: #1469AF;
-        font-size: 12px;
-        font-weight: bold;
-        margin-bottom: 2px;
-    }
-
+  .subtitle-info {
+    color: #005696;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 2px;
+  }
 }

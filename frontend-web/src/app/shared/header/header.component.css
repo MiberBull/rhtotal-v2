@@ -1,55 +1,52 @@
-.toolbar{
-    background-image: url('../../../assets/background.png');
-    display: flex;
-    justify-content: space-between;
-    height: 50px;
-    min-width: 1182px;
+.toolbar {
+  background: #005696;
+  display: flex;
+  justify-content: space-between;
+  height: 50px;
+  min-width: 1182px;
 }
 
-.toolbar-container{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.toolbar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.toolbar-container span,a{
-    margin: 3px;
+.toolbar-container span,
+a {
+  margin: 3px;
 }
 
-.toolbar-container a:hover{
-    color: #5aadbb;   
+.toolbar-container a:hover {
+  color: rgba(255, 255, 255, 0.75);
 }
 
-.toolbar-container span,a{
-    color: white;
-    text-decoration: none;
+.toolbar-container span,
+a {
+  color: white;
+  text-decoration: none;
 }
 
 .toolbar img {
-    /*cursor: pointer;*/
-    margin: 10px;
-    margin-left: 20px;
-    margin-top: 15px;
+  margin: 0;
 }
 
-.divimage{
-    margin-left: -2em;
-    background-image: url('/assets/img/BandaBlancaCurva.png');
-    background-repeat: no-repeat;
-    background-position: left center;
+.divimage {
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
 }
 
 .image-header {
-    width: 208px;
-    height: 46px;
-    position: relative;
-    left: -12px;
+  width: 190px;
+  height: 40px;
 }
 
 .selected {
-    color:#12e823;
+  color: #f18a21;
+  font-weight: 600;
 }
 
 .salir {
-    cursor: pointer;
+  cursor: pointer;
 }

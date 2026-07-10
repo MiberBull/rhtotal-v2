@@ -1,31 +1,29 @@
 page-my-data {
+  .toolbar-background {
+    background-image: url('./../assets/imgs/beneficiosoptionheader.png') !important;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
 
-    .toolbar-background {
-        background-image: url('./../assets/imgs/beneficiosoptionheader.png') !important;
-        background-size: cover;
-        background-position:center;
-        background-repeat: no-repeat;
-    }
+  .labels {
+    color: #f18a21;
+    text-decoration: underline;
+  }
 
-    .labels {
-        color: #1099d6;
-        text-decoration: underline;
-    }
+  .encabezado {
+    color: black;
+    font-size: 16px;
+    font-weight: bold;
+  }
 
-    .encabezado{
-        color: black;
-        font-size: 16px;
-        font-weight: bold;
-    }
-
-    .title{
-        font-size: 18px;
-        background:-webkit-linear-gradient(#1469AF,#1099D6);
-        -webkit-background-clip: text;
-        font-weight: bold;
-        -webkit-text-fill-color: transparent;
-        margin-left: 10px;
-        margin-top: 5px;
-    }
-
+  .title {
+    font-size: 18px;
+    background: -webkit-linear-gradient(#005696, #f18a21);
+    -webkit-background-clip: text;
+    font-weight: bold;
+    -webkit-text-fill-color: transparent;
+    margin-left: 10px;
+    margin-top: 5px;
+  }
 }

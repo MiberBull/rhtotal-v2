@@ -1,52 +1,50 @@
 .styleInputs mat-form-field.mat-form-field {
-    font-size: 12px;
+  font-size: 12px;
 }
 
-.styleInputs::ng-deep label.mat-form-field-label {    
-    color: #333333;
+.styleInputs::ng-deep label.mat-form-field-label {
+  color: #333333;
 }
 
-.styleInputs::ng-deep .mat-form-field-ripple {    
-    background-color: #1099d6;
+.styleInputs::ng-deep .mat-form-field-ripple {
+  background-color: #005696;
 }
 
-.styleInputs::ng-deep .mat-form-field-underline {    
-    background-color: #1099d6;
+.styleInputs::ng-deep .mat-form-field-underline {
+  background-color: #005696;
 }
 
 .card-info-data {
-    display: flex;
+  display: flex;
 }
 
-.container{
-    display: flex;
-    flex-direction: column; 
-    width: 350px;
-    margin-left: 80px;
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 350px;
+  margin-left: 80px;
 }
 
-.element{
-    width: 100%;
+.element {
+  width: 100%;
 }
 
 .btn-save-control {
-    display: flex;
-    justify-content: center;
-    margin-top: 30px;
-    padding-left: 80px;
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+  padding-left: 80px;
 }
-.uppertxt{
-	text-transform:uppercase;
+.uppertxt {
+  text-transform: uppercase;
 }
-button{
-    margin: 5px;
+button {
+  margin: 5px;
 }
-.form-info-data{
-    margin-left: 130;
-    background-color: blue;
+.form-info-data {
+  margin-left: 130;
+  background-color: blue;
 }
-.listFirt{
-    margin-left: 30px;
+.listFirt {
+  margin-left: 30px;
 }
-
-

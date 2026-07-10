@@ -5,75 +5,106 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-    <ion-toolbar no-padding>
-        <ion-grid>
-          <ion-row col-12 (click)="back()">
-            <ion-icon ios="ios-arrow-back" md="md-arrow-back" style="color:#1099D6; font-size:30px;" ></ion-icon>
-            <div class="title">Datos de asignación</div>
-          </ion-row>
-          <ion-row >
-              <ion-col col-12>
-                  <p class="encabezado">Llena tus datos y accede <br> a más beneficios</p>
-              </ion-col>
-          </ion-row>
-        </ion-grid>
-    </ion-toolbar>
+  <ion-toolbar no-padding>
+    <ion-grid>
+      <ion-row col-12 (click)="back()">
+        <ion-icon
+          ios="ios-arrow-back"
+          md="md-arrow-back"
+          style="color: #f18a21; font-size: 30px"
+        ></ion-icon>
+        <div class="title">Datos de asignación</div>
+      </ion-row>
+      <ion-row>
+        <ion-col col-12>
+          <p class="encabezado">
+            Llena tus datos y accede <br />
+            a más beneficios
+          </p>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content padding-right padding-bottom>
-
   <form [formGroup]="todo" (ngSubmit)="getInfoInit()">
-
     <ion-item>
       <ion-label stacked>Puesto</ion-label>
-      <ion-input type="text" [max-limit]="150" [disabled]="employeePositionEnable" formControlName="employeePosition"></ion-input>
+      <ion-input
+        type="text"
+        [max-limit]="150"
+        [disabled]="employeePositionEnable"
+        formControlName="employeePosition"
+      ></ion-input>
     </ion-item>
-    <samp class="error-spam" *ngIf="!this.todo.get('employeePosition').valid">Longitud máxima 50 caracteres</samp>
-
+    <samp class="error-spam" *ngIf="!this.todo.get('employeePosition').valid"
+      >Longitud máxima 50 caracteres</samp
+    >
 
     <ion-item>
       <ion-label stacked>Estado</ion-label>
       <ion-input type="text" [max-limit]="50" formControlName="state"></ion-input>
     </ion-item>
-    <samp class="error-spam" *ngIf="!this.todo.get('state').valid">Longitud máxima 50 caracteres</samp>
+    <samp class="error-spam" *ngIf="!this.todo.get('state').valid"
+      >Longitud máxima 50 caracteres</samp
+    >
 
     <ion-item>
       <ion-label stacked>Ciudad</ion-label>
       <ion-input type="text" [max-limit]="50" formControlName="city"></ion-input>
     </ion-item>
-    <samp class="error-spam" *ngIf="!this.todo.get('city').valid">Longitud máxima 50 caracteres</samp>
+    <samp class="error-spam" *ngIf="!this.todo.get('city').valid"
+      >Longitud máxima 50 caracteres</samp
+    >
 
     <ion-item>
       <ion-label stacked>Jefe directo</ion-label>
       <ion-input type="text" [max-limit]="50" formControlName="manager"></ion-input>
     </ion-item>
-    <samp class="error-spam" *ngIf="!this.todo.get('manager').valid">Longitud máxima 50 caracteres</samp>
-
+    <samp class="error-spam" *ngIf="!this.todo.get('manager').valid"
+      >Longitud máxima 50 caracteres</samp
+    >
 
     <ion-item>
       <ion-label stacked>Correo electrónico de jefe directo</ion-label>
       <ion-input type="text" [max-limit]="50" formControlName="emailDirectBoss"></ion-input>
     </ion-item>
-    <samp class="error-spam" *ngIf="!this.todo.get('emailDirectBoss').valid">Formato incorrecto</samp>
+    <samp class="error-spam" *ngIf="!this.todo.get('emailDirectBoss').valid"
+      >Formato incorrecto</samp
+    >
 
     <ion-item>
       <ion-label stacked>Teléfono de jefe directo</ion-label>
       <ion-input type="tel" [max-limit]="10" formControlName="telephoneDirectBoss"></ion-input>
     </ion-item>
-    <samp class="error-spam" *ngIf="!this.todo.get('telephoneDirectBoss').valid">Teléfono a 10 dígitos</samp>
+    <samp class="error-spam" *ngIf="!this.todo.get('telephoneDirectBoss').valid"
+      >Teléfono a 10 dígitos</samp
+    >
 
     <ion-item>
       <ion-label stacked>Inicio de asignación</ion-label>
-      <ion-datetime formControlName="startAssigment" cancelText="CANCELAR"
-      doneText="ACEPTAR" [disabled]="false" (ionChange)="onChange()" displayFormat="DD/MM/YYYY"></ion-datetime>
+      <ion-datetime
+        formControlName="startAssigment"
+        cancelText="CANCELAR"
+        doneText="ACEPTAR"
+        [disabled]="false"
+        (ionChange)="onChange()"
+        displayFormat="DD/MM/YYYY"
+      ></ion-datetime>
       <ion-icon ios="ios-calendar" md="md-calendar" color="iconColor" item-right small></ion-icon>
     </ion-item>
 
-
     <ion-item>
       <ion-label stacked> Fin de asignación</ion-label>
-      <ion-datetime formControlName="endAllocation" cancelText="CANCELAR"
-      doneText="ACEPTAR" [min]="minDate"  [disabled]="enableAsignation" displayFormat="DD/MM/YYYY"></ion-datetime>
+      <ion-datetime
+        formControlName="endAllocation"
+        cancelText="CANCELAR"
+        doneText="ACEPTAR"
+        [min]="minDate"
+        [disabled]="enableAsignation"
+        displayFormat="DD/MM/YYYY"
+      ></ion-datetime>
       <ion-icon ios="ios-calendar" md="md-calendar" color="iconColor" item-right small></ion-icon>
     </ion-item>
 
@@ -81,23 +112,34 @@
       <ion-label stacked>Correo electrónico de asignación</ion-label>
       <ion-input type="text" [max-limit]="50" formControlName="allocationEmail"></ion-input>
     </ion-item>
-    <samp class="error-spam" *ngIf="!this.todo.get('allocationEmail').valid">Formato incorrecto</samp>
+    <samp class="error-spam" *ngIf="!this.todo.get('allocationEmail').valid"
+      >Formato incorrecto</samp
+    >
 
     <ion-item>
       <ion-label stacked>Sueldo de asignación</ion-label>
-      <ion-input type="tel" [max-limit]="12" formControlName="allocationSalary"
-      [brmasker]="{money: true,thousand: ',', decimalCaracter: '.', decimal: '2'}"></ion-input>
+      <ion-input
+        type="tel"
+        [max-limit]="12"
+        formControlName="allocationSalary"
+        [brmasker]="{money: true,thousand: ',', decimalCaracter: '.', decimal: '2'}"
+      ></ion-input>
     </ion-item>
-    <samp class="error-spam" *ngIf="!this.todo.get('allocationSalary').valid && this.todo.get('allocationSalary').value != ''">Formato incorrecto</samp>
+    <samp
+      class="error-spam"
+      *ngIf="!this.todo.get('allocationSalary').valid && this.todo.get('allocationSalary').value != ''"
+      >Formato incorrecto</samp
+    >
 
     <ion-item>
       <ion-label stacked>Resultado de evaluación</ion-label>
       <ion-input type="number" [max-limit]="3" formControlName="evaluation"></ion-input>
     </ion-item>
-    <samp class="error-spam" *ngIf="!this.todo.get('evaluation').valid">Longitud máxima 3 caracteres</samp>
+    <samp class="error-spam" *ngIf="!this.todo.get('evaluation').valid"
+      >Longitud máxima 3 caracteres</samp
+    >
 
-
-    <div style="display: flex; flex-direction: row; justify-content: center; padding-bottom: 25px;">
+    <div style="display: flex; flex-direction: row; justify-content: center; padding-bottom: 25px">
       <button ion-button type="submit">guardar</button>
     </div>
   </form>

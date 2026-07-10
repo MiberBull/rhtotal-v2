@@ -1,110 +1,105 @@
 page-benefits {
-    background-color: #E6E6E5;
+  background-color: #e6e6e5;
 
-    .content-header{
-        height: 20%;
-        background-size: cover;
-        display: flex;
-        flex-direction: column;
-    }
-    .content-sub-header{
-        padding: 10px;
-        display: flex;
-        align-items: center;
-    }
+  .content-header {
+    height: 20%;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+  }
+  .content-sub-header {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+  }
 
-    .contentImage{
-        height:40%;
-        padding: 0px;
-    }
-    
-    .image-about{
-        width:100%;
-        height:100%;
-    }
-    .content-somos{
-        position:absolute; 
-        top: 25%; 
-        left: 10%; 
-        color: white;
-        text-shadow: 2px 2px 4px #000000;
-        font-size: 31px;
-        font-weight: bold;
-    }
-    .card-content {
-        height: 100%;
-    }
-    .card{
-        border-radius: 10px;
-        height: 100%;;
-    }
+  .contentImage {
+    height: 40%;
+    padding: 0px;
+  }
 
-    .content-card-generic{
-        width: 25%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+  .image-about {
+    width: 100%;
+    height: 100%;
+  }
+  .content-somos {
+    position: absolute;
+    top: 25%;
+    left: 10%;
+    color: white;
+    text-shadow: 2px 2px 4px #000000;
+    font-size: 31px;
+    font-weight: bold;
+  }
+  .card-content {
+    height: 100%;
+  }
+  .card {
+    border-radius: 10px;
+    height: 100%;
+  }
 
-    .content-contet-card{
-        width: 65%;
-        height: 100%;
-        background-color:white;
-        align-items: center;
-        display: flex;
-    }
-    .titulo-card{
-        font-size: 18px;
-        background:-webkit-linear-gradient(#1469AF,#1099D6);
-        -webkit-background-clip: text;
-        font-weight: bold;
-        -webkit-text-fill-color: transparent;
-    }
-    .image-card{
-        width: 10%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    .image-icon-card{
-        height: 50%;
-        width: 50%;
-    }
+  .content-card-generic {
+    width: 25%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
+  .content-contet-card {
+    width: 65%;
+    height: 100%;
+    background-color: white;
+    align-items: center;
+    display: flex;
+  }
+  .titulo-card {
+    font-size: 18px;
+    background: -webkit-linear-gradient(#005696, #f18a21);
+    -webkit-background-clip: text;
+    font-weight: bold;
+    -webkit-text-fill-color: transparent;
+  }
+  .image-card {
+    width: 10%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .image-icon-card {
+    height: 50%;
+    width: 50%;
+  }
 
+  .title-card {
+    font-size: 18px;
+    background: -webkit-linear-gradient(#005696, #f18a21);
+    -webkit-background-clip: text;
+    font-weight: bold;
+    -webkit-text-fill-color: transparent;
+  }
 
-    
-    .title-card {
-        font-size: 18px;
-        background:-webkit-linear-gradient(#1469AF,#1099D6);
-        -webkit-background-clip: text;
-        font-weight: bold;
-        -webkit-text-fill-color: transparent;
-    }
+  .title-card-extern {
+    color: gray;
+    font-size: 18px;
+    font-weight: bold;
+  }
 
-    .title-card-extern {
-        color: gray;
-        font-size: 18px;
-        font-weight: bold;
-    }
+  .subtitle-card {
+    font-size: 14px;
+    width: 95%;
+  }
 
-    .subtitle-card {
-        font-size: 14px;
-        width: 95%;
-    }
+  .subtitle-card-extern {
+    color: gray;
+    font-size: 14px;
+    width: 95%;
+  }
 
-    .subtitle-card-extern {
-        color: gray;
-        font-size: 14px;
-        width: 95%;
-    }
-
-    .image-header{
-        color:#1099D6;
-        font-size:30px;
-    }
-
-
+  .image-header {
+    color: #f18a21;
+    font-size: 30px;
+  }
 }

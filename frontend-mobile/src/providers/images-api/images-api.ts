@@ -13,42 +13,43 @@ import { of } from 'rxjs/observable/of';
 */
 @Injectable()
 export class ImagesApiProvider {
-
-  constructor(public http: HttpClient,private storageProvider:StorageProvider) {
-  }
+  constructor(
+    public http: HttpClient,
+    private storageProvider: StorageProvider
+  ) {}
 
   getImagesForHome() {
-    let user:UserTO = this.storageProvider.getItem( KEYS_STORAGE.USER );
+    const user: UserTO = this.storageProvider.getItem(KEYS_STORAGE.USER);
 
-    if( !user ) {
+    if (!user) {
       user.id = 0;
     }
-    if( user.userType == 'EX' ) {
+    if (user.userType == 'EX') {
       user.id = 0;
     }
 
-    let URL = `${PATH_APLICATION.DOMAIN}banner/showbanners?user=${user.id}`;
-    return this.http.get( URL )
-               .map( (resp:string[]) => {
-                if( resp && resp.length > 0 ){
-                  return resp;
-                }else{
-                  return ['assets/imgs/default.png'];
-                }
-               }).timeout(20000);
+    const URL = `${PATH_APLICATION.DOMAIN}banner/showbanners?user=${user.id}`;
+    return this.http
+      .get(URL)
+      .map((resp: string[]) => {
+        if (resp && resp.length > 0) {
+          return resp;
+        } else {
+          return ['assets/imgs/dch-total-slogan.svg'];
+        }
+      })
+      .timeout(20000);
   }
 
   getImagesForHomeReload() {
-    let user:UserTO = this.storageProvider.getItem( KEYS_STORAGE.USER );
-    let URL = `${PATH_APLICATION.DOMAIN}banner/showbanners?user=${user.id}`;
-    return this.http.get( URL )
-               .map( (resp:string[]) => {
-                if( resp && resp.length > 0 ){
-                  return resp;
-                }else{
-                  return ['assets/imgs/default.png'];
-                }
-               });
+    const user: UserTO = this.storageProvider.getItem(KEYS_STORAGE.USER);
+    const URL = `${PATH_APLICATION.DOMAIN}banner/showbanners?user=${user.id}`;
+    return this.http.get(URL).map((resp: string[]) => {
+      if (resp && resp.length > 0) {
+        return resp;
+      } else {
+        return ['assets/imgs/dch-total-slogan.svg'];
+      }
+    });
   }
-
 }

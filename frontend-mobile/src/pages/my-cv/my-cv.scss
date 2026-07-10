@@ -1,34 +1,33 @@
 page-my-cv {
-    .content-header{
-        height: 20%;
-        background-size: cover;
-        display: flex;
-        flex-direction: column;
-    }
-    .content-sub-header{
-        padding: 10px;
-        display: flex;
-        align-items: center;
-    }
+  .content-header {
+    height: 20%;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+  }
+  .content-sub-header {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+  }
 
-    .text-title{
-        font-size: 18px;
-        background:-webkit-linear-gradient(#1469AF,#1099D6);
-        -webkit-background-clip: text;
-        font-weight: bold;
-        -webkit-text-fill-color: transparent;
-        padding-left: 10px;
-    }
-    .encabezado{
-        position:absolute; 
-        top: 10%; 
-        left: 3%;
-        color: black;
-        font-size: 16px;
-        font-weight: bold;
-    }
-    ion-icon {
-        font-size: 25px; //Preferred size here
-    }
-
+  .text-title {
+    font-size: 18px;
+    background: -webkit-linear-gradient(#005696, #f18a21);
+    -webkit-background-clip: text;
+    font-weight: bold;
+    -webkit-text-fill-color: transparent;
+    padding-left: 10px;
+  }
+  .encabezado {
+    position: absolute;
+    top: 10%;
+    left: 3%;
+    color: black;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  ion-icon {
+    font-size: 25px; //Preferred size here
+  }
 }

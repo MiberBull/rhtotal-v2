@@ -1,12 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
-@import '~@angular/material/prebuilt-themes/indigo-pink.css';
-@import url('https://fonts.googleapis.com/css?family=Roboto');
+/* Material theme definido en unbound-theme.scss (DCH Blue + DCH Orange) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 html,
 body {
   margin: 0;
   height: 100%;
-  font-family: 'Roboto', 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Inter', 'Roboto', 'Helvetica Neue', sans-serif;
 }
 
 .snack-container .mat-dialog-container {

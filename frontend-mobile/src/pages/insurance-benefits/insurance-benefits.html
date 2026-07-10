@@ -18,19 +18,22 @@
 </ion-header>
 -->
 
-<ion-content style="height: 100%; width: 100%" overflow-scroll=“true”>  
-  <div class="content-header" style="background-image: url('assets/imgs/seguros_detalle.png');">
+<ion-content style="height: 100%; width: 100%" overflow-scroll="“true”">
+  <div class="content-header" style="background-image: url('assets/imgs/seguros_detalle.png')">
     <div class="content-sub-header" (click)="back()">
-      <ion-icon ios="ios-arrow-back" md="md-arrow-back" class="image-header" ></ion-icon>
+      <ion-icon ios="ios-arrow-back" md="md-arrow-back" class="image-header"></ion-icon>
       <div class="text-title">Mis seguros</div>
     </div>
-    <div class="encabezado"><br>Consulta <br>tus pólizas de seguro.
-    </div>
+    <div class="encabezado"><br />Consulta <br />tus pólizas de seguro.</div>
   </div>
 
-  <div style="padding-bottom: 30px;">
-    <ion-card style="border-radius: 6px;" *ngFor="let data of dataInsurance" (click)="getInsurance(data.idInsurance,data.idInsurangeType)">
-      <ion-card-header style="font-weight: bold ; color:#1469AF ">
+  <div style="padding-bottom: 30px">
+    <ion-card
+      style="border-radius: 6px"
+      *ngFor="let data of dataInsurance"
+      (click)="getInsurance(data.idInsurance,data.idInsurangeType)"
+    >
+      <ion-card-header style="font-weight: bold; color: #005696">
         {{data.insurangeType}}
       </ion-card-header>
       <ion-card-content>
@@ -39,5 +42,4 @@
       </ion-card-content>
     </ion-card>
   </div>
-
 </ion-content>

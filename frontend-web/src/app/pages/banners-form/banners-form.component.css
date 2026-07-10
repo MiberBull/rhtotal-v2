@@ -1,28 +1,28 @@
 .card-form-banners {
-    display: flex;
-    max-width: 400px;
-    margin-left: 150px;
+  display: flex;
+  max-width: 400px;
+  margin-left: 150px;
 }
 
 .form-banners {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .control {
-    margin: 20px;
-    display: flex;
-    justify-content: center;
+  margin: 20px;
+  display: flex;
+  justify-content: center;
 }
 
-.btn-icon{
-    color: #1099d6;
+.btn-icon {
+  color: #005696;
 }
 
 .icon {
-    color: gray;
-    font-size: 12px;
-    margin-right: 3px;
-    font-weight: bold;
-    cursor: pointer;
+  color: gray;
+  font-size: 12px;
+  margin-right: 3px;
+  font-weight: bold;
+  cursor: pointer;
 }

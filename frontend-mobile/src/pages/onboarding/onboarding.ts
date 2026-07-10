@@ -16,24 +16,45 @@ import { EventsManagerProvider } from '../../providers/events-manager/events-man
   templateUrl: 'onboarding.html',
 })
 export class OnboardingPage {
-
   @ViewChild(Slides) slideElement: Slides;
 
-  pushLogin:any;
+  pushLogin: any;
 
   slides = [
-    { title:'Explora', paragraph:'Una nueva forma de relacionarte con el mundo laboral.',next:'Saltar introducción'},
-    { title:'Construye', paragraph:'Tu perfil y DNA profesional que te catapultará a las mejores oportunidades profesionales.',next:'Saltar introducción'},
-    { title:'Consulta', paragraph:'Tu información de ingresos y recursos humanos.',next:'Saltar introducción'},
-    { title:'Descubre', paragraph:'Los beneficios que hemos personalizado para cada perfil profesional.',next:'Saltar introducción'},
-    { title:'Accesa', paragraph:'A los servicios y beneficios que tu empresa tiene para ti.',next:'Saltar introducción'},
+    {
+      title: 'Bienvenido',
+      paragraph: 'DCH Total es tu plataforma integral de gestión de talento.',
+      next: 'Saltar introducción',
+    },
+    {
+      title: 'Tu expediente',
+      paragraph:
+        'Consulta y gestiona tu información laboral, contratos y documentos en un solo lugar.',
+      next: 'Saltar introducción',
+    },
+    {
+      title: 'Asistencia',
+      paragraph: 'Registra tu entrada y salida con geolocalización desde cualquier lugar.',
+      next: 'Saltar introducción',
+    },
+    {
+      title: 'Beneficios',
+      paragraph: 'Accede a los descuentos y beneficios exclusivos que DCH tiene para ti.',
+      next: 'Saltar introducción',
+    },
+    {
+      title: 'Soporte',
+      paragraph: 'Abre tickets de ayuda y da seguimiento a tus solicitudes en tiempo real.',
+      next: 'Comenzar',
+    },
   ];
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     private storage_provider: StorageProvider,
-    private events_manager: EventsManagerProvider) {
+    private events_manager: EventsManagerProvider
+  ) {
     this.pushLogin = LoginPage;
   }
 
@@ -43,13 +64,12 @@ export class OnboardingPage {
 
   goLogin() {
     this.storage_provider.saveOnboarding();
-    this.navCtrl.setRoot( LoginPage );
+    this.navCtrl.setRoot(LoginPage);
   }
 
   slideChanged() {
-    if(this.slideElement.isEnd()) {
+    if (this.slideElement.isEnd()) {
       this.goLogin();
     }
   }
-
 }

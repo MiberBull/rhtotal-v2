@@ -1,21 +1,21 @@
-.contenedor{
+.contenedor {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   width: 100%;
 }
 
-.formBanner{
-   width: 30%;
-   margin-left: 10px;
+.formBanner {
+  width: 30%;
+  margin-left: 10px;
 }
 
 .label-fechas {
   font-size: 10px !important;
-  color:black;
+  color: black;
 }
 
-.treeBanner{
+.treeBanner {
   width: 70%;
   margin-left: 10px;
 }
@@ -42,8 +42,8 @@
   margin: 0px 10px;
 }
 
-.btn-icon{
-  color: #1099d6;
+.btn-icon {
+  color: #005696;
 }
 
 .icon {
@@ -59,11 +59,11 @@
   justify-content: space-around;
 }
 
-.element{
+.element {
   width: 70%;
   margin-right: 10%;
 }
-.element-uno{
-width: 30%;
-margin-left: 10%;
+.element-uno {
+  width: 30%;
+  margin-left: 10%;
 }

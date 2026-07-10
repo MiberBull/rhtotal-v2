@@ -1,43 +1,56 @@
 <mat-progress-bar mode="indeterminate" *ngIf="isLoading" class="progress"></mat-progress-bar>
-<div class="logo">
-  <img alt="DCH Total" src="/assets/dch-total-slogan.svg" class="image-logo" />
-</div>
-<div class="login">
-  <form class="form-login" [formGroup]="formLogin" (ngSubmit)="onSubmit()">
-    <mat-form-field class="frist-element">
-      <input
-        matInput
-        placeholder="Usuario"
-        type="email"
-        formControlName="email"
-        maxlength="50"
-        (change)="resetIntents()"
-        autocomplete="off"
-        style="text-transform: lowercase"
-      />
-    </mat-form-field>
-    <mat-form-field>
-      <input
-        matInput
-        placeholder="Contraseña"
-        [type]="showPassword ? 'text' : 'password'"
-        formControlName="password"
-        minlength="8"
-        maxlength="50"
-      />
-      <button
-        mat-icon-button
-        matSuffix
-        type="button"
-        (click)="showPassword = !showPassword"
-        [attr.aria-label]="showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'"
-      >
-        <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
-      </button>
-    </mat-form-field>
-    <button mat-raised-button="button" color="primary" class="btn-login" [disabled]="!enable">
-      Entrar
-    </button>
-    <span class="forget-password" (click)="openForgetPassword()">Olvidé mi contraseña</span>
-  </form>
+<div class="login-wrapper">
+  <div class="logo">
+    <img alt="DCH Total" src="/assets/dch-total-slogan.svg" class="image-logo" />
+    <span class="tagline">Gestión integral de talento</span>
+  </div>
+  <div class="login">
+    <form class="form-login" [formGroup]="formLogin" (ngSubmit)="onSubmit()">
+      <mat-form-field class="frist-element">
+        <input
+          matInput
+          placeholder="Usuario"
+          type="email"
+          formControlName="email"
+          maxlength="50"
+          (change)="resetIntents()"
+          autocomplete="off"
+          style="text-transform: lowercase"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="Contraseña"
+          [type]="showPassword ? 'text' : 'password'"
+          formControlName="password"
+          minlength="8"
+          maxlength="50"
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          type="button"
+          (click)="showPassword = !showPassword"
+          [attr.aria-label]="showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+        >
+          <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+      </mat-form-field>
+      <button mat-raised-button type="submit" class="btn-login" [disabled]="!enable">Entrar</button>
+      <span class="forget-password" (click)="openForgetPassword()">Olvidé mi contraseña</span>
+    </form>
+    <div class="login-footer">
+      <p>
+        Un servicio de
+        <a href="https://dchkw.com.mx" target="_blank" rel="noopener"
+          >DCH Servicios Especializados</a
+        >
+      </p>
+      <p>
+        Desarrollado por
+        <a href="https://board-ai.mx" target="_blank" rel="noopener">board-ai.mx</a>
+      </p>
+    </div>
+  </div>
 </div>

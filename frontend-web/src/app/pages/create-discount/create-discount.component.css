@@ -17,8 +17,6 @@
   width: 100%;
 }
 
-
-
 .disable-btn-subcategory {
   visibility: hidden;
 }
@@ -27,8 +25,8 @@
   visibility: visible;
 }
 
-.btn-icon{
-  color: #1099d6;
+.btn-icon {
+  color: #005696;
 }
 
 .icon {
@@ -53,7 +51,7 @@
   color: #333333;
 }
 .discount::ng-deep .mat-form-field-underline {
-  background-color: #1099d6;
+  background-color: #005696;
 }
 .inputmargin {
   margin-bottom: -1em;

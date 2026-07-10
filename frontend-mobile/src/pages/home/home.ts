@@ -110,7 +110,7 @@ export class HomePage {
         },
         (error) => {
           this.slidesArray = [];
-          const defaultImage = ['assets/imgs/default.png'];
+          const defaultImage = ['assets/imgs/dch-total-slogan.svg'];
           this.slidesArray = defaultImage;
           this.slides.update();
           //this.ref.detectChanges();
@@ -188,7 +188,7 @@ export class HomePage {
       (error) => {
         console.log(JSON.stringify(error));
         this.slidesArray = [];
-        const defaultImage = ['assets/imgs/default.png'];
+        const defaultImage = ['assets/imgs/dch-total-slogan.svg'];
         this.slidesArray = defaultImage;
         this.slides.update();
         refresher.complete();
@@ -268,17 +268,17 @@ export class HomePage {
         if (this.platform.is('ios')) {
           this.showALertIOS(
             'FUERA DE SERVICIO',
-            'RH Total está fuera de servicio y en caso de requerirse comunicarse con contactobeneficios@intelplan.mx'
+            'DCH Total está fuera de servicio. Para soporte contacta a soporte@dchkw.com.mx'
           );
         } else if (this.platform.is('android')) {
           this.showALert(
             'FUERA DE SERVICIO',
-            'RH Total está fuera de servicio y en caso de requerirse comunicarse con contactobeneficios@intelplan.mx'
+            'DCH Total está fuera de servicio. Para soporte contacta a soporte@dchkw.com.mx'
           );
         } else {
           this.showALertIOS(
             'FUERA DE SERVICIO',
-            'RH Total está fuera de servicio y en caso de requerirse comunicarse con contactobeneficios@intelplan.mx'
+            'DCH Total está fuera de servicio. Para soporte contacta a soporte@dchkw.com.mx'
           );
         }
       }

@@ -1,68 +1,68 @@
 .styleInputs mat-form-field.mat-form-field {
-    font-size: 12px;
+  font-size: 12px;
 }
 
-.styleInputs::ng-deep label.mat-form-field-label {    
-    color: #333333;
+.styleInputs::ng-deep label.mat-form-field-label {
+  color: #333333;
 }
 
-.styleInputs::ng-deep .mat-form-field-ripple {    
-    background-color: #1099d6;
+.styleInputs::ng-deep .mat-form-field-ripple {
+  background-color: #005696;
 }
 
-.styleInputs::ng-deep .mat-form-field-underline {    
-    background-color: #1099d6;
+.styleInputs::ng-deep .mat-form-field-underline {
+  background-color: #005696;
 }
 
-.container{    
-    display: flex;
-    flex-direction: column; 
-    width: 350px;
-    margin-left: 80px;     
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 350px;
+  margin-left: 80px;
 }
 
-.element{
-    width: 100%;
+.element {
+  width: 100%;
 }
 
 .content-form {
-    display: flex;
+  display: flex;
 }
 
 .form-last-employe {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 label {
-    font-size: 12px;
-    color: #333333;
+  font-size: 12px;
+  color: #333333;
 }
 
 .control-btn {
-    margin-left: 10px;
+  margin-left: 10px;
 }
 
 .mat-slider-horizontal {
-    min-width: 50px !important;
+  min-width: 50px !important;
 }
 
 .control-btn button {
-    margin: 0px 5px;
+  margin: 0px 5px;
 }
 
-button{
-    margin: 5px;
+button {
+  margin: 5px;
 }
-.stepNew{
-    width: 30%;
+.stepNew {
+  width: 30%;
 }
-.listFirt{
-    margin-left: 30px;
+.listFirt {
+  margin-left: 30px;
 }
-.control{
-    display: flex;
-    justify-content: center;
-    margin: 20px;
-    padding-left: 80px;
+.control {
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+  padding-left: 80px;
 }

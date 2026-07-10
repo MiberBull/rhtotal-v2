@@ -1,55 +1,55 @@
 .custom-input mat-form-field.mat-form-field {
-    font-size: 12px;
+  font-size: 12px;
 }
 
-.custom-input::ng-deep label.mat-form-field-label {    
-    color: #333333;
+.custom-input::ng-deep label.mat-form-field-label {
+  color: #333333;
 }
 
-.custom-input::ng-deep .mat-form-field-ripple {    
-    background-color: #1099d6;
+.custom-input::ng-deep .mat-form-field-ripple {
+  background-color: #005696;
 }
 
-.custom-input::ng-deep .mat-form-field-underline {    
-    background-color: #1099d6;
+.custom-input::ng-deep .mat-form-field-underline {
+  background-color: #005696;
 }
 
 /****************************/
 
-.content-aling{
-    position:absolute;
-    margin: 0 auto;
-    left: 0;
-    right: 0;
-    width:200px;    
+.content-aling {
+  position: absolute;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  width: 200px;
 }
-.card-form-roles{
-    max-width: 400px;
-    margin: auto;
-    display: flex;
-    flex-direction: column;
+.card-form-roles {
+  max-width: 400px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .form-info-data {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
-.form-roles{
-    display: flex;
-    flex-direction: column;
+.form-roles {
+  display: flex;
+  flex-direction: column;
 }
 
-.control{
-    display: flex;
-    justify-content: center;
-    margin: 20px;
+.control {
+  display: flex;
+  justify-content: center;
+  margin: 20px;
 }
 
-.control button{
-    max-width: 50px;
+.control button {
+  max-width: 50px;
 }
-.ceroMargin{
-    margin: 10px 0px 0px 0px !important;
-    padding: 10px 0px 0px 0px !important;
+.ceroMargin {
+  margin: 10px 0px 0px 0px !important;
+  padding: 10px 0px 0px 0px !important;
 }
