@@ -793,7 +793,7 @@
                 false
             );
         </sql>
-        <rollback><empty/></rollback>
+        <rollback><!-- no rollback for sequence reset --></rollback>
     </changeSet>
 
 </databaseChangeLog>
