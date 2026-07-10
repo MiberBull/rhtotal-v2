@@ -91,18 +91,6 @@ pipeline {
                         }
                     }
                 }
-                stage('Build Frontend Web') {
-                    steps {
-                        echo 'Building Frontend Web Angular 6 (Node 12)'
-                        dir ('frontend-web/src/environments/'){
-                            sh 'sed -i "s/REPLACE_WITH_AES_SECRET/${AES_SECRET_KEY}/g" environment.ts'
-                            sh 'sed -i "s/REPLACE_WITH_AES_SECRET/${AES_SECRET_KEY}/g" environment.prod.ts'
-                        }
-                        dir ('frontend-web/'){
-                            sh '. ~/.nvm/nvm.sh && nvm use 12 && npm install && npm run build -- --configuration=production'
-                        }
-                    }
-                }
                 stage('Build Frontend Mobile') {
                     steps {
                         echo 'Building Frontend Mobile Ionic 3 (Node 12)'
@@ -247,20 +235,6 @@ pipeline {
                                 -Dsonar.sources=src/main \
                                 -Dsonar.tests=src/test \
                                 -Dsonar.coverage.exclusions=**/*TO.java,**/*DO.java \
-                                -Dsonar.host.url=${SONAR_HOST_URL} \
-                                -Dsonar.login=${SONAR_TOKEN}'
-                        }
-                    }
-                }
-                stage('Sonar Frontend Web') {
-                    steps {
-                        echo 'Analyzing Frontend Web with SonarQube Scanner'
-                        dir ('frontend-web/'){
-                            sh 'npx sonar-scanner \
-                                -Dsonar.projectKey=DCH_Total_Web \
-                                -Dsonar.projectName=DCH_Total_Web \
-                                -Dsonar.sources=src \
-                                -Dsonar.exclusions=**/node_modules/**,**/*.spec.ts \
                                 -Dsonar.host.url=${SONAR_HOST_URL} \
                                 -Dsonar.login=${SONAR_TOKEN}'
                         }
