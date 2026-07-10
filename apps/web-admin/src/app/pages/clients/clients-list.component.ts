@@ -76,26 +76,29 @@ export class ClientsListComponent implements OnInit {
 
   private loadClients(): void {
     this.loading.set(true);
-    this.http
-      .get<any>(`${environment.gatewayUrl}/api/application/client/getAllClients`)
-      .subscribe({
-        next: (response) => {
-          const data = Array.isArray(response) ? response : response?.content ?? [];
-          this.clients.set(data);
-          this.loading.set(false);
-        },
-        error: () => {
-          this.clients.set([]);
-          this.loading.set(false);
-        },
-      });
+    this.http.get<any>(`${environment.gatewayUrl}/api/application/client/getAllClients`).subscribe({
+      next: (response) => {
+        const data = Array.isArray(response) ? response : (response?.content ?? []);
+        this.clients.set(data);
+        this.loading.set(false);
+      },
+      error: () => {
+        this.clients.set([]);
+        this.loading.set(false);
+      },
+    });
   }
 
   private deleteClient(client: ClientTO): void {
     this.http
       .post(`${environment.gatewayUrl}/api/application/client/saveOrUpdateClient`, {
-        ...client,
-        status: 'I',
+        customer: {
+          ...client,
+          idCliente: client.idClient,
+          status: 'I',
+          lastUserModifier: 'sistema',
+        },
+        projectTOList: [],
       })
       .subscribe({
         next: () => {

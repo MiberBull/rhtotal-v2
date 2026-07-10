@@ -7,7 +7,11 @@
     <div class="header-info">
       <h1>{{ isEdit() ? 'Editar Cliente' : 'Nuevo Cliente' }}</h1>
       <p class="subtitle">
-        {{ isEdit() ? 'Modifica la informacion del cliente.' : 'Registra un nuevo cliente en la plataforma.' }}
+        {{
+          isEdit()
+            ? 'Modifica la informacion del cliente.'
+            : 'Registra un nuevo cliente en la plataforma.'
+        }}
       </p>
     </div>
   </div>
@@ -21,6 +25,40 @@
     <!-- Form Card -->
     <div class="form-card">
       <form [formGroup]="form" (ngSubmit)="onSave()">
+        <!-- Logo Upload -->
+        <div class="logo-section">
+          <div class="logo-preview">
+            @if (logoBase64()) {
+              <img [src]="logoBase64()" alt="Logo del cliente" class="logo-img" />
+            } @else {
+              <mat-icon class="logo-placeholder">business</mat-icon>
+            }
+          </div>
+          <div class="logo-actions">
+            <label class="logo-upload-btn mat-mdc-button mdc-button mdc-button--outlined">
+              <mat-icon>upload</mat-icon>
+              Subir logo
+              <input
+                type="file"
+                accept="image/png,image/jpeg,image/svg+xml"
+                hidden
+                (change)="onLogoSelected($event)"
+              />
+            </label>
+            @if (logoBase64()) {
+              <button
+                mat-icon-button
+                type="button"
+                (click)="clearLogo()"
+                matTooltip="Eliminar logo"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            }
+            <span class="logo-hint">PNG / JPG / SVG, max 200 KB</span>
+          </div>
+        </div>
+
         <div class="form-grid">
           <!-- Nombre Empresa -->
           <mat-form-field appearance="outline">
@@ -94,7 +132,11 @@
           <!-- Nombre de Contacto -->
           <mat-form-field appearance="outline">
             <mat-label>Nombre de Contacto</mat-label>
-            <input matInput formControlName="contactName" placeholder="Nombre del contacto principal" />
+            <input
+              matInput
+              formControlName="contactName"
+              placeholder="Nombre del contacto principal"
+            />
             <mat-icon matPrefix>person</mat-icon>
           </mat-form-field>
 
@@ -111,15 +153,8 @@
 
         <!-- Actions -->
         <div class="form-actions">
-          <button mat-button type="button" (click)="onCancel()">
-            Cancelar
-          </button>
-          <button
-            mat-flat-button
-            color="primary"
-            type="submit"
-            [disabled]="saving()"
-          >
+          <button mat-button type="button" (click)="onCancel()">Cancelar</button>
+          <button mat-flat-button color="primary" type="submit" [disabled]="saving()">
             @if (saving()) {
               <mat-spinner diameter="20"></mat-spinner>
             } @else {

@@ -1,7 +1,9 @@
 package mx.com.axity.services.service.impl;
 
+import mx.com.axity.commons.context.TenantContext;
 import mx.com.axity.commons.exceptions.BusinessException;
 import mx.com.axity.commons.to.*;
+import mx.com.axity.commons.to.CustomerTO;
 import mx.com.axity.commons.to.totree.ClientTableTO;
 import mx.com.axity.commons.to.totree.CompoundCustomerTO;
 import mx.com.axity.commons.to.totree.CountRowTO;
@@ -52,6 +54,12 @@ public class ClientServiceImpl implements IClientService {
     public Boolean addOrUpdateClient(CompoundCustomerTO customer) {
         customer.getCustomer().setLastModification(LocalDateTime.now());
         customer.getCustomer().setActive(Boolean.TRUE);
+        if (customer.getCustomer().getCreationDate() == null) {
+            customer.getCustomer().setCreationDate(LocalDateTime.now());
+        }
+        if (customer.getCustomer().getTenantId() == null) {
+            customer.getCustomer().setTenantId(TenantContext.getCurrentTenant());
+        }
         CustomerDO saveCustomer;
         try {
             saveCustomer = this.customerDAO.save(this.modelMapper.map(customer.getCustomer(), CustomerDO.class));
@@ -90,6 +98,15 @@ public class ClientServiceImpl implements IClientService {
         getClientProjects.setProjectTOList(this.modelMapper.map(this.projectDAO.getProjectsClientAll((long) idCustomer,null), new TypeToken<List<ProjectTO>>() {
         }.getType()));
         return getClientProjects;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<CustomerTO> getAllClients() {
+        return (List<CustomerTO>) this.modelMapper.map(
+            this.customerDAO.findAllOrden(),
+            new TypeToken<List<CustomerTO>>() {}.getType()
+        );
     }
 
     @Override

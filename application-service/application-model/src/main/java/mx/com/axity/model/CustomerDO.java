@@ -40,6 +40,8 @@ public class CustomerDO {
     private Boolean active;
     @Column(name = "tenant_id")
     private String tenantId;
+    @Column(name = "ds_logo", columnDefinition = "TEXT")
+    private String dsLogo;
 
     public Long getIdCliente() {
         return idCliente;
@@ -159,5 +161,13 @@ public class CustomerDO {
 
     public void setTenantId(String tenantId) {
         this.tenantId = tenantId;
+    }
+
+    public String getDsLogo() {
+        return dsLogo;
+    }
+
+    public void setDsLogo(String dsLogo) {
+        this.dsLogo = dsLogo;
     }
 }
