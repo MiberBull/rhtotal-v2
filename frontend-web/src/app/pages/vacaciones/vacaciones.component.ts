@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material';
 import { BreadcrumbService } from '../../services/breadcrumbs/breadcrumbs.service';
 import { ToolbarFabService } from '../../services/toolbar-fab/toolbar-fab.service';
 import { Router } from '@angular/router';
 import { VacationService } from '../../services/vacation/vacation.service';
+import { UserService } from '../../services/user/user.service';
 import { DataService } from '../../services/data.service';
 import { BREADCRUMB } from '../../../environments/environment';
 import { VacationRequestTO } from '../../models/hr.model';
+import { EmployeeTO } from '../../models/employee.model';
 
 @Component({
   selector: 'app-vacaciones',
@@ -17,6 +20,7 @@ export class VacacionesComponent implements OnInit {
   pendingRequests: VacationRequestTO[] = [];
   approvedRequests: VacationRequestTO[] = [];
   rejectedRequests: VacationRequestTO[] = [];
+  employeeNameMap: { [id: number]: string } = {};
 
   displayedColumns = [
     'idEmployee',
@@ -43,14 +47,33 @@ export class VacacionesComponent implements OnInit {
     private _toolbar: ToolbarFabService,
     private _router: Router,
     private _vacation: VacationService,
-    private _data: DataService
+    private _user: UserService,
+    private _data: DataService,
+    private _dialog: MatDialog
   ) {
     this._breadcrumb.setRouteText({ title: BREADCRUMB.VACACIONES, arrow: false });
     this._toolbar.setVisible(this._router.url.toString());
   }
 
   ngOnInit() {
+    this.loadEmployeeNames();
     this.loadRequests();
+  }
+
+  loadEmployeeNames() {
+    this._user.getEmployeeAll().subscribe(
+      (employees: EmployeeTO[]) => {
+        (employees || []).forEach((e) => {
+          const full = [e.name, e.lastName, e.lastMName].filter(Boolean).join(' ');
+          this.employeeNameMap[e.id] = full || `#${e.id}`;
+        });
+      },
+      () => {}
+    );
+  }
+
+  getEmployeeName(idEmployee: number): string {
+    return this.employeeNameMap[idEmployee] || `#${idEmployee}`;
   }
 
   loadRequests() {
@@ -72,6 +95,11 @@ export class VacacionesComponent implements OnInit {
   }
 
   approve(request: VacationRequestTO) {
+    const name = this.getEmployeeName(request.idEmployee);
+    const confirmed = window.confirm(
+      `¿Aprobar la solicitud de vacaciones de ${name}?\n${request.nuDays} días del ${new Date(request.dtStartDate).toLocaleDateString('es-MX')} al ${new Date(request.dtEndDate).toLocaleDateString('es-MX')}.`
+    );
+    if (!confirmed) return;
     this._vacation.approve(request.id, 'ADMIN').subscribe(
       () => {
         this._data.setGeneralNotificationMessage('Solicitud aprobada correctamente');
@@ -82,6 +110,11 @@ export class VacacionesComponent implements OnInit {
   }
 
   reject(request: VacationRequestTO) {
+    const name = this.getEmployeeName(request.idEmployee);
+    const confirmed = window.confirm(
+      `¿Rechazar la solicitud de vacaciones de ${name}?\nEsta acción no se puede deshacer.`
+    );
+    if (!confirmed) return;
     this._vacation.reject(request.id, 'ADMIN', 'Rechazada por administrador').subscribe(
       () => {
         this._data.setGeneralNotificationMessage('Solicitud rechazada');

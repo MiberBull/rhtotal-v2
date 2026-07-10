@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 180" width="240" height="180" role="img" aria-label="DCH Total">
+  <!-- Símbolo ∞ grande centrado -->
+  <text x="120" y="80" font-family="Georgia, 'Times New Roman', serif" font-size="80" font-weight="bold" text-anchor="middle">
+    <tspan fill="#F18A21">∞</tspan>
+  </text>
+  <!-- Línea separadora -->
+  <rect x="60" y="95" width="120" height="2" fill="#F18A21" rx="1" opacity="0.6"/>
+  <!-- Texto DCH -->
+  <text x="120" y="125" font-family="'Inter', 'Helvetica Neue', Arial, sans-serif" font-size="28" font-weight="700" fill="#ffffff" text-anchor="middle" letter-spacing="4">DCH</text>
+  <!-- Texto Total -->
+  <text x="120" y="152" font-family="'Inter', 'Helvetica Neue', Arial, sans-serif" font-size="20" font-weight="300" fill="#ffffff" text-anchor="middle" letter-spacing="6">TOTAL</text>
+  <!-- Tagline -->
+  <text x="120" y="172" font-family="'Inter', 'Helvetica Neue', Arial, sans-serif" font-size="10" font-weight="400" fill="#F18A21" text-anchor="middle" letter-spacing="1">Plataforma de Recursos Humanos</text>
+</svg>

@@ -4,9 +4,11 @@ import { BreadcrumbService } from '../../services/breadcrumbs/breadcrumbs.servic
 import { ToolbarFabService } from '../../services/toolbar-fab/toolbar-fab.service';
 import { Router } from '@angular/router';
 import { IncidentService } from '../../services/incident/incident.service';
+import { UserService } from '../../services/user/user.service';
 import { DataService } from '../../services/data.service';
 import { BREADCRUMB } from '../../../environments/environment';
 import { IncidentTO } from '../../models/hr.model';
+import { EmployeeTO } from '../../models/employee.model';
 import { DialogCreateIncidentComponent } from './dialog-create-incident/dialog-create-incident.component';
 
 @Component({
@@ -17,6 +19,7 @@ import { DialogCreateIncidentComponent } from './dialog-create-incident/dialog-c
 export class IncidenciasComponent implements OnInit {
   incidents: IncidentTO[] = [];
   filteredIncidents: IncidentTO[] = [];
+  employeeNameMap: { [id: number]: string } = {};
   displayedColumns = [
     'id',
     'idEmployee',
@@ -38,6 +41,7 @@ export class IncidenciasComponent implements OnInit {
     private _toolbar: ToolbarFabService,
     private _router: Router,
     private _incident: IncidentService,
+    private _user: UserService,
     private _data: DataService,
     private _dialog: MatDialog
   ) {
@@ -51,7 +55,24 @@ export class IncidenciasComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.loadEmployeeNames();
     this.loadIncidents();
+  }
+
+  loadEmployeeNames() {
+    this._user.getEmployeeAll().subscribe(
+      (employees: EmployeeTO[]) => {
+        (employees || []).forEach((e) => {
+          const full = [e.name, e.lastName, e.lastMName].filter(Boolean).join(' ');
+          this.employeeNameMap[e.id] = full || `#${e.id}`;
+        });
+      },
+      () => {}
+    );
+  }
+
+  getEmployeeName(idEmployee: number): string {
+    return this.employeeNameMap[idEmployee] || `#${idEmployee}`;
   }
 
   private toInputDate(d: Date): string {

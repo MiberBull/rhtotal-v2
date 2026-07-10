@@ -43,7 +43,7 @@
 
         <ng-container matColumnDef="idEmployee">
           <mat-header-cell *matHeaderCellDef>Empleado</mat-header-cell>
-          <mat-cell *matCellDef="let row">{{ row.idEmployee }}</mat-cell>
+          <mat-cell *matCellDef="let row">{{ getEmployeeName(row.idEmployee) }}</mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="dsType">
@@ -55,13 +55,13 @@
 
         <ng-container matColumnDef="dtIncidentDate">
           <mat-header-cell *matHeaderCellDef>Fecha</mat-header-cell>
-          <mat-cell *matCellDef="let row">{{ row.dtIncidentDate | date: 'dd/MM/yyyy' }}</mat-cell>
+          <mat-cell *matCellDef="let row">{{ row.dtIncidentDate | date: 'dd MMM yyyy' }}</mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="dtEndDate">
           <mat-header-cell *matHeaderCellDef>Fin</mat-header-cell>
           <mat-cell *matCellDef="let row">{{
-            row.dtEndDate ? (row.dtEndDate | date: 'dd/MM/yyyy') : '—'
+            row.dtEndDate ? (row.dtEndDate | date: 'dd MMM yyyy') : '—'
           }}</mat-cell>
         </ng-container>
 

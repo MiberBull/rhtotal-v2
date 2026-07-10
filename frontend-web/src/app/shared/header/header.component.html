@@ -1,14 +1,19 @@
 <mat-toolbar class="toolbar">
-    <div class="divimage">
-            <img src="/assets/img/RHTotal_horizontal.svg" class="image-header">
-    </div>
-    <div class="toolbar-container">
-            <span *ngFor="let menu of menuToolbar;let i = index">
-               <a style="font-size: 18px;" [ngClass]="{ 'selected': validaRutaMenu(menu.nameUrl) == menu.nameUrl }" routerLinkActive="active" [routerLink]="[ menu.nameUrl ]" >{{menu.nameMenu}}</a> 
-               <span *ngIf="i < (menuToolbar.length-1)" >|</span>
-            </span>
-    </div>
-    <img src="/assets/logout.svg" class="salir" matTooltip="Cerrar sesión" (click)="logout()">
+  <div class="divimage">
+    <img src="/assets/img/dch-total-logo.svg" class="image-header" alt="DCH Total" />
+  </div>
+  <div class="toolbar-container">
+    <span *ngFor="let menu of menuToolbar; let i = index">
+      <a
+        style="font-size: 18px"
+        [ngClass]="{ selected: validaRutaMenu(menu.nameUrl) == menu.nameUrl }"
+        routerLinkActive="active"
+        [routerLink]="[menu.nameUrl]"
+        >{{ menu.nameMenu }}</a
+      >
+      <span *ngIf="i < menuToolbar.length - 1">|</span>
+    </span>
+  </div>
+  <img src="/assets/logout.svg" class="salir" matTooltip="Cerrar sesión" (click)="logout()" />
 </mat-toolbar>
 <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
-  
