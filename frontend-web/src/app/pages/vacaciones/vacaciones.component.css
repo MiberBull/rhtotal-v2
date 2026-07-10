@@ -26,3 +26,18 @@
   font-size: 12px;
   font-weight: 500;
 }
+
+.btn-action {
+  font-size: 12px;
+  padding: 0 8px;
+  min-width: unset;
+  line-height: 28px;
+  margin-right: 4px;
+}
+
+.btn-action mat-icon {
+  font-size: 16px;
+  height: 16px;
+  width: 16px;
+  margin-right: 4px;
+}

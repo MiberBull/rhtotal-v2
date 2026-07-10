@@ -3,9 +3,11 @@ import { BreadcrumbService } from '../../services/breadcrumbs/breadcrumbs.servic
 import { ToolbarFabService } from '../../services/toolbar-fab/toolbar-fab.service';
 import { Router } from '@angular/router';
 import { TicketService } from '../../services/ticket/ticket.service';
+import { UserService } from '../../services/user/user.service';
 import { DataService } from '../../services/data.service';
 import { BREADCRUMB } from '../../../environments/environment';
 import { TicketTO, TicketCommentTO } from '../../models/hr.model';
+import { EmployeeTO } from '../../models/employee.model';
 
 @Component({
   selector: 'app-tickets',
@@ -32,6 +34,7 @@ export class TicketsComponent implements OnInit {
   comments: TicketCommentTO[] = [];
   newComment = '';
   newAssignedTo = '';
+  employeeNameMap: { [id: number]: string } = {};
 
   readonly STATUS_MAP = ['ABIERTO', 'EN_PROCESO', 'CERRADO'];
 
@@ -40,6 +43,7 @@ export class TicketsComponent implements OnInit {
     private _toolbar: ToolbarFabService,
     private _router: Router,
     private _ticket: TicketService,
+    private _user: UserService,
     private _data: DataService
   ) {
     this._breadcrumb.setRouteText({ title: BREADCRUMB.TICKETS, arrow: false });
@@ -47,7 +51,24 @@ export class TicketsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.loadEmployeeNames();
     this.loadByTab(0);
+  }
+
+  loadEmployeeNames() {
+    this._user.getEmployeeAll().subscribe(
+      (employees: EmployeeTO[]) => {
+        (employees || []).forEach((e) => {
+          const full = [e.name, e.lastName, e.lastMName].filter(Boolean).join(' ');
+          this.employeeNameMap[e.id] = full || `#${e.id}`;
+        });
+      },
+      () => {}
+    );
+  }
+
+  getEmployeeName(idEmployee: number): string {
+    return this.employeeNameMap[idEmployee] || `#${idEmployee}`;
   }
 
   loadByTab(tab: number) {
@@ -86,6 +107,12 @@ export class TicketsComponent implements OnInit {
 
   updateStatus(newStatus: string) {
     if (!this.selectedTicket) return;
+    if (newStatus === 'CERRADO') {
+      const confirmed = window.confirm(
+        `¿Cerrar el ticket #${this.selectedTicket.id}?\n"${this.selectedTicket.dsSubject}"\n\nEsta acción no se puede deshacer.`
+      );
+      if (!confirmed) return;
+    }
     this._ticket.updateStatus(this.selectedTicket.id, newStatus, this.newAssignedTo).subscribe(
       () => {
         this._data.setGeneralNotificationMessage('Estatus actualizado');

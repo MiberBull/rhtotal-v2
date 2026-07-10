@@ -11,19 +11,19 @@
             <mat-table [dataSource]="pendingRequests" class="full-width">
               <ng-container matColumnDef="idEmployee">
                 <mat-header-cell *matHeaderCellDef>Empleado</mat-header-cell>
-                <mat-cell *matCellDef="let row">{{ row.idEmployee }}</mat-cell>
+                <mat-cell *matCellDef="let row">{{ getEmployeeName(row.idEmployee) }}</mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="dtStartDate">
                 <mat-header-cell *matHeaderCellDef>Fecha inicio</mat-header-cell>
                 <mat-cell *matCellDef="let row">{{
-                  row.dtStartDate | date: 'dd/MM/yyyy'
+                  row.dtStartDate | date: 'dd MMM yyyy'
                 }}</mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="dtEndDate">
                 <mat-header-cell *matHeaderCellDef>Fecha fin</mat-header-cell>
-                <mat-cell *matCellDef="let row">{{ row.dtEndDate | date: 'dd/MM/yyyy' }}</mat-cell>
+                <mat-cell *matCellDef="let row">{{ row.dtEndDate | date: 'dd MMM yyyy' }}</mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="nuDays">
@@ -48,11 +48,16 @@
               <ng-container matColumnDef="acciones">
                 <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
                 <mat-cell *matCellDef="let row">
-                  <button mat-icon-button color="primary" title="Aprobar" (click)="approve(row)">
-                    <mat-icon>check_circle</mat-icon>
+                  <button
+                    mat-stroked-button
+                    color="primary"
+                    class="btn-action"
+                    (click)="approve(row)"
+                  >
+                    <mat-icon>check_circle</mat-icon> Aprobar
                   </button>
-                  <button mat-icon-button color="warn" title="Rechazar" (click)="reject(row)">
-                    <mat-icon>cancel</mat-icon>
+                  <button mat-stroked-button color="warn" class="btn-action" (click)="reject(row)">
+                    <mat-icon>cancel</mat-icon> Rechazar
                   </button>
                 </mat-cell>
               </ng-container>
