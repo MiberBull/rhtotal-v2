@@ -14,12 +14,13 @@ export interface UserTO {
   level?: number;
   active?: boolean;
   nameRole?: DchRole;
+  nameRol?: DchRole;
   role?: DchRole;
 }
 
 export interface LoginRequestTO {
-  user: string;
-  password: string;
+  user: { email: string; password: string };
+  block?: boolean;
 }
 
 export interface LoginResponseTO {

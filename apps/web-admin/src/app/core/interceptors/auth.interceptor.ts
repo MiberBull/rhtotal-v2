@@ -15,12 +15,12 @@ export const authInterceptor: HttpInterceptorFn = (
   const authService = inject(AuthService);
   const token = authService.token();
 
-  let authReq = req;
+  const headers: Record<string, string> = { 'X-Tenant-ID': 'demo-corp' };
   if (token) {
-    authReq = req.clone({
-      setHeaders: { Authorization: `Bearer ${token}` },
-    });
+    headers['Authorization'] = `Bearer ${token}`;
   }
+
+  const authReq = req.clone({ setHeaders: headers });
 
   return next(authReq).pipe(
     catchError((error: HttpErrorResponse) => {

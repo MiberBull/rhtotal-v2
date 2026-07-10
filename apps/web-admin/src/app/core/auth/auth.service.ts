@@ -110,7 +110,7 @@ export class AuthService {
   readonly userRole = computed<DchRole>(() => {
     const user = this._user();
     if (!user) return 'DCH_VIEWER';
-    return user.nameRole ?? user.role ?? 'DCH_VIEWER';
+    return user.nameRole ?? user.nameRol ?? user.role ?? 'DCH_VIEWER';
   });
 
   constructor() {
@@ -142,7 +142,7 @@ export class AuthService {
 
   async login(email: string, password: string): Promise<LoginResponseTO> {
     const encryptedPassword = this.cryptoService.encrypt(password);
-    const request = { user: email, password: encryptedPassword };
+    const request = { user: { email, password: encryptedPassword } };
 
     return new Promise((resolve, reject) => {
       this.securityApi.loginWeb(request).subscribe({

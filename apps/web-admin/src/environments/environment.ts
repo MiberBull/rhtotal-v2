@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
   gatewayUrl: 'http://localhost:8000',
-  aesSecret: 'REPLACE_WITH_AES_SECRET',
+  aesSecret: 'dchdev32charssecretkeyhere12345',
   appName: 'DCH Total',
 };
