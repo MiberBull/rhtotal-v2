@@ -1,5 +1,6 @@
 export const environment = {
-  production: false,
+  production: true,
+  DEFAULT_TENANT: 'dchkw',
   PARAMS: 'params',
   INTENTS: 'value',
   ANSWER_LOGIN: 'answerLogin',
@@ -289,7 +290,7 @@ export const DIALOG_TITLES = {
 
 // Set AES_SECRET_KEY via sed replacement in CI/CD before build (see .env.example)
 export const SECRETS = {
-  AES_PASSWORD_SECRET: 'REPLACE_WITH_AES_SECRET',
+  AES_PASSWORD_SECRET: 'dchdev32charssecretkeyhere12345',
 };
 
 export const PATH_REPSE = {

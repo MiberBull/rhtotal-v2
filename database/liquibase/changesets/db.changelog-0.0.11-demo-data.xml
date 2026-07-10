@@ -35,7 +35,7 @@
         <!-- Administrador Master -->
         <insert tableName="k_rol_assignment" schemaName="public">
             <column name="id_rol" value="1"/>
-            <column name="ds_name_rol" value="Administrador Master"/>
+            <column name="ds_name_rol" value="DCH_SUPER_ADMIN"/>
             <column name="ds_name" value="Admin"/>
             <column name="ds_last_name" value="DCH"/>
             <column name="ds_m_last_name" value="Total"/>
@@ -51,10 +51,10 @@
             <column name="tenant_id" value="demo-corp"/>
         </insert>
 
-        <!-- RRHH -->
+        <!-- Administrador RH -->
         <insert tableName="k_rol_assignment" schemaName="public">
-            <column name="id_rol" value="2"/>
-            <column name="ds_name_rol" value="RRHH"/>
+            <column name="id_rol" value="5"/>
+            <column name="ds_name_rol" value="DCH_RRHH"/>
             <column name="ds_name" value="RRHH"/>
             <column name="ds_last_name" value="DCH"/>
             <column name="ds_m_last_name" value="Total"/>
@@ -70,24 +70,11 @@
             <column name="tenant_id" value="demo-corp"/>
         </insert>
 
-        <!-- Empleado (acceso web limitado por ROLE_PERMISSIONS) -->
-        <insert tableName="k_rol_assignment" schemaName="public">
-            <column name="id_rol" value="3"/>
-            <column name="ds_name_rol" value="Empleado"/>
-            <column name="ds_name" value="Ana"/>
-            <column name="ds_last_name" value="García"/>
-            <column name="ds_m_last_name" value="Ruiz"/>
-            <column name="ds_phone" value="5555000003"/>
-            <column name="ds_email" value="empleado@dch.mx"/>
-            <column name="ds_status" value="A"/>
-            <column name="ds_password" value="ea247fc902037e0f663b16fcb7097749dd387de4a0a1e3a5139f781a6d3098f6"/>
-            <column name="ds_last_user_modifier" value="demo-setup"/>
-            <column name="dt_last_modification" valueComputed="NOW()"/>
-            <column name="ds_creation_user" value="demo-setup"/>
-            <column name="dt_creation_date" valueComputed="NOW()"/>
-            <column name="fg_active" valueBoolean="true"/>
-            <column name="tenant_id" value="demo-corp"/>
-        </insert>
+        <!--
+            NOTA: empleado@dch.mx NO se inserta en k_rol_assignment.
+            Los empleados solo acceden al sistema mediante la app móvil (k_user).
+            Ver changeset 0.0.11-002 para el registro de k_user + k_employee.
+        -->
 
         <rollback>
             <delete tableName="k_rol_assignment" schemaName="public">

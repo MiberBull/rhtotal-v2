@@ -66,7 +66,9 @@ const ROLE_PERMISSIONS: Record<DchRole, string[]> = {
     'asistencia',
     'onboarding',
   ],
-  DCH_VIEWER: ['dashboard', 'users', 'clients', 'documents'],
+  // Fallback de seguridad — ningún usuario real debe tener este rol en producción.
+  // Los empleados acceden al sistema solo mediante la app móvil.
+  DCH_VIEWER: ['dashboard'],
 };
 
 const ROUTE_PERMISSION_MAP: Record<string, string> = {

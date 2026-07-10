@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <!--
+        ====================================================================
+        FIX ROLES — DCH Know Who Platform
+        Versión: 0.0.13
+
+        Problema detectado: el modelo de roles mezclaba usuarios
+        administrativos (web-admin) con empleados (app móvil).
+
+        Correcciones:
+          1. admin@dch.mx → ds_name_rol alineado con DchRole 'DCH_SUPER_ADMIN'
+          2. rrhh@dch.mx  → id_rol=5 (Admin RH) + ds_name_rol='DCH_RRHH'
+          3. empleado@dch.mx → ELIMINADO de k_rol_assignment (no accede al
+             web-admin; usa la app móvil vía k_user)
+          4. Role 7 "Administrador de Lectura" → desactivado (fg_active=false)
+
+        Regla final:
+          Web-Admin  → roles 1-5 (equipo interno DCH)
+          App Móvil  → k_user con ds_user_type IN/EX (empleados)
+        ====================================================================
+    -->
+
+    <!-- ================================================================== -->
+    <!-- 0.0.13-001: Alinear ds_name_rol de admin@dch.mx → DCH_SUPER_ADMIN  -->
+    <!-- ================================================================== -->
+    <changeSet id="0.0.13-001" author="dch-knowwho">
+        <comment>Alinear ds_name_rol de admin@dch.mx con DchRole 'DCH_SUPER_ADMIN'</comment>
+        <sql>
+            UPDATE public.k_rol_assignment
+            SET ds_name_rol = 'DCH_SUPER_ADMIN'
+            WHERE ds_email = 'admin@dch.mx'
+              AND tenant_id = 'demo-corp';
+        </sql>
+        <rollback>
+            <sql>
+                UPDATE public.k_rol_assignment
+                SET ds_name_rol = 'Administrador Master'
+                WHERE ds_email = 'admin@dch.mx'
+                  AND tenant_id = 'demo-corp';
+            </sql>
+        </rollback>
+    </changeSet>
+
+    <!-- ================================================================== -->
+    <!-- 0.0.13-002: Corregir rrhh@dch.mx → id_rol=5 + DCH_RRHH            -->
+    <!-- ================================================================== -->
+    <changeSet id="0.0.13-002" author="dch-knowwho">
+        <comment>Asignar rrhh@dch.mx al rol correcto id_rol=5 (Administrador RH) y ds_name_rol='DCH_RRHH'</comment>
+        <sql>
+            UPDATE public.k_rol_assignment
+            SET id_rol      = 5,
+                ds_name_rol = 'DCH_RRHH'
+            WHERE ds_email = 'rrhh@dch.mx'
+              AND tenant_id = 'demo-corp';
+        </sql>
+        <rollback>
+            <sql>
+                UPDATE public.k_rol_assignment
+                SET id_rol      = 2,
+                    ds_name_rol = 'RRHH'
+                WHERE ds_email = 'rrhh@dch.mx'
+                  AND tenant_id = 'demo-corp';
+            </sql>
+        </rollback>
+    </changeSet>
+
+    <!-- ================================================================== -->
+    <!-- 0.0.13-003: Eliminar empleado@dch.mx de k_rol_assignment           -->
+    <!-- Los empleados solo acceden al sistema vía app móvil (k_user).      -->
+    <!-- ================================================================== -->
+    <changeSet id="0.0.13-003" author="dch-knowwho">
+        <comment>Eliminar empleado@dch.mx del web-admin (k_rol_assignment). Accede solo por app móvil.</comment>
+        <sql>
+            DELETE FROM public.k_rol_assignment
+            WHERE ds_email = 'empleado@dch.mx'
+              AND tenant_id = 'demo-corp';
+        </sql>
+        <rollback>
+            <sql>
+                INSERT INTO public.k_rol_assignment
+                    (id_rol, ds_name_rol, ds_name, ds_last_name, ds_m_last_name,
+                     ds_phone, ds_email, ds_status, ds_password,
+                     ds_last_user_modifier, dt_last_modification,
+                     ds_creation_user, dt_creation_date,
+                     fg_active, tenant_id)
+                VALUES (3, 'Empleado', 'Ana', 'García', 'Ruiz',
+                        '5555000003', 'empleado@dch.mx', 'A',
+                        'ea247fc902037e0f663b16fcb7097749dd387de4a0a1e3a5139f781a6d3098f6',
+                        'demo-setup', NOW(), 'demo-setup', NOW(),
+                        true, 'demo-corp');
+            </sql>
+        </rollback>
+    </changeSet>
+
+    <!-- ================================================================== -->
+    <!-- 0.0.13-004: Desactivar role 7 "Administrador de Lectura"           -->
+    <!-- Este rol era un artefacto para acceso web limitado a empleados.    -->
+    <!-- Ahora los empleados NO acceden al web-admin.                       -->
+    <!-- ================================================================== -->
+    <changeSet id="0.0.13-004" author="dch-knowwho">
+        <comment>Desactivar role 7 'Administrador de Lectura' — los empleados no usan el web-admin</comment>
+        <sql>
+            UPDATE public.c_rol
+            SET fg_active = false,
+                ds_permission = '{"idRol":7,"nombreRol":"Administrador de Lectura","permisos":[]}'
+            WHERE id_rol = 7;
+        </sql>
+        <rollback>
+            <sql>
+                UPDATE public.c_rol
+                SET fg_active = true,
+                    ds_permission = '{"idRol":6,"nombreRol":"Administrador de Lectura","permisos":[{"nameMenu":"Home","nameUrl":"/home/dashboard"},{"nameMenu":"Usuarios","nameUrl":"/home/usuarios"},{"nameMenu":"Beneficios y Descuentos","nameUrl":"/home/descuentos"},{"nameMenu":"Banners","nameUrl":"/home/banners"},{"nameMenu":"Notificaciones","nameUrl":"/home/notificaciones"},{"nameMenu":"Seguros","nameUrl":"/home/seguros"},{"nameMenu":"Fintech","nameUrl":"/home/adelantos"},{"nameMenu":"Clientes","nameUrl":"/home/clientes"}]}'
+                WHERE id_rol = 7;
+            </sql>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

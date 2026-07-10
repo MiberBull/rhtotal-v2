@@ -1,16 +1,22 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 48" width="220" height="48" role="img" aria-label="DCH Total">
-  <!-- Símbolo ∞ bicolor -->
-  <g transform="translate(4, 8)">
-    <!-- Lado izquierdo naranja -->
-    <path d="M16,16 C16,10.477 11.523,6 6,6 C0.477,6 -4,10.477 -4,16 C-4,21.523 0.477,26 6,26 C9.5,26 12.6,24.2 14.5,21.5 L16,16 Z" fill="#F18A21" opacity="0"/>
-    <!-- Símbolo ∞ completo bicolor usando texto -->
-    <text x="0" y="26" font-size="32" font-family="Georgia, serif" font-weight="bold">
-      <tspan fill="#F18A21">∞</tspan>
-    </text>
-  </g>
-  <!-- Texto "DCH Total" -->
-  <text x="44" y="30" font-family="'Inter', 'Helvetica Neue', Arial, sans-serif" font-size="18" font-weight="700" fill="#005696" letter-spacing="0.5">DCH</text>
-  <text x="92" y="30" font-family="'Inter', 'Helvetica Neue', Arial, sans-serif" font-size="18" font-weight="400" fill="#005696" letter-spacing="0.5"> Total</text>
-  <!-- Línea decorativa inferior -->
-  <rect x="44" y="34" width="80" height="2" fill="#F18A21" rx="1"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 40" width="200" height="40">
+  <!-- Símbolo ∞ bicolor: izquierda azul, derecha naranja -->
+  <defs>
+    <clipPath id="inf-left-h">
+      <rect x="0" y="0" width="18" height="40"/>
+    </clipPath>
+    <clipPath id="inf-right-h">
+      <rect x="18" y="0" width="18" height="40"/>
+    </clipPath>
+  </defs>
+  <!-- ∞ lado azul (izquierda) -->
+  <text x="2" y="30" font-family="Georgia, serif" font-size="32" font-weight="bold" fill="#005696" clip-path="url(#inf-left-h)">∞</text>
+  <!-- ∞ lado naranja (derecha) -->
+  <text x="2" y="30" font-family="Georgia, serif" font-size="32" font-weight="bold" fill="#F18A21" clip-path="url(#inf-right-h)">∞</text>
+
+  <!-- Wordmark: D naranja -->
+  <text x="42" y="28" font-family="'Inter', 'Helvetica Neue', Arial, sans-serif" font-size="20" font-weight="800" fill="#F18A21">D</text>
+  <!-- CH azul -->
+  <text x="55" y="28" font-family="'Inter', 'Helvetica Neue', Arial, sans-serif" font-size="20" font-weight="800" fill="#005696">CH</text>
+  <!-- Total azul, peso normal -->
+  <text x="80" y="28" font-family="'Inter', 'Helvetica Neue', Arial, sans-serif" font-size="18" font-weight="400" fill="#005696"> Total</text>
 </svg>

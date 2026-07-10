@@ -2,6 +2,7 @@ import { RFC_2822 } from 'moment';
 
 export const environment = {
   production: false,
+  DEFAULT_TENANT: 'demo-corp',
   PARAMS: 'params',
   INTENTS: 'value',
   ANSWER_LOGIN: 'answerLogin',
@@ -341,7 +342,7 @@ export const PATH_TREE = {
 
 // Set AES_SECRET_KEY via sed replacement in CI/CD before build (see .env.example)
 export const SECRETS = {
-  AES_PASSWORD_SECRET: 'REPLACE_WITH_AES_SECRET',
+  AES_PASSWORD_SECRET: 'dchdev32charssecretkeyhere12345',
 };
 
 export const STATUS = [
