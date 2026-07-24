@@ -94,6 +94,7 @@ const ROUTE_PERMISSION_MAP: Record<string, string> = {
   '/asistencia': 'asistencia',
   '/onboarding': 'onboarding',
   '/biblioteca': 'biblioteca',
+  '/colaboradores': 'users',
   '/tenants': 'tenants',
 };
 

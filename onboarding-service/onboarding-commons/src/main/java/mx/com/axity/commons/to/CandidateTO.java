@@ -1,5 +1,6 @@
 package mx.com.axity.commons.to;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class CandidateTO {
@@ -25,6 +26,9 @@ public class CandidateTO {
     private LocalDateTime dtModificationDate;
     private String dsCreationUser;
     private String dsModificationUser;
+    private String dsJobTitle;
+    private LocalDate dtHireDate;
+    private String dsWorkShift;
 
     public Long getIdCandidate() { return idCandidate; }
     public void setIdCandidate(Long idCandidate) { this.idCandidate = idCandidate; }
@@ -88,4 +92,13 @@ public class CandidateTO {
 
     public String getDsModificationUser() { return dsModificationUser; }
     public void setDsModificationUser(String dsModificationUser) { this.dsModificationUser = dsModificationUser; }
+
+    public String getDsJobTitle() { return dsJobTitle; }
+    public void setDsJobTitle(String dsJobTitle) { this.dsJobTitle = dsJobTitle; }
+
+    public LocalDate getDtHireDate() { return dtHireDate; }
+    public void setDtHireDate(LocalDate dtHireDate) { this.dtHireDate = dtHireDate; }
+
+    public String getDsWorkShift() { return dsWorkShift; }
+    public void setDsWorkShift(String dsWorkShift) { this.dsWorkShift = dsWorkShift; }
 }

@@ -3,6 +3,7 @@ package mx.com.axity.services.service;
 import mx.com.axity.commons.to.*;
 import mx.com.axity.model.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -42,4 +43,11 @@ public interface IEmployeeService {
     List<ClientTO> getClient();
     List<ProjectTO> getProject(Long idClient);
     void saveOrUpdateEmployeeComplementaryMovil(EmployeePersonalTO  personal);
+
+    // --- Sprint 15: Ficha del Colaborador ---
+    EmployeeTO getEmployeeById(Long idEmployee);
+    EmergencyContactDO saveOrUpdateEmergencyContact(EmergencyContactTO emergency);
+    EmergencyContactTO getEmergencyContactByEmployee(Long idEmployee, String tenantId);
+    void terminateEmployee(Long idEmployee, String reason, LocalDate terminationDate);
+    String getTenantName(String tenantId);
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("user")
@@ -291,5 +292,71 @@ public class EmployeeRegistry {
     }
 
 
+    // --- Sprint 15: Ficha del Colaborador ---
+
+    @RequestMapping(value = "/employee/{idEmployee}/profile", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<EmployeeProfileTO> getEmployeeProfile(@PathVariable(name = "idEmployee") Long idEmployee) {
+        LOG.info("Init getEmployeeProfile idEmployee={}", idEmployee);
+        var profile = this.employeeFacade.getEmployeeProfile(idEmployee);
+        return new ResponseEntity<>(profile, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/employee/full", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity<Void> createFullEmployee(@RequestBody EmployeeProfileTO profile) {
+        LOG.info("Init createFullEmployee");
+        this.employeeFacade.createFullEmployee(profile);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/employee/{idEmployee}/personal", method = RequestMethod.PATCH, produces = "application/json")
+    public ResponseEntity<Void> updatePersonalData(
+            @PathVariable(name = "idEmployee") Long idEmployee,
+            @RequestBody Map<String, Object> body) {
+        LOG.info("Init updatePersonalData idEmployee={}", idEmployee);
+        EmployeeTO employee = body.containsKey("employee")
+                ? modelMapper.map(body.get("employee"), EmployeeTO.class) : null;
+        EmployeeComplementaryTO complementary = body.containsKey("complementary")
+                ? modelMapper.map(body.get("complementary"), EmployeeComplementaryTO.class) : null;
+        EmployeeAddressTO address = body.containsKey("address")
+                ? modelMapper.map(body.get("address"), EmployeeAddressTO.class) : null;
+        this.employeeFacade.updatePersonalData(idEmployee, employee, complementary, address);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/employee/{idEmployee}/employment", method = RequestMethod.PATCH, produces = "application/json")
+    public ResponseEntity<Void> updateEmploymentData(
+            @PathVariable(name = "idEmployee") Long idEmployee,
+            @RequestBody ContratingDataTO contracting) {
+        LOG.info("Init updateEmploymentData idEmployee={}", idEmployee);
+        this.employeeFacade.updateEmploymentData(idEmployee, contracting);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/employee/{idEmployee}/assignment", method = RequestMethod.PATCH, produces = "application/json")
+    public ResponseEntity<Void> updateAssignmentData(
+            @PathVariable(name = "idEmployee") Long idEmployee,
+            @RequestBody AsignationDataTO assignment) {
+        LOG.info("Init updateAssignmentData idEmployee={}", idEmployee);
+        this.employeeFacade.updateAssignmentData(idEmployee, assignment);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/employee/{idEmployee}/emergency", method = RequestMethod.PATCH, produces = "application/json")
+    public ResponseEntity<Void> saveEmergencyContact(
+            @PathVariable(name = "idEmployee") Long idEmployee,
+            @RequestBody EmergencyContactTO emergency) {
+        LOG.info("Init saveEmergencyContact idEmployee={}", idEmployee);
+        this.employeeFacade.saveEmergencyContact(idEmployee, emergency);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/employee/{idEmployee}/termination", method = RequestMethod.PATCH, produces = "application/json")
+    public ResponseEntity<Void> terminateEmployee(
+            @PathVariable(name = "idEmployee") Long idEmployee,
+            @RequestBody TerminationRequestTO request) {
+        LOG.info("Init terminateEmployee idEmployee={}", idEmployee);
+        this.employeeFacade.terminateEmployee(idEmployee, request.getReason(), request.getTerminationDate());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 }

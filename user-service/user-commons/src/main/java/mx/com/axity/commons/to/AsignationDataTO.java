@@ -67,6 +67,10 @@ public class AsignationDataTO implements Serializable {
 
     private boolean active;
 
+    private String dsWorkCenter;
+
+    private String dsRegion;
+
 
     public long getIdDataAssigment() {
         return idDataAssigment;
@@ -226,6 +230,22 @@ public class AsignationDataTO implements Serializable {
 
     public void setIdProject(Long idProject) {
         this.idProject = idProject;
+    }
+
+    public String getDsWorkCenter() {
+        return dsWorkCenter;
+    }
+
+    public void setDsWorkCenter(String dsWorkCenter) {
+        this.dsWorkCenter = dsWorkCenter;
+    }
+
+    public String getDsRegion() {
+        return dsRegion;
+    }
+
+    public void setDsRegion(String dsRegion) {
+        this.dsRegion = dsRegion;
     }
 
 }

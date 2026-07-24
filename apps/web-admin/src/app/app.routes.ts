@@ -210,6 +210,21 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./pages/biblioteca/biblioteca.component').then((m) => m.BibliotecaComponent),
       },
+      // Ficha del Colaborador
+      {
+        path: 'colaboradores',
+        loadComponent: () =>
+          import('./pages/colaboradores/colaboradores.component').then(
+            (m) => m.ColaboradoresComponent
+          ),
+      },
+      {
+        path: 'colaboradores/:id',
+        loadComponent: () =>
+          import('./pages/colaboradores/detalle/colaborador-detalle.component').then(
+            (m) => m.ColaboradorDetalleComponent
+          ),
+      },
       // Multi-tenant admin
       {
         path: 'tenants',

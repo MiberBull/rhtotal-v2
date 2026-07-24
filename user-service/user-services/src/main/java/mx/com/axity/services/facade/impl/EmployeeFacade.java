@@ -1,5 +1,6 @@
 package mx.com.axity.services.facade.impl;
 
+import mx.com.axity.commons.context.TenantContext;
 import mx.com.axity.commons.exceptions.BusinessException;
 import mx.com.axity.commons.to.*;
 import mx.com.axity.commons.util.SHA;
@@ -746,6 +747,200 @@ public class EmployeeFacade implements IEmployeeFacade {
         }
         catch (Exception e)
         {
+            throw new BusinessException(e.getMessage(), e);
+        }
+    }
+
+    // --- Sprint 15: Ficha del Colaborador ---
+
+    @Override
+    public EmployeeProfileTO getEmployeeProfile(Long idEmployee) {
+        try {
+            var profile = new EmployeeProfileTO();
+
+            // Employee basico por id
+            var employeeDO = this.employeeService.getEmployeeById(idEmployee);
+            if (employeeDO == null) {
+                throw new BusinessException("Empleado no encontrado: " + idEmployee, null);
+            }
+            profile.setEmployee(employeeDO);
+
+            Long idUser = employeeDO.getUser() != null ? employeeDO.getUser().getId() : null;
+
+            // Complementario
+            if (idUser != null) {
+                try {
+                    var comp = this.employeeService.getUserRegisterById(idUser);
+                    profile.setComplementary(comp);
+                } catch (Exception e) {
+                    // sin datos complementarios — continuar
+                }
+
+                // Domicilio
+                try {
+                    var addr = this.employeeService.getEmployeeAdressByIdUser(idUser);
+                    profile.setAddress(addr);
+                } catch (Exception e) {
+                    // sin domicilio — continuar
+                }
+
+                // Contratacion
+                try {
+                    var contracting = this.employeeService.getContratingDataByIdUser(idUser);
+                    profile.setContracting(contracting);
+                } catch (Exception e) {
+                    // sin contratacion — continuar
+                }
+
+                // Asignacion
+                try {
+                    var assignment = this.employeeService.getEmployeeAsignationByIdUser(idUser);
+                    profile.setAssignment(assignment);
+                } catch (Exception e) {
+                    // sin asignacion — continuar
+                }
+            }
+
+            // Contacto de emergencia
+            String tenantId = TenantContext.getCurrentTenant();
+            try {
+                var emergency = this.employeeService.getEmergencyContactByEmployee(idEmployee, tenantId);
+                profile.setEmergency(emergency);
+            } catch (Exception e) {
+                // sin contacto de emergencia — continuar
+            }
+
+            // Nombre del tenant
+            try {
+                profile.setTenantName(this.employeeService.getTenantName(tenantId));
+            } catch (Exception e) {
+                profile.setTenantName(tenantId);
+            }
+
+            // Saldo de vacaciones (hr-service)
+            try {
+                Integer balance = this.restTemplate.getForObject(
+                        "http://hr-service/hr/vacation/balance/" + idEmployee, Integer.class);
+                profile.setVacationBalance(balance);
+            } catch (Exception e) {
+                profile.setVacationBalance(null);
+            }
+
+            return profile;
+        } catch (Exception e) {
+            throw new BusinessException(e.getMessage(), e);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void createFullEmployee(EmployeeProfileTO profile) {
+        try {
+            Optional.ofNullable(profile).orElseThrow();
+            Optional.ofNullable(profile.getEmployee()).orElseThrow();
+
+            // 1. Crear empleado base + usuario
+            var createdEmployee = this.employeeService.saveOrUpdateEmployee(profile.getEmployee());
+            profile.getEmployee().setId(createdEmployee.getId());
+
+            Long idUser = createdEmployee.getUser() != null ? createdEmployee.getUser().getId() : null;
+
+            // 2. Complementario
+            if (profile.getComplementary() != null && idUser != null) {
+                profile.getComplementary().setEmployee(profile.getEmployee());
+                this.employeeService.saveOrUpdateEmployeeComplementary(profile.getComplementary());
+            }
+
+            // 3. Domicilio
+            if (profile.getAddress() != null && idUser != null) {
+                profile.getAddress().setEmployee(profile.getEmployee());
+                this.employeeService.saveOrUpdateEmployeeAdress(profile.getAddress());
+            }
+
+            // 4. Contratacion
+            if (profile.getContracting() != null && idUser != null) {
+                profile.getContracting().setIdUser(idUser);
+                this.employeeService.saveOrUpdateContrating(profile.getContracting());
+            }
+
+            // 5. Asignacion
+            if (profile.getAssignment() != null && idUser != null) {
+                profile.getAssignment().setIdUser(idUser);
+                this.employeeService.saveOrUpdateAsignationData(profile.getAssignment());
+            }
+
+            // 6. Contacto de emergencia
+            if (profile.getEmergency() != null) {
+                profile.getEmergency().setIdEmployee(createdEmployee.getId());
+                profile.getEmergency().setTenantId(TenantContext.getCurrentTenant());
+                this.employeeService.saveOrUpdateEmergencyContact(profile.getEmergency());
+            }
+
+        } catch (Exception e) {
+            throw new BusinessException(e.getMessage(), e);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void updatePersonalData(Long idEmployee, EmployeeTO data,
+                                   EmployeeComplementaryTO complementary,
+                                   EmployeeAddressTO address) {
+        try {
+            if (data != null) {
+                data.setId(idEmployee);
+                this.employeeService.saveOrUpdateEmployee(data);
+            }
+            if (complementary != null) {
+                this.employeeService.saveOrUpdateEmployeeComplementary(complementary);
+            }
+            if (address != null) {
+                this.employeeService.saveOrUpdateEmployeeAdress(address);
+            }
+        } catch (Exception e) {
+            throw new BusinessException(e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public void updateEmploymentData(Long idEmployee, ContratingDataTO contracting) {
+        try {
+            Optional.ofNullable(contracting).orElseThrow();
+            this.employeeService.saveOrUpdateContrating(contracting);
+        } catch (Exception e) {
+            throw new BusinessException(e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public void updateAssignmentData(Long idEmployee, AsignationDataTO assignment) {
+        try {
+            Optional.ofNullable(assignment).orElseThrow();
+            this.saveOrUpdateAsignationData(assignment);
+        } catch (Exception e) {
+            throw new BusinessException(e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public void saveEmergencyContact(Long idEmployee, EmergencyContactTO emergency) {
+        try {
+            Optional.ofNullable(emergency).orElseThrow();
+            emergency.setIdEmployee(idEmployee);
+            if (emergency.getTenantId() == null) {
+                emergency.setTenantId(TenantContext.getCurrentTenant());
+            }
+            this.employeeService.saveOrUpdateEmergencyContact(emergency);
+        } catch (Exception e) {
+            throw new BusinessException(e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public void terminateEmployee(Long idEmployee, String reason, java.time.LocalDate terminationDate) {
+        try {
+            this.employeeService.terminateEmployee(idEmployee, reason, terminationDate);
+        } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
     }
