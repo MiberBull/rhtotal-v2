@@ -58,6 +58,7 @@ export class LayoutComponent {
   navItems: NavItem[] = [
     { icon: 'dashboard', label: 'Dashboard', route: '/dashboard', permission: 'dashboard' },
     { icon: 'people', label: 'Usuarios', route: '/users', permission: 'users' },
+    { icon: 'badge', label: 'Colaboradores', route: '/colaboradores', permission: 'users' },
     { icon: 'admin_panel_settings', label: 'Roles', route: '/roles', permission: 'roles' },
     { icon: 'business', label: 'Clientes', route: '/clients', permission: 'clients' },
     // HR

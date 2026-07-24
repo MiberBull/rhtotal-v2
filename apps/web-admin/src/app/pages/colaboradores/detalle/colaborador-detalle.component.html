@@ -1,0 +1,379 @@
+<div class="detalle-container">
+  <!-- Breadcrumb -->
+  <nav class="breadcrumb">
+    <a routerLink="/colaboradores" class="breadcrumb-link">
+      <mat-icon>badge</mat-icon>
+      Colaboradores
+    </a>
+    <mat-icon class="breadcrumb-sep">chevron_right</mat-icon>
+    <span class="breadcrumb-current">
+      @if (profile()) {
+        {{ profile()!.employee.dsName || 'Colaborador' }}
+      } @else {
+        Cargando...
+      }
+    </span>
+  </nav>
+
+  <!-- Loading State -->
+  @if (loading()) {
+    <div class="loading-container">
+      <mat-spinner diameter="48"></mat-spinner>
+      <p>Cargando ficha del colaborador...</p>
+    </div>
+  } @else if (!profile()) {
+    <div class="empty-state">
+      <mat-icon>person_off</mat-icon>
+      <h3>No se encontro el colaborador</h3>
+      <button mat-stroked-button (click)="goBack()">Regresar a la lista</button>
+    </div>
+  } @else {
+    <!-- Card Header del Colaborador -->
+    <div class="profile-card">
+      <div class="profile-card-left">
+        <div class="profile-avatar">
+          {{ getInitials(profile()!.employee.dsName) }}
+        </div>
+        <div class="profile-info">
+          <h1 class="profile-name">{{ profile()!.employee.dsName }}</h1>
+          <div class="profile-meta">
+            @if (profile()!.employee.dsEmployeeNumber) {
+              <span class="meta-item">
+                <mat-icon>badge</mat-icon>
+                No. {{ profile()!.employee.dsEmployeeNumber }}
+              </span>
+            }
+            @if (profile()!.complementary.dsJobTitle) {
+              <span class="meta-item">
+                <mat-icon>work</mat-icon>
+                {{ profile()!.complementary.dsJobTitle }}
+              </span>
+            }
+            @if (profile()!.tenantName) {
+              <span class="meta-item">
+                <mat-icon>domain</mat-icon>
+                {{ profile()!.tenantName }}
+              </span>
+            }
+          </div>
+        </div>
+      </div>
+      <div class="profile-card-right">
+        <span
+          class="status-badge"
+          [class.status-active]="profile()!.employee.fgActive"
+          [class.status-baja]="!profile()!.employee.fgActive"
+        >
+          <mat-icon>{{ profile()!.employee.fgActive ? 'check_circle' : 'cancel' }}</mat-icon>
+          {{ profile()!.employee.fgActive ? 'Activo' : 'Baja' }}
+        </span>
+        <button mat-icon-button matTooltip="Regresar" (click)="goBack()">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <mat-tab-group animationDuration="200ms" class="detalle-tabs">
+      <!-- TAB 1: Datos Personales -->
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="tab-icon">person</mat-icon>
+          Datos Personales
+        </ng-template>
+        <div class="tab-content">
+          <div class="info-section">
+            <h3 class="section-title">Identificacion</h3>
+            <div class="info-grid">
+              <div class="info-field">
+                <span class="field-label">Sexo</span>
+                <span class="field-value">{{ getSexLabel(profile()!.employee.dsSex) }}</span>
+              </div>
+              <div class="info-field">
+                <span class="field-label">Fecha de Nacimiento</span>
+                <span class="field-value">{{ formatDate(profile()!.employee.dtBirthdate) }}</span>
+              </div>
+              <div class="info-field">
+                <span class="field-label">CURP</span>
+                <span class="field-value mono">{{ profile()!.employee.dsCurp || '—' }}</span>
+              </div>
+              <div class="info-field">
+                <span class="field-label">RFC</span>
+                <span class="field-value mono">{{ profile()!.employee.dsRfc || '—' }}</span>
+              </div>
+              <div class="info-field">
+                <span class="field-label">NSS</span>
+                <span class="field-value mono">{{ profile()!.employee.dsNss || '—' }}</span>
+              </div>
+            </div>
+          </div>
+
+          <mat-divider></mat-divider>
+
+          <div class="info-section">
+            <h3 class="section-title">Contacto</h3>
+            <div class="info-grid">
+              <div class="info-field">
+                <span class="field-label">Telefono</span>
+                <span class="field-value">{{ profile()!.employee.dsPhone || '—' }}</span>
+              </div>
+              <div class="info-field">
+                <span class="field-label">Correo electronico</span>
+                <span class="field-value">{{ profile()!.employee.dsEmail || '—' }}</span>
+              </div>
+            </div>
+          </div>
+
+          <mat-divider></mat-divider>
+
+          <div class="info-section">
+            <h3 class="section-title">Domicilio</h3>
+            <div class="info-grid">
+              <div class="info-field">
+                <span class="field-label">Calle y numero</span>
+                <span class="field-value">{{ profile()!.address.dsStreet || '—' }}</span>
+              </div>
+              <div class="info-field">
+                <span class="field-label">Colonia</span>
+                <span class="field-value">{{ profile()!.address.dsNeighborhood || '—' }}</span>
+              </div>
+              <div class="info-field">
+                <span class="field-label">Ciudad</span>
+                <span class="field-value">{{ profile()!.address.dsCity || '—' }}</span>
+              </div>
+              <div class="info-field">
+                <span class="field-label">Estado</span>
+                <span class="field-value">{{ profile()!.address.dsState || '—' }}</span>
+              </div>
+              <div class="info-field">
+                <span class="field-label">Codigo Postal</span>
+                <span class="field-value mono">{{ profile()!.address.dsZipCode || '—' }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+
+      <!-- TAB 2: Datos Laborales -->
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="tab-icon">work</mat-icon>
+          Datos Laborales
+        </ng-template>
+        <div class="tab-content">
+          <div class="info-section">
+            <h3 class="section-title">Puesto y Area</h3>
+            <div class="info-grid">
+              <div class="info-field">
+                <span class="field-label">Fecha de Ingreso</span>
+                <span class="field-value">{{ formatDate(profile()!.contracting.dtHireDate) }}</span>
+              </div>
+              <div class="info-field">
+                <span class="field-label">Puesto / Cargo</span>
+                <span class="field-value">{{ profile()!.complementary.dsJobTitle || '—' }}</span>
+              </div>
+              <div class="info-field">
+                <span class="field-label">Area</span>
+                <span class="field-value">{{ profile()!.complementary.dsArea || '—' }}</span>
+              </div>
+              <div class="info-field">
+                <span class="field-label">Tipo de Empleado</span>
+                <span class="field-value">{{
+                  profile()!.complementary.dsEmployeeType || '—'
+                }}</span>
+              </div>
+              <div class="info-field">
+                <span class="field-label">Turno / Horario</span>
+                <span class="field-value">
+                  {{
+                    profile()!.contracting.dsWorkShift ||
+                      profile()!.complementary.dsWorkSchedule ||
+                      '—'
+                  }}
+                </span>
+              </div>
+              <div class="info-field">
+                <span class="field-label">Tipo de Contrato</span>
+                <span class="field-value">{{
+                  profile()!.complementary.dsContractType || '—'
+                }}</span>
+              </div>
+            </div>
+          </div>
+
+          <mat-divider></mat-divider>
+
+          <div class="info-section">
+            <h3 class="section-title">DCH</h3>
+            <div class="info-grid">
+              <div class="info-field">
+                <span class="field-label">Razon Social empleadora</span>
+                <span class="field-value">{{ profile()!.tenantName || '—' }}</span>
+              </div>
+              <div class="info-field">
+                <span class="field-label">Ejecutivo DCH asignado</span>
+                <span class="field-value">{{ profile()!.employee.dsDchExecutive || '—' }}</span>
+              </div>
+              @if (profile()!.vacationBalance > 0) {
+                <div class="info-field">
+                  <span class="field-label">Dias de vacaciones disponibles</span>
+                  <span class="field-value">
+                    <span class="vacation-chip">{{ profile()!.vacationBalance }} dias</span>
+                  </span>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+
+      <!-- TAB 3: Asignacion a Cliente -->
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="tab-icon">business_center</mat-icon>
+          Asignacion
+        </ng-template>
+        <div class="tab-content">
+          <div class="info-section">
+            <h3 class="section-title">Asignacion a Cliente</h3>
+            @if (!profile()!.assignment.dsClientName) {
+              <div class="no-data">
+                <mat-icon>info_outline</mat-icon>
+                <p>Este colaborador no tiene asignacion a cliente registrada.</p>
+              </div>
+            } @else {
+              <div class="info-grid">
+                <div class="info-field">
+                  <span class="field-label">Cliente</span>
+                  <span class="field-value">{{ profile()!.assignment.dsClientName || '—' }}</span>
+                </div>
+                <div class="info-field">
+                  <span class="field-label">Proyecto</span>
+                  <span class="field-value">{{ profile()!.assignment.dsProjectName || '—' }}</span>
+                </div>
+                <div class="info-field">
+                  <span class="field-label">Centro de Trabajo</span>
+                  <span class="field-value">{{ profile()!.assignment.dsWorkCenter || '—' }}</span>
+                </div>
+                <div class="info-field">
+                  <span class="field-label">Region</span>
+                  <span class="field-value">{{ profile()!.assignment.dsRegion || '—' }}</span>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </mat-tab>
+
+      <!-- TAB 4: Contacto de Emergencia -->
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="tab-icon">emergency</mat-icon>
+          Emergencia
+        </ng-template>
+        <div class="tab-content">
+          <div class="info-section">
+            <h3 class="section-title">Contacto de Emergencia</h3>
+            <p class="section-subtitle">Esta informacion puede editarse directamente.</p>
+
+            <form
+              [formGroup]="emergencyForm"
+              (ngSubmit)="saveEmergencyContact()"
+              class="emergency-form"
+            >
+              <div class="form-grid">
+                <mat-form-field appearance="outline">
+                  <mat-label>Nombre completo</mat-label>
+                  <input matInput formControlName="dsName" />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Parentesco</mat-label>
+                  <input
+                    matInput
+                    formControlName="dsRelationship"
+                    placeholder="Madre, Padre, Conyugue..."
+                  />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Telefono principal</mat-label>
+                  <input matInput formControlName="dsPhone" type="tel" />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Telefono alternativo</mat-label>
+                  <input matInput formControlName="dsPhoneAlt" type="tel" />
+                </mat-form-field>
+              </div>
+
+              <div class="form-actions">
+                <button mat-flat-button color="primary" type="submit" [disabled]="savingContact()">
+                  @if (savingContact()) {
+                    <mat-spinner diameter="20"></mat-spinner>
+                  } @else {
+                    <mat-icon>save</mat-icon>
+                    Guardar Contacto
+                  }
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </mat-tab>
+
+      <!-- TAB 5: Baja -->
+      @if (!profile()!.employee.fgActive || canRegistrarBaja()) {
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon class="tab-icon tab-icon-warn">person_off</mat-icon>
+            Baja
+          </ng-template>
+          <div class="tab-content">
+            <div class="info-section">
+              <h3 class="section-title">Informacion de Baja</h3>
+
+              @if (!profile()!.employee.fgActive) {
+                <div class="baja-info-card">
+                  <mat-icon color="warn">warning</mat-icon>
+                  <div>
+                    <p class="baja-label">Este colaborador se encuentra dado de baja.</p>
+                    <div class="info-grid baja-grid">
+                      <div class="info-field">
+                        <span class="field-label">Fecha de Baja</span>
+                        <span class="field-value">{{
+                          formatDate(profile()!.employee.dtTerminationDate)
+                        }}</span>
+                      </div>
+                      <div class="info-field">
+                        <span class="field-label">Motivo</span>
+                        <span class="field-value">{{
+                          profile()!.employee.dsTerminationReason || '—'
+                        }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              } @else if (canRegistrarBaja()) {
+                <div class="baja-action-card">
+                  <mat-icon>info_outline</mat-icon>
+                  <div>
+                    <p>El colaborador esta actualmente <strong>activo</strong>.</p>
+                    <p class="baja-action-hint">
+                      Si necesitas registrar una baja, utiliza el boton a continuacion. Esta accion
+                      quedara registrada en el expediente.
+                    </p>
+                    <button mat-flat-button color="warn" (click)="openBajaDialog()">
+                      <mat-icon>person_off</mat-icon>
+                      Registrar Baja
+                    </button>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        </mat-tab>
+      }
+    </mat-tab-group>
+  }
+</div>
