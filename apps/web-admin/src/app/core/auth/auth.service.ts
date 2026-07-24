@@ -10,6 +10,7 @@ interface StoredAuth {
   user: UserTO;
   menu: MenuItem[];
   token: string;
+  tenantId: string;
 }
 
 const ROLE_PERMISSIONS: Record<DchRole, string[]> = {
@@ -105,11 +106,13 @@ export class AuthService {
   private _user = signal<UserTO | null>(null);
   private _menu = signal<MenuItem[]>([]);
   private _token = signal<string>('');
+  private _tenantId = signal<string>('');
 
   readonly isAuthenticated = computed(() => !!this._user());
   readonly currentUser = computed(() => this._user());
   readonly menu = computed(() => this._menu());
   readonly token = computed(() => this._token());
+  readonly tenantId = computed(() => this._tenantId());
 
   /** Derived role signal — defaults to DCH_VIEWER if no role found */
   readonly userRole = computed<DchRole>(() => {
@@ -145,7 +148,10 @@ export class AuthService {
     return this.hasPermission(permission);
   }
 
-  async login(email: string, password: string): Promise<LoginResponseTO> {
+  async login(email: string, password: string, tenant: string): Promise<LoginResponseTO> {
+    // Establecer tenant ANTES del request — el interceptor lo inyectará en X-Tenant-ID
+    this._tenantId.set(tenant);
+
     const encryptedPassword = this.cryptoService.encrypt(password);
     const request = { user: { email, password: encryptedPassword } };
 
@@ -156,11 +162,16 @@ export class AuthService {
             this._user.set(response.user);
             this._menu.set(response.menu ?? []);
             this._token.set(response.token ?? '');
+            // Confirmar tenant con lo que devuelve el servidor
+            this._tenantId.set(response.tenantId ?? tenant);
             this.saveToStorage();
           }
           resolve(response);
         },
-        error: (err) => reject(err),
+        error: (err) => {
+          this._tenantId.set('');
+          reject(err);
+        },
       });
     });
   }
@@ -169,6 +180,7 @@ export class AuthService {
     this._user.set(null);
     this._menu.set([]);
     this._token.set('');
+    this._tenantId.set('');
     localStorage.removeItem(STORAGE_KEY);
     this.router.navigate(['/login']);
   }
@@ -178,6 +190,7 @@ export class AuthService {
       user: this._user()!,
       menu: this._menu(),
       token: this._token(),
+      tenantId: this._tenantId(),
     };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
   }
@@ -190,6 +203,7 @@ export class AuthService {
       this._user.set(data.user);
       this._menu.set(data.menu);
       this._token.set(data.token);
+      this._tenantId.set(data.tenantId ?? '');
     } catch {
       localStorage.removeItem(STORAGE_KEY);
     }
