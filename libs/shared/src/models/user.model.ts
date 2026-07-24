@@ -16,6 +16,7 @@ export interface UserTO {
   nameRole?: DchRole;
   nameRol?: DchRole;
   role?: DchRole;
+  tenantId?: string;
 }
 
 export interface LoginRequestTO {
@@ -30,6 +31,7 @@ export interface LoginResponseTO {
   user: UserTO;
   menu?: MenuItem[];
   token?: string;
+  tenantId?: string;
 }
 
 export enum LoginFlag {

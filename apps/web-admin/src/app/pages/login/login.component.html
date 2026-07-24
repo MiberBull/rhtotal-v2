@@ -50,6 +50,22 @@
     <!-- ── Formulario ────────────────────── -->
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
       <mat-form-field appearance="outline">
+        <mat-label>Razón Social</mat-label>
+        <mat-select formControlName="tenant">
+          @for (t of tenants; track t.id) {
+            <mat-option [value]="t.id">
+              <span class="tenant-option-name">{{ t.name }}</span>
+              <span class="tenant-option-desc"> — {{ t.description }}</span>
+            </mat-option>
+          }
+        </mat-select>
+        <mat-icon matPrefix>business</mat-icon>
+        @if (loginForm.controls.tenant.hasError('required') && loginForm.controls.tenant.touched) {
+          <mat-error>Selecciona tu razón social</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
         <mat-label>Correo electrónico</mat-label>
         <input
           matInput

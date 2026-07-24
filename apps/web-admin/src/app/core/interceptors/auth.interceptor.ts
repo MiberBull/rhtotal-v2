@@ -14,8 +14,9 @@ export const authInterceptor: HttpInterceptorFn = (
 ) => {
   const authService = inject(AuthService);
   const token = authService.token();
+  const tenantId = authService.tenantId();
 
-  const headers: Record<string, string> = { 'X-Tenant-ID': 'demo-corp' };
+  const headers: Record<string, string> = { 'X-Tenant-ID': tenantId || 'demo-corp' };
   if (token) {
     headers['Authorization'] = `Bearer ${token}`;
   }

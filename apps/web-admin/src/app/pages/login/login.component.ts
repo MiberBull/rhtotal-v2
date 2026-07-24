@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
 import { AuthService } from '../../core/auth/auth.service';
 import { LoginFlag } from '@dch/shared';
 
@@ -24,6 +25,7 @@ import { LoginFlag } from '@dch/shared';
     MatButtonModule,
     MatIconModule,
     MatProgressSpinnerModule,
+    MatSelectModule,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
@@ -37,7 +39,14 @@ export class LoginComponent {
   loading = signal(false);
   errorMessage = signal('');
 
+  readonly tenants = [
+    { id: 'aeisa', name: 'AEISA', description: 'Administración y Consultoría' },
+    { id: 'rga', name: 'RGA', description: 'Almacén y Logística' },
+    { id: 'staffing', name: 'DCH Staffing', description: 'Mantenimiento Industrial' },
+  ];
+
   loginForm = this.fb.nonNullable.group({
+    tenant: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(8)]],
   });
@@ -55,10 +64,10 @@ export class LoginComponent {
     this.loading.set(true);
     this.errorMessage.set('');
 
-    const { email, password } = this.loginForm.getRawValue();
+    const { tenant, email, password } = this.loginForm.getRawValue();
 
     try {
-      const response = await this.authService.login(email, password);
+      const response = await this.authService.login(email, password, tenant);
 
       switch (response.flag) {
         case LoginFlag.OK:
