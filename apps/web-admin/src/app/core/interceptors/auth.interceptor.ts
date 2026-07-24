@@ -16,7 +16,11 @@ export const authInterceptor: HttpInterceptorFn = (
   const token = authService.token();
   const tenantId = authService.tenantId();
 
-  const headers: Record<string, string> = { 'X-Tenant-ID': tenantId || 'demo-corp' };
+  // En modo global (ALL) o sin tenant → omitir X-Tenant-ID; el backend devuelve todos los tenants
+  const headers: Record<string, string> = {};
+  if (tenantId && tenantId !== 'ALL') {
+    headers['X-Tenant-ID'] = tenantId;
+  }
   if (token) {
     headers['Authorization'] = `Bearer ${token}`;
   }
