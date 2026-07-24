@@ -102,6 +102,13 @@ export class AuthService {
   private securityApi = inject(SecurityApiService);
   private cryptoService = inject(CryptoService);
 
+  /** Razones Sociales disponibles del grupo DCH */
+  readonly availableTenants = [
+    { id: 'aeisa', label: 'AEISA', description: 'Administración y Consultoría' },
+    { id: 'rga', label: 'RGA', description: 'Operaciones de Almacén' },
+    { id: 'staffing', label: 'Staffing', description: 'Mantenimiento Industrial' },
+  ];
+
   // Signals
   private _user = signal<UserTO | null>(null);
   private _menu = signal<MenuItem[]>([]);
@@ -174,6 +181,12 @@ export class AuthService {
         },
       });
     });
+  }
+
+  /** Cambia la Razón Social activa sin re-login (solo para DCH_ADMIN / DCH_SUPER_ADMIN) */
+  setTenant(tenantId: string): void {
+    this._tenantId.set(tenantId);
+    this.saveToStorage();
   }
 
   logout(): void {
