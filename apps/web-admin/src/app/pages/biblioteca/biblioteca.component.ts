@@ -120,7 +120,7 @@ export class BibliotecaComponent implements OnInit {
   }
 
   get tenantId(): string {
-    return this.authService.currentUser()?.tenantId ?? 'demo';
+    return 'demo';
   }
 
   loadAll(): void {
