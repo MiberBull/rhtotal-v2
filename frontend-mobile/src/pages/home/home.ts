@@ -23,6 +23,7 @@ import { AsistenciaPage } from '../asistencia/asistencia';
 import { MisVacacionesPage } from '../mis-vacaciones/mis-vacaciones';
 import { MisTicketsPage } from '../mis-tickets/mis-tickets';
 import { MisEncuestasPage } from '../mis-encuestas/mis-encuestas';
+import { MiBibliotecaPage } from '../mi-biblioteca/mi-biblioteca';
 import { StorageProvider } from '../../providers/storage/storage';
 import { TYPE_USER, KEYS_STORAGE } from '../../environments/environments';
 //import { Observable } from 'rxjs';
@@ -165,6 +166,9 @@ export class HomePage {
         if (TYPE_USER.IN === this.userType) {
           this.navCtrl.push(MisEncuestasPage);
         }
+        break;
+      case 'biblioteca':
+        this.navCtrl.push(MiBibliotecaPage);
         break;
     }
   }

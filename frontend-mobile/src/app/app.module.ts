@@ -107,6 +107,7 @@ import { AsistenciaPage } from '../pages/asistencia/asistencia';
 import { MisVacacionesPage } from '../pages/mis-vacaciones/mis-vacaciones';
 import { MisTicketsPage } from '../pages/mis-tickets/mis-tickets';
 import { MisEncuestasPage } from '../pages/mis-encuestas/mis-encuestas';
+import { MiBibliotecaPage } from '../pages/mi-biblioteca/mi-biblioteca';
 import { AttendanceProvider } from '../providers/attendance/attendance';
 import { HrEmployeeProvider } from '../providers/hr-employee/hr-employee';
 
@@ -159,6 +160,7 @@ export const MATERIAL_COMPONENTS = [MatProgressBarModule];
     MisVacacionesPage,
     MisTicketsPage,
     MisEncuestasPage,
+    MiBibliotecaPage,
   ],
   imports: [
     BrowserModule,
@@ -230,6 +232,7 @@ export const MATERIAL_COMPONENTS = [MatProgressBarModule];
     MisVacacionesPage,
     MisTicketsPage,
     MisEncuestasPage,
+    MiBibliotecaPage,
   ],
   providers: [
     StatusBar,

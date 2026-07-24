@@ -80,7 +80,15 @@ public class ResourceLibraryController {
     @RequestMapping(value = "/document/{id}/ack", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<ResourceAckTO> acknowledgeDocument(
             @PathVariable("id") Long id,
+            @RequestHeader(name = "X-Employee-Id", required = false) Long employeeIdHeader,
             @RequestBody ResourceAckTO ack) {
+        if (employeeIdHeader == null && (ack.getIdEmployee() == null || ack.getIdEmployee() <= 0)) {
+            LOG.warn("acknowledgeDocument rejected: missing employee identification");
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        if (employeeIdHeader != null) {
+            ack.setIdEmployee(employeeIdHeader);
+        }
         LOG.info("init acknowledgeDocument id={} employee={}", id, ack.getIdEmployee());
         return new ResponseEntity<>(facade.acknowledgeDocument(id, ack), HttpStatus.CREATED);
     }
