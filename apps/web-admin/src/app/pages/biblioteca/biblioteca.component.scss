@@ -275,6 +275,32 @@
   color: #bdbdbd;
 }
 
+.expiry-soon {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  color: #e65100;
+  font-weight: 600;
+  font-size: 0.8125rem;
+}
+
+.expiry-ok {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  color: #424242;
+  font-size: 0.8125rem;
+}
+
+.expiry-none {
+  color: #bdbdbd;
+}
+
+.publisher-name {
+  font-size: 0.8125rem;
+  color: #616161;
+}
+
 // ACKs overlay
 .acks-overlay {
   position: fixed;

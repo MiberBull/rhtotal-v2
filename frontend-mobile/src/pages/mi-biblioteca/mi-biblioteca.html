@@ -1,0 +1,117 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-buttons start>
+      <button ion-button (click)="back()">
+        <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>{{ selectedDoc ? selectedDoc.title : 'Biblioteca' }}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="biblioteca-content" padding>
+  <!-- Vista lista de documentos -->
+  <div *ngIf="!selectedDoc">
+    <!-- Filtro por categoría -->
+    <div class="category-scroll">
+      <button
+        ion-button
+        small
+        [color]="selectedCategory === null ? 'primary' : 'light'"
+        (click)="filterByCategory(null)"
+        class="cat-btn"
+      >
+        Todos
+      </button>
+      <button
+        *ngFor="let cat of categories"
+        ion-button
+        small
+        [color]="selectedCategory === cat.idCategory ? 'primary' : 'light'"
+        (click)="filterByCategory(cat.idCategory)"
+        class="cat-btn"
+      >
+        <ion-icon [name]="cat.icon || 'folder'" item-start></ion-icon>
+        {{ cat.name }}
+      </button>
+    </div>
+
+    <!-- Estado vacío -->
+    <div *ngIf="documents.length === 0" class="empty-msg">
+      <ion-icon name="book"></ion-icon>
+      <p>Sin documentos disponibles</p>
+    </div>
+
+    <!-- Lista de documentos -->
+    <ion-card *ngFor="let doc of documents" class="doc-card" (click)="selectDoc(doc)">
+      <ion-card-content>
+        <div class="doc-row">
+          <ion-icon [name]="getMimeIcon(doc.mimeType)" class="doc-icon" color="primary"></ion-icon>
+          <div class="doc-info">
+            <p class="doc-title">{{ doc.title }}</p>
+            <p class="doc-meta">{{ doc.categoryName }} · v{{ doc.version }}</p>
+            <p *ngIf="doc.description" class="doc-desc">{{ doc.description }}</p>
+          </div>
+          <div class="doc-badges">
+            <span *ngIf="doc.requiresAck" class="ack-badge">ACK</span>
+            <ion-icon name="chevron-forward" class="chevron"></ion-icon>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Vista detalle de documento -->
+  <div *ngIf="selectedDoc">
+    <ion-card class="detail-card">
+      <ion-card-header class="card-header-primary">
+        <div class="detail-header-row">
+          <ion-icon [name]="getMimeIcon(selectedDoc.mimeType)" class="detail-icon"></ion-icon>
+          <div>
+            <div class="detail-title">{{ selectedDoc.title }}</div>
+            <div class="detail-meta">
+              {{ selectedDoc.categoryName }} · v{{ selectedDoc.version }}
+            </div>
+          </div>
+        </div>
+      </ion-card-header>
+      <ion-card-content>
+        <p *ngIf="selectedDoc.description" class="detail-desc">{{ selectedDoc.description }}</p>
+
+        <div class="detail-info-row">
+          <span class="info-label">Publicado por</span>
+          <span class="info-value">{{ selectedDoc.publishedBy || '—' }}</span>
+        </div>
+        <div class="detail-info-row" *ngIf="selectedDoc.publicationDate">
+          <span class="info-label">Fecha</span>
+          <span class="info-value">{{ selectedDoc.publicationDate | date:'dd/MM/yyyy' }}</span>
+        </div>
+        <div class="detail-info-row" *ngIf="selectedDoc.expiryDate">
+          <span class="info-label">Vigente hasta</span>
+          <span class="info-value expiry-warning"
+            >{{ selectedDoc.expiryDate | date:'dd/MM/yyyy' }}</span
+          >
+        </div>
+
+        <!-- Sección de confirmación de lectura -->
+        <div *ngIf="selectedDoc.requiresAck" class="ack-section">
+          <div *ngIf="selectedDoc._acked" class="ack-confirmed">
+            <ion-icon name="checkmark-circle" color="secondary"></ion-icon>
+            Lectura confirmada
+          </div>
+          <button
+            *ngIf="!selectedDoc._acked"
+            ion-button
+            block
+            color="secondary"
+            [disabled]="ackInProgress"
+            (click)="acknowledgeDoc()"
+          >
+            <ion-icon name="checkmark-circle-outline" item-start></ion-icon>
+            {{ ackInProgress ? 'Confirmando...' : 'Confirmar lectura' }}
+          </button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

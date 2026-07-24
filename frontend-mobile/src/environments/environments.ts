@@ -87,6 +87,14 @@ export const PATH_NOTIFICATION = {
   LAST_NOTIFICATIONS: 'notification/notificationUser',
 };
 
+export const PATH_BIBLIOTECA = {
+  DOMAIN: `${DEV_GATEWAY}/api/application`,
+  CATEGORIES: 'library/categories',
+  DOCUMENTS_VISIBLE: 'library/documents/visible',
+  DOCUMENT_DETAIL: 'library/document',
+  DOCUMENT_ACK: 'library/document',
+};
+
 export const PATH_APLICATION = {
   DOMAIN: `${DEV_GATEWAY}/api/application/`,
   PARAMETER: 'companyInformation/getCompanyInformation?nameCompanyInformation=',

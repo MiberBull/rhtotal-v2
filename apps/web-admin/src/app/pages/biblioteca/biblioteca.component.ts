@@ -112,6 +112,8 @@ export class BibliotecaComponent implements OnInit {
     'visibility',
     'ack',
     'date',
+    'expiry',
+    'publishedBy',
     'actions',
   ];
 
@@ -203,6 +205,7 @@ export class BibliotecaComponent implements OnInit {
       visibility: doc.visibility ?? 'GENERAL',
       requiresAck: doc.requiresAck ?? false,
       publishedBy: this.authService.currentUser()?.email ?? 'admin',
+      expiryDate: doc.expiryDate ?? null,
     };
 
     this.http
@@ -307,5 +310,11 @@ export class BibliotecaComponent implements OnInit {
 
   updateDocField(field: string, value: any): void {
     this.newDoc.set({ ...this.newDoc(), [field]: value });
+  }
+
+  isExpiringSoon(expiryDate: string): boolean {
+    if (!expiryDate) return false;
+    const diff = new Date(expiryDate).getTime() - Date.now();
+    return diff > 0 && diff < 7 * 24 * 60 * 60 * 1000; // dentro de 7 días
   }
 }

@@ -88,6 +88,17 @@
             }
           </div>
 
+          <mat-form-field appearance="outline">
+            <mat-label>Fecha de vencimiento</mat-label>
+            <input
+              matInput
+              type="date"
+              [value]="newDoc().expiryDate ?? ''"
+              (input)="updateDocField('expiryDate', $any($event.target).value || null)"
+            />
+            <mat-hint>Opcional — el documento se ocultará después de esta fecha</mat-hint>
+          </mat-form-field>
+
           <div class="ack-toggle">
             <label>
               <input
@@ -239,6 +250,33 @@
           <th mat-header-cell *matHeaderCellDef>Publicado</th>
           <td mat-cell *matCellDef="let doc">
             {{ doc.publicationDate | date: 'dd/MM/yyyy' }}
+          </td>
+        </ng-container>
+
+        <!-- Expiry Column -->
+        <ng-container matColumnDef="expiry">
+          <th mat-header-cell *matHeaderCellDef>Vigencia</th>
+          <td mat-cell *matCellDef="let doc">
+            @if (doc.expiryDate) {
+              <span [class]="isExpiringSoon(doc.expiryDate) ? 'expiry-soon' : 'expiry-ok'">
+                <mat-icon
+                  style="font-size: 14px; width: 14px; height: 14px; vertical-align: middle"
+                >
+                  {{ isExpiringSoon(doc.expiryDate) ? 'warning' : 'event' }}
+                </mat-icon>
+                {{ doc.expiryDate | date: 'dd/MM/yyyy' }}
+              </span>
+            } @else {
+              <span class="expiry-none">—</span>
+            }
+          </td>
+        </ng-container>
+
+        <!-- PublishedBy Column -->
+        <ng-container matColumnDef="publishedBy">
+          <th mat-header-cell *matHeaderCellDef>Publicado por</th>
+          <td mat-cell *matCellDef="let doc">
+            <span class="publisher-name">{{ doc.publishedBy ?? '—' }}</span>
           </td>
         </ng-container>
 
