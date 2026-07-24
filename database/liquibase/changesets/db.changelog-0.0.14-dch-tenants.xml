@@ -65,7 +65,7 @@
 
         <insert tableName="k_rol_assignment" schemaName="public">
             <column name="id_rol" value="1"/>
-            <column name="ds_name_rol" value="Administrador Master"/>
+            <column name="ds_name_rol" value="DCH_ADMIN"/>
             <column name="ds_name" value="Admin"/>
             <column name="ds_last_name" value="AEISA"/>
             <column name="ds_m_last_name" value="DCH"/>
@@ -83,7 +83,7 @@
 
         <insert tableName="k_rol_assignment" schemaName="public">
             <column name="id_rol" value="2"/>
-            <column name="ds_name_rol" value="RRHH"/>
+            <column name="ds_name_rol" value="DCH_RRHH"/>
             <column name="ds_name" value="RRHH"/>
             <column name="ds_last_name" value="AEISA"/>
             <column name="ds_m_last_name" value="DCH"/>
@@ -114,7 +114,7 @@
 
         <insert tableName="k_rol_assignment" schemaName="public">
             <column name="id_rol" value="1"/>
-            <column name="ds_name_rol" value="Administrador Master"/>
+            <column name="ds_name_rol" value="DCH_ADMIN"/>
             <column name="ds_name" value="Admin"/>
             <column name="ds_last_name" value="RGA"/>
             <column name="ds_m_last_name" value="DCH"/>
@@ -132,7 +132,7 @@
 
         <insert tableName="k_rol_assignment" schemaName="public">
             <column name="id_rol" value="2"/>
-            <column name="ds_name_rol" value="RRHH"/>
+            <column name="ds_name_rol" value="DCH_RRHH"/>
             <column name="ds_name" value="RRHH"/>
             <column name="ds_last_name" value="RGA"/>
             <column name="ds_m_last_name" value="DCH"/>
@@ -163,7 +163,7 @@
 
         <insert tableName="k_rol_assignment" schemaName="public">
             <column name="id_rol" value="1"/>
-            <column name="ds_name_rol" value="Administrador Master"/>
+            <column name="ds_name_rol" value="DCH_ADMIN"/>
             <column name="ds_name" value="Admin"/>
             <column name="ds_last_name" value="Staffing"/>
             <column name="ds_m_last_name" value="DCH"/>
@@ -181,7 +181,7 @@
 
         <insert tableName="k_rol_assignment" schemaName="public">
             <column name="id_rol" value="2"/>
-            <column name="ds_name_rol" value="RRHH"/>
+            <column name="ds_name_rol" value="DCH_RRHH"/>
             <column name="ds_name" value="RRHH"/>
             <column name="ds_last_name" value="Staffing"/>
             <column name="ds_m_last_name" value="DCH"/>

@@ -46,6 +46,15 @@ export class LoginComponent {
     this.hidePassword.update((v) => !v);
   }
 
+  /** Deduce la Razón Social desde el dominio del email (aeisa/rga/staffing → tenant id) */
+  private resolveTenant(email: string): string {
+    const domain = email.split('@')[1]?.toLowerCase() ?? '';
+    for (const t of this.authService.availableTenants) {
+      if (domain.includes(t.id)) return t.id;
+    }
+    return this.authService.availableTenants[0]?.id ?? 'aeisa';
+  }
+
   async onSubmit(): Promise<void> {
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
@@ -58,7 +67,7 @@ export class LoginComponent {
     const { email, password } = this.loginForm.getRawValue();
 
     try {
-      const response = await this.authService.login(email, password, 'demo-corp');
+      const response = await this.authService.login(email, password, this.resolveTenant(email));
 
       switch (response.flag) {
         case LoginFlag.OK:
