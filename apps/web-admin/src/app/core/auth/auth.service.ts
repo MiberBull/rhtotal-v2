@@ -11,6 +11,7 @@ interface StoredAuth {
   menu: MenuItem[];
   token: string;
   tenantId: string;
+  loginTenant: string;
 }
 
 const ROLE_PERMISSIONS: Record<DchRole, string[]> = {
@@ -102,8 +103,12 @@ export class AuthService {
   private securityApi = inject(SecurityApiService);
   private cryptoService = inject(CryptoService);
 
+  /** Tenants corporativos DCH — sus usuarios pueden cambiar entre RS */
+  private readonly CORPORATE_TENANTS = ['dchkw', 'demo-corp'];
+
   /** Razones Sociales disponibles del grupo DCH */
   readonly availableTenants = [
+    { id: 'ALL', label: 'Todas las RS', description: 'Vista consolidada DCH' },
     { id: 'aeisa', label: 'AEISA', description: 'Administración y Consultoría' },
     { id: 'rga', label: 'RGA', description: 'Operaciones de Almacén' },
     { id: 'staffing', label: 'Staffing', description: 'Mantenimiento Industrial' },
@@ -114,12 +119,29 @@ export class AuthService {
   private _menu = signal<MenuItem[]>([]);
   private _token = signal<string>('');
   private _tenantId = signal<string>('');
+  /** Tenant con el que autenticó el usuario — no cambia durante la sesión */
+  private _loginTenant = signal<string>('');
 
   readonly isAuthenticated = computed(() => !!this._user());
   readonly currentUser = computed(() => this._user());
   readonly menu = computed(() => this._menu());
   readonly token = computed(() => this._token());
   readonly tenantId = computed(() => this._tenantId());
+
+  /** True si el usuario pertenece al corporativo DCH (no a una RS específica) */
+  readonly isDchCorporate = computed(() => this.CORPORATE_TENANTS.includes(this._loginTenant()));
+
+  /**
+   * Puede cambiar de RS sin re-login:
+   * - DCH_SUPER_ADMIN siempre
+   * - DCH_RRHH solo si es usuario corporativo DCH
+   */
+  readonly canSwitchTenant = computed(() => {
+    const role = this.userRole();
+    if (role === 'DCH_SUPER_ADMIN') return true;
+    if (role === 'DCH_RRHH' && this.isDchCorporate()) return true;
+    return false;
+  });
 
   /** Derived role signal — defaults to DCH_VIEWER if no role found */
   readonly userRole = computed<DchRole>(() => {
@@ -158,6 +180,7 @@ export class AuthService {
   async login(email: string, password: string, tenant: string): Promise<LoginResponseTO> {
     // Establecer tenant ANTES del request — el interceptor lo inyectará en X-Tenant-ID
     this._tenantId.set(tenant);
+    this._loginTenant.set(tenant);
 
     const encryptedPassword = this.cryptoService.encrypt(password);
     const request = { user: { email, password: encryptedPassword } };
@@ -169,8 +192,9 @@ export class AuthService {
             this._user.set(response.user);
             this._menu.set(response.menu ?? []);
             this._token.set(response.token ?? '');
-            // Confirmar tenant con lo que devuelve el servidor
-            this._tenantId.set(response.tenantId ?? tenant);
+            const confirmedTenant = response.tenantId ?? tenant;
+            this._tenantId.set(confirmedTenant);
+            this._loginTenant.set(confirmedTenant);
             this.saveToStorage();
           }
           resolve(response);
@@ -194,6 +218,7 @@ export class AuthService {
     this._menu.set([]);
     this._token.set('');
     this._tenantId.set('');
+    this._loginTenant.set('');
     localStorage.removeItem(STORAGE_KEY);
     this.router.navigate(['/login']);
   }
@@ -204,6 +229,7 @@ export class AuthService {
       menu: this._menu(),
       token: this._token(),
       tenantId: this._tenantId(),
+      loginTenant: this._loginTenant(),
     };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
   }
@@ -217,6 +243,7 @@ export class AuthService {
       this._menu.set(data.menu);
       this._token.set(data.token);
       this._tenantId.set(data.tenantId ?? '');
+      this._loginTenant.set(data.loginTenant ?? data.tenantId ?? '');
     } catch {
       localStorage.removeItem(STORAGE_KEY);
     }

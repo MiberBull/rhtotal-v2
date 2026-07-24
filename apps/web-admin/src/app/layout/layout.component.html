@@ -94,20 +94,39 @@
           </button>
 
           <mat-menu #tenantMenu="matMenu" xPosition="before" panelClass="tenant-menu">
-            <div class="tenant-menu-header">Razón Social activa</div>
+            <div class="tenant-menu-header">Contexto activo</div>
             <mat-divider></mat-divider>
+
+            <!-- Vista global (sin filtro de RS) -->
+            <button
+              mat-menu-item
+              (click)="switchTenant('ALL')"
+              [class.tenant-active]="authService.tenantId() === 'ALL'"
+            >
+              <mat-icon>{{ authService.tenantId() === 'ALL' ? 'check_circle' : 'hub' }}</mat-icon>
+              <span class="tenant-item-name">Todas las RS</span>
+              <span class="tenant-item-desc">Vista consolidada DCH</span>
+            </button>
+
+            <mat-divider></mat-divider>
+
+            <!-- RS individuales -->
             @for (t of authService.availableTenants; track t.id) {
-              <button
-                mat-menu-item
-                (click)="switchTenant(t.id)"
-                [class.tenant-active]="authService.tenantId() === t.id"
-              >
-                <mat-icon>
-                  {{ authService.tenantId() === t.id ? 'check_circle' : 'radio_button_unchecked' }}
-                </mat-icon>
-                <span class="tenant-item-name">{{ t.label }}</span>
-                <span class="tenant-item-desc">{{ t.description }}</span>
-              </button>
+              @if (t.id !== 'ALL') {
+                <button
+                  mat-menu-item
+                  (click)="switchTenant(t.id)"
+                  [class.tenant-active]="authService.tenantId() === t.id"
+                >
+                  <mat-icon>
+                    {{
+                      authService.tenantId() === t.id ? 'check_circle' : 'radio_button_unchecked'
+                    }}
+                  </mat-icon>
+                  <span class="tenant-item-name">{{ t.label }}</span>
+                  <span class="tenant-item-desc">{{ t.description }}</span>
+                </button>
+              }
             }
           </mat-menu>
         }

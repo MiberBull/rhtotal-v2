@@ -49,11 +49,11 @@ export class LayoutComponent {
   /** Label corta del tenant activo para mostrar en el toolbar */
   currentTenantLabel = computed(() => {
     const t = this.authService.availableTenants.find((x) => x.id === this.authService.tenantId());
-    return t?.label ?? (this.authService.tenantId() || 'RS');
+    return t?.label ?? (this.authService.tenantId() || 'DCH');
   });
 
-  /** Solo admins pueden cambiar de RS */
-  canSwitchTenant = computed(() => this.authService.hasPermission('tenants'));
+  /** Solo SUPER_ADMIN y RRHH corporativo DCH pueden cambiar de RS */
+  canSwitchTenant = this.authService.canSwitchTenant;
 
   navItems: NavItem[] = [
     { icon: 'dashboard', label: 'Dashboard', route: '/dashboard', permission: 'dashboard' },
