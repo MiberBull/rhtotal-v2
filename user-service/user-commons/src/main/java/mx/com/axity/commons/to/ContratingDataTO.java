@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 public class ContratingDataTO {
 
-    private  long idContrating;
+    private long idContrating;
 
     private long idUser;
 
@@ -55,6 +55,10 @@ public class ContratingDataTO {
     private LocalDateTime creationDate;
 
     private boolean active;
+
+    private LocalDate dtHireDate;
+
+    private String dsWorkShift;
 
     public Long getIdContrating() {
         return idContrating;
@@ -166,5 +170,21 @@ public class ContratingDataTO {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public LocalDate getDtHireDate() {
+        return dtHireDate;
+    }
+
+    public void setDtHireDate(LocalDate dtHireDate) {
+        this.dtHireDate = dtHireDate;
+    }
+
+    public String getDsWorkShift() {
+        return dsWorkShift;
+    }
+
+    public void setDsWorkShift(String dsWorkShift) {
+        this.dsWorkShift = dsWorkShift;
     }
 }

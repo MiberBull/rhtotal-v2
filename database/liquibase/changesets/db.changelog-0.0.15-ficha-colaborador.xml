@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+  <!--
+      ====================================================================
+      FICHA DEL COLABORADOR — Sprint 15
+      ====================================================================
+      Extiende las tablas existentes con campos requeridos para la ficha
+      completa del colaborador: numero de empleado, ejecutivo DCH,
+      baja, jornada, centro de trabajo, region y contacto de emergencia.
+      ====================================================================
+  -->
+
+  <!-- ================================================================== -->
+  <!-- 0.0.15-001: Columnas adicionales en k_employee                     -->
+  <!-- ================================================================== -->
+  <changeSet id="0.0.15-001" author="dch-knowwho">
+    <comment>Ficha colaborador: numero empleado, ejecutivo DCH, datos de baja</comment>
+    <addColumn tableName="k_employee" schemaName="public">
+      <column name="ds_employee_number" type="VARCHAR(50)">
+        <constraints nullable="true"/>
+      </column>
+    </addColumn>
+    <addColumn tableName="k_employee" schemaName="public">
+      <column name="ds_dch_executive" type="VARCHAR(250)">
+        <constraints nullable="true"/>
+      </column>
+    </addColumn>
+    <addColumn tableName="k_employee" schemaName="public">
+      <column name="ds_termination_reason" type="VARCHAR(500)">
+        <constraints nullable="true"/>
+      </column>
+    </addColumn>
+    <addColumn tableName="k_employee" schemaName="public">
+      <column name="dt_termination_date" type="DATE">
+        <constraints nullable="true"/>
+      </column>
+    </addColumn>
+    <rollback>
+      <dropColumn tableName="k_employee" schemaName="public" columnName="ds_employee_number"/>
+      <dropColumn tableName="k_employee" schemaName="public" columnName="ds_dch_executive"/>
+      <dropColumn tableName="k_employee" schemaName="public" columnName="ds_termination_reason"/>
+      <dropColumn tableName="k_employee" schemaName="public" columnName="dt_termination_date"/>
+    </rollback>
+  </changeSet>
+
+  <!-- ================================================================== -->
+  <!-- 0.0.15-002: Columnas adicionales en k_contrating_data              -->
+  <!-- ================================================================== -->
+  <changeSet id="0.0.15-002" author="dch-knowwho">
+    <comment>Ficha colaborador: fecha ingreso y jornada laboral en contratacion</comment>
+    <addColumn tableName="k_contrating_data" schemaName="public">
+      <column name="dt_hire_date" type="DATE">
+        <constraints nullable="true"/>
+      </column>
+    </addColumn>
+    <addColumn tableName="k_contrating_data" schemaName="public">
+      <column name="ds_work_shift" type="VARCHAR(100)">
+        <constraints nullable="true"/>
+      </column>
+    </addColumn>
+    <rollback>
+      <dropColumn tableName="k_contrating_data" schemaName="public" columnName="dt_hire_date"/>
+      <dropColumn tableName="k_contrating_data" schemaName="public" columnName="ds_work_shift"/>
+    </rollback>
+  </changeSet>
+
+  <!-- ================================================================== -->
+  <!-- 0.0.15-003: Columnas adicionales en k_data_assignment              -->
+  <!-- ================================================================== -->
+  <changeSet id="0.0.15-003" author="dch-knowwho">
+    <comment>Ficha colaborador: centro de trabajo y region en asignacion</comment>
+    <addColumn tableName="k_data_assignment" schemaName="public">
+      <column name="ds_work_center" type="VARCHAR(150)">
+        <constraints nullable="true"/>
+      </column>
+    </addColumn>
+    <addColumn tableName="k_data_assignment" schemaName="public">
+      <column name="ds_region" type="VARCHAR(100)">
+        <constraints nullable="true"/>
+      </column>
+    </addColumn>
+    <rollback>
+      <dropColumn tableName="k_data_assignment" schemaName="public" columnName="ds_work_center"/>
+      <dropColumn tableName="k_data_assignment" schemaName="public" columnName="ds_region"/>
+    </rollback>
+  </changeSet>
+
+  <!-- ================================================================== -->
+  <!-- 0.0.15-004: Nueva tabla k_emergency_contact                        -->
+  <!-- ================================================================== -->
+  <changeSet id="0.0.15-004" author="dch-knowwho">
+    <comment>Ficha colaborador: contacto de emergencia por empleado</comment>
+    <createTable tableName="k_emergency_contact" schemaName="public">
+      <column name="id_emergency_contact" type="SERIAL">
+        <constraints primaryKey="true" nullable="false"/>
+      </column>
+      <column name="tenant_id" type="VARCHAR(50)">
+        <constraints nullable="false" foreignKeyName="fk_emergency_contact_tenant"
+                     references="w_tenant(id_tenant)"/>
+      </column>
+      <column name="id_employee" type="INT">
+        <constraints nullable="false" foreignKeyName="fk_emergency_contact_employee"
+                     references="k_employee(id_employee)"/>
+      </column>
+      <column name="ds_name" type="VARCHAR(250)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="ds_relationship" type="VARCHAR(100)">
+        <constraints nullable="true"/>
+      </column>
+      <column name="ds_phone" type="VARCHAR(20)">
+        <constraints nullable="true"/>
+      </column>
+      <column name="fg_active" type="BOOLEAN" defaultValueBoolean="true">
+        <constraints nullable="false"/>
+      </column>
+      <column name="dt_creation_date" type="TIMESTAMP" defaultValueComputed="NOW()">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+    <createIndex tableName="k_emergency_contact" schemaName="public"
+                 indexName="idx_emergency_contact_employee">
+      <column name="id_employee"/>
+      <column name="tenant_id"/>
+    </createIndex>
+    <rollback>
+      <dropTable tableName="k_emergency_contact" schemaName="public"/>
+    </rollback>
+  </changeSet>
+
+  <!-- ================================================================== -->
+  <!-- 0.0.15-005: Columnas adicionales en k_candidate (onboarding)       -->
+  <!-- ================================================================== -->
+  <changeSet id="0.0.15-005" author="dch-knowwho">
+    <comment>Ficha colaborador: puesto, fecha ingreso y jornada en candidato</comment>
+    <addColumn tableName="k_candidate" schemaName="public">
+      <column name="ds_job_title" type="VARCHAR(250)">
+        <constraints nullable="true"/>
+      </column>
+    </addColumn>
+    <addColumn tableName="k_candidate" schemaName="public">
+      <column name="dt_hire_date" type="DATE">
+        <constraints nullable="true"/>
+      </column>
+    </addColumn>
+    <addColumn tableName="k_candidate" schemaName="public">
+      <column name="ds_work_shift" type="VARCHAR(100)">
+        <constraints nullable="true"/>
+      </column>
+    </addColumn>
+    <rollback>
+      <dropColumn tableName="k_candidate" schemaName="public" columnName="ds_job_title"/>
+      <dropColumn tableName="k_candidate" schemaName="public" columnName="dt_hire_date"/>
+      <dropColumn tableName="k_candidate" schemaName="public" columnName="ds_work_shift"/>
+    </rollback>
+  </changeSet>
+
+</databaseChangeLog>

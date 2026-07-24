@@ -2,6 +2,7 @@ package mx.com.axity.model;
 
 
 import jakarta.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -38,6 +39,12 @@ public class ContratingDataDO {
     private LocalDateTime creationDate;
     @Column(name = "fg_active")
     private boolean active;
+
+    @Column(name = "dt_hire_date")
+    private LocalDate dtHireDate;
+
+    @Column(name = "ds_work_shift")
+    private String dsWorkShift;
 
 
     public Long getIdContrating() {
@@ -150,5 +157,21 @@ public class ContratingDataDO {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public LocalDate getDtHireDate() {
+        return dtHireDate;
+    }
+
+    public void setDtHireDate(LocalDate dtHireDate) {
+        this.dtHireDate = dtHireDate;
+    }
+
+    public String getDsWorkShift() {
+        return dsWorkShift;
+    }
+
+    public void setDsWorkShift(String dsWorkShift) {
+        this.dsWorkShift = dsWorkShift;
     }
 }

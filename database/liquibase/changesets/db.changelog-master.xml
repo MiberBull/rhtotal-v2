@@ -19,5 +19,6 @@
     <include file="changesets/db.changelog-0.0.12-client-logo.xml"/>
     <include file="changesets/db.changelog-0.0.13-biblioteca.xml"/>
     <include file="changesets/db.changelog-0.0.14-dch-tenants.xml"/>
+    <include file="changesets/db.changelog-0.0.15-ficha-colaborador.xml"/>
 
 </databaseChangeLog> 

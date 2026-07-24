@@ -1,6 +1,7 @@
 package mx.com.axity.model;
 
 import jakarta.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -71,6 +72,15 @@ public class CandidateDO {
 
     @Column(name = "ds_modification_user")
     private String dsModificationUser;
+
+    @Column(name = "ds_job_title")
+    private String dsJobTitle;
+
+    @Column(name = "dt_hire_date")
+    private LocalDate dtHireDate;
+
+    @Column(name = "ds_work_shift")
+    private String dsWorkShift;
 
     @PrePersist
     protected void onCreate() {
@@ -146,4 +156,13 @@ public class CandidateDO {
 
     public String getDsModificationUser() { return dsModificationUser; }
     public void setDsModificationUser(String dsModificationUser) { this.dsModificationUser = dsModificationUser; }
+
+    public String getDsJobTitle() { return dsJobTitle; }
+    public void setDsJobTitle(String dsJobTitle) { this.dsJobTitle = dsJobTitle; }
+
+    public LocalDate getDtHireDate() { return dtHireDate; }
+    public void setDtHireDate(LocalDate dtHireDate) { this.dtHireDate = dtHireDate; }
+
+    public String getDsWorkShift() { return dsWorkShift; }
+    public void setDsWorkShift(String dsWorkShift) { this.dsWorkShift = dsWorkShift; }
 }

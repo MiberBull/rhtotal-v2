@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +72,12 @@ public class EmployeeServiceImp implements IEmployeeService {
 
     @Autowired
     ProjectDAO projectDAO;
+
+    @Autowired
+    EmergencyContactDAO emergencyContactDAO;
+
+    @Autowired
+    TenantDAO tenantDAO;
 
 
     final static Logger LOG = LogManager.getLogger(EmployeeServiceImp.class);
@@ -423,6 +430,63 @@ return null;
     }
 
 
+
+    // --- Sprint 15: Ficha del Colaborador ---
+
+    @Override
+    public EmployeeTO getEmployeeById(Long idEmployee) {
+        var opt = employeeDAO.findOptionalById(idEmployee);
+        if (opt.isPresent()) {
+            return modelMapper.map(opt.get(), EmployeeTO.class);
+        }
+        return null;
+    }
+
+    @Override
+    public EmergencyContactDO saveOrUpdateEmergencyContact(EmergencyContactTO emergency) {
+        var existing = emergencyContactDAO.findByIdEmployeeAndTenantIdAndFgActiveTrue(
+                emergency.getIdEmployee(), emergency.getTenantId());
+        EmergencyContactDO entity;
+        if (existing.isPresent()) {
+            entity = existing.get();
+        } else {
+            entity = new EmergencyContactDO();
+            entity.setIdEmployee(emergency.getIdEmployee());
+            entity.setTenantId(emergency.getTenantId());
+        }
+        entity.setDsName(emergency.getDsName());
+        entity.setDsRelationship(emergency.getDsRelationship());
+        entity.setDsPhone(emergency.getDsPhone());
+        entity.setFgActive(true);
+        return emergencyContactDAO.save(entity);
+    }
+
+    @Override
+    public EmergencyContactTO getEmergencyContactByEmployee(Long idEmployee, String tenantId) {
+        var opt = emergencyContactDAO.findByIdEmployeeAndTenantIdAndFgActiveTrue(idEmployee, tenantId);
+        if (opt.isPresent()) {
+            return modelMapper.map(opt.get(), EmergencyContactTO.class);
+        }
+        return null;
+    }
+
+    @Override
+    public void terminateEmployee(Long idEmployee, String reason, LocalDate terminationDate) {
+        var employeeDO = employeeDAO.findOptionalById(idEmployee)
+                .orElseThrow(() -> new RuntimeException("Empleado no encontrado: " + idEmployee));
+        employeeDO.setDsTerminationReason(reason);
+        employeeDO.setDtTerminationDate(terminationDate);
+        employeeDO.setActive(false);
+        employeeDO.setLastModification(LocalDateTime.now());
+        employeeDAO.save(employeeDO);
+    }
+
+    @Override
+    public String getTenantName(String tenantId) {
+        return tenantDAO.findById(tenantId)
+                .map(TenantDO::getName)
+                .orElse(tenantId);
+    }
 
     @Override
     public void saveOrUpdateEmployeeComplementaryMovil(EmployeePersonalTO  personal) {
