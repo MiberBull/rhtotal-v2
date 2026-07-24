@@ -46,13 +46,16 @@ export class LoginComponent {
     this.hidePassword.update((v) => !v);
   }
 
-  /** Deduce la Razón Social desde el dominio del email (aeisa/rga/staffing → tenant id) */
+  /** Deduce el tenant desde el dominio del email para la autenticación */
   private resolveTenant(email: string): string {
     const domain = email.split('@')[1]?.toLowerCase() ?? '';
+    // Usuarios corporativos DCH (dch.mx, dchkw.mx)
+    if (domain === 'dch.mx' || domain.endsWith('.dchkw.mx')) return 'demo-corp';
+    // Usuarios de RS — buscar coincidencia en id del tenant (excluye 'ALL')
     for (const t of this.authService.availableTenants) {
-      if (domain.includes(t.id)) return t.id;
+      if (t.id !== 'ALL' && domain.includes(t.id)) return t.id;
     }
-    return this.authService.availableTenants[0]?.id ?? 'aeisa';
+    return 'aeisa';
   }
 
   async onSubmit(): Promise<void> {
