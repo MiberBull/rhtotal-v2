@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+  <!-- Categorías de la Biblioteca de Recursos -->
+  <changeSet id="0.0.13-001" author="dch-knowwho">
+    <createTable tableName="k_resource_category" schemaName="public">
+      <column name="id_category" type="BIGINT" autoIncrement="true">
+        <constraints primaryKey="true" nullable="false"/>
+      </column>
+      <column name="tenant_id" type="VARCHAR(100)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="ds_name" type="VARCHAR(200)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="ds_description" type="VARCHAR(500)"/>
+      <column name="ds_icon" type="VARCHAR(100)" defaultValue="folder"/>
+      <column name="fg_active" type="BOOLEAN" defaultValueBoolean="true">
+        <constraints nullable="false"/>
+      </column>
+      <column name="dt_creation_date" type="TIMESTAMP" defaultValueComputed="NOW()">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+
+  <!-- Documentos de la Biblioteca -->
+  <changeSet id="0.0.13-002" author="dch-knowwho">
+    <createTable tableName="k_resource_document" schemaName="public">
+      <column name="id_document" type="BIGINT" autoIncrement="true">
+        <constraints primaryKey="true" nullable="false"/>
+      </column>
+      <column name="tenant_id" type="VARCHAR(100)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="id_category" type="BIGINT">
+        <constraints nullable="false" foreignKeyName="fk_resource_doc_category"
+                     references="k_resource_category(id_category)"/>
+      </column>
+      <column name="ds_title" type="VARCHAR(300)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="ds_description" type="VARCHAR(1000)"/>
+      <column name="ds_file_name" type="VARCHAR(300)"/>
+      <column name="ds_mime_type" type="VARCHAR(100)" defaultValue="application/pdf"/>
+      <column name="ds_file_content" type="TEXT"/>
+      <column name="ds_version" type="VARCHAR(20)" defaultValue="1.0"/>
+      <column name="ds_visibility" type="VARCHAR(20)" defaultValue="GENERAL">
+        <constraints nullable="false"/>
+      </column>
+      <column name="id_client" type="BIGINT"/>
+      <column name="fg_requires_ack" type="BOOLEAN" defaultValueBoolean="false">
+        <constraints nullable="false"/>
+      </column>
+      <column name="fg_active" type="BOOLEAN" defaultValueBoolean="true">
+        <constraints nullable="false"/>
+      </column>
+      <column name="dt_publication_date" type="TIMESTAMP"/>
+      <column name="dt_expiry_date" type="TIMESTAMP"/>
+      <column name="ds_published_by" type="VARCHAR(200)"/>
+      <column name="dt_creation_date" type="TIMESTAMP" defaultValueComputed="NOW()">
+        <constraints nullable="false"/>
+      </column>
+      <column name="dt_modification_date" type="TIMESTAMP"/>
+    </createTable>
+  </changeSet>
+
+  <!-- Confirmaciones de lectura -->
+  <changeSet id="0.0.13-003" author="dch-knowwho">
+    <createTable tableName="k_resource_ack" schemaName="public">
+      <column name="id_ack" type="BIGINT" autoIncrement="true">
+        <constraints primaryKey="true" nullable="false"/>
+      </column>
+      <column name="tenant_id" type="VARCHAR(100)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="id_document" type="BIGINT">
+        <constraints nullable="false" foreignKeyName="fk_resource_ack_document"
+                     references="k_resource_document(id_document)"/>
+      </column>
+      <column name="id_employee" type="BIGINT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="ds_employee_name" type="VARCHAR(300)"/>
+      <column name="dt_acknowledged_at" type="TIMESTAMP" defaultValueComputed="NOW()">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+
+  <!-- Índices de rendimiento -->
+  <changeSet id="0.0.13-004" author="dch-knowwho">
+    <createIndex tableName="k_resource_document" indexName="idx_resource_doc_tenant_active" schemaName="public">
+      <column name="tenant_id"/>
+      <column name="fg_active"/>
+    </createIndex>
+    <createIndex tableName="k_resource_document" indexName="idx_resource_doc_category" schemaName="public">
+      <column name="id_category"/>
+    </createIndex>
+    <createIndex tableName="k_resource_ack" indexName="idx_resource_ack_document_employee" schemaName="public">
+      <column name="id_document"/>
+      <column name="id_employee"/>
+    </createIndex>
+  </changeSet>
+
+  <!-- Seed data: 3 categorías iniciales para demo tenant -->
+  <changeSet id="0.0.13-005" author="dch-knowwho">
+    <insert tableName="k_resource_category" schemaName="public">
+      <column name="tenant_id" value="demo"/>
+      <column name="ds_name" value="Políticas y Reglamentos"/>
+      <column name="ds_description" value="Políticas internas, reglamento de trabajo y normas de la empresa"/>
+      <column name="ds_icon" value="gavel"/>
+      <column name="fg_active" valueBoolean="true"/>
+    </insert>
+    <insert tableName="k_resource_category" schemaName="public">
+      <column name="tenant_id" value="demo"/>
+      <column name="ds_name" value="Manuales de Cliente"/>
+      <column name="ds_description" value="Manuales operativos y de procedimientos por cliente"/>
+      <column name="ds_icon" value="import_contacts"/>
+      <column name="fg_active" valueBoolean="true"/>
+    </insert>
+    <insert tableName="k_resource_category" schemaName="public">
+      <column name="tenant_id" value="demo"/>
+      <column name="ds_name" value="Formatos Descargables"/>
+      <column name="ds_description" value="Formatos, plantillas y documentos para descarga"/>
+      <column name="ds_icon" value="download"/>
+      <column name="fg_active" valueBoolean="true"/>
+    </insert>
+  </changeSet>
+
+</databaseChangeLog>

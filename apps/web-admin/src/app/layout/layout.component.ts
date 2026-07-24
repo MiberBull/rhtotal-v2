@@ -71,6 +71,7 @@ export class LayoutComponent {
     { icon: 'health_and_safety', label: 'Seguros', route: '/insurance', permission: 'insurance' },
     { icon: 'image', label: 'Banners', route: '/banners', permission: 'banners' },
     { icon: 'description', label: 'Documentos', route: '/documents', permission: 'documents' },
+    { icon: 'menu_book', label: 'Biblioteca', route: '/biblioteca', permission: 'biblioteca' },
     // Admin
     { icon: 'domain', label: 'Tenants', route: '/tenants', permission: 'tenants' },
   ];
