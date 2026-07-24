@@ -41,6 +41,8 @@ const ROLE_PERMISSIONS: Record<DchRole, string[]> = {
     'asistencia',
     'onboarding',
     'onboarding.write',
+    'biblioteca',
+    'biblioteca.write',
     // Admin
     'tenants',
     'tenants.write',
@@ -65,6 +67,8 @@ const ROLE_PERMISSIONS: Record<DchRole, string[]> = {
     'repse',
     'asistencia',
     'onboarding',
+    'biblioteca',
+    'biblioteca.write',
   ],
   DCH_VIEWER: ['dashboard', 'users', 'clients', 'documents'],
 };
@@ -87,6 +91,7 @@ const ROUTE_PERMISSION_MAP: Record<string, string> = {
   '/repse': 'repse',
   '/asistencia': 'asistencia',
   '/onboarding': 'onboarding',
+  '/biblioteca': 'biblioteca',
   '/tenants': 'tenants',
 };
 

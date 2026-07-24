@@ -17,5 +17,6 @@
     <include file="changesets/db.changelog-0.0.10-demo-tenant.xml"/>
     <include file="changesets/db.changelog-0.0.11-demo-data.xml"/>
     <include file="changesets/db.changelog-0.0.12-client-logo.xml"/>
+    <include file="changesets/db.changelog-0.0.13-biblioteca.xml"/>
 
 </databaseChangeLog> 

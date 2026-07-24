@@ -1,0 +1,312 @@
+<div class="page-container">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="header-info">
+      <h1><mat-icon>menu_book</mat-icon> Biblioteca de Recursos</h1>
+      <p class="subtitle">Gestión de documentos, manuales y políticas de la organización.</p>
+    </div>
+    <div class="header-actions">
+      <button mat-flat-button color="primary" (click)="openUploadForm()">
+        <mat-icon>upload_file</mat-icon> Subir Documento
+      </button>
+    </div>
+  </div>
+
+  <!-- Upload Form Panel -->
+  @if (showUploadForm()) {
+    <mat-card class="upload-card">
+      <mat-card-header>
+        <mat-card-title>Nuevo Documento</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="form-grid">
+          <mat-form-field appearance="outline">
+            <mat-label>Título *</mat-label>
+            <input
+              matInput
+              [value]="newDoc().title ?? ''"
+              (input)="updateDocField('title', $any($event.target).value)"
+            />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Categoría *</mat-label>
+            <mat-select
+              [value]="newDoc().idCategory"
+              (selectionChange)="updateDocField('idCategory', $event.value)"
+            >
+              @for (cat of categories(); track cat.idCategory) {
+                <mat-option [value]="cat.idCategory">
+                  <mat-icon>{{ cat.icon }}</mat-icon> {{ cat.name }}
+                </mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Descripción</mat-label>
+            <textarea
+              matInput
+              rows="2"
+              [value]="newDoc().description ?? ''"
+              (input)="updateDocField('description', $any($event.target).value)"
+            ></textarea>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Versión</mat-label>
+            <input
+              matInput
+              [value]="newDoc().version ?? '1.0'"
+              (input)="updateDocField('version', $any($event.target).value)"
+            />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Visibilidad</mat-label>
+            <mat-select
+              [value]="newDoc().visibility ?? 'GENERAL'"
+              (selectionChange)="updateDocField('visibility', $event.value)"
+            >
+              <mat-option value="GENERAL">General (todos los empleados)</mat-option>
+              <mat-option value="BY_CLIENT">Por Cliente</mat-option>
+              <mat-option value="STAFF_ONLY">Solo Personal Interno</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <div class="file-input-wrapper">
+            <label class="file-label">Archivo *</label>
+            <input
+              type="file"
+              accept=".pdf,.doc,.docx,.xlsx,.xls,.ppt,.pptx,.png,.jpg"
+              (change)="onFileSelected($event)"
+            />
+            @if (newDoc().fileName) {
+              <span class="file-name"
+                ><mat-icon>attach_file</mat-icon> {{ newDoc().fileName }}</span
+              >
+            }
+          </div>
+
+          <div class="ack-toggle">
+            <label>
+              <input
+                type="checkbox"
+                [checked]="newDoc().requiresAck ?? false"
+                (change)="updateDocField('requiresAck', $any($event.target).checked)"
+              />
+              Requiere confirmación de lectura
+            </label>
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-stroked-button (click)="cancelUpload()">Cancelar</button>
+        <button
+          mat-flat-button
+          color="primary"
+          (click)="saveDocument()"
+          [disabled]="uploadLoading()"
+        >
+          @if (uploadLoading()) {
+            <mat-spinner diameter="18"></mat-spinner>
+          } @else {
+            <mat-icon>save</mat-icon>
+          }
+          {{ uploadLoading() ? 'Subiendo...' : 'Guardar' }}
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  }
+
+  <!-- Filters -->
+  <div class="filters-bar">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Buscar</mat-label>
+      <mat-icon matPrefix>search</mat-icon>
+      <input
+        matInput
+        [value]="searchText()"
+        (input)="searchText.set($any($event.target).value)"
+        placeholder="Título o descripción..."
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="category-filter">
+      <mat-label>Categoría</mat-label>
+      <mat-select
+        [value]="selectedCategory()"
+        (selectionChange)="selectedCategory.set($event.value)"
+      >
+        <mat-option [value]="null">Todas</mat-option>
+        @for (cat of categories(); track cat.idCategory) {
+          <mat-option [value]="cat.idCategory">{{ cat.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <!-- Documents Table -->
+  @if (loading()) {
+    <div class="loading-center">
+      <mat-spinner diameter="48"></mat-spinner>
+    </div>
+  } @else if (filteredDocuments.length === 0) {
+    <div class="empty-state">
+      <mat-icon>library_books</mat-icon>
+      <p>No hay documentos en la biblioteca.</p>
+      <button mat-stroked-button (click)="openUploadForm()">Subir el primero</button>
+    </div>
+  } @else {
+    <div class="table-wrapper">
+      <table mat-table [dataSource]="filteredDocuments" class="documents-table">
+        <!-- Icon Column -->
+        <ng-container matColumnDef="icon">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let doc">
+            <mat-icon class="doc-icon">
+              {{
+                doc.mimeType?.includes('pdf')
+                  ? 'picture_as_pdf'
+                  : doc.mimeType?.includes('sheet') || doc.mimeType?.includes('excel')
+                    ? 'table_chart'
+                    : doc.mimeType?.includes('word')
+                      ? 'description'
+                      : doc.mimeType?.includes('presentation')
+                        ? 'slideshow'
+                        : 'insert_drive_file'
+              }}
+            </mat-icon>
+          </td>
+        </ng-container>
+
+        <!-- Title Column -->
+        <ng-container matColumnDef="title">
+          <th mat-header-cell *matHeaderCellDef>Título</th>
+          <td mat-cell *matCellDef="let doc">
+            <div class="doc-title">{{ doc.title }}</div>
+            @if (doc.description) {
+              <div class="doc-desc">{{ doc.description }}</div>
+            }
+          </td>
+        </ng-container>
+
+        <!-- Category Column -->
+        <ng-container matColumnDef="category">
+          <th mat-header-cell *matHeaderCellDef>Categoría</th>
+          <td mat-cell *matCellDef="let doc">
+            <div class="cat-chip">
+              <mat-icon>{{ doc.categoryIcon ?? 'folder' }}</mat-icon>
+              {{ doc.categoryName }}
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Version Column -->
+        <ng-container matColumnDef="version">
+          <th mat-header-cell *matHeaderCellDef>Versión</th>
+          <td mat-cell *matCellDef="let doc">v{{ doc.version }}</td>
+        </ng-container>
+
+        <!-- Visibility Column -->
+        <ng-container matColumnDef="visibility">
+          <th mat-header-cell *matHeaderCellDef>Visibilidad</th>
+          <td mat-cell *matCellDef="let doc">
+            <span class="visibility-badge" [class]="'vis-' + doc.visibility">
+              {{ getVisibilityLabel(doc.visibility) }}
+            </span>
+          </td>
+        </ng-container>
+
+        <!-- ACK Column -->
+        <ng-container matColumnDef="ack">
+          <th mat-header-cell *matHeaderCellDef>Confirmación</th>
+          <td mat-cell *matCellDef="let doc">
+            @if (doc.requiresAck) {
+              <mat-icon class="ack-required" matTooltip="Requiere confirmación de lectura"
+                >task_alt</mat-icon
+              >
+            } @else {
+              <mat-icon class="ack-none" matTooltip="Sin confirmación requerida"
+                >radio_button_unchecked</mat-icon
+              >
+            }
+          </td>
+        </ng-container>
+
+        <!-- Date Column -->
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef>Publicado</th>
+          <td mat-cell *matCellDef="let doc">
+            {{ doc.publicationDate | date: 'dd/MM/yyyy' }}
+          </td>
+        </ng-container>
+
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Acciones</th>
+          <td mat-cell *matCellDef="let doc">
+            <button mat-icon-button matTooltip="Descargar" (click)="downloadDocument(doc)">
+              <mat-icon>download</mat-icon>
+            </button>
+            @if (doc.requiresAck) {
+              <button mat-icon-button matTooltip="Ver confirmaciones" (click)="viewAcks(doc)">
+                <mat-icon>how_to_reg</mat-icon>
+              </button>
+            }
+            <button
+              mat-icon-button
+              matTooltip="Eliminar"
+              color="warn"
+              (click)="deleteDocument(doc)"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+  }
+
+  <!-- ACKs Dialog Panel -->
+  @if (selectedDocForAcks()) {
+    <div class="acks-overlay" (click)="closeAcks()">
+      <mat-card class="acks-panel" (click)="$event.stopPropagation()">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>how_to_reg</mat-icon>
+            Confirmaciones — {{ selectedDocForAcks()?.title }}
+          </mat-card-title>
+          <button mat-icon-button (click)="closeAcks()" style="margin-left: auto">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-card-header>
+        <mat-card-content>
+          @if (acksLoading()) {
+            <div class="loading-center"><mat-spinner diameter="32"></mat-spinner></div>
+          } @else if (acks().length === 0) {
+            <p class="no-acks">Nadie ha confirmado este documento aún.</p>
+          } @else {
+            <table mat-table [dataSource]="acks()" class="acks-table">
+              <ng-container matColumnDef="employee">
+                <th mat-header-cell *matHeaderCellDef>Empleado</th>
+                <td mat-cell *matCellDef="let a">{{ a.employeeName ?? 'ID: ' + a.idEmployee }}</td>
+              </ng-container>
+              <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef>Fecha</th>
+                <td mat-cell *matCellDef="let a">
+                  {{ a.acknowledgedAt | date: 'dd/MM/yyyy HH:mm' }}
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="['employee', 'date']"></tr>
+              <tr mat-row *matRowDef="let r; columns: ['employee', 'date']"></tr>
+            </table>
+          }
+        </mat-card-content>
+      </mat-card>
+    </div>
+  }
+</div>

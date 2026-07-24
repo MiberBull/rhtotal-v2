@@ -204,6 +204,12 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./pages/onboarding/onboarding.component').then((m) => m.OnboardingComponent),
       },
+      // Biblioteca de Recursos
+      {
+        path: 'biblioteca',
+        loadComponent: () =>
+          import('./pages/biblioteca/biblioteca.component').then((m) => m.BibliotecaComponent),
+      },
       // Multi-tenant admin
       {
         path: 'tenants',
