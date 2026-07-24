@@ -8,6 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDividerModule } from '@angular/material/divider';
 import { AuthService } from '../core/auth/auth.service';
 import { RoleBadgeComponent } from '../shared/components/role-badge/role-badge.component';
 
@@ -32,6 +33,7 @@ interface NavItem {
     MatListModule,
     MatMenuModule,
     MatTooltipModule,
+    MatDividerModule,
     RoleBadgeComponent,
   ],
   templateUrl: './layout.component.html',
@@ -43,6 +45,15 @@ export class LayoutComponent {
   collapsed = signal(false);
   currentUser = this.authService.currentUser;
   userRole = this.authService.userRole;
+
+  /** Label corta del tenant activo para mostrar en el toolbar */
+  currentTenantLabel = computed(() => {
+    const t = this.authService.availableTenants.find((x) => x.id === this.authService.tenantId());
+    return t?.label ?? (this.authService.tenantId() || 'RS');
+  });
+
+  /** Solo admins pueden cambiar de RS */
+  canSwitchTenant = computed(() => this.authService.hasPermission('tenants'));
 
   navItems: NavItem[] = [
     { icon: 'dashboard', label: 'Dashboard', route: '/dashboard', permission: 'dashboard' },
@@ -83,6 +94,10 @@ export class LayoutComponent {
 
   toggleSidebar(): void {
     this.collapsed.update((v) => !v);
+  }
+
+  switchTenant(tenantId: string): void {
+    this.authService.setTenant(tenantId);
   }
 
   logout(): void {
