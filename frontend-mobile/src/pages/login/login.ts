@@ -26,6 +26,7 @@ export class LoginPage {
   loginForm: FormGroup;
   loading: Loading;
   intents: number;
+  showPassword: boolean = false;
 
   template: string = ''; // Template que se usara para el envio de correos
 
@@ -70,6 +71,10 @@ export class LoginPage {
 
   ionViewDidLoad() {
     this.eventManager.setIsLogged(false);
+  }
+
+  toggleShowPassword() {
+    this.showPassword = !this.showPassword;
   }
 
   private resolveTenant(email: string): string {
