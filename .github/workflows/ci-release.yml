@@ -57,7 +57,7 @@ jobs:
         with:
           node-version: '22'
           cache: npm
-          cache-dependency-path: apps/web-admin/package-lock.json
+          cache-dependency-path: package-lock.json   # monorepo — lock file en raíz
 
       - name: Inject AES placeholder
         run: |
@@ -65,8 +65,7 @@ jobs:
           sed -i "s/REPLACE_WITH_AES_SECRET/ci-placeholder/g" apps/web-admin/src/environments/environment.prod.ts
 
       - name: Install dependencies
-        run: npm ci
-        working-directory: apps/web-admin
+        run: npm ci   # corre desde raíz — instala todos los workspaces
 
       - name: Build production
         run: npm run build
