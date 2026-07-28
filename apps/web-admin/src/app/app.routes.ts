@@ -204,6 +204,21 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./pages/onboarding/onboarding.component').then((m) => m.OnboardingComponent),
       },
+      // Documentos / CFDIs
+      {
+        path: 'documents',
+        loadComponent: () =>
+          import('./pages/documents/documents-list.component').then(
+            (m) => m.DocumentsListComponent
+          ),
+      },
+      {
+        path: 'documents/upload',
+        loadComponent: () =>
+          import('./pages/documents/document-upload/document-upload.component').then(
+            (m) => m.DocumentUploadComponent
+          ),
+      },
       // Biblioteca de Recursos
       {
         path: 'biblioteca',
