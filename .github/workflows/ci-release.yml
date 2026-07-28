@@ -1,0 +1,92 @@
+# CI — Release branch y PRs a main
+# Corre en push a release/* y en PRs a main.
+# Mismos checks que ci-develop + valida que el tag/versión esté disponible.
+name: CI — release / main
+
+on:
+  push:
+    branches:
+      - 'release/**'
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  # ─── Backend: 9 microservicios en paralelo ───────────────────────────────
+  build-backend:
+    name: Build ${{ matrix.service }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        service:
+          - eureka-service
+          - gateway-service
+          - security-service
+          - application-service
+          - user-service
+          - onboarding-service
+          - attendance-service
+          - hr-service
+          - document-service
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      - name: Build ${{ matrix.service }}
+        run: mvn clean package -DskipTests -q
+        working-directory: ${{ matrix.service }}
+
+  # ─── Frontend: web-admin Angular 19 ──────────────────────────────────────
+  build-web-admin:
+    name: Build web-admin
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: apps/web-admin/package-lock.json
+
+      - name: Inject AES placeholder
+        run: |
+          sed -i "s/REPLACE_WITH_AES_SECRET/ci-placeholder/g" apps/web-admin/src/environments/environment.ts
+          sed -i "s/REPLACE_WITH_AES_SECRET/ci-placeholder/g" apps/web-admin/src/environments/environment.prod.ts
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: apps/web-admin
+
+      - name: Build production
+        run: npm run build
+        working-directory: apps/web-admin
+
+  # ─── Validar versión disponible ──────────────────────────────────────────
+  validate-version:
+    name: Validate version tag
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Resolve image version
+        run: |
+          VERSION=$(git describe --tags --always 2>/dev/null || git rev-parse --short HEAD)
+          echo "IMAGE_VERSION=$VERSION"
+          echo "IMAGE_VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Print version
+        run: echo "Versión para deploy => $IMAGE_VERSION"

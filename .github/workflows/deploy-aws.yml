@@ -1,0 +1,232 @@
+# Deploy — AWS ECR + Liquibase (trigger manual)
+# Equivalente al JenkinsfileAWS, migrado a GitHub Actions.
+#
+# Secrets requeridos en GitHub → Settings → Secrets → Actions:
+#   AWS_ACCOUNT_ID       — ID numérico de la cuenta AWS
+#   AWS_ACCESS_KEY_ID    — Credencial IAM con permisos ECR + EC2
+#   AWS_SECRET_ACCESS_KEY
+#   AWS_REGION           — ej. us-east-1
+#   RDS_HOST             — endpoint RDS PostgreSQL
+#   DB_PASS_PROD         — password BD producción
+#   AES_SECRET_KEY       — clave AES para frontends
+#   EC2_HOST             — hostname o IP del EC2 (Eureka / Gateway)
+name: Deploy — AWS
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Ambiente destino'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+      confirm:
+        description: 'Escribe "deploy" para confirmar'
+        required: true
+
+jobs:
+  # ─── Guardia de confirmación ─────────────────────────────────────────────
+  guard:
+    name: Confirm deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check confirmation
+        run: |
+          if [ "${{ github.event.inputs.confirm }}" != "deploy" ]; then
+            echo "❌ Confirmación inválida. Escribe 'deploy' en el campo confirm."
+            exit 1
+          fi
+          echo "✓ Confirmación aceptada — ambiente: ${{ github.event.inputs.environment }}"
+
+  # ─── Build Java (9 servicios en paralelo) ────────────────────────────────
+  build-backend:
+    name: Build ${{ matrix.service }}
+    runs-on: ubuntu-latest
+    needs: guard
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          - service: eureka-service
+            web_module: eureka-service
+          - service: gateway-service
+            web_module: gateway-service
+          - service: security-service
+            web_module: security-service/security-web
+          - service: application-service
+            web_module: application-service/application-web
+          - service: user-service
+            web_module: user-service/user-web
+          - service: onboarding-service
+            web_module: onboarding-service/onboarding-web
+          - service: attendance-service
+            web_module: attendance-service/attendance-web
+          - service: hr-service
+            web_module: hr-service/hr-web
+          - service: document-service
+            web_module: document-service/document-web
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      # Inyectar credenciales de BD y host en application.yml (mismo patrón que JenkinsfileAWS)
+      - name: Inject production config
+        run: |
+          CONFIG_FILE="${{ matrix.web_module }}/src/main/resources/application.yml"
+          if [ -f "$CONFIG_FILE" ]; then
+            sed -i "s|postgres:5432|${{ secrets.RDS_HOST }}:5432|g"              "$CONFIG_FILE"
+            sed -i "s|unbound|rhtotal|g"                                          "$CONFIG_FILE"
+            sed -i "s|username: postgres|username: rhtotal|g"                    "$CONFIG_FILE"
+            sed -i "s|project123|${{ secrets.DB_PASS_PROD }}|g"                  "$CONFIG_FILE"
+            sed -i "s|gatewayservice|${{ secrets.EC2_HOST }}|g"                  "$CONFIG_FILE"
+          fi
+
+      - name: Build ${{ matrix.service }}
+        run: mvn clean package -DskipTests -q
+        working-directory: ${{ matrix.service }}
+
+      - name: Upload JAR artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: jar-${{ matrix.service }}
+          path: ${{ matrix.service }}/**/target/*.jar
+          retention-days: 1
+
+  # ─── Build web-admin ─────────────────────────────────────────────────────
+  build-web-admin:
+    name: Build web-admin
+    runs-on: ubuntu-latest
+    needs: guard
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: apps/web-admin/package-lock.json
+
+      - name: Inject AES key
+        run: |
+          sed -i "s/REPLACE_WITH_AES_SECRET/${{ secrets.AES_SECRET_KEY }}/g" apps/web-admin/src/environments/environment.ts
+          sed -i "s/REPLACE_WITH_AES_SECRET/${{ secrets.AES_SECRET_KEY }}/g" apps/web-admin/src/environments/environment.prod.ts
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: apps/web-admin
+
+      - name: Build production
+        run: npm run build
+        working-directory: apps/web-admin
+
+  # ─── Docker build, tag y push a ECR ──────────────────────────────────────
+  docker-push:
+    name: Docker → ECR
+    runs-on: ubuntu-latest
+    needs:
+      - build-backend
+      - build-web-admin
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Resolve image version
+        run: |
+          VERSION=$(git describe --tags --always 2>/dev/null || git rev-parse --short HEAD)
+          echo "IMAGE_VERSION=$VERSION" >> $GITHUB_ENV
+          echo "Versión: $VERSION"
+
+      # Descargar todos los JARs construidos
+      - name: Download JAR artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: jar-*
+          merge-multiple: true
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build Docker images
+        run: |
+          ECR="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com"
+          V="${{ env.IMAGE_VERSION }}"
+
+          docker build -f Dockerfile-eureka-service      -t rhtotal-eureka-service .
+          docker build -f Dockerfile-gateway-service     -t rhtotal-gateway-service .
+          docker build -f Dockerfile-security-service    -t rhtotal-security-repository .
+          docker build -f Dockerfile-application-service -t rhtotal-application-repository .
+          docker build -f Dockerfile-user-service        -t rhtotal-user-repository .
+          docker build -f Dockerfile-onboarding-service  -t rhtotal-onboarding-repository .
+          docker build -f Dockerfile-attendance-service  -t rhtotal-attendance-repository .
+          docker build -f Dockerfile-hr-service          -t rhtotal-hr-repository .
+          docker build -f Dockerfile-document-service    -t rhtotal-document-repository .
+          docker build -f Dockerfile-web-admin           -t rhtotal-web-admin-repository .
+
+          for IMAGE in \
+            rhtotal-eureka-service \
+            rhtotal-gateway-service \
+            rhtotal-security-repository \
+            rhtotal-application-repository \
+            rhtotal-user-repository \
+            rhtotal-onboarding-repository \
+            rhtotal-attendance-repository \
+            rhtotal-hr-repository \
+            rhtotal-document-repository \
+            rhtotal-web-admin-repository; do
+            docker tag  $IMAGE:latest $ECR/$IMAGE:$V
+            docker tag  $IMAGE:latest $ECR/$IMAGE:latest
+            docker push $ECR/$IMAGE:$V
+            docker push $ECR/$IMAGE:latest
+          done
+
+  # ─── Liquibase migrations ─────────────────────────────────────────────────
+  liquibase:
+    name: Liquibase migrations
+    runs-on: ubuntu-latest
+    needs: docker-push
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java 21 (Liquibase lo necesita)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Download Liquibase CLI
+        run: |
+          curl -sL https://github.com/liquibase/liquibase/releases/download/v4.27.0/liquibase-4.27.0.tar.gz \
+            | tar -xz -C /usr/local/bin liquibase
+          chmod +x /usr/local/bin/liquibase
+
+      - name: Run migrations
+        working-directory: database/liquibase
+        run: |
+          liquibase \
+            --url="jdbc:postgresql://${{ secrets.RDS_HOST }}:5432/rhtotal" \
+            --username=rhtotal \
+            --password="${{ secrets.DB_PASS_PROD }}" \
+            --changeLogFile="changesets/db.changelog-master.xml" \
+            update
