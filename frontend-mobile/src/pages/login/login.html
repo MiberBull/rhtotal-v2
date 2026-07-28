@@ -1,11 +1,7 @@
 <ion-header class="wrapper-header">
+  <img src="assets/imgs/dch-total-logo.svg" class="isologo" alt="DCH Total" />
   <div class="dch-login-brand">
-    <span
-      style="color: #f18a21; font-weight: 800; font-size: 2rem; font-family: 'Inter', sans-serif"
-      >D</span
-    ><span style="color: #fff; font-weight: 800; font-size: 2rem; font-family: 'Inter', sans-serif"
-      >CH Total</span
-    >
+    <span class="brand-d">D</span><span class="brand-ch">CH Total</span>
   </div>
   <ion-label class="title">Gestión integral de talento</ion-label>
 </ion-header>
@@ -30,10 +26,10 @@
     </ion-item>
     <button
       ion-button
-      color="primary"
+      color="secondary"
       (click)="onLogin()"
       [disabled]="!loginForm.valid"
-      class="buttons"
+      class="btn-entrar"
       style="margin-top: 10%"
     >
       Entrar

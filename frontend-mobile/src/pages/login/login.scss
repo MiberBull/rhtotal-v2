@@ -1,76 +1,124 @@
-page-login { 
+page-login {
+  .wrapper-header {
+    background: linear-gradient(160deg, #003d6b, #005696);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 28px 20px 20px;
+    border-bottom: none !important;
+    box-shadow: none !important;
+  }
 
-    .wrapper-header {
-        background: white;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
+  .wrapper-header::after {
+    display: none !important;
+  }
 
-    .image-header {
-        margin-top: 5%;
-    }
+  .isologo {
+    height: 52px;
+    width: auto;
+    margin-bottom: 8px;
+  }
 
-    .title {
-        font-weight: bold;
-        color: #1469af;
-        font-size: 16px;
-    }
+  .dch-login-brand {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+  }
 
-    .scroll-content {
-        padding: 0% 20%;
-        background: linear-gradient(70deg,#1469AF,#1099D6);
-    }
+  .brand-d {
+    color: #f18a21;
+    font-weight: 800;
+    font-size: 1.9rem;
+    font-family: 'Inter', sans-serif;
+    line-height: 1;
+  }
 
-    .wrapper-form {
-        margin-top: 7%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
+  .brand-ch {
+    color: #fff;
+    font-weight: 800;
+    font-size: 1.9rem;
+    font-family: 'Inter', sans-serif;
+    line-height: 1;
+  }
 
-    .text-input::-moz-placeholder {
-        color: white;
-    }
-    
-    .text-input:-ms-input-placeholder {
-        color: white;
-    }
-    
-    .text-input::-webkit-input-placeholder {
-        color: white;
-    }
+  .title {
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 14px;
+    text-align: center;
+    margin-top: 2px;
+  }
 
-    .item {
-        background-color: transparent !important;
-        color: #fff !important;
-    }
+  .scroll-content {
+    padding: 0% 20%;
+    background: linear-gradient(160deg, #003d6b, #005696);
+  }
 
-    .btn-login {
-        margin: 10%;
-    }    
+  .wrapper-form {
+    margin-top: 7%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
-    .content-first-visit {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-top: 15%;
-    }
+  .text-input::-moz-placeholder {
+    color: white;
+  }
 
-    .wrapper-forget-password {
-        display: flex;
-        justify-content: center;
-        margin-top: 30%;
-    }
+  .text-input:-ms-input-placeholder {
+    color: white;
+  }
 
-    .labels {
-        color: #fff;
-        text-decoration: underline;
-    }
+  .text-input::-webkit-input-placeholder {
+    color: white;
+  }
 
-    .buttons {
-        text-transform: initial;
-        color: #1469af;
-    }
+  .item {
+    background-color: transparent !important;
+    color: #fff !important;
+  }
 
+  .btn-login {
+    margin: 10%;
+  }
+
+  .content-first-visit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 15%;
+  }
+
+  .wrapper-forget-password {
+    display: flex;
+    justify-content: center;
+    margin-top: 30%;
+  }
+
+  .labels {
+    color: #fff;
+    text-decoration: underline;
+  }
+
+  .buttons {
+    text-transform: initial;
+    color: #005696;
+  }
+
+  .btn-entrar {
+    text-transform: initial;
+    font-weight: 600;
+    font-size: 0.95rem;
+    min-width: 160px;
+    border-radius: 24px;
+    background-color: #f18a21 !important;
+    color: #fff !important;
+    opacity: 1 !important;
+  }
+
+  .btn-entrar[disabled] {
+    background-color: #f18a21 !important;
+    color: #fff !important;
+    opacity: 0.75 !important;
+  }
 }
