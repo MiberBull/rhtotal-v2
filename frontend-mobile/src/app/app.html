@@ -7,56 +7,54 @@
   type="overlay"
 >
   <ion-content class="ion-content">
-    <div class="img-logo">
-      <div class="dch-brand" style="padding: 8px 0">
-        <span
-          style="
-            color: #f18a21;
-            font-weight: 800;
-            font-size: 1.4rem;
-            font-family: 'Inter', sans-serif;
-          "
-          >D</span
-        ><span
-          style="color: #fff; font-weight: 800; font-size: 1.4rem; font-family: 'Inter', sans-serif"
-          >CH Total</span
-        >
-      </div>
-    </div>
-    <div class="fullWidth box">
-      <img
-        [src]="base64 | defaultImage:'assets/imgs/icon.svg'"
-        class="logo"
-        (click)="saveImage()"
-      />
-      <!--  -->
-    </div>
-    <div class="fullWidth box1">
-      <div class="wrapper-option-menu">
-        <div class="content-frist-options">
-          <div class="wrapper-name">{{nombreUser}}</div>
-          <p
-            class="options-wrapper"
-            menuClose
-            ion-item
-            no-lines
-            *ngFor="let p of pages"
-            (click)="openPage(p)"
-          >
-            {{p.title}}
-          </p>
-          <p
-            class="second-options-wrapper"
-            menuClose
-            ion-item
-            no-lines
-            *ngFor="let p of pagesInfo"
-            (click)="openPage(p)"
-          >
-            {{p.title}}
-          </p>
+    <!-- Header del menú: logo + foto + nombre -->
+    <div class="menu-header">
+      <div class="menu-logo-row">
+        <img src="assets/imgs/dch-total-logo.svg" class="menu-isologo" alt="∞" />
+        <div class="menu-brand">
+          <span class="menu-brand-d">D</span><span class="menu-brand-ch">CH Total</span>
         </div>
       </div>
+      <img
+        [src]="base64 | defaultImage:'assets/imgs/icon.svg'"
+        class="menu-avatar"
+        (click)="saveImage()"
+      />
+      <div class="menu-username">{{nombreUser}}</div>
+    </div>
+
+    <!-- Separador -->
+    <div class="menu-divider"></div>
+
+    <!-- Opciones principales -->
+    <div class="menu-nav">
+      <p
+        class="menu-item"
+        menuClose
+        ion-item
+        no-lines
+        *ngFor="let p of pages"
+        (click)="openPage(p)"
+      >
+        {{p.title}}
+      </p>
+    </div>
+
+    <!-- Separador -->
+    <div class="menu-divider"></div>
+
+    <!-- Opciones secundarias -->
+    <div class="menu-nav">
+      <p
+        class="menu-item menu-item--secondary"
+        menuClose
+        ion-item
+        no-lines
+        *ngFor="let p of pagesInfo"
+        (click)="openPage(p)"
+      >
+        {{p.title}}
+      </p>
     </div>
   </ion-content>
 </ion-menu>
