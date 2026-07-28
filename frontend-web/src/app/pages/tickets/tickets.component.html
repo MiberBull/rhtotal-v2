@@ -16,7 +16,7 @@
               </ng-container>
               <ng-container matColumnDef="idEmployee">
                 <mat-header-cell *matHeaderCellDef>Empleado</mat-header-cell>
-                <mat-cell *matCellDef="let row">{{ row.idEmployee }}</mat-cell>
+                <mat-cell *matCellDef="let row">{{ getEmployeeName(row.idEmployee) }}</mat-cell>
               </ng-container>
               <ng-container matColumnDef="dsSubject">
                 <mat-header-cell *matHeaderCellDef>Asunto</mat-header-cell>
@@ -70,7 +70,7 @@
               </ng-container>
               <ng-container matColumnDef="idEmployee">
                 <mat-header-cell *matHeaderCellDef>Empleado</mat-header-cell>
-                <mat-cell *matCellDef="let row">{{ row.idEmployee }}</mat-cell>
+                <mat-cell *matCellDef="let row">{{ getEmployeeName(row.idEmployee) }}</mat-cell>
               </ng-container>
               <ng-container matColumnDef="dsSubject">
                 <mat-header-cell *matHeaderCellDef>Asunto</mat-header-cell>
@@ -124,7 +124,7 @@
               </ng-container>
               <ng-container matColumnDef="idEmployee">
                 <mat-header-cell *matHeaderCellDef>Empleado</mat-header-cell>
-                <mat-cell *matCellDef="let row">{{ row.idEmployee }}</mat-cell>
+                <mat-cell *matCellDef="let row">{{ getEmployeeName(row.idEmployee) }}</mat-cell>
               </ng-container>
               <ng-container matColumnDef="dsSubject">
                 <mat-header-cell *matHeaderCellDef>Asunto</mat-header-cell>
@@ -238,7 +238,7 @@
         <div *ngFor="let c of comments" class="comment-item">
           <div class="comment-author">{{ c.dsAuthor }}</div>
           <div class="comment-content">{{ c.dsContent }}</div>
-          <div class="comment-date">{{ c.dtCreated | date: 'dd/MM/yyyy HH:mm' }}</div>
+          <div class="comment-date">{{ c.dtCreated | date: 'dd MMM yyyy, HH:mm' }}</div>
         </div>
         <div *ngIf="comments.length === 0" class="no-comments">Sin comentarios aún</div>
       </div>

@@ -1,0 +1,812 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <!--
+        ====================================================================
+        SEED DATA DE DEMO — DCH Know Who Platform
+        Versión: 0.0.11
+        Tenant:  demo-corp  (ya insertado en 0.0.10)
+
+        Passwords en BD (SHA-256 del password en texto claro):
+          admin@dch.mx    / Admin2026  → 059a50ce956b7ec61527c7ecc0c55b5a009dc54ab4acddce8852b46baa2aba30
+          rrhh@dch.mx     / Rrhh2026   → 72de497f7ea67b93d3f6b990c19aca709ee3baa1bde8c01adf57124ad6b6c3d2
+          empleado@dch.mx / Emp2026    → ea247fc902037e0f663b16fcb7097749dd387de4a0a1e3a5139f781a6d3098f6
+
+        IDs explícitos (para poder cruzar FK sin subqueries en todo):
+          k_user.id_user       = 100 (empleado@dch.mx)
+          k_employee.id_employee = 100 (Ana García, user=100)
+          k_employee.id_employee = 101 (Carlos Mendoza, standalone)
+
+        NOTA: El AES frontend cifra el password antes de enviarlo al backend.
+              El backend descifra y compara SHA-256 con lo que está en BD.
+        ====================================================================
+    -->
+
+    <!-- ================================================================== -->
+    <!-- 0.0.11-001: Web-admin users (k_rol_assignment) — loginWeb          -->
+    <!-- ================================================================== -->
+    <changeSet id="0.0.11-001" author="dch-knowwho">
+        <comment>Demo users for web-admin login via /login/loginWeb (k_rol_assignment, tenant=demo-corp)</comment>
+
+        <!-- Administrador Master -->
+        <insert tableName="k_rol_assignment" schemaName="public">
+            <column name="id_rol" value="1"/>
+            <column name="ds_name_rol" value="Administrador Master"/>
+            <column name="ds_name" value="Admin"/>
+            <column name="ds_last_name" value="DCH"/>
+            <column name="ds_m_last_name" value="Total"/>
+            <column name="ds_phone" value="5555000001"/>
+            <column name="ds_email" value="admin@dch.mx"/>
+            <column name="ds_status" value="A"/>
+            <column name="ds_password" value="059a50ce956b7ec61527c7ecc0c55b5a009dc54ab4acddce8852b46baa2aba30"/>
+            <column name="ds_last_user_modifier" value="demo-setup"/>
+            <column name="dt_last_modification" valueComputed="NOW()"/>
+            <column name="ds_creation_user" value="demo-setup"/>
+            <column name="dt_creation_date" valueComputed="NOW()"/>
+            <column name="fg_active" valueBoolean="true"/>
+            <column name="tenant_id" value="demo-corp"/>
+        </insert>
+
+        <!-- RRHH -->
+        <insert tableName="k_rol_assignment" schemaName="public">
+            <column name="id_rol" value="2"/>
+            <column name="ds_name_rol" value="RRHH"/>
+            <column name="ds_name" value="RRHH"/>
+            <column name="ds_last_name" value="DCH"/>
+            <column name="ds_m_last_name" value="Total"/>
+            <column name="ds_phone" value="5555000002"/>
+            <column name="ds_email" value="rrhh@dch.mx"/>
+            <column name="ds_status" value="A"/>
+            <column name="ds_password" value="72de497f7ea67b93d3f6b990c19aca709ee3baa1bde8c01adf57124ad6b6c3d2"/>
+            <column name="ds_last_user_modifier" value="demo-setup"/>
+            <column name="dt_last_modification" valueComputed="NOW()"/>
+            <column name="ds_creation_user" value="demo-setup"/>
+            <column name="dt_creation_date" valueComputed="NOW()"/>
+            <column name="fg_active" valueBoolean="true"/>
+            <column name="tenant_id" value="demo-corp"/>
+        </insert>
+
+        <!-- Empleado (acceso web limitado por ROLE_PERMISSIONS) -->
+        <insert tableName="k_rol_assignment" schemaName="public">
+            <column name="id_rol" value="3"/>
+            <column name="ds_name_rol" value="Empleado"/>
+            <column name="ds_name" value="Ana"/>
+            <column name="ds_last_name" value="García"/>
+            <column name="ds_m_last_name" value="Ruiz"/>
+            <column name="ds_phone" value="5555000003"/>
+            <column name="ds_email" value="empleado@dch.mx"/>
+            <column name="ds_status" value="A"/>
+            <column name="ds_password" value="ea247fc902037e0f663b16fcb7097749dd387de4a0a1e3a5139f781a6d3098f6"/>
+            <column name="ds_last_user_modifier" value="demo-setup"/>
+            <column name="dt_last_modification" valueComputed="NOW()"/>
+            <column name="ds_creation_user" value="demo-setup"/>
+            <column name="dt_creation_date" valueComputed="NOW()"/>
+            <column name="fg_active" valueBoolean="true"/>
+            <column name="tenant_id" value="demo-corp"/>
+        </insert>
+
+        <rollback>
+            <delete tableName="k_rol_assignment" schemaName="public">
+                <where>tenant_id = 'demo-corp'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <!-- ================================================================== -->
+    <!-- 0.0.11-002: Employee user (k_user id=100) + 2 k_employee records  -->
+    <!-- ================================================================== -->
+    <changeSet id="0.0.11-002" author="dch-knowwho">
+        <comment>Demo employee in k_user (id=100, mobile login) and two k_employee records (id=100,101)</comment>
+        <sql>
+            -- empleado@dch.mx in k_user (for loginMobile)
+            INSERT INTO public.k_user
+                (id_user, ds_email, ds_user_type, ds_status_user, ds_last_user_modifier,
+                 dt_last_modification, ds_creation_user, dt_creation_date, fg_active,
+                 ds_password, id_rol, tenant_id)
+            VALUES (100, 'empleado@dch.mx', 'INTERNO', 'A', 'demo-setup',
+                    NOW(), 'demo-setup', NOW(), true,
+                    'ea247fc902037e0f663b16fcb7097749dd387de4a0a1e3a5139f781a6d3098f6',
+                    3, 'demo-corp');
+
+            -- Employee 100: Ana García (linked to user 100, start 2 years ago)
+            INSERT INTO public.k_employee
+                (id_employee, id_client, id_project, ds_civil_status, id_user,
+                 ds_name, ds_last_name, ds_m_last_name, ds_gender,
+                 ds_last_user_modifier, dt_last_modification,
+                 ds_creation_user, dt_creation_date,
+                 fg_active, tenant_id)
+            VALUES (100, 1, 1, 'SOLTERO', 100,
+                    'Ana', 'García', 'Ruiz', 'F',
+                    'demo-setup', NOW(),
+                    'demo-setup', NOW() - INTERVAL '2 years',
+                    true, 'demo-corp');
+
+            -- Employee 101: Carlos Mendoza (standalone, start 1 year ago)
+            INSERT INTO public.k_employee
+                (id_employee, id_client, id_project, ds_civil_status,
+                 ds_name, ds_last_name, ds_m_last_name, ds_gender,
+                 ds_last_user_modifier, dt_last_modification,
+                 ds_creation_user, dt_creation_date,
+                 fg_active, tenant_id)
+            VALUES (101, 1, 1, 'CASADO',
+                    'Carlos', 'Mendoza', 'Torres', 'M',
+                    'demo-setup', NOW(),
+                    'demo-setup', NOW() - INTERVAL '1 year',
+                    true, 'demo-corp');
+        </sql>
+        <rollback>
+            <sql>
+                DELETE FROM public.k_employee WHERE id_employee IN (100, 101);
+                DELETE FROM public.k_user WHERE id_user = 100;
+            </sql>
+        </rollback>
+    </changeSet>
+
+    <!-- ================================================================== -->
+    <!-- 0.0.11-003: Vacaciones (balance + solicitudes)                     -->
+    <!-- ================================================================== -->
+    <changeSet id="0.0.11-003" author="dch-knowwho">
+        <comment>Demo vacation balances and requests for employees 100 and 101 (demo-corp)</comment>
+
+        <!-- Balance: Ana García — 2 años de servicio, 15 días, 3 tomados -->
+        <insert tableName="k_vacation_balance" schemaName="public">
+            <column name="tenant_id" value="demo-corp"/>
+            <column name="id_employee" valueNumeric="100"/>
+            <column name="nb_year_of_service" valueNumeric="2"/>
+            <column name="nb_days_entitled" valueNumeric="15"/>
+            <column name="nb_days_taken" valueNumeric="3"/>
+            <column name="nb_days_pending" valueNumeric="12"/>
+            <column name="dt_period_start" valueComputed="CURRENT_DATE - INTERVAL '1 year'"/>
+            <column name="dt_period_end" valueComputed="CURRENT_DATE"/>
+            <column name="fg_active" valueBoolean="true"/>
+            <column name="dt_creation_date" valueComputed="NOW()"/>
+            <column name="ds_creation_user" value="demo-setup"/>
+        </insert>
+
+        <!-- Balance: Carlos Mendoza — 1 año, 15 días, 5 tomados -->
+        <insert tableName="k_vacation_balance" schemaName="public">
+            <column name="tenant_id" value="demo-corp"/>
+            <column name="id_employee" valueNumeric="101"/>
+            <column name="nb_year_of_service" valueNumeric="1"/>
+            <column name="nb_days_entitled" valueNumeric="15"/>
+            <column name="nb_days_taken" valueNumeric="5"/>
+            <column name="nb_days_pending" valueNumeric="10"/>
+            <column name="dt_period_start" valueComputed="CURRENT_DATE - INTERVAL '1 year'"/>
+            <column name="dt_period_end" valueComputed="CURRENT_DATE"/>
+            <column name="fg_active" valueBoolean="true"/>
+            <column name="dt_creation_date" valueComputed="NOW()"/>
+            <column name="ds_creation_user" value="demo-setup"/>
+        </insert>
+
+        <!-- Solicitud PENDIENTE: Ana García solicita 3 días la próxima semana -->
+        <insert tableName="k_vacation_request" schemaName="public">
+            <column name="tenant_id" value="demo-corp"/>
+            <column name="id_employee" valueNumeric="100"/>
+            <column name="dt_start_date" valueComputed="CURRENT_DATE + INTERVAL '7 days'"/>
+            <column name="dt_end_date" valueComputed="CURRENT_DATE + INTERVAL '9 days'"/>
+            <column name="nb_days_requested" valueNumeric="3"/>
+            <column name="ds_status" value="PENDIENTE"/>
+            <column name="ds_notes" value="Vacaciones familiares programadas — semana del 14 al 18 de julio"/>
+            <column name="fg_active" valueBoolean="true"/>
+            <column name="dt_creation_date" valueComputed="NOW() - INTERVAL '1 day'"/>
+            <column name="ds_creation_user" value="empleado@dch.mx"/>
+        </insert>
+
+        <!-- Solicitud APROBADA: Carlos Mendoza tomó 5 días el mes pasado -->
+        <insert tableName="k_vacation_request" schemaName="public">
+            <column name="tenant_id" value="demo-corp"/>
+            <column name="id_employee" valueNumeric="101"/>
+            <column name="dt_start_date" valueComputed="CURRENT_DATE - INTERVAL '20 days'"/>
+            <column name="dt_end_date" valueComputed="CURRENT_DATE - INTERVAL '16 days'"/>
+            <column name="nb_days_requested" valueNumeric="5"/>
+            <column name="ds_status" value="APROBADA"/>
+            <column name="ds_notes" value="Vacaciones de verano"/>
+            <column name="ds_approved_by" value="rrhh@dch.mx"/>
+            <column name="dt_approved_date" valueComputed="NOW() - INTERVAL '22 days'"/>
+            <column name="fg_active" valueBoolean="true"/>
+            <column name="dt_creation_date" valueComputed="NOW() - INTERVAL '23 days'"/>
+            <column name="ds_creation_user" value="carlos.mendoza@demo-corp"/>
+        </insert>
+
+        <rollback>
+            <sql>
+                DELETE FROM public.k_vacation_request WHERE tenant_id = 'demo-corp';
+                DELETE FROM public.k_vacation_balance WHERE tenant_id = 'demo-corp';
+            </sql>
+        </rollback>
+    </changeSet>
+
+    <!-- ================================================================== -->
+    <!-- 0.0.11-004: Incidencias                                            -->
+    <!-- ================================================================== -->
+    <changeSet id="0.0.11-004" author="dch-knowwho">
+        <comment>Demo incidents: RETARDO and FALTA_JUSTIFICADA for employee 100 (demo-corp)</comment>
+
+        <!-- Incidencia 1: Retardo hace 5 días -->
+        <insert tableName="k_incident" schemaName="public">
+            <column name="tenant_id" value="demo-corp"/>
+            <column name="id_employee" valueNumeric="100"/>
+            <column name="ds_type" value="RETARDO"/>
+            <column name="dt_incident_date" valueComputed="CURRENT_DATE - INTERVAL '5 days'"/>
+            <column name="ds_notes" value="Retardo de 25 minutos por incidente vial en Periférico Sur"/>
+            <column name="ds_status" value="REGISTRADA"/>
+            <column name="fg_active" valueBoolean="true"/>
+            <column name="dt_creation_date" valueComputed="NOW() - INTERVAL '5 days'"/>
+            <column name="ds_creation_user" value="demo-setup"/>
+        </insert>
+
+        <!-- Incidencia 2: Falta justificada hace 12 días -->
+        <insert tableName="k_incident" schemaName="public">
+            <column name="tenant_id" value="demo-corp"/>
+            <column name="id_employee" valueNumeric="100"/>
+            <column name="ds_type" value="FALTA_JUSTIFICADA"/>
+            <column name="dt_incident_date" valueComputed="CURRENT_DATE - INTERVAL '12 days'"/>
+            <column name="dt_end_date" valueComputed="CURRENT_DATE - INTERVAL '12 days'"/>
+            <column name="ds_notes" value="Cita médica IMSS. Justificante entregado en RRHH el mismo día."/>
+            <column name="ds_status" value="REGISTRADA"/>
+            <column name="fg_active" valueBoolean="true"/>
+            <column name="dt_creation_date" valueComputed="NOW() - INTERVAL '12 days'"/>
+            <column name="ds_creation_user" value="demo-setup"/>
+        </insert>
+
+        <rollback>
+            <delete tableName="k_incident" schemaName="public">
+                <where>tenant_id = 'demo-corp'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <!-- ================================================================== -->
+    <!-- 0.0.11-005: Tickets de mesa de ayuda + comentario                  -->
+    <!-- ================================================================== -->
+    <changeSet id="0.0.11-005" author="dch-knowwho">
+        <comment>Demo help desk tickets: 1 ABIERTO (IT) + 1 EN_PROCESO (Nómina) with comment (demo-corp)</comment>
+
+        <!-- Ticket 1: ABIERTO — Soporte IT (employee 100) -->
+        <insert tableName="k_ticket" schemaName="public">
+            <column name="tenant_id" value="demo-corp"/>
+            <column name="id_employee" valueNumeric="100"/>
+            <column name="ds_number" value="TKT-DEMO-001"/>
+            <column name="ds_subject" value="Acceso VPN — No puedo conectarme desde home office"/>
+            <column name="ds_description" value="Desde ayer no puedo conectarme a la VPN corporativa. El cliente muestra error de autenticación aunque mi contraseña es correcta. Reinicié el equipo sin resultado."/>
+            <column name="ds_category" value="Soporte IT"/>
+            <column name="ds_subcategory" value="Redes y Conectividad"/>
+            <column name="ds_priority" value="ALTA"/>
+            <column name="ds_status" value="ABIERTO"/>
+            <column name="fg_active" valueBoolean="true"/>
+            <column name="dt_creation_date" valueComputed="NOW() - INTERVAL '2 days'"/>
+            <column name="ds_creation_user" value="empleado@dch.mx"/>
+        </insert>
+
+        <!-- Ticket 2: EN_PROCESO — Nómina (employee 101) -->
+        <insert tableName="k_ticket" schemaName="public">
+            <column name="tenant_id" value="demo-corp"/>
+            <column name="id_employee" valueNumeric="101"/>
+            <column name="ds_number" value="TKT-DEMO-002"/>
+            <column name="ds_subject" value="Corrección en recibo de nómina — Período quincenal anterior"/>
+            <column name="ds_description" value="En mi recibo del período anterior aparece un descuento no notificado. Solicito revisión y aclaración por escrito del concepto aplicado."/>
+            <column name="ds_category" value="Nómina"/>
+            <column name="ds_subcategory" value="Corrección de Percepciones"/>
+            <column name="ds_priority" value="NORMAL"/>
+            <column name="ds_status" value="EN_PROCESO"/>
+            <column name="ds_assigned_to" value="rrhh@dch.mx"/>
+            <column name="fg_active" valueBoolean="true"/>
+            <column name="dt_creation_date" valueComputed="NOW() - INTERVAL '5 days'"/>
+            <column name="ds_creation_user" value="carlos.mendoza@demo-corp"/>
+        </insert>
+
+        <!-- Comentario en TKT-DEMO-002 -->
+        <sql>
+            INSERT INTO public.k_ticket_comment
+                (tenant_id, id_ticket, ds_author, ds_content, fg_internal, fg_active, dt_creation_date)
+            SELECT
+                'demo-corp',
+                id_ticket,
+                'rrhh@dch.mx',
+                'Hola Carlos, ya levantamos tu aclaración con el área de nómina. En los próximos 2 días hábiles recibirás respuesta con el detalle del descuento aplicado.',
+                false,
+                true,
+                NOW() - INTERVAL '4 days'
+            FROM public.k_ticket
+            WHERE ds_number = 'TKT-DEMO-002' AND tenant_id = 'demo-corp';
+        </sql>
+
+        <rollback>
+            <sql>
+                DELETE FROM public.k_ticket_comment WHERE tenant_id = 'demo-corp';
+                DELETE FROM public.k_ticket WHERE tenant_id = 'demo-corp';
+            </sql>
+        </rollback>
+    </changeSet>
+
+    <!-- ================================================================== -->
+    <!-- 0.0.11-006: Asistencia (turno + asignación + registros + hora extra) -->
+    <!-- ================================================================== -->
+    <changeSet id="0.0.11-006" author="dch-knowwho">
+        <comment>Demo attendance: Turno Administrativo FIJO, 5 check-in/out records last week, 1 pending overtime (demo-corp)</comment>
+
+        <!-- Turno Administrativo FIJO 08:00-17:00 -->
+        <insert tableName="k_shift" schemaName="public">
+            <column name="tenant_id" value="demo-corp"/>
+            <column name="ds_name" value="Turno Administrativo"/>
+            <column name="ds_type" value="FIJO"/>
+            <column name="dt_start_time" value="08:00:00"/>
+            <column name="dt_end_time" value="17:00:00"/>
+            <column name="nb_tolerance_minutes" valueNumeric="15"/>
+            <column name="fg_active" valueBoolean="true"/>
+            <column name="dt_creation_date" valueComputed="NOW()"/>
+            <column name="ds_creation_user" value="demo-setup"/>
+        </insert>
+
+        <!-- Asignar turno a empleado 100 desde hace 60 días -->
+        <sql>
+            INSERT INTO public.k_employee_shift
+                (tenant_id, id_employee, id_shift, dt_effective_date, fg_active, dt_creation_date)
+            SELECT
+                'demo-corp', 100, id_shift,
+                CURRENT_DATE - INTERVAL '60 days',
+                true, NOW()
+            FROM public.k_shift
+            WHERE tenant_id = 'demo-corp' AND ds_name = 'Turno Administrativo';
+        </sql>
+
+        <!-- 5 días de asistencia (lun-vie última semana) — 10 registros CHECK_IN/CHECK_OUT -->
+        <sql>
+            INSERT INTO public.k_attendance_record
+                (tenant_id, id_employee, id_project, ds_type, dt_timestamp,
+                 nb_latitude, nb_longitude, nb_distance_to_site, fg_geofence_valid,
+                 fg_active, dt_creation_date)
+            VALUES
+                -- Lunes (día -5): a tiempo
+                ('demo-corp', 100, 1, 'CHECK_IN',  (CURRENT_DATE - INTERVAL '5 days') + TIME '08:05:00', 19.4326, -99.1332, 45.2, true, true, NOW()),
+                ('demo-corp', 100, 1, 'CHECK_OUT', (CURRENT_DATE - INTERVAL '5 days') + TIME '17:30:00', 19.4326, -99.1332, 45.2, true, true, NOW()),
+                -- Martes (día -4): a tiempo
+                ('demo-corp', 100, 1, 'CHECK_IN',  (CURRENT_DATE - INTERVAL '4 days') + TIME '07:58:00', 19.4326, -99.1332, 30.1, true, true, NOW()),
+                ('demo-corp', 100, 1, 'CHECK_OUT', (CURRENT_DATE - INTERVAL '4 days') + TIME '18:15:00', 19.4326, -99.1332, 30.1, true, true, NOW()),
+                -- Miércoles (día -3): a tiempo
+                ('demo-corp', 100, 1, 'CHECK_IN',  (CURRENT_DATE - INTERVAL '3 days') + TIME '08:22:00', 19.4326, -99.1332, 55.7, true, true, NOW()),
+                ('demo-corp', 100, 1, 'CHECK_OUT', (CURRENT_DATE - INTERVAL '3 days') + TIME '17:00:00', 19.4326, -99.1332, 55.7, true, true, NOW()),
+                -- Jueves (día -2): horas extra (salida 19:45) → 165 min extra
+                ('demo-corp', 100, 1, 'CHECK_IN',  (CURRENT_DATE - INTERVAL '2 days') + TIME '08:10:00', 19.4326, -99.1332, 12.0, true, true, NOW()),
+                ('demo-corp', 100, 1, 'CHECK_OUT', (CURRENT_DATE - INTERVAL '2 days') + TIME '19:45:00', 19.4326, -99.1332, 12.0, true, true, NOW()),
+                -- Viernes (día -1): a tiempo
+                ('demo-corp', 100, 1, 'CHECK_IN',  (CURRENT_DATE - INTERVAL '1 day')  + TIME '07:55:00', 19.4326, -99.1332, 28.3, true, true, NOW()),
+                ('demo-corp', 100, 1, 'CHECK_OUT', (CURRENT_DATE - INTERVAL '1 day')  + TIME '17:10:00', 19.4326, -99.1332, 28.3, true, true, NOW());
+        </sql>
+
+        <!-- Hora extra PENDIENTE del jueves (165 minutos = 2h 45min) -->
+        <insert tableName="k_overtime_record" schemaName="public">
+            <column name="tenant_id" value="demo-corp"/>
+            <column name="id_employee" valueNumeric="100"/>
+            <column name="dt_date" valueComputed="CURRENT_DATE - INTERVAL '2 days'"/>
+            <column name="nb_minutes_extra" valueNumeric="165"/>
+            <column name="ds_status" value="PENDIENTE"/>
+            <column name="fg_active" valueBoolean="true"/>
+            <column name="dt_creation_date" valueComputed="NOW() - INTERVAL '2 days'"/>
+            <column name="ds_creation_user" value="demo-setup"/>
+        </insert>
+
+        <rollback>
+            <sql>
+                DELETE FROM public.k_overtime_record WHERE tenant_id = 'demo-corp';
+                DELETE FROM public.k_attendance_record WHERE tenant_id = 'demo-corp';
+                DELETE FROM public.k_employee_shift WHERE tenant_id = 'demo-corp';
+                DELETE FROM public.k_shift WHERE tenant_id = 'demo-corp';
+            </sql>
+        </rollback>
+    </changeSet>
+
+    <!-- ================================================================== -->
+    <!-- 0.0.11-007: Encuestas de clima laboral                             -->
+    <!-- ================================================================== -->
+    <changeSet id="0.0.11-007" author="dch-knowwho">
+        <comment>Demo survey: Clima Laboral Q3 2026 with 3 questions (demo-corp)</comment>
+
+        <insert tableName="k_survey" schemaName="public">
+            <column name="tenant_id" value="demo-corp"/>
+            <column name="ds_title" value="Clima Laboral Q3 2026"/>
+            <column name="ds_description" value="Encuesta trimestral de clima laboral. Tu opinión es muy importante para mejorar el ambiente de trabajo y las condiciones del equipo."/>
+            <column name="ds_type" value="CLIMA_LABORAL"/>
+            <column name="dt_start_date" valueComputed="CURRENT_DATE - INTERVAL '7 days'"/>
+            <column name="dt_end_date" valueComputed="CURRENT_DATE + INTERVAL '23 days'"/>
+            <column name="fg_anonymous" valueBoolean="true"/>
+            <column name="fg_active" valueBoolean="true"/>
+            <column name="ds_status" value="ACTIVO"/>
+            <column name="dt_creation_date" valueComputed="NOW() - INTERVAL '7 days'"/>
+            <column name="ds_creation_user" value="rrhh@dch.mx"/>
+        </insert>
+
+        <!-- 3 preguntas de la encuesta (usando subquery para id_survey) -->
+        <sql>
+            -- Pregunta 1: Escala 1-5 (ambiente de trabajo)
+            INSERT INTO public.k_survey_question
+                (tenant_id, id_survey, ds_question, ds_type, ds_options, nb_order, fg_required, fg_active, dt_creation_date)
+            SELECT
+                'demo-corp', id_survey,
+                '¿Cómo calificarías el ambiente de trabajo en tu área? (1=Muy malo, 5=Excelente)',
+                'ESCALA', '1,2,3,4,5',
+                1, true, true, NOW()
+            FROM public.k_survey
+            WHERE tenant_id = 'demo-corp' AND ds_title = 'Clima Laboral Q3 2026';
+
+            -- Pregunta 2: Opción múltiple (retroalimentación)
+            INSERT INTO public.k_survey_question
+                (tenant_id, id_survey, ds_question, ds_type, ds_options, nb_order, fg_required, fg_active, dt_creation_date)
+            SELECT
+                'demo-corp', id_survey,
+                '¿Tu jefe directo te da retroalimentación clara y oportuna?',
+                'OPCION_MULTIPLE',
+                'Siempre,Frecuentemente,A veces,Casi nunca,Nunca',
+                2, true, true, NOW()
+            FROM public.k_survey
+            WHERE tenant_id = 'demo-corp' AND ds_title = 'Clima Laboral Q3 2026';
+
+            -- Pregunta 3: Texto libre (sugerencias)
+            INSERT INTO public.k_survey_question
+                (tenant_id, id_survey, ds_question, ds_type, nb_order, fg_required, fg_active, dt_creation_date)
+            SELECT
+                'demo-corp', id_survey,
+                '¿Qué mejora sugerirías para el equipo o la empresa? (opcional)',
+                'TEXTO_LIBRE',
+                3, false, true, NOW()
+            FROM public.k_survey
+            WHERE tenant_id = 'demo-corp' AND ds_title = 'Clima Laboral Q3 2026';
+        </sql>
+
+        <rollback>
+            <sql>
+                DELETE FROM public.k_survey_response WHERE tenant_id = 'demo-corp';
+                DELETE FROM public.k_survey_question WHERE tenant_id = 'demo-corp';
+                DELETE FROM public.k_survey WHERE tenant_id = 'demo-corp';
+            </sql>
+        </rollback>
+    </changeSet>
+
+    <!-- ================================================================== -->
+    <!-- 0.0.11-008: Onboarding — 3 candidatos en distintas etapas          -->
+    <!-- ================================================================== -->
+    <changeSet id="0.0.11-008" author="dch-knowwho">
+        <comment>Demo onboarding pipeline: 3 candidates in ENTREVISTA, SELECCIONADO, ONBOARDING stages (demo-corp)</comment>
+
+        <!-- Candidato 1: Sofía Ramírez — ENTREVISTA -->
+        <insert tableName="k_candidate" schemaName="public">
+            <column name="tenant_id" value="demo-corp"/>
+            <column name="ds_email" value="candidato1.demo@gmail.com"/>
+            <column name="ds_name" value="Sofía"/>
+            <column name="ds_last_name" value="Ramírez"/>
+            <column name="ds_m_last_name" value="Vega"/>
+            <column name="ds_phone" value="5551234001"/>
+            <column name="ds_rfc" value="RAVS980215MX1"/>
+            <column name="ds_curp" value="RAVS980215MDFMGS02"/>
+            <column name="ds_nss" value="12345678901"/>
+            <column name="ds_address" value="Av. Insurgentes Sur 1234, Col. Del Valle, CDMX"/>
+            <column name="ds_source" value="LinkedIn"/>
+            <column name="ds_current_stage" value="ENTREVISTA"/>
+            <column name="id_client" value="1"/>
+            <column name="id_project" value="1"/>
+            <column name="ds_notes" value="Candidata con perfil administrativo sólido. Excelente entrevista inicial telefónica."/>
+            <column name="fg_active" valueBoolean="true"/>
+            <column name="dt_creation_date" valueComputed="NOW() - INTERVAL '10 days'"/>
+            <column name="ds_creation_user" value="rrhh@dch.mx"/>
+        </insert>
+
+        <!-- Candidato 2: Miguel Hernández — SELECCIONADO -->
+        <insert tableName="k_candidate" schemaName="public">
+            <column name="tenant_id" value="demo-corp"/>
+            <column name="ds_email" value="candidato2.demo@hotmail.com"/>
+            <column name="ds_name" value="Miguel"/>
+            <column name="ds_last_name" value="Hernández"/>
+            <column name="ds_m_last_name" value="Castro"/>
+            <column name="ds_phone" value="5551234002"/>
+            <column name="ds_rfc" value="HECM920308MX2"/>
+            <column name="ds_curp" value="HECM920308HDFNRG05"/>
+            <column name="ds_nss" value="23456789012"/>
+            <column name="ds_address" value="Calle Morelos 567, Col. Centro, Puebla, PUE"/>
+            <column name="ds_source" value="Referido interno"/>
+            <column name="ds_current_stage" value="SELECCIONADO"/>
+            <column name="id_client" value="1"/>
+            <column name="id_project" value="1"/>
+            <column name="ds_notes" value="Candidato seleccionado. Pendiente de completar expediente digital (INE y NSS)."/>
+            <column name="fg_active" valueBoolean="true"/>
+            <column name="dt_creation_date" valueComputed="NOW() - INTERVAL '20 days'"/>
+            <column name="ds_creation_user" value="rrhh@dch.mx"/>
+        </insert>
+
+        <!-- Candidato 3: Lucía Torres — ONBOARDING -->
+        <insert tableName="k_candidate" schemaName="public">
+            <column name="tenant_id" value="demo-corp"/>
+            <column name="ds_email" value="candidato3.demo@yahoo.com"/>
+            <column name="ds_name" value="Lucía"/>
+            <column name="ds_last_name" value="Torres"/>
+            <column name="ds_m_last_name" value="Moreno"/>
+            <column name="ds_phone" value="5551234003"/>
+            <column name="ds_rfc" value="TOML950720MX3"/>
+            <column name="ds_curp" value="TOML950720MDFRRG08"/>
+            <column name="ds_nss" value="34567890123"/>
+            <column name="ds_address" value="Blvd. Xalapa 890, Col. Jardines, Veracruz, VER"/>
+            <column name="ds_source" value="OCC Mundial"/>
+            <column name="ds_current_stage" value="ONBOARDING"/>
+            <column name="id_client" value="1"/>
+            <column name="id_project" value="1"/>
+            <column name="ds_notes" value="Expediente completo. Firma digital OTP pendiente. Contratación inminente."/>
+            <column name="fg_active" valueBoolean="true"/>
+            <column name="dt_creation_date" valueComputed="NOW() - INTERVAL '30 days'"/>
+            <column name="ds_creation_user" value="rrhh@dch.mx"/>
+        </insert>
+
+        <!-- Historial de pipeline para los 3 candidatos -->
+        <sql>
+            -- Candidato 1 (Sofía): POSTULADO → ENTREVISTA
+            INSERT INTO public.k_pipeline_stage
+                (tenant_id, id_candidate, ds_stage, dt_stage_date, ds_notes, ds_created_by, fg_active, dt_creation_date)
+            SELECT 'demo-corp', id_candidate, 'POSTULADO',
+                   NOW() - INTERVAL '10 days',
+                   'Postulación recibida vía LinkedIn', 'rrhh@dch.mx', true, NOW()
+            FROM public.k_candidate WHERE tenant_id = 'demo-corp' AND ds_email = 'candidato1.demo@gmail.com';
+
+            INSERT INTO public.k_pipeline_stage
+                (tenant_id, id_candidate, ds_stage, dt_stage_date, ds_notes, ds_created_by, fg_active, dt_creation_date)
+            SELECT 'demo-corp', id_candidate, 'ENTREVISTA',
+                   NOW() - INTERVAL '7 days',
+                   'CV aprobado. Entrevista telefónica agendada para el lunes.', 'rrhh@dch.mx', true, NOW()
+            FROM public.k_candidate WHERE tenant_id = 'demo-corp' AND ds_email = 'candidato1.demo@gmail.com';
+
+            -- Candidato 2 (Miguel): POSTULADO → ENTREVISTA → SELECCIONADO
+            INSERT INTO public.k_pipeline_stage
+                (tenant_id, id_candidate, ds_stage, dt_stage_date, ds_notes, ds_created_by, fg_active, dt_creation_date)
+            SELECT 'demo-corp', id_candidate, 'POSTULADO',
+                   NOW() - INTERVAL '20 days',
+                   'Referido por empleado interno — perfil validado', 'rrhh@dch.mx', true, NOW()
+            FROM public.k_candidate WHERE tenant_id = 'demo-corp' AND ds_email = 'candidato2.demo@hotmail.com';
+
+            INSERT INTO public.k_pipeline_stage
+                (tenant_id, id_candidate, ds_stage, dt_stage_date, ds_notes, ds_created_by, fg_active, dt_creation_date)
+            SELECT 'demo-corp', id_candidate, 'ENTREVISTA',
+                   NOW() - INTERVAL '15 days',
+                   'Entrevista presencial con área técnica y RRHH exitosa', 'rrhh@dch.mx', true, NOW()
+            FROM public.k_candidate WHERE tenant_id = 'demo-corp' AND ds_email = 'candidato2.demo@hotmail.com';
+
+            INSERT INTO public.k_pipeline_stage
+                (tenant_id, id_candidate, ds_stage, dt_stage_date, ds_notes, ds_created_by, fg_active, dt_creation_date)
+            SELECT 'demo-corp', id_candidate, 'SELECCIONADO',
+                   NOW() - INTERVAL '10 days',
+                   'Candidato seleccionado. Pendiente expediente digital.', 'rrhh@dch.mx', true, NOW()
+            FROM public.k_candidate WHERE tenant_id = 'demo-corp' AND ds_email = 'candidato2.demo@hotmail.com';
+
+            -- Candidato 3 (Lucía): POSTULADO → ENTREVISTA → SELECCIONADO → ONBOARDING
+            INSERT INTO public.k_pipeline_stage
+                (tenant_id, id_candidate, ds_stage, dt_stage_date, ds_notes, ds_created_by, fg_active, dt_creation_date)
+            SELECT 'demo-corp', id_candidate, 'POSTULADO',
+                   NOW() - INTERVAL '30 days',
+                   'Postulación espontánea vía OCC Mundial', 'rrhh@dch.mx', true, NOW()
+            FROM public.k_candidate WHERE tenant_id = 'demo-corp' AND ds_email = 'candidato3.demo@yahoo.com';
+
+            INSERT INTO public.k_pipeline_stage
+                (tenant_id, id_candidate, ds_stage, dt_stage_date, ds_notes, ds_created_by, fg_active, dt_creation_date)
+            SELECT 'demo-corp', id_candidate, 'ENTREVISTA',
+                   NOW() - INTERVAL '25 days',
+                   'Entrevista presencial exitosa. Excelente perfil técnico.', 'rrhh@dch.mx', true, NOW()
+            FROM public.k_candidate WHERE tenant_id = 'demo-corp' AND ds_email = 'candidato3.demo@yahoo.com';
+
+            INSERT INTO public.k_pipeline_stage
+                (tenant_id, id_candidate, ds_stage, dt_stage_date, ds_notes, ds_created_by, fg_active, dt_creation_date)
+            SELECT 'demo-corp', id_candidate, 'SELECCIONADO',
+                   NOW() - INTERVAL '20 days',
+                   'Seleccionada para el proyecto Bosch — inicio programado', 'rrhh@dch.mx', true, NOW()
+            FROM public.k_candidate WHERE tenant_id = 'demo-corp' AND ds_email = 'candidato3.demo@yahoo.com';
+
+            INSERT INTO public.k_pipeline_stage
+                (tenant_id, id_candidate, ds_stage, dt_stage_date, ds_notes, ds_created_by, fg_active, dt_creation_date)
+            SELECT 'demo-corp', id_candidate, 'ONBOARDING',
+                   NOW() - INTERVAL '10 days',
+                   'Expediente completo. Pendiente firma digital OTP para activación.', 'rrhh@dch.mx', true, NOW()
+            FROM public.k_candidate WHERE tenant_id = 'demo-corp' AND ds_email = 'candidato3.demo@yahoo.com';
+        </sql>
+
+        <rollback>
+            <sql>
+                DELETE FROM public.k_pipeline_stage WHERE tenant_id = 'demo-corp';
+                DELETE FROM public.k_candidate WHERE tenant_id = 'demo-corp';
+            </sql>
+        </rollback>
+    </changeSet>
+
+    <!-- ================================================================== -->
+    <!-- 0.0.11-009: REPSE — perfil + cliente + documentos + semáforo       -->
+    <!-- ================================================================== -->
+    <changeSet id="0.0.11-009" author="dch-knowwho">
+        <comment>Demo REPSE: profile (vigencia +90 days), 1 client, documents, compliance VERDE (demo-corp)</comment>
+
+        <!-- Perfil REPSE de demo-corp (vigencia en 90 días) -->
+        <insert tableName="k_repse_profile" schemaName="public">
+            <column name="tenant_id" value="demo-corp"/>
+            <column name="ds_registro_stps" value="REPSE-2024-000001234"/>
+            <column name="dt_vigencia" valueComputed="CURRENT_DATE + INTERVAL '90 days'"/>
+            <column name="ds_razon_social" value="DCH Total S.A. de C.V."/>
+            <column name="ds_rfc" value="DCT240101AB1"/>
+            <column name="ds_representante_legal" value="Director General DCH"/>
+            <column name="ds_actividad_economica" value="Servicios especializados de administración de personal y outsourcing bajo certificación REPSE vigente"/>
+            <column name="ds_status" value="ACTIVO"/>
+            <column name="fg_active" valueBoolean="true"/>
+            <column name="dt_creation_date" valueComputed="NOW()"/>
+            <column name="ds_creation_user" value="demo-setup"/>
+        </insert>
+
+        <!-- Cliente REPSE: Corporativo Bosch México -->
+        <insert tableName="k_repse_client" schemaName="public">
+            <column name="tenant_id" value="demo-corp"/>
+            <column name="ds_razon_social" value="Corporativo Bosch México S.A. de C.V."/>
+            <column name="ds_rfc" value="CBM780901GH2"/>
+            <column name="ds_contacto" value="Gerente de Recursos Humanos"/>
+            <column name="ds_email_contacto" value="rrhh@bosch.com.mx"/>
+            <column name="ds_telefono" value="5552843000"/>
+            <column name="nb_empleados_asignados" valueNumeric="45"/>
+            <column name="ds_status" value="ACTIVO"/>
+            <column name="fg_active" valueBoolean="true"/>
+            <column name="dt_creation_date" valueComputed="NOW()"/>
+            <column name="ds_creation_user" value="demo-setup"/>
+        </insert>
+
+        <!-- Documentos REPSE del mes anterior + Semáforo VERDE -->
+        <sql>
+            -- Documento 1: ISR mensual APROBADO
+            INSERT INTO public.k_repse_document
+                (tenant_id, id_repse_client, ds_period, ds_type, ds_status,
+                 ds_filename, ds_notes, ds_validated_by, dt_validated_date,
+                 fg_active, dt_creation_date)
+            SELECT
+                'demo-corp', id_repse_client,
+                TO_CHAR(CURRENT_DATE - INTERVAL '1 month', 'YYYY-MM'),
+                'ISR_MENSUAL', 'APROBADO',
+                'ISR_' || TO_CHAR(CURRENT_DATE - INTERVAL '1 month', 'YYYY_MM') || '.pdf',
+                'Declaración mensual ISR presentada en tiempo y forma',
+                'admin@dch.mx', NOW() - INTERVAL '5 days',
+                true, NOW()
+            FROM public.k_repse_client WHERE tenant_id = 'demo-corp' AND ds_rfc = 'CBM780901GH2';
+
+            -- Documento 2: IMSS SUA APROBADO
+            INSERT INTO public.k_repse_document
+                (tenant_id, id_repse_client, ds_period, ds_type, ds_status,
+                 ds_filename, ds_notes, ds_validated_by, dt_validated_date,
+                 fg_active, dt_creation_date)
+            SELECT
+                'demo-corp', id_repse_client,
+                TO_CHAR(CURRENT_DATE - INTERVAL '1 month', 'YYYY-MM'),
+                'IMSS_SUA', 'APROBADO',
+                'SUA_' || TO_CHAR(CURRENT_DATE - INTERVAL '1 month', 'YYYY_MM') || '.pdf',
+                'Pago cuota obrero-patronal IMSS-SUA liquidado puntualmente',
+                'admin@dch.mx', NOW() - INTERVAL '5 days',
+                true, NOW()
+            FROM public.k_repse_client WHERE tenant_id = 'demo-corp' AND ds_rfc = 'CBM780901GH2';
+
+            -- Documento 3: INFONAVIT APROBADO
+            INSERT INTO public.k_repse_document
+                (tenant_id, id_repse_client, ds_period, ds_type, ds_status,
+                 ds_filename, ds_notes, ds_validated_by, dt_validated_date,
+                 fg_active, dt_creation_date)
+            SELECT
+                'demo-corp', id_repse_client,
+                TO_CHAR(CURRENT_DATE - INTERVAL '1 month', 'YYYY-MM'),
+                'INFONAVIT', 'APROBADO',
+                'INFONAVIT_' || TO_CHAR(CURRENT_DATE - INTERVAL '1 month', 'YYYY_MM') || '.pdf',
+                'Aportaciones INFONAVIT y amortizaciones al corriente',
+                'admin@dch.mx', NOW() - INTERVAL '5 days',
+                true, NOW()
+            FROM public.k_repse_client WHERE tenant_id = 'demo-corp' AND ds_rfc = 'CBM780901GH2';
+
+            -- Semáforo de cumplimiento VERDE (5/6 documentos validados, 1 requerido pendiente del mes corriente)
+            INSERT INTO public.k_repse_compliance
+                (tenant_id, id_repse_client, ds_period,
+                 nb_documents_required, nb_documents_submitted,
+                 nb_documents_validated, nb_documents_rejected,
+                 ds_semaforo, fg_active, dt_creation_date)
+            SELECT
+                'demo-corp', id_repse_client,
+                TO_CHAR(CURRENT_DATE - INTERVAL '1 month', 'YYYY-MM'),
+                6, 6, 5, 0,
+                'VERDE', true, NOW()
+            FROM public.k_repse_client WHERE tenant_id = 'demo-corp' AND ds_rfc = 'CBM780901GH2';
+        </sql>
+
+        <rollback>
+            <sql>
+                DELETE FROM public.k_repse_compliance WHERE tenant_id = 'demo-corp';
+                DELETE FROM public.k_repse_document WHERE tenant_id = 'demo-corp';
+                DELETE FROM public.k_repse_client WHERE tenant_id = 'demo-corp';
+                DELETE FROM public.k_repse_profile WHERE tenant_id = 'demo-corp';
+            </sql>
+        </rollback>
+    </changeSet>
+
+    <!-- ================================================================== -->
+    <!-- 0.0.11-010: Documentos del empleado (tipos + 2 docs PENDIENTE)     -->
+    <!-- ================================================================== -->
+    <changeSet id="0.0.11-010" author="dch-knowwho">
+        <comment>Demo employee documents: 2 document types for demo-corp + 2 PENDIENTE docs for employee 100</comment>
+
+        <!-- Tipos de documento para demo-corp -->
+        <insert tableName="k_document_type" schemaName="public">
+            <column name="tenant_id" value="demo-corp"/>
+            <column name="ds_code" value="INE"/>
+            <column name="ds_name" value="Identificación Oficial (INE/IFE)"/>
+            <column name="fg_required_onboarding" valueBoolean="true"/>
+            <column name="fg_employee_uploadable" valueBoolean="true"/>
+            <column name="fg_active" valueBoolean="true"/>
+            <column name="dt_creation_date" valueComputed="NOW()"/>
+        </insert>
+
+        <insert tableName="k_document_type" schemaName="public">
+            <column name="tenant_id" value="demo-corp"/>
+            <column name="ds_code" value="COMPROBANTE_DOMICILIO"/>
+            <column name="ds_name" value="Comprobante de Domicilio (máx. 3 meses)"/>
+            <column name="fg_required_onboarding" valueBoolean="true"/>
+            <column name="fg_employee_uploadable" valueBoolean="true"/>
+            <column name="fg_active" valueBoolean="true"/>
+            <column name="dt_creation_date" valueComputed="NOW()"/>
+        </insert>
+
+        <!-- 2 documentos PENDIENTE de validación para empleado 100 -->
+        <sql>
+            -- Documento 1: INE pendiente
+            INSERT INTO public.k_employee_document
+                (tenant_id, id_employee, id_document_type, ds_filename, ds_mime_type,
+                 ds_status, ds_notes, fg_active, dt_creation_date)
+            SELECT
+                'demo-corp', 100, id_document_type,
+                'INE_ANA_GARCIA_2026.pdf', 'application/pdf',
+                'PENDIENTE',
+                'Identificación oficial cargada por la colaboradora. Pendiente de validación por RRHH.',
+                true, NOW() - INTERVAL '3 days'
+            FROM public.k_document_type
+            WHERE tenant_id = 'demo-corp' AND ds_code = 'INE';
+
+            -- Documento 2: Comprobante de domicilio pendiente
+            INSERT INTO public.k_employee_document
+                (tenant_id, id_employee, id_document_type, ds_filename, ds_mime_type,
+                 ds_status, ds_notes, fg_active, dt_creation_date)
+            SELECT
+                'demo-corp', 100, id_document_type,
+                'COMPROBANTE_DOMICILIO_ANA_GARCIA_JUL2026.pdf', 'application/pdf',
+                'PENDIENTE',
+                'Recibo de luz con fecha julio 2026. Pendiente validación.',
+                true, NOW() - INTERVAL '2 days'
+            FROM public.k_document_type
+            WHERE tenant_id = 'demo-corp' AND ds_code = 'COMPROBANTE_DOMICILIO';
+        </sql>
+
+        <rollback>
+            <sql>
+                DELETE FROM public.k_employee_document WHERE tenant_id = 'demo-corp';
+                DELETE FROM public.k_document_type WHERE tenant_id = 'demo-corp';
+            </sql>
+        </rollback>
+    </changeSet>
+
+    <!-- ================================================================== -->
+    <!-- 0.0.11-011: Reset secuencias tras inserts con IDs explícitos       -->
+    <!-- ================================================================== -->
+    <changeSet id="0.0.11-011" author="dch-knowwho">
+        <comment>Reset PostgreSQL sequences for k_user and k_employee after explicit ID inserts (ids 100, 101)</comment>
+        <sql>
+            -- k_user: datos existentes usan IDs 1-4, demo usa ID 100
+            SELECT setval(
+                pg_get_serial_sequence('k_user', 'id_user'),
+                COALESCE((SELECT MAX(id_user) FROM public.k_user), 0) + 1,
+                false
+            );
+
+            -- k_employee: datos existentes usan IDs 1-3, demo usa IDs 100-101
+            SELECT setval(
+                pg_get_serial_sequence('k_employee', 'id_employee'),
+                COALESCE((SELECT MAX(id_employee) FROM public.k_employee), 0) + 1,
+                false
+            );
+        </sql>
+        <rollback><empty/></rollback>
+    </changeSet>
+
+</databaseChangeLog>

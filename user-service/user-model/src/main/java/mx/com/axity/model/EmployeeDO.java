@@ -3,6 +3,7 @@ package mx.com.axity.model;
 import org.springframework.lang.Nullable;
 
 import jakarta.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -54,6 +55,18 @@ public class EmployeeDO {
 
     @Column(name = "tenant_id")
     private String tenantId;
+
+    @Column(name = "ds_employee_number")
+    private String dsEmployeeNumber;
+
+    @Column(name = "ds_dch_executive")
+    private String dsDchExecutive;
+
+    @Column(name = "ds_termination_reason")
+    private String dsTerminationReason;
+
+    @Column(name = "dt_termination_date")
+    private LocalDate dtTerminationDate;
 
     @OneToOne(mappedBy = "employee")
     private EmployeeComplementaryDO employeeComplementary;
@@ -216,5 +229,37 @@ public class EmployeeDO {
 
     public void setClient(@Nullable ClientDO client) {
         this.client = client;
+    }
+
+    public String getDsEmployeeNumber() {
+        return dsEmployeeNumber;
+    }
+
+    public void setDsEmployeeNumber(String dsEmployeeNumber) {
+        this.dsEmployeeNumber = dsEmployeeNumber;
+    }
+
+    public String getDsDchExecutive() {
+        return dsDchExecutive;
+    }
+
+    public void setDsDchExecutive(String dsDchExecutive) {
+        this.dsDchExecutive = dsDchExecutive;
+    }
+
+    public String getDsTerminationReason() {
+        return dsTerminationReason;
+    }
+
+    public void setDsTerminationReason(String dsTerminationReason) {
+        this.dsTerminationReason = dsTerminationReason;
+    }
+
+    public LocalDate getDtTerminationDate() {
+        return dtTerminationDate;
+    }
+
+    public void setDtTerminationDate(LocalDate dtTerminationDate) {
+        this.dtTerminationDate = dtTerminationDate;
     }
 }

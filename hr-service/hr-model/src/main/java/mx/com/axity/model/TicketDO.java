@@ -15,6 +15,7 @@ public class TicketDO {
     @Column(name = "ds_subject", nullable = false) private String dsSubject;
     @Column(name = "ds_description", nullable = false, columnDefinition = "TEXT") private String dsDescription;
     @Column(name = "ds_category") private String dsCategory;
+    @Column(name = "ds_subcategory") private String dsSubcategory;
     @Column(name = "ds_priority") private String dsPriority = "NORMAL";
     @Column(name = "ds_status", nullable = false) private String dsStatus = "ABIERTO";
     @Column(name = "ds_assigned_to") private String dsAssignedTo;
@@ -35,6 +36,7 @@ public class TicketDO {
     public String getDsSubject() { return dsSubject; } public void setDsSubject(String v) { dsSubject = v; }
     public String getDsDescription() { return dsDescription; } public void setDsDescription(String v) { dsDescription = v; }
     public String getDsCategory() { return dsCategory; } public void setDsCategory(String v) { dsCategory = v; }
+    public String getDsSubcategory() { return dsSubcategory; } public void setDsSubcategory(String v) { dsSubcategory = v; }
     public String getDsPriority() { return dsPriority; } public void setDsPriority(String v) { dsPriority = v; }
     public String getDsStatus() { return dsStatus; } public void setDsStatus(String v) { dsStatus = v; }
     public String getDsAssignedTo() { return dsAssignedTo; } public void setDsAssignedTo(String v) { dsAssignedTo = v; }

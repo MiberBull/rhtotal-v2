@@ -21,7 +21,7 @@ public class FaqRegistry {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<FaqTO> getById(@PathVariable Long id) {
+    public ResponseEntity<FaqTO> getById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(faqFacade.getById(id));
     }
 
@@ -31,12 +31,12 @@ public class FaqRegistry {
     }
 
     @GetMapping("/category/{category}")
-    public ResponseEntity<List<FaqTO>> getByCategory(@PathVariable String category) {
+    public ResponseEntity<List<FaqTO>> getByCategory(@PathVariable("category") String category) {
         return ResponseEntity.ok(faqFacade.getByCategory(TenantContext.getCurrentTenant(), category));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
         faqFacade.delete(id);
         return ResponseEntity.noContent().build();
     }

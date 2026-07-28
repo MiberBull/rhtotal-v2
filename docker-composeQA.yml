@@ -38,7 +38,7 @@ services:
       - rhtotalqanet
     environment:
       - TZ=America/Mexico_City
-      - DB_PASS=${DB_PASS:-project123}
+      - DB_PASS=${DB_PASS}
       - AES_SECRET_KEY=${AES_SECRET_KEY}
     depends_on:
       - eurekaservice
@@ -53,7 +53,7 @@ services:
       - rhtotalqanet
     environment:
       - TZ=America/Mexico_City
-      - DB_PASS=${DB_PASS:-project123}
+      - DB_PASS=${DB_PASS}
     depends_on:
       - eurekaservice
       - gatewayservice
@@ -67,7 +67,7 @@ services:
       - rhtotalqanet
     environment:
       - TZ=America/Mexico_City
-      - DB_PASS=${DB_PASS:-project123}
+      - DB_PASS=${DB_PASS}
       - AES_SECRET_KEY=${AES_SECRET_KEY}
     depends_on:
       - eurekaservice
@@ -83,7 +83,7 @@ services:
       - rhtotalqanet
     environment:
       - TZ=America/Mexico_City
-      - DB_PASS=${DB_PASS:-project123}
+      - DB_PASS=${DB_PASS}
       - MAIL_USER=${MAIL_USER}
       - MAIL_PASS=${MAIL_PASS}
     depends_on:
@@ -99,7 +99,7 @@ services:
       - rhtotalqanet
     environment:
       - TZ=America/Mexico_City
-      - DB_PASS=${DB_PASS:-project123}
+      - DB_PASS=${DB_PASS}
     depends_on:
       - eurekaservice
       - gatewayservice
@@ -113,7 +113,7 @@ services:
       - rhtotalqanet
     environment:
       - TZ=America/Mexico_City
-      - DB_PASS=${DB_PASS:-project123}
+      - DB_PASS=${DB_PASS}
     depends_on:
       - eurekaservice
       - gatewayservice
@@ -127,7 +127,7 @@ services:
       - rhtotalqanet
     environment:
       - TZ=America/Mexico_City
-      - DB_PASS=${DB_PASS:-project123}
+      - DB_PASS=${DB_PASS}
     depends_on:
       - eurekaservice
       - gatewayservice

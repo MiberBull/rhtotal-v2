@@ -14,12 +14,14 @@ export interface UserTO {
   level?: number;
   active?: boolean;
   nameRole?: DchRole;
+  nameRol?: DchRole;
   role?: DchRole;
+  tenantId?: string;
 }
 
 export interface LoginRequestTO {
-  user: string;
-  password: string;
+  user: { email: string; password: string };
+  block?: boolean;
 }
 
 export interface LoginResponseTO {
@@ -29,6 +31,7 @@ export interface LoginResponseTO {
   user: UserTO;
   menu?: MenuItem[];
   token?: string;
+  tenantId?: string;
 }
 
 export enum LoginFlag {

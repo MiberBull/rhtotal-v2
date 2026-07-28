@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <!--
+        ====================================================================
+        TENANTS REALES DCH — Sprint 14
+        ====================================================================
+        Modelo:  tenant = Razón Social empleadora de DCH
+          'aeisa'    → AEISA S.A. de C.V.  (administración / consultoría)
+          'rga'      → RGA S.A. de C.V.    (almacén / logística)
+          'staffing' → DCH Staffing S.A. de C.V. (mantenimiento industrial)
+
+        Passwords en BD (SHA-256 del password en texto claro):
+          Admin2026  → 059a50ce956b7ec61527c7ecc0c55b5a009dc54ab4acddce8852b46baa2aba30
+          Rrhh2026   → 72de497f7ea67b93d3f6b990c19aca709ee3baa1bde8c01adf57124ad6b6c3d2
+        ====================================================================
+    -->
+
+    <!-- ================================================================== -->
+    <!-- 0.0.14-001: Registrar las 3 razones sociales en w_tenant           -->
+    <!-- ================================================================== -->
+    <changeSet id="0.0.14-001" author="dch-knowwho">
+        <comment>Tenants reales DCH: AEISA, RGA, Staffing</comment>
+
+        <insert tableName="w_tenant" schemaName="public">
+            <column name="id_tenant" value="aeisa"/>
+            <column name="ds_name" value="AEISA S.A. de C.V."/>
+            <column name="ds_domain" value="aeisa.dch.mx"/>
+            <column name="fg_active" valueBoolean="true"/>
+            <column name="dt_creation_date" valueComputed="NOW()"/>
+        </insert>
+
+        <insert tableName="w_tenant" schemaName="public">
+            <column name="id_tenant" value="rga"/>
+            <column name="ds_name" value="RGA S.A. de C.V."/>
+            <column name="ds_domain" value="rga.dch.mx"/>
+            <column name="fg_active" valueBoolean="true"/>
+            <column name="dt_creation_date" valueComputed="NOW()"/>
+        </insert>
+
+        <insert tableName="w_tenant" schemaName="public">
+            <column name="id_tenant" value="staffing"/>
+            <column name="ds_name" value="DCH Staffing S.A. de C.V."/>
+            <column name="ds_domain" value="staffing.dch.mx"/>
+            <column name="fg_active" valueBoolean="true"/>
+            <column name="dt_creation_date" valueComputed="NOW()"/>
+        </insert>
+
+        <rollback>
+            <delete tableName="w_tenant" schemaName="public">
+                <where>id_tenant IN ('aeisa', 'rga', 'staffing')</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <!-- ================================================================== -->
+    <!-- 0.0.14-002: Admin + RRHH para tenant AEISA                        -->
+    <!-- ================================================================== -->
+    <changeSet id="0.0.14-002" author="dch-knowwho">
+        <comment>Usuarios web-admin para AEISA (loginWeb via k_rol_assignment)</comment>
+
+        <insert tableName="k_rol_assignment" schemaName="public">
+            <column name="id_rol" value="1"/>
+            <column name="ds_name_rol" value="DCH_ADMIN"/>
+            <column name="ds_name" value="Admin"/>
+            <column name="ds_last_name" value="AEISA"/>
+            <column name="ds_m_last_name" value="DCH"/>
+            <column name="ds_phone" value="5555001001"/>
+            <column name="ds_email" value="admin@aeisa.dch.mx"/>
+            <column name="ds_status" value="A"/>
+            <column name="ds_password" value="059a50ce956b7ec61527c7ecc0c55b5a009dc54ab4acddce8852b46baa2aba30"/>
+            <column name="ds_last_user_modifier" value="sprint14-setup"/>
+            <column name="dt_last_modification" valueComputed="NOW()"/>
+            <column name="ds_creation_user" value="sprint14-setup"/>
+            <column name="dt_creation_date" valueComputed="NOW()"/>
+            <column name="fg_active" valueBoolean="true"/>
+            <column name="tenant_id" value="aeisa"/>
+        </insert>
+
+        <insert tableName="k_rol_assignment" schemaName="public">
+            <column name="id_rol" value="2"/>
+            <column name="ds_name_rol" value="DCH_RRHH"/>
+            <column name="ds_name" value="RRHH"/>
+            <column name="ds_last_name" value="AEISA"/>
+            <column name="ds_m_last_name" value="DCH"/>
+            <column name="ds_phone" value="5555001002"/>
+            <column name="ds_email" value="rrhh@aeisa.dch.mx"/>
+            <column name="ds_status" value="A"/>
+            <column name="ds_password" value="72de497f7ea67b93d3f6b990c19aca709ee3baa1bde8c01adf57124ad6b6c3d2"/>
+            <column name="ds_last_user_modifier" value="sprint14-setup"/>
+            <column name="dt_last_modification" valueComputed="NOW()"/>
+            <column name="ds_creation_user" value="sprint14-setup"/>
+            <column name="dt_creation_date" valueComputed="NOW()"/>
+            <column name="fg_active" valueBoolean="true"/>
+            <column name="tenant_id" value="aeisa"/>
+        </insert>
+
+        <rollback>
+            <delete tableName="k_rol_assignment" schemaName="public">
+                <where>tenant_id = 'aeisa' AND ds_email IN ('admin@aeisa.dch.mx', 'rrhh@aeisa.dch.mx')</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <!-- ================================================================== -->
+    <!-- 0.0.14-003: Admin + RRHH para tenant RGA                          -->
+    <!-- ================================================================== -->
+    <changeSet id="0.0.14-003" author="dch-knowwho">
+        <comment>Usuarios web-admin para RGA (loginWeb via k_rol_assignment)</comment>
+
+        <insert tableName="k_rol_assignment" schemaName="public">
+            <column name="id_rol" value="1"/>
+            <column name="ds_name_rol" value="DCH_ADMIN"/>
+            <column name="ds_name" value="Admin"/>
+            <column name="ds_last_name" value="RGA"/>
+            <column name="ds_m_last_name" value="DCH"/>
+            <column name="ds_phone" value="5555002001"/>
+            <column name="ds_email" value="admin@rga.dch.mx"/>
+            <column name="ds_status" value="A"/>
+            <column name="ds_password" value="059a50ce956b7ec61527c7ecc0c55b5a009dc54ab4acddce8852b46baa2aba30"/>
+            <column name="ds_last_user_modifier" value="sprint14-setup"/>
+            <column name="dt_last_modification" valueComputed="NOW()"/>
+            <column name="ds_creation_user" value="sprint14-setup"/>
+            <column name="dt_creation_date" valueComputed="NOW()"/>
+            <column name="fg_active" valueBoolean="true"/>
+            <column name="tenant_id" value="rga"/>
+        </insert>
+
+        <insert tableName="k_rol_assignment" schemaName="public">
+            <column name="id_rol" value="2"/>
+            <column name="ds_name_rol" value="DCH_RRHH"/>
+            <column name="ds_name" value="RRHH"/>
+            <column name="ds_last_name" value="RGA"/>
+            <column name="ds_m_last_name" value="DCH"/>
+            <column name="ds_phone" value="5555002002"/>
+            <column name="ds_email" value="rrhh@rga.dch.mx"/>
+            <column name="ds_status" value="A"/>
+            <column name="ds_password" value="72de497f7ea67b93d3f6b990c19aca709ee3baa1bde8c01adf57124ad6b6c3d2"/>
+            <column name="ds_last_user_modifier" value="sprint14-setup"/>
+            <column name="dt_last_modification" valueComputed="NOW()"/>
+            <column name="ds_creation_user" value="sprint14-setup"/>
+            <column name="dt_creation_date" valueComputed="NOW()"/>
+            <column name="fg_active" valueBoolean="true"/>
+            <column name="tenant_id" value="rga"/>
+        </insert>
+
+        <rollback>
+            <delete tableName="k_rol_assignment" schemaName="public">
+                <where>tenant_id = 'rga' AND ds_email IN ('admin@rga.dch.mx', 'rrhh@rga.dch.mx')</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <!-- ================================================================== -->
+    <!-- 0.0.14-004: Admin + RRHH para tenant STAFFING                     -->
+    <!-- ================================================================== -->
+    <changeSet id="0.0.14-004" author="dch-knowwho">
+        <comment>Usuarios web-admin para Staffing (loginWeb via k_rol_assignment)</comment>
+
+        <insert tableName="k_rol_assignment" schemaName="public">
+            <column name="id_rol" value="1"/>
+            <column name="ds_name_rol" value="DCH_ADMIN"/>
+            <column name="ds_name" value="Admin"/>
+            <column name="ds_last_name" value="Staffing"/>
+            <column name="ds_m_last_name" value="DCH"/>
+            <column name="ds_phone" value="5555003001"/>
+            <column name="ds_email" value="admin@staffing.dch.mx"/>
+            <column name="ds_status" value="A"/>
+            <column name="ds_password" value="059a50ce956b7ec61527c7ecc0c55b5a009dc54ab4acddce8852b46baa2aba30"/>
+            <column name="ds_last_user_modifier" value="sprint14-setup"/>
+            <column name="dt_last_modification" valueComputed="NOW()"/>
+            <column name="ds_creation_user" value="sprint14-setup"/>
+            <column name="dt_creation_date" valueComputed="NOW()"/>
+            <column name="fg_active" valueBoolean="true"/>
+            <column name="tenant_id" value="staffing"/>
+        </insert>
+
+        <insert tableName="k_rol_assignment" schemaName="public">
+            <column name="id_rol" value="2"/>
+            <column name="ds_name_rol" value="DCH_RRHH"/>
+            <column name="ds_name" value="RRHH"/>
+            <column name="ds_last_name" value="Staffing"/>
+            <column name="ds_m_last_name" value="DCH"/>
+            <column name="ds_phone" value="5555003002"/>
+            <column name="ds_email" value="rrhh@staffing.dch.mx"/>
+            <column name="ds_status" value="A"/>
+            <column name="ds_password" value="72de497f7ea67b93d3f6b990c19aca709ee3baa1bde8c01adf57124ad6b6c3d2"/>
+            <column name="ds_last_user_modifier" value="sprint14-setup"/>
+            <column name="dt_last_modification" valueComputed="NOW()"/>
+            <column name="ds_creation_user" value="sprint14-setup"/>
+            <column name="dt_creation_date" valueComputed="NOW()"/>
+            <column name="fg_active" valueBoolean="true"/>
+            <column name="tenant_id" value="staffing"/>
+        </insert>
+
+        <rollback>
+            <delete tableName="k_rol_assignment" schemaName="public">
+                <where>tenant_id = 'staffing' AND ds_email IN ('admin@staffing.dch.mx', 'rrhh@staffing.dch.mx')</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <!-- ================================================================== -->
+    <!-- 0.0.14-005: Categorías de Biblioteca para cada tenant real         -->
+    <!-- ================================================================== -->
+    <changeSet id="0.0.14-005" author="dch-knowwho">
+        <comment>Seed categorías de Biblioteca para AEISA, RGA y Staffing</comment>
+
+        <!-- AEISA -->
+        <insert tableName="k_resource_category" schemaName="public">
+            <column name="tenant_id" value="aeisa"/>
+            <column name="ds_name" value="Políticas y Reglamentos"/>
+            <column name="ds_description" value="Políticas internas, reglamento de trabajo y normas de la empresa"/>
+            <column name="ds_icon" value="gavel"/>
+            <column name="fg_active" valueBoolean="true"/>
+        </insert>
+        <insert tableName="k_resource_category" schemaName="public">
+            <column name="tenant_id" value="aeisa"/>
+            <column name="ds_name" value="Manuales de Cliente"/>
+            <column name="ds_description" value="Manuales operativos y de procedimientos por cliente"/>
+            <column name="ds_icon" value="import_contacts"/>
+            <column name="fg_active" valueBoolean="true"/>
+        </insert>
+        <insert tableName="k_resource_category" schemaName="public">
+            <column name="tenant_id" value="aeisa"/>
+            <column name="ds_name" value="Formatos Descargables"/>
+            <column name="ds_description" value="Formatos, plantillas y documentos para descarga"/>
+            <column name="ds_icon" value="download"/>
+            <column name="fg_active" valueBoolean="true"/>
+        </insert>
+
+        <!-- RGA -->
+        <insert tableName="k_resource_category" schemaName="public">
+            <column name="tenant_id" value="rga"/>
+            <column name="ds_name" value="Políticas y Reglamentos"/>
+            <column name="ds_description" value="Políticas internas, reglamento de trabajo y normas de la empresa"/>
+            <column name="ds_icon" value="gavel"/>
+            <column name="fg_active" valueBoolean="true"/>
+        </insert>
+        <insert tableName="k_resource_category" schemaName="public">
+            <column name="tenant_id" value="rga"/>
+            <column name="ds_name" value="Manuales de Almacén"/>
+            <column name="ds_description" value="Manuales de operación, recepción y despacho en almacén"/>
+            <column name="ds_icon" value="warehouse"/>
+            <column name="fg_active" valueBoolean="true"/>
+        </insert>
+        <insert tableName="k_resource_category" schemaName="public">
+            <column name="tenant_id" value="rga"/>
+            <column name="ds_name" value="Formatos Descargables"/>
+            <column name="ds_description" value="Formatos, plantillas y documentos para descarga"/>
+            <column name="ds_icon" value="download"/>
+            <column name="fg_active" valueBoolean="true"/>
+        </insert>
+
+        <!-- STAFFING -->
+        <insert tableName="k_resource_category" schemaName="public">
+            <column name="tenant_id" value="staffing"/>
+            <column name="ds_name" value="Políticas y Reglamentos"/>
+            <column name="ds_description" value="Políticas internas, reglamento de trabajo y normas de la empresa"/>
+            <column name="ds_icon" value="gavel"/>
+            <column name="fg_active" valueBoolean="true"/>
+        </insert>
+        <insert tableName="k_resource_category" schemaName="public">
+            <column name="tenant_id" value="staffing"/>
+            <column name="ds_name" value="Manuales de Mantenimiento"/>
+            <column name="ds_description" value="Procedimientos de mantenimiento industrial y seguridad"/>
+            <column name="ds_icon" value="build"/>
+            <column name="fg_active" valueBoolean="true"/>
+        </insert>
+        <insert tableName="k_resource_category" schemaName="public">
+            <column name="tenant_id" value="staffing"/>
+            <column name="ds_name" value="Formatos Descargables"/>
+            <column name="ds_description" value="Formatos, plantillas y documentos para descarga"/>
+            <column name="ds_icon" value="download"/>
+            <column name="fg_active" valueBoolean="true"/>
+        </insert>
+
+        <rollback>
+            <delete tableName="k_resource_category" schemaName="public">
+                <where>tenant_id IN ('aeisa', 'rga', 'staffing')</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

@@ -20,16 +20,16 @@ public class VacationRegistry {
 
     @PostMapping("/balance/init")
     public ResponseEntity<VacationBalanceTO> initBalance(
-            @RequestParam Long employeeId,
-            @RequestParam int yearsOfService,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate periodStart,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate periodEnd) {
+            @RequestParam(name = "employeeId") Long employeeId,
+            @RequestParam(name = "yearsOfService") int yearsOfService,
+            @RequestParam(name = "periodStart") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate periodStart,
+            @RequestParam(name = "periodEnd") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate periodEnd) {
         String tenantId = TenantContext.getCurrentTenant();
         return ResponseEntity.ok(vacationFacade.initBalance(employeeId, tenantId, yearsOfService, periodStart, periodEnd));
     }
 
     @GetMapping("/balance/{employeeId}")
-    public ResponseEntity<VacationBalanceTO> getBalance(@PathVariable Long employeeId) {
+    public ResponseEntity<VacationBalanceTO> getBalance(@PathVariable("employeeId") Long employeeId) {
         return ResponseEntity.ok(vacationFacade.getCurrentBalance(employeeId, TenantContext.getCurrentTenant()));
     }
 
@@ -39,24 +39,29 @@ public class VacationRegistry {
     }
 
     @PutMapping("/request/{id}/approve")
-    public ResponseEntity<VacationRequestTO> approve(@PathVariable Long id, @RequestParam String approvedBy) {
+    public ResponseEntity<VacationRequestTO> approve(@PathVariable("id") Long id, @RequestParam(name = "approvedBy") String approvedBy) {
         return ResponseEntity.ok(vacationFacade.approveRequest(id, approvedBy));
     }
 
     @PutMapping("/request/{id}/reject")
-    public ResponseEntity<VacationRequestTO> reject(@PathVariable Long id,
-                                                    @RequestParam String approvedBy,
-                                                    @RequestParam String reason) {
+    public ResponseEntity<VacationRequestTO> reject(@PathVariable("id") Long id,
+                                                    @RequestParam(name = "approvedBy") String approvedBy,
+                                                    @RequestParam(name = "reason") String reason) {
         return ResponseEntity.ok(vacationFacade.rejectRequest(id, approvedBy, reason));
     }
 
     @GetMapping("/request/employee/{employeeId}")
-    public ResponseEntity<List<VacationRequestTO>> getByEmployee(@PathVariable Long employeeId) {
+    public ResponseEntity<List<VacationRequestTO>> getByEmployee(@PathVariable("employeeId") Long employeeId) {
         return ResponseEntity.ok(vacationFacade.getEmployeeRequests(employeeId, TenantContext.getCurrentTenant()));
     }
 
     @GetMapping("/request/pending")
     public ResponseEntity<List<VacationRequestTO>> getPending() {
         return ResponseEntity.ok(vacationFacade.getPendingRequests(TenantContext.getCurrentTenant()));
+    }
+
+    @GetMapping("/request/status/{status}")
+    public ResponseEntity<List<VacationRequestTO>> getByStatus(@PathVariable("status") String status) {
+        return ResponseEntity.ok(vacationFacade.getRequestsByStatus(TenantContext.getCurrentTenant(), status));
     }
 }

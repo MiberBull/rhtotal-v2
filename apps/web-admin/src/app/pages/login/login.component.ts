@@ -46,6 +46,18 @@ export class LoginComponent {
     this.hidePassword.update((v) => !v);
   }
 
+  /** Deduce el tenant desde el dominio del email para la autenticación */
+  private resolveTenant(email: string): string {
+    const domain = email.split('@')[1]?.toLowerCase() ?? '';
+    // Usuarios corporativos DCH (dch.mx, dchkw.mx)
+    if (domain === 'dch.mx' || domain.endsWith('.dchkw.mx')) return 'demo-corp';
+    // Usuarios de RS — buscar coincidencia en id del tenant (excluye 'ALL')
+    for (const t of this.authService.availableTenants) {
+      if (t.id !== 'ALL' && domain.includes(t.id)) return t.id;
+    }
+    return 'aeisa';
+  }
+
   async onSubmit(): Promise<void> {
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
@@ -58,7 +70,7 @@ export class LoginComponent {
     const { email, password } = this.loginForm.getRawValue();
 
     try {
-      const response = await this.authService.login(email, password);
+      const response = await this.authService.login(email, password, this.resolveTenant(email));
 
       switch (response.flag) {
         case LoginFlag.OK:

@@ -99,6 +99,10 @@ public class VacationServiceImpl {
         return requestDAO.findAllByTenantIdAndDsStatus(tenantId, Constants.VAC_PENDIENTE);
     }
 
+    public List<VacationRequestDO> getRequestsByStatus(String tenantId, String status) {
+        return requestDAO.findAllByTenantIdAndDsStatus(tenantId, status);
+    }
+
     private VacationRequestDO findRequestById(Long id) {
         return requestDAO.findById(id)
             .orElseThrow(() -> new BusinessException(404, "Solicitud no encontrada: " + id));

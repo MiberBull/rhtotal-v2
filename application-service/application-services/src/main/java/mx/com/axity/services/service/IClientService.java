@@ -1,5 +1,6 @@
 package mx.com.axity.services.service;
 
+import mx.com.axity.commons.to.CustomerTO;
 import mx.com.axity.commons.to.EmployeeTO;
 import mx.com.axity.commons.to.EmployeeUserTO;
 import mx.com.axity.commons.to.totree.ClientTableTO;
@@ -14,6 +15,7 @@ public interface IClientService {
 
     Boolean addOrUpdateClient(CompoundCustomerTO customer);
     CompoundCustomerTO getCustomer(int customer);
+    List<CustomerTO> getAllClients();
     EmployeeUserTO getEmployeeByIdUser(Long idUser);
     List<ClientTableTO> getPagedClient(int page,String nameClient,String nameProject);
     CountRowTO getNumberRowService();

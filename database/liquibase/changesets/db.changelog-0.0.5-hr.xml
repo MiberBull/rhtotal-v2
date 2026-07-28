@@ -521,4 +521,24 @@
             referencedColumnNames="id_question"/>
     </changeSet>
 
+    <changeSet id="0.0.5-024" author="bambu-tech">
+        <preConditions onFail="MARK_RAN">
+            <not><columnExists tableName="k_ticket" columnName="ds_subcategory" schemaName="public"/></not>
+        </preConditions>
+        <addColumn tableName="k_ticket" schemaName="public">
+            <column name="ds_subcategory" type="VARCHAR(100)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="0.0.5-025" author="bambu-tech">
+        <preConditions onFail="MARK_RAN">
+            <not><columnExists tableName="k_survey" columnName="ds_status" schemaName="public"/></not>
+        </preConditions>
+        <addColumn tableName="k_survey" schemaName="public">
+            <column name="ds_status" type="VARCHAR(50)" defaultValue="BORRADOR">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

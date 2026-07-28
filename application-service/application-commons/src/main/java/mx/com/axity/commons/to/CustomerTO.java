@@ -20,6 +20,8 @@ public class CustomerTO implements Serializable {
     private String creationUser;
     private LocalDateTime creationDate;
     private Boolean active;
+    private String tenantId;
+    private String dsLogo;
 
     public Long getIdCliente() {
         return idCliente;
@@ -131,5 +133,21 @@ public class CustomerTO implements Serializable {
 
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
+    }
+
+    public String getDsLogo() {
+        return dsLogo;
+    }
+
+    public void setDsLogo(String dsLogo) {
+        this.dsLogo = dsLogo;
     }
 }

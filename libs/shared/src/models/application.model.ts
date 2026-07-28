@@ -102,6 +102,7 @@ export interface ClientTO {
   lastModification: Date;
   creationUser: string;
   creationDate: Date;
+  dsLogo?: string;
 }
 
 export interface CompanyInformationTO {

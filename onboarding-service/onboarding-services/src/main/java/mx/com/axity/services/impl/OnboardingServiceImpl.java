@@ -75,6 +75,36 @@ public class OnboardingServiceImpl implements IOnboardingService {
             throw new BusinessException(500, "Error al activar empleado en user-service: " + e.getMessage());
         }
 
+        // Enriquecer con datos complementarios (CURP/RFC/NSS/telefono)
+        if (candidate.getDsCurp() != null || candidate.getDsRfc() != null || candidate.getDsNss() != null) {
+            try {
+                Map<String, Object> complementaryPayload = buildComplementaryPayload(candidate);
+                restTemplate.postForObject(
+                    "http://user-service/user/saveOrUpdateEmployeeComplementaryWeb",
+                    complementaryPayload,
+                    Object.class
+                );
+                LOG.info("Datos complementarios creados en user-service para candidato {}", candidateId);
+            } catch (Exception e) {
+                LOG.warn("No se pudieron crear datos complementarios para candidato {}: {}", candidateId, e.getMessage());
+            }
+        }
+
+        // Enriquecer con datos de contratacion (puesto, fecha ingreso, jornada)
+        if (candidate.getDsJobTitle() != null || candidate.getDtHireDate() != null) {
+            try {
+                Map<String, Object> contratingPayload = buildContratingPayload(candidate);
+                restTemplate.postForObject(
+                    "http://user-service/user/saveOrUpdateContrating",
+                    contratingPayload,
+                    Boolean.class
+                );
+                LOG.info("Datos de contratacion creados en user-service para candidato {}", candidateId);
+            } catch (Exception e) {
+                LOG.warn("No se pudieron crear datos de contratacion para candidato {}: {}", candidateId, e.getMessage());
+            }
+        }
+
         candidate.setDsCurrentStage(Constants.STAGE_CONTRATADO);
         candidateDAO.save(candidate);
     }
@@ -110,17 +140,67 @@ public class OnboardingServiceImpl implements IOnboardingService {
 
     private Map<String, Object> buildEmployeePayload(CandidateDO candidate) {
         Map<String, Object> payload = new HashMap<>();
-        payload.put("dsName", candidate.getDsName());
-        payload.put("dsLastName", candidate.getDsLastName());
-        payload.put("dsMLastName", candidate.getDsMLastName());
-        payload.put("dsEmail", candidate.getDsEmail());
-        payload.put("dsPhone", candidate.getDsPhone());
-        payload.put("dsRfc", candidate.getDsRfc());
-        payload.put("dsCurp", candidate.getDsCurp());
-        payload.put("dsNss", candidate.getDsNss());
+        payload.put("name", candidate.getDsName());
+        payload.put("lastName", candidate.getDsLastName());
+        payload.put("lastMName", candidate.getDsMLastName());
+        payload.put("active", true);
         payload.put("tenantId", candidate.getTenantId());
-        payload.put("idClient", candidate.getIdClient());
-        payload.put("idProject", candidate.getIdProject());
+
+        if (candidate.getIdClient() != null) {
+            Map<String, Object> client = new HashMap<>();
+            client.put("idClient", candidate.getIdClient());
+            payload.put("client", client);
+        }
+        if (candidate.getIdProject() != null) {
+            Map<String, Object> project = new HashMap<>();
+            project.put("idProject", candidate.getIdProject());
+            payload.put("project", project);
+        }
+
+        Map<String, Object> user = new HashMap<>();
+        user.put("email", candidate.getDsEmail());
+        user.put("active", true);
+        user.put("userType", "IN");
+        user.put("userStatus", "A");
+        payload.put("user", user);
+
+        return payload;
+    }
+
+    private Map<String, Object> buildComplementaryPayload(CandidateDO candidate) {
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("email", candidate.getDsEmail());
+        payload.put("phone", candidate.getDsPhone());
+        payload.put("rfc", candidate.getDsRfc());
+        payload.put("curp", candidate.getDsCurp());
+        payload.put("nss", candidate.getDsNss());
+        payload.put("active", true);
+
+        Map<String, Object> employee = new HashMap<>();
+        Map<String, Object> user = new HashMap<>();
+        user.put("email", candidate.getDsEmail());
+        user.put("userType", "IN");
+        employee.put("user", user);
+        employee.put("name", candidate.getDsName());
+        employee.put("lastName", candidate.getDsLastName());
+        employee.put("lastMName", candidate.getDsMLastName());
+        employee.put("active", true);
+        employee.put("tenantId", candidate.getTenantId());
+        payload.put("employee", employee);
+
+        return payload;
+    }
+
+    private Map<String, Object> buildContratingPayload(CandidateDO candidate) {
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("job", candidate.getDsJobTitle() != null ? candidate.getDsJobTitle() : "");
+        payload.put("active", true);
+        if (candidate.getDtHireDate() != null) {
+            payload.put("dtHireDate", candidate.getDtHireDate().toString());
+        }
+        if (candidate.getDsWorkShift() != null) {
+            payload.put("dsWorkShift", candidate.getDsWorkShift());
+        }
         return payload;
     }
 }

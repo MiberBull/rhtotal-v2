@@ -1,6 +1,7 @@
 package mx.com.axity.commons.to;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class EmployeeTO implements Serializable {
@@ -19,6 +20,10 @@ public class EmployeeTO implements Serializable {
     private boolean active;
     private ClientTO client;
     private ProjectTO project;
+    private String dsEmployeeNumber;
+    private String dsDchExecutive;
+    private String dsTerminationReason;
+    private LocalDate dtTerminationDate;
 
 
     public void setId(Long id) {
@@ -131,5 +136,37 @@ public class EmployeeTO implements Serializable {
 
     public void setProject(ProjectTO proyect) {
         this.project = proyect;
+    }
+
+    public String getDsEmployeeNumber() {
+        return dsEmployeeNumber;
+    }
+
+    public void setDsEmployeeNumber(String dsEmployeeNumber) {
+        this.dsEmployeeNumber = dsEmployeeNumber;
+    }
+
+    public String getDsDchExecutive() {
+        return dsDchExecutive;
+    }
+
+    public void setDsDchExecutive(String dsDchExecutive) {
+        this.dsDchExecutive = dsDchExecutive;
+    }
+
+    public String getDsTerminationReason() {
+        return dsTerminationReason;
+    }
+
+    public void setDsTerminationReason(String dsTerminationReason) {
+        this.dsTerminationReason = dsTerminationReason;
+    }
+
+    public LocalDate getDtTerminationDate() {
+        return dtTerminationDate;
+    }
+
+    public void setDtTerminationDate(LocalDate dtTerminationDate) {
+        this.dtTerminationDate = dtTerminationDate;
     }
 }

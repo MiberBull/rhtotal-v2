@@ -33,9 +33,13 @@
               <th mat-header-cell *matHeaderCellDef>Nombre</th>
               <td mat-cell *matCellDef="let row">
                 <div class="cell-name">
-                  <div class="avatar">
-                    {{ row.name?.charAt(0) || 'C' }}
-                  </div>
+                  @if (row.dsLogo) {
+                    <img [src]="row.dsLogo" alt="" class="client-logo-thumb" />
+                  } @else {
+                    <div class="avatar">
+                      {{ row.name?.charAt(0) || 'C' }}
+                    </div>
+                  }
                   <div class="name-info">
                     <span class="name-text">{{ row.name }}</span>
                     <span class="contact-text">{{ row.contact || '—' }}</span>

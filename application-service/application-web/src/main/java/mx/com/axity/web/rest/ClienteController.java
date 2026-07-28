@@ -1,5 +1,6 @@
 package mx.com.axity.web.rest;
 
+import mx.com.axity.commons.to.CustomerTO;
 import mx.com.axity.commons.to.EmployeeTO;
 import mx.com.axity.commons.to.EmployeeUserTO;
 import mx.com.axity.commons.to.totree.ClientTableTO;
@@ -29,6 +30,22 @@ public class ClienteController {
         var clientUserUpdateRest = this.clienteFacade.addOrUpdateCliente(customer);
         LOG.info("saveOrUpdateClient finalizado correctamente");
         return new ResponseEntity<>(clientUserUpdateRest, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/getAllClients", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<List<CustomerTO>> getAllClients() {
+        LOG.info("init getAllClients");
+        var clients = this.clienteFacade.getAllClients();
+        LOG.info("getAllClients finalizado correctamente");
+        return new ResponseEntity<>(clients, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/getClient/{id}", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<CompoundCustomerTO> getClientById(@PathVariable("id") int id) {
+        LOG.info("init getClientById " + id);
+        var client = this.clienteFacade.getCustomer(id);
+        LOG.info("getClientById finalizado correctamente");
+        return new ResponseEntity<>(client, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/getClient", method = RequestMethod.GET, produces = "application/json")

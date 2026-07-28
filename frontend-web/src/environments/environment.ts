@@ -339,8 +339,9 @@ export const PATH_TREE = {
   NOTIFCATION: `${PATH_APPLICATION.DOMAIN}/${PATH_APPLICATION.TREE}`,
 };
 
+// Set AES_SECRET_KEY via sed replacement in CI/CD before build (see .env.example)
 export const SECRETS = {
-  AES_PASSWORD_SECRET: 'megustanlaschicascongafas',
+  AES_PASSWORD_SECRET: 'REPLACE_WITH_AES_SECRET',
 };
 
 export const STATUS = [

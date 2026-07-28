@@ -3,8 +3,12 @@ pipeline {
     /*agent {
         label 'RhTotal'
     }*/
+    triggers {
+        pollSCM('H/5 * * * *')
+    }
     environment {
         SONAR_TOKEN = credentials('sonarqube-token')
+        AES_SECRET_KEY = credentials('aes-secret-key')
     }
     tools {
         maven 'M3'
@@ -12,6 +16,7 @@ pipeline {
     }
     stages {
         stage('Build Components') {
+            when { branch 'develop' }
             failFast true
             parallel {
                 stage('Build Eureka') {
@@ -88,26 +93,44 @@ pipeline {
                 }
                 stage('Build Frontend Web') {
                     steps {
-                        echo 'Building Frontend Angular'
+                        echo 'Building Frontend Web Angular 6 (Node 12)'
+                        dir ('frontend-web/src/environments/'){
+                            sh 'sed -i "s/REPLACE_WITH_AES_SECRET/${AES_SECRET_KEY}/g" environment.ts'
+                            sh 'sed -i "s/REPLACE_WITH_AES_SECRET/${AES_SECRET_KEY}/g" environment.prod.ts'
+                        }
                         dir ('frontend-web/'){
+                            sh '. ~/.nvm/nvm.sh && nvm use 12 && npm install && npm run build -- --configuration=production'
+                        }
+                    }
+                }
+                stage('Build Frontend Mobile') {
+                    steps {
+                        echo 'Building Frontend Mobile Ionic 3 (Node 12)'
+                        dir ('frontend-mobile/src/environments/'){
+                            sh 'sed -i "s/REPLACE_WITH_AES_SECRET/${AES_SECRET_KEY}/g" environments.ts'
+                        }
+                        dir ('frontend-mobile/'){
+                            sh '. ~/.nvm/nvm.sh && nvm use 12 && npm rebuild node-sass && npx ionic build --prod'
+                        }
+                    }
+                }
+                stage('Build Web Admin') {
+                    steps {
+                        echo 'Building Web Admin Angular 19 (Node 22)'
+                        dir ('apps/web-admin/src/environments/'){
+                            sh 'sed -i "s/REPLACE_WITH_AES_SECRET/${AES_SECRET_KEY}/g" environment.ts'
+                            sh 'sed -i "s/REPLACE_WITH_AES_SECRET/${AES_SECRET_KEY}/g" environment.prod.ts'
+                        }
+                        dir ('apps/web-admin/'){
                             sh 'npm install'
-                            sh 'npm install three-steps-selector --registry http://devtools.axity.com/nexus3/repository/npm-group/ --save'
                             sh 'npm run build'
                         }
                     }
                 }
-                /*stage('Build Frontend Mobile') {
-                    steps {
-                        echo 'Building Frontend Angular'
-                        dir ('frontend-mobile/'){
-                            sh 'npm install'
-                            sh 'npm run build'
-                        }
-                    }
-                }*/
             }
         }
         stage('Sonar Analisis') {
+            when { branch 'develop' }
             failFast true
             parallel {
                 stage('Sonar Security') {
@@ -117,12 +140,12 @@ pipeline {
                     steps {
                         dir ('security-service/'){
                             sh 'mvn sonar:sonar \
-                                -Dsonar.projectKey=18_WorkPoint_RHTotal_Security \
-                                -Dsonar.projectName=18_WorkPoint_RHTotal_Security \
+                                -Dsonar.projectKey=DCH_Total_Security \
+                                -Dsonar.projectName=DCH_Total_Security \
                                 -Dsonar.sources=src/main \
                                 -Dsonar.tests=src/test \
                                 -Dsonar.coverage.exclusions=**/*TO.java,**/*DO.java \
-                                -Dsonar.host.url=http://devtools.axity.com/sonar7 \
+                                -Dsonar.host.url=${SONAR_HOST_URL} \
                                 -Dsonar.login=${SONAR_TOKEN}'
                         }
                     }
@@ -134,12 +157,12 @@ pipeline {
                     steps {
                         dir ('application-service/'){
                             sh 'mvn sonar:sonar \
-                                -Dsonar.projectKey=18_WorkPoint_RHTotal_Application \
-                                -Dsonar.projectName=18_WorkPoint_RHTotal_Application \
+                                -Dsonar.projectKey=DCH_Total_Application \
+                                -Dsonar.projectName=DCH_Total_Application \
                                 -Dsonar.sources=src/main \
                                 -Dsonar.tests=src/test \
                                 -Dsonar.coverage.exclusions=**/*TO.java,**/*DO.java \
-                                -Dsonar.host.url=http://devtools.axity.com/sonar7 \
+                                -Dsonar.host.url=${SONAR_HOST_URL} \
                                 -Dsonar.login=${SONAR_TOKEN}'
                         }
                     }
@@ -151,12 +174,12 @@ pipeline {
                     steps {
                         dir ('user-service/'){
                             sh 'mvn sonar:sonar \
-                                -Dsonar.projectKey=18_WorkPoint_RHTotal_User \
-                                -Dsonar.projectName=18_WorkPoint_RHTotal_User \
+                                -Dsonar.projectKey=DCH_Total_User \
+                                -Dsonar.projectName=DCH_Total_User \
                                 -Dsonar.sources=src/main \
                                 -Dsonar.tests=src/test \
                                 -Dsonar.coverage.exclusions=**/*TO.java,**/*DO.java \
-                                -Dsonar.host.url=http://devtools.axity.com/sonar7 \
+                                -Dsonar.host.url=${SONAR_HOST_URL} \
                                 -Dsonar.login=${SONAR_TOKEN}'
                         }
                     }
@@ -168,12 +191,12 @@ pipeline {
                     steps {
                         dir ('onboarding-service/'){
                             sh 'mvn sonar:sonar \
-                                -Dsonar.projectKey=18_WorkPoint_DCH_Onboarding \
-                                -Dsonar.projectName=18_WorkPoint_DCH_Onboarding \
+                                -Dsonar.projectKey=DCH_Total_Onboarding \
+                                -Dsonar.projectName=DCH_Total_Onboarding \
                                 -Dsonar.sources=src/main \
                                 -Dsonar.tests=src/test \
                                 -Dsonar.coverage.exclusions=**/*TO.java,**/*DO.java \
-                                -Dsonar.host.url=http://devtools.axity.com/sonar7 \
+                                -Dsonar.host.url=${SONAR_HOST_URL} \
                                 -Dsonar.login=${SONAR_TOKEN}'
                         }
                     }
@@ -185,12 +208,12 @@ pipeline {
                     steps {
                         dir ('attendance-service/'){
                             sh 'mvn sonar:sonar \
-                                -Dsonar.projectKey=18_WorkPoint_DCH_Attendance \
-                                -Dsonar.projectName=18_WorkPoint_DCH_Attendance \
+                                -Dsonar.projectKey=DCH_Total_Attendance \
+                                -Dsonar.projectName=DCH_Total_Attendance \
                                 -Dsonar.sources=src/main \
                                 -Dsonar.tests=src/test \
                                 -Dsonar.coverage.exclusions=**/*TO.java,**/*DO.java \
-                                -Dsonar.host.url=http://devtools.axity.com/sonar7 \
+                                -Dsonar.host.url=${SONAR_HOST_URL} \
                                 -Dsonar.login=${SONAR_TOKEN}'
                         }
                     }
@@ -202,12 +225,12 @@ pipeline {
                     steps {
                         dir ('hr-service/'){
                             sh 'mvn sonar:sonar \
-                                -Dsonar.projectKey=18_WorkPoint_DCH_HR \
-                                -Dsonar.projectName=18_WorkPoint_DCH_HR \
+                                -Dsonar.projectKey=DCH_Total_HR \
+                                -Dsonar.projectName=DCH_Total_HR \
                                 -Dsonar.sources=src/main \
                                 -Dsonar.tests=src/test \
                                 -Dsonar.coverage.exclusions=**/*TO.java,**/*DO.java \
-                                -Dsonar.host.url=http://devtools.axity.com/sonar7 \
+                                -Dsonar.host.url=${SONAR_HOST_URL} \
                                 -Dsonar.login=${SONAR_TOKEN}'
                         }
                     }
@@ -219,58 +242,61 @@ pipeline {
                     steps {
                         dir ('document-service/'){
                             sh 'mvn sonar:sonar \
-                                -Dsonar.projectKey=18_WorkPoint_DCH_Document \
-                                -Dsonar.projectName=18_WorkPoint_DCH_Document \
+                                -Dsonar.projectKey=DCH_Total_Document \
+                                -Dsonar.projectName=DCH_Total_Document \
                                 -Dsonar.sources=src/main \
                                 -Dsonar.tests=src/test \
                                 -Dsonar.coverage.exclusions=**/*TO.java,**/*DO.java \
-                                -Dsonar.host.url=http://devtools.axity.com/sonar7 \
+                                -Dsonar.host.url=${SONAR_HOST_URL} \
                                 -Dsonar.login=${SONAR_TOKEN}'
                         }
                     }
                 }
                 stage('Sonar Frontend Web') {
                     steps {
-                        echo 'Building Frontend Angular'
+                        echo 'Analyzing Frontend Web with SonarQube Scanner'
                         dir ('frontend-web/'){
-                            sh 'mvn sonar:sonar \
-                                -Dsonar.projectKey=18_WorkPoint_RHTotal_Web \
-                                -Dsonar.projectName=18_WorkPoint_RHTotal_Web \
+                            sh 'npx sonar-scanner \
+                                -Dsonar.projectKey=DCH_Total_Web \
+                                -Dsonar.projectName=DCH_Total_Web \
                                 -Dsonar.sources=src \
-                                -Dsonar.coverage.exclusions=**/*TO.java,**/*DO.java \
-                                -Dsonar.host.url=http://devtools.axity.com/sonar7 \
+                                -Dsonar.exclusions=**/node_modules/**,**/*.spec.ts \
+                                -Dsonar.host.url=${SONAR_HOST_URL} \
                                 -Dsonar.login=${SONAR_TOKEN}'
                         }
                     }
                 }
-                /*stage('Sonar Frontend Mobile') {
+                stage('Sonar Web Admin') {
                     steps {
-                        echo 'Building Frontend Angular'
-                        dir ('frontend-mobile/'){
-                            sh 'mvn sonar:sonar \
-                                -Dsonar.projectKey=18_WorkPoint_RHTotal_Mobile \
-                                -Dsonar.projectName=18_WorkPoint_RHTotal_Mobile \
+                        echo 'Analyzing Web Admin with SonarQube Scanner'
+                        dir ('apps/web-admin/'){
+                            sh 'npx sonar-scanner \
+                                -Dsonar.projectKey=DCH_Total_WebAdmin \
+                                -Dsonar.projectName=DCH_Total_WebAdmin \
                                 -Dsonar.sources=src \
-                                -Dsonar.host.url=http://devtools.axity.com/sonar7 \
+                                -Dsonar.exclusions=**/node_modules/**,**/*.spec.ts \
+                                -Dsonar.host.url=${SONAR_HOST_URL} \
                                 -Dsonar.login=${SONAR_TOKEN}'
                         }
                     }
-                }*/
+                }
             }
         }
         stage('Docker up') {
+            when { branch 'develop' }
             steps {
                 echo 'Running on Docker'
-                sh 'docker network disconnect rhtotal_rhtotalnet postgres'
+                sh 'docker network disconnect rhtotal_rhtotalnet postgres || true'
                 sh 'docker-compose down --rmi all'
                 sh 'docker-compose up -d'
-                sh 'docker network connect rhtotal_rhtotalnet postgres'
+                sh 'docker network connect rhtotal_rhtotalnet postgres || true'
             }
         }
         stage('Liquibase') {
+            when { branch 'develop' }
             steps {
                 sleep 10
-                echo 'Building Webservice Spring boot'
+                echo 'Running Liquibase migrations'
                 dir ('database/liquibase/'){
                     sh '$LIQUIBASE_PATH/liquibase --changeLogFile="changesets/db.changelog-master-dev.xml" update'
                 }

@@ -23,7 +23,7 @@ public class SurveyRegistry {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SurveyTO> getById(@PathVariable Long id) {
+    public ResponseEntity<SurveyTO> getById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(surveyFacade.getById(id));
     }
 
@@ -33,12 +33,12 @@ public class SurveyRegistry {
     }
 
     @PutMapping("/{id}/publish")
-    public ResponseEntity<SurveyTO> publish(@PathVariable Long id) {
+    public ResponseEntity<SurveyTO> publish(@PathVariable("id") Long id) {
         return ResponseEntity.ok(surveyFacade.publish(id));
     }
 
     @PutMapping("/{id}/close")
-    public ResponseEntity<SurveyTO> close(@PathVariable Long id) {
+    public ResponseEntity<SurveyTO> close(@PathVariable("id") Long id) {
         return ResponseEntity.ok(surveyFacade.close(id));
     }
 
@@ -48,7 +48,7 @@ public class SurveyRegistry {
     }
 
     @GetMapping("/{idSurvey}/questions")
-    public ResponseEntity<List<SurveyQuestionTO>> getQuestions(@PathVariable Long idSurvey) {
+    public ResponseEntity<List<SurveyQuestionTO>> getQuestions(@PathVariable("idSurvey") Long idSurvey) {
         return ResponseEntity.ok(surveyFacade.getQuestions(idSurvey, TenantContext.getCurrentTenant()));
     }
 
@@ -58,7 +58,7 @@ public class SurveyRegistry {
     }
 
     @GetMapping("/{idSurvey}/results")
-    public ResponseEntity<List<SurveyResponseTO>> getResults(@PathVariable Long idSurvey) {
+    public ResponseEntity<List<SurveyResponseTO>> getResults(@PathVariable("idSurvey") Long idSurvey) {
         return ResponseEntity.ok(surveyFacade.getResults(idSurvey, TenantContext.getCurrentTenant()));
     }
 }

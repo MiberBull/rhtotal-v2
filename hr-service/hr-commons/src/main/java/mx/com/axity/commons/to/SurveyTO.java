@@ -9,6 +9,7 @@ public class SurveyTO {
     private String dsTitle;
     private String dsDescription;
     private String dsType;
+    private String dsStatus;
     private LocalDate dtStartDate;
     private LocalDate dtEndDate;
     private Boolean fgAnonymous;
@@ -25,6 +26,8 @@ public class SurveyTO {
     public void setDsDescription(String dsDescription) { this.dsDescription = dsDescription; }
     public String getDsType() { return dsType; }
     public void setDsType(String dsType) { this.dsType = dsType; }
+    public String getDsStatus() { return dsStatus; }
+    public void setDsStatus(String dsStatus) { this.dsStatus = dsStatus; }
     public LocalDate getDtStartDate() { return dtStartDate; }
     public void setDtStartDate(LocalDate dtStartDate) { this.dtStartDate = dtStartDate; }
     public LocalDate getDtEndDate() { return dtEndDate; }

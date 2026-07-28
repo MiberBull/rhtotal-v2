@@ -1,14 +1,24 @@
 <div class="layout" [class.collapsed]="collapsed()">
-  <!-- Sidebar -->
+  <!-- ── Sidebar ─────────────────────────────────────────── -->
   <aside class="sidebar">
     <div class="sidebar-header">
       <div class="brand">
-        <mat-icon class="brand-icon">shield</mat-icon>
+        <!-- Logo DCH Total compacto (sin ∞ — espacios reducidos) -->
+        <div class="brand-mark"><span class="bm-d">D</span><span class="bm-ch">CH</span></div>
         @if (!collapsed()) {
-          <span class="brand-text">DCH Know Who</span>
+          <span class="brand-name">
+            <span class="bn-d">D</span><span class="bn-ch">CH</span
+            ><span class="bn-total"> Total</span>
+          </span>
         }
       </div>
-      <button mat-icon-button class="toggle-btn" (click)="toggleSidebar()">
+      <button
+        mat-icon-button
+        class="toggle-btn"
+        (click)="toggleSidebar()"
+        [matTooltip]="collapsed() ? 'Expandir' : 'Colapsar'"
+        matTooltipPosition="right"
+      >
         <mat-icon>{{ collapsed() ? 'chevron_right' : 'chevron_left' }}</mat-icon>
       </button>
     </div>
@@ -37,21 +47,24 @@
     </nav>
 
     <div class="sidebar-footer">
+      @if (!collapsed()) {
+        <span class="footer-brand">Un servicio de DCH</span>
+      }
       <a
-        class="nav-item"
+        class="nav-item logout-item"
         (click)="logout()"
-        [matTooltip]="collapsed() ? 'Cerrar sesion' : ''"
+        [matTooltip]="collapsed() ? 'Cerrar sesión' : ''"
         matTooltipPosition="right"
       >
         <mat-icon>logout</mat-icon>
         @if (!collapsed()) {
-          <span class="nav-label">Cerrar sesion</span>
+          <span class="nav-label">Cerrar sesión</span>
         }
       </a>
     </div>
   </aside>
 
-  <!-- Main content -->
+  <!-- ── Main content ──────────────────────────────────────── -->
   <div class="main">
     <!-- Toolbar -->
     <header class="toolbar">
@@ -59,27 +72,84 @@
         <button mat-icon-button class="mobile-toggle" (click)="toggleSidebar()">
           <mat-icon>menu</mat-icon>
         </button>
+        <!-- Brand visible en mobile cuando sidebar está oculto -->
+        <span class="toolbar-brand">
+          <span class="tb-d">D</span><span class="tb-ch">CH</span
+          ><span class="tb-total"> Total</span>
+        </span>
       </div>
 
       <div class="toolbar-right">
+        <!-- ── Tenant Switcher (solo DCH_ADMIN / DCH_SUPER_ADMIN) ── -->
+        @if (canSwitchTenant()) {
+          <button
+            mat-button
+            class="tenant-switcher-btn"
+            [matMenuTriggerFor]="tenantMenu"
+            matTooltip="Cambiar Razón Social"
+          >
+            <mat-icon>corporate_fare</mat-icon>
+            <span class="tenant-switcher-label">{{ currentTenantLabel() }}</span>
+            <mat-icon class="tenant-arrow">arrow_drop_down</mat-icon>
+          </button>
+
+          <mat-menu #tenantMenu="matMenu" xPosition="before" panelClass="tenant-menu">
+            <div class="tenant-menu-header">Contexto activo</div>
+            <mat-divider></mat-divider>
+
+            <!-- Vista global (sin filtro de RS) -->
+            <button
+              mat-menu-item
+              (click)="switchTenant('ALL')"
+              [class.tenant-active]="authService.tenantId() === 'ALL'"
+            >
+              <mat-icon>{{ authService.tenantId() === 'ALL' ? 'check_circle' : 'hub' }}</mat-icon>
+              <span class="tenant-item-name">Todas las RS</span>
+              <span class="tenant-item-desc">Vista consolidada DCH</span>
+            </button>
+
+            <mat-divider></mat-divider>
+
+            <!-- RS individuales -->
+            @for (t of authService.availableTenants; track t.id) {
+              @if (t.id !== 'ALL') {
+                <button
+                  mat-menu-item
+                  (click)="switchTenant(t.id)"
+                  [class.tenant-active]="authService.tenantId() === t.id"
+                >
+                  <mat-icon>
+                    {{
+                      authService.tenantId() === t.id ? 'check_circle' : 'radio_button_unchecked'
+                    }}
+                  </mat-icon>
+                  <span class="tenant-item-name">{{ t.label }}</span>
+                  <span class="tenant-item-desc">{{ t.description }}</span>
+                </button>
+              }
+            }
+          </mat-menu>
+        }
+
         <app-role-badge [role]="userRole()" />
 
-        <button mat-icon-button>
+        <button mat-icon-button matTooltip="Notificaciones">
           <mat-icon>notifications_none</mat-icon>
         </button>
 
-        <button mat-icon-button [matMenuTriggerFor]="userMenu" class="user-avatar">
+        <button mat-icon-button [matMenuTriggerFor]="userMenu" class="user-avatar-btn">
           <span class="avatar">{{ getUserInitials() }}</span>
         </button>
 
         <mat-menu #userMenu="matMenu" xPosition="before">
           <div class="user-menu-header">
-            <span class="user-email">{{ currentUser()?.email }}</span>
+            <span class="user-name">{{ currentUser()?.email }}</span>
+            <span class="user-role">{{ userRole() }}</span>
           </div>
           <mat-divider></mat-divider>
           <button mat-menu-item (click)="logout()">
             <mat-icon>logout</mat-icon>
-            <span>Cerrar sesion</span>
+            <span>Cerrar sesión</span>
           </button>
         </mat-menu>
       </div>

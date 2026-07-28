@@ -12,6 +12,7 @@ import mx.com.axity.services.facade.INotificationFacade;
 import mx.com.axity.services.facade.IPushNotificationFacade;
 import mx.com.axity.services.service.INotificationRepositoryService;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Map;
 import org.apache.logging.log4j.LogManager;
@@ -20,9 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -36,6 +34,9 @@ public class NotificationController {
 
     @Autowired
     IPushNotificationFacade pushNotificationFacade;
+
+    @Autowired
+    INotificationRepositoryService notificationRepositoryService;
 
 
 

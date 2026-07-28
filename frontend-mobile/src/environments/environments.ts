@@ -87,6 +87,14 @@ export const PATH_NOTIFICATION = {
   LAST_NOTIFICATIONS: 'notification/notificationUser',
 };
 
+export const PATH_BIBLIOTECA = {
+  DOMAIN: `${DEV_GATEWAY}/api/application`,
+  CATEGORIES: 'library/categories',
+  DOCUMENTS_VISIBLE: 'library/documents/visible',
+  DOCUMENT_DETAIL: 'library/document',
+  DOCUMENT_ACK: 'library/document',
+};
+
 export const PATH_APLICATION = {
   DOMAIN: `${DEV_GATEWAY}/api/application/`,
   PARAMETER: 'companyInformation/getCompanyInformation?nameCompanyInformation=',
@@ -237,8 +245,9 @@ export const BTN = {
   ACEPT: 'Aceptar',
 };
 
+// Set AES_SECRET_KEY via environment variable at build time (see .env.example)
 export const SECRETS = {
-  AES_PASSWORD_SECRET: 'megustanlaschicascongafas',
+  AES_PASSWORD_SECRET: process.env['AES_SECRET_KEY'] || 'REPLACE_WITH_AES_SECRET',
 };
 
 export const KEYS_STORAGE = {

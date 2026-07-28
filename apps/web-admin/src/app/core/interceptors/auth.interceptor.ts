@@ -14,13 +14,18 @@ export const authInterceptor: HttpInterceptorFn = (
 ) => {
   const authService = inject(AuthService);
   const token = authService.token();
+  const tenantId = authService.tenantId();
 
-  let authReq = req;
-  if (token) {
-    authReq = req.clone({
-      setHeaders: { Authorization: `Bearer ${token}` },
-    });
+  // En modo global (ALL) o sin tenant → omitir X-Tenant-ID; el backend devuelve todos los tenants
+  const headers: Record<string, string> = {};
+  if (tenantId && tenantId !== 'ALL') {
+    headers['X-Tenant-ID'] = tenantId;
   }
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+
+  const authReq = req.clone({ setHeaders: headers });
 
   return next(authReq).pipe(
     catchError((error: HttpErrorResponse) => {

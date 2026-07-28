@@ -2,6 +2,7 @@ package mx.com.axity.services.facade;
 
 import mx.com.axity.commons.to.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -41,5 +42,14 @@ public interface IEmployeeFacade {
     List<ProjectTO> getProjectByIdClient(Long idClient);
     void saveOrUpdateEmployeeComplementaryMovil(EmployeePersonalTO  personal);
     ExcelGenericFormatExportTO sendExcel();
+
+    // --- Sprint 15: Ficha del Colaborador ---
+    EmployeeProfileTO getEmployeeProfile(Long idEmployee);
+    void createFullEmployee(EmployeeProfileTO profile);
+    void updatePersonalData(Long idEmployee, EmployeeTO data, EmployeeComplementaryTO complementary, EmployeeAddressTO address);
+    void updateEmploymentData(Long idEmployee, ContratingDataTO contracting);
+    void updateAssignmentData(Long idEmployee, AsignationDataTO assignment);
+    void saveEmergencyContact(Long idEmployee, EmergencyContactTO emergency);
+    void terminateEmployee(Long idEmployee, String reason, LocalDate terminationDate);
 
 }

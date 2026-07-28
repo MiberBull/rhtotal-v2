@@ -11,6 +11,7 @@ public class TicketTO {
     private String dsSubject;
     private String dsDescription;
     private String dsCategory;
+    private String dsSubcategory;
     private String dsPriority;
     private String dsStatus;
     private String dsAssignedTo;
@@ -32,6 +33,8 @@ public class TicketTO {
     public void setDsDescription(String dsDescription) { this.dsDescription = dsDescription; }
     public String getDsCategory() { return dsCategory; }
     public void setDsCategory(String dsCategory) { this.dsCategory = dsCategory; }
+    public String getDsSubcategory() { return dsSubcategory; }
+    public void setDsSubcategory(String dsSubcategory) { this.dsSubcategory = dsSubcategory; }
     public String getDsPriority() { return dsPriority; }
     public void setDsPriority(String dsPriority) { this.dsPriority = dsPriority; }
     public String getDsStatus() { return dsStatus; }

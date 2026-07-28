@@ -28,36 +28,36 @@ public class IncidentRegistry {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<IncidentTO> getById(@PathVariable Long id) {
+    public ResponseEntity<IncidentTO> getById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(incidentFacade.getById(id));
     }
 
     @GetMapping("/employee/{employeeId}")
-    public ResponseEntity<List<IncidentTO>> getByEmployee(@PathVariable Long employeeId) {
+    public ResponseEntity<List<IncidentTO>> getByEmployee(@PathVariable("employeeId") Long employeeId) {
         return ResponseEntity.ok(incidentFacade.getByEmployee(employeeId, TenantContext.getCurrentTenant()));
     }
 
     @GetMapping("/period")
     public ResponseEntity<List<IncidentTO>> getByPeriod(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to) {
+            @RequestParam(name = "from") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
+            @RequestParam(name = "to") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to) {
         return ResponseEntity.ok(incidentFacade.getByPeriod(TenantContext.getCurrentTenant(), from, to));
     }
 
     @PutMapping("/{id}/validate")
-    public ResponseEntity<IncidentTO> validate(@PathVariable Long id, @RequestParam String approvedBy) {
+    public ResponseEntity<IncidentTO> validate(@PathVariable("id") Long id, @RequestParam(name = "approvedBy") String approvedBy) {
         return ResponseEntity.ok(incidentFacade.validate(id, approvedBy));
     }
 
     @PutMapping("/{id}/reject")
-    public ResponseEntity<IncidentTO> reject(@PathVariable Long id, @RequestParam String approvedBy) {
+    public ResponseEntity<IncidentTO> reject(@PathVariable("id") Long id, @RequestParam(name = "approvedBy") String approvedBy) {
         return ResponseEntity.ok(incidentFacade.reject(id, approvedBy));
     }
 
     @GetMapping("/export/excel")
     public ResponseEntity<byte[]> exportExcel(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to) {
+            @RequestParam(name = "from") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
+            @RequestParam(name = "to") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to) {
         byte[] data = incidentExcelFacade.exportExcel(TenantContext.getCurrentTenant(), from, to);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));

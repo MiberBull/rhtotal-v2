@@ -2163,11 +2163,8 @@
     </changeSet>
 
     <changeSet author="jesus (generated)" id="1536359063744-3">
-        <dropNotNullConstraint
-                columnDataType="serial"
-                columnName="id_rol"
-                schemaName="public"
-                tableName="k_user" />
+        <!-- id_rol in k_user is a SERIAL/identity column in PostgreSQL 16 — identity columns
+             are always NOT NULL, so this constraint drop is a no-op and is skipped. -->
         <dropNotNullConstraint
                 columnDataType="int4"
                 columnName="id_skill"

@@ -23,6 +23,36 @@ public class SurveyServiceImpl {
     @Transactional
     public SurveyDO createSurvey(SurveyDO survey) { return surveyDAO.save(survey); }
 
+    @Transactional
+    public SurveyDO save(SurveyDO survey) { return surveyDAO.save(survey); }
+
+    public List<SurveyDO> findAll(String tenantId) {
+        return surveyDAO.findAllByTenantIdAndFgActiveTrue(tenantId);
+    }
+
+    @Transactional
+    public SurveyDO publish(Long id) {
+        SurveyDO survey = findById(id);
+        survey.setDsStatus("PUBLICADA");
+        return surveyDAO.save(survey);
+    }
+
+    @Transactional
+    public SurveyDO close(Long id) {
+        SurveyDO survey = findById(id);
+        survey.setDsStatus("CERRADA");
+        return surveyDAO.save(survey);
+    }
+
+    @Transactional
+    public SurveyResponseDO submitResponse(SurveyResponseDO response) {
+        return responseDAO.save(response);
+    }
+
+    public List<SurveyResponseDO> getResults(Long idSurvey, String tenantId) {
+        return responseDAO.findAllByIdSurveyAndTenantId(idSurvey, tenantId);
+    }
+
     public SurveyDO findById(Long id) {
         return surveyDAO.findById(id).orElseThrow(() -> new BusinessException(404, "Encuesta no encontrada: " + id));
     }

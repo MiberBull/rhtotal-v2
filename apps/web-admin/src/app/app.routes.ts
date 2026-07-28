@@ -7,8 +7,7 @@ export const routes: Routes = [
   {
     path: 'login',
     canActivate: [guestGuard],
-    loadComponent: () =>
-      import('./pages/login/login.component').then((m) => m.LoginComponent),
+    loadComponent: () => import('./pages/login/login.component').then((m) => m.LoginComponent),
   },
   {
     path: 'reset-password',
@@ -102,9 +101,9 @@ export const routes: Routes = [
       {
         path: 'notifications/:id/assign',
         loadComponent: () =>
-          import(
-            './pages/notifications/notification-assignment/notification-assignment.component'
-          ).then((m) => m.NotificationAssignmentComponent),
+          import('./pages/notifications/notification-assignment/notification-assignment.component').then(
+            (m) => m.NotificationAssignmentComponent
+          ),
       },
       {
         path: 'banners',
@@ -166,6 +165,71 @@ export const routes: Routes = [
           import('./pages/discounts/discount-form/discount-form.component').then(
             (m) => m.DiscountFormComponent
           ),
+      },
+      // HR modules
+      {
+        path: 'vacaciones',
+        loadComponent: () =>
+          import('./pages/vacaciones/vacaciones.component').then((m) => m.VacacionesComponent),
+      },
+      {
+        path: 'incidencias',
+        loadComponent: () =>
+          import('./pages/incidencias/incidencias.component').then((m) => m.IncidenciasComponent),
+      },
+      {
+        path: 'tickets',
+        loadComponent: () =>
+          import('./pages/tickets/tickets.component').then((m) => m.TicketsComponent),
+      },
+      {
+        path: 'encuestas',
+        loadComponent: () =>
+          import('./pages/encuestas/encuestas.component').then((m) => m.EncuestasComponent),
+      },
+      // REPSE
+      {
+        path: 'repse',
+        loadComponent: () => import('./pages/repse/repse.component').then((m) => m.RepseComponent),
+      },
+      // Attendance
+      {
+        path: 'asistencia',
+        loadComponent: () =>
+          import('./pages/asistencia/asistencia.component').then((m) => m.AsistenciaComponent),
+      },
+      // Onboarding pipeline
+      {
+        path: 'onboarding',
+        loadComponent: () =>
+          import('./pages/onboarding/onboarding.component').then((m) => m.OnboardingComponent),
+      },
+      // Biblioteca de Recursos
+      {
+        path: 'biblioteca',
+        loadComponent: () =>
+          import('./pages/biblioteca/biblioteca.component').then((m) => m.BibliotecaComponent),
+      },
+      // Ficha del Colaborador
+      {
+        path: 'colaboradores',
+        loadComponent: () =>
+          import('./pages/colaboradores/colaboradores.component').then(
+            (m) => m.ColaboradoresComponent
+          ),
+      },
+      {
+        path: 'colaboradores/:id',
+        loadComponent: () =>
+          import('./pages/colaboradores/detalle/colaborador-detalle.component').then(
+            (m) => m.ColaboradorDetalleComponent
+          ),
+      },
+      // Multi-tenant admin
+      {
+        path: 'tenants',
+        loadComponent: () =>
+          import('./pages/tenants/tenants.component').then((m) => m.TenantsComponent),
       },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     ],

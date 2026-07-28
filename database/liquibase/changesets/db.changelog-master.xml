@@ -15,5 +15,10 @@
     <include file="changesets/db.changelog-0.0.8-menus-hr.xml"/>
     <include file="changesets/db.changelog-0.0.9-menus-repse-docs.xml"/>
     <include file="changesets/db.changelog-0.0.10-demo-tenant.xml"/>
+    <include file="changesets/db.changelog-0.0.11-demo-data.xml"/>
+    <include file="changesets/db.changelog-0.0.12-client-logo.xml"/>
+    <include file="changesets/db.changelog-0.0.13-biblioteca.xml"/>
+    <include file="changesets/db.changelog-0.0.14-dch-tenants.xml"/>
+    <include file="changesets/db.changelog-0.0.15-ficha-colaborador.xml"/>
 
 </databaseChangeLog> 

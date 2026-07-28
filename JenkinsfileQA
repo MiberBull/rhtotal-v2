@@ -3,12 +3,17 @@ pipeline {
     /*agent {
         label 'RhTotal'
     }*/
+    environment {
+        SONAR_TOKEN = credentials('sonarqube-token')
+        AES_SECRET_KEY = credentials('aes-secret-key')
+    }
     tools {
         maven 'M3'
         jdk 'jdk21'
     }
     stages {
         stage('Build Components') {
+            when { branch pattern: 'release/.*', comparator: 'REGEXP' }
             failFast true
             parallel {
                 stage('Build Eureka') {
@@ -123,40 +128,171 @@ pipeline {
                 }
                 stage('Build Frontend Web') {
                     steps {
-                        echo 'Building Frontend Angular'
+                        echo 'Building Frontend Web Angular 6 QA (Node 12)'
                         dir ('frontend-web/src/environments/'){
+                            sh 'sed -i "s/REPLACE_WITH_AES_SECRET/${AES_SECRET_KEY}/g" environment.ts'
+                            sh 'sed -i "s/REPLACE_WITH_AES_SECRET/${AES_SECRET_KEY}/g" environment.prod.ts'
                             sh 'sed -i "s/192.168.0.65:8000/192.168.0.65:9000/g" environment.prod.ts'
                             sh 'sed -i "s/192.168.0.65:8000/192.168.0.65:9000/g" environment.ts'
                         }
                         dir ('frontend-web/'){
+                            sh '. ~/.nvm/nvm.sh && nvm use 12 && npm install && npm run build -- --configuration=production'
+                        }
+                    }
+                }
+                stage('Build Frontend Mobile') {
+                    steps {
+                        echo 'Building Frontend Mobile Ionic 3 QA (Node 12)'
+                        dir ('frontend-mobile/src/environments/'){
+                            sh 'sed -i "s/REPLACE_WITH_AES_SECRET/${AES_SECRET_KEY}/g" environments.ts'
+                        }
+                        dir ('frontend-mobile/'){
+                            sh '. ~/.nvm/nvm.sh && nvm use 12 && npm rebuild node-sass && npx ionic build --prod'
+                        }
+                    }
+                }
+                stage('Build Web Admin') {
+                    steps {
+                        echo 'Building Web Admin Angular 19 QA (Node 22)'
+                        dir ('apps/web-admin/src/environments/'){
+                            sh 'sed -i "s/REPLACE_WITH_AES_SECRET/${AES_SECRET_KEY}/g" environment.ts'
+                            sh 'sed -i "s/REPLACE_WITH_AES_SECRET/${AES_SECRET_KEY}/g" environment.prod.ts'
+                            sh 'sed -i "s|http://localhost:8000|http://192.168.0.65:9000|g" environment.ts'
+                            sh 'sed -i "s|http://localhost:8000|http://192.168.0.65:9000|g" environment.prod.ts'
+                        }
+                        dir ('apps/web-admin/'){
                             sh 'npm install'
                             sh 'npm run build'
                         }
                     }
                 }
-                /*stage('Build Frontend Mobile') {
+            }
+        }
+        stage('Sonar Analisis') {
+            when { branch pattern: 'release/.*', comparator: 'REGEXP' }
+            failFast true
+            parallel {
+                stage('Sonar Security') {
+                    tools { jdk "jdk21" }
                     steps {
-                        echo 'Building Frontend Angular'
-                        dir ('frontend-mobile/'){
-                            sh 'npm install'
-                            sh 'npm run build'
+                        dir ('security-service/'){
+                            sh 'mvn sonar:sonar \
+                                -Dsonar.projectKey=DCH_Total_Security \
+                                -Dsonar.projectName=DCH_Total_Security \
+                                -Dsonar.sources=src/main \
+                                -Dsonar.tests=src/test \
+                                -Dsonar.coverage.exclusions=**/*TO.java,**/*DO.java \
+                                -Dsonar.host.url=${SONAR_HOST_URL} \
+                                -Dsonar.login=${SONAR_TOKEN}'
                         }
                     }
-                }*/
+                }
+                stage('Sonar Application') {
+                    tools { jdk "jdk21" }
+                    steps {
+                        dir ('application-service/'){
+                            sh 'mvn sonar:sonar \
+                                -Dsonar.projectKey=DCH_Total_Application \
+                                -Dsonar.projectName=DCH_Total_Application \
+                                -Dsonar.sources=src/main \
+                                -Dsonar.tests=src/test \
+                                -Dsonar.coverage.exclusions=**/*TO.java,**/*DO.java \
+                                -Dsonar.host.url=${SONAR_HOST_URL} \
+                                -Dsonar.login=${SONAR_TOKEN}'
+                        }
+                    }
+                }
+                stage('Sonar User') {
+                    tools { jdk "jdk21" }
+                    steps {
+                        dir ('user-service/'){
+                            sh 'mvn sonar:sonar \
+                                -Dsonar.projectKey=DCH_Total_User \
+                                -Dsonar.projectName=DCH_Total_User \
+                                -Dsonar.sources=src/main \
+                                -Dsonar.tests=src/test \
+                                -Dsonar.coverage.exclusions=**/*TO.java,**/*DO.java \
+                                -Dsonar.host.url=${SONAR_HOST_URL} \
+                                -Dsonar.login=${SONAR_TOKEN}'
+                        }
+                    }
+                }
+                stage('Sonar Onboarding') {
+                    tools { jdk "jdk21" }
+                    steps {
+                        dir ('onboarding-service/'){
+                            sh 'mvn sonar:sonar \
+                                -Dsonar.projectKey=DCH_Total_Onboarding \
+                                -Dsonar.projectName=DCH_Total_Onboarding \
+                                -Dsonar.sources=src/main \
+                                -Dsonar.tests=src/test \
+                                -Dsonar.coverage.exclusions=**/*TO.java,**/*DO.java \
+                                -Dsonar.host.url=${SONAR_HOST_URL} \
+                                -Dsonar.login=${SONAR_TOKEN}'
+                        }
+                    }
+                }
+                stage('Sonar Attendance') {
+                    tools { jdk "jdk21" }
+                    steps {
+                        dir ('attendance-service/'){
+                            sh 'mvn sonar:sonar \
+                                -Dsonar.projectKey=DCH_Total_Attendance \
+                                -Dsonar.projectName=DCH_Total_Attendance \
+                                -Dsonar.sources=src/main \
+                                -Dsonar.tests=src/test \
+                                -Dsonar.coverage.exclusions=**/*TO.java,**/*DO.java \
+                                -Dsonar.host.url=${SONAR_HOST_URL} \
+                                -Dsonar.login=${SONAR_TOKEN}'
+                        }
+                    }
+                }
+                stage('Sonar HR') {
+                    tools { jdk "jdk21" }
+                    steps {
+                        dir ('hr-service/'){
+                            sh 'mvn sonar:sonar \
+                                -Dsonar.projectKey=DCH_Total_HR \
+                                -Dsonar.projectName=DCH_Total_HR \
+                                -Dsonar.sources=src/main \
+                                -Dsonar.tests=src/test \
+                                -Dsonar.coverage.exclusions=**/*TO.java,**/*DO.java \
+                                -Dsonar.host.url=${SONAR_HOST_URL} \
+                                -Dsonar.login=${SONAR_TOKEN}'
+                        }
+                    }
+                }
+                stage('Sonar Document') {
+                    tools { jdk "jdk21" }
+                    steps {
+                        dir ('document-service/'){
+                            sh 'mvn sonar:sonar \
+                                -Dsonar.projectKey=DCH_Total_Document \
+                                -Dsonar.projectName=DCH_Total_Document \
+                                -Dsonar.sources=src/main \
+                                -Dsonar.tests=src/test \
+                                -Dsonar.coverage.exclusions=**/*TO.java,**/*DO.java \
+                                -Dsonar.host.url=${SONAR_HOST_URL} \
+                                -Dsonar.login=${SONAR_TOKEN}'
+                        }
+                    }
+                }
             }
         }
         stage('Docker up') {
+            when { branch pattern: 'release/.*', comparator: 'REGEXP' }
             steps {
-                echo 'Running on Docker'
-                sh 'docker network disconnect rhtotalqa_rhtotalqanet postgresqa'
-                sh 'docker-compose down --rmi all'
+                echo 'Running on Docker QA'
+                sh 'docker network disconnect rhtotalqa_rhtotalqanet postgresqa || true'
+                sh 'docker-compose -f docker-composeQA.yml down --rmi all'
                 sh 'docker-compose -f docker-composeQA.yml up -d'
-                sh 'docker network connect rhtotalqa_rhtotalqanet postgresqa'
+                sh 'docker network connect rhtotalqa_rhtotalqanet postgresqa || true'
             }
         }
         stage('Liquibase') {
+            when { branch pattern: 'release/.*', comparator: 'REGEXP' }
             steps {
-                echo 'Building Webservice Spring boot'
+                echo 'Running Liquibase migrations'
                 sleep 10
                 dir ('database/liquibase/'){
                     sh 'sed -i "s/localhost:5432/localhost:5430/g" liquibase.properties'
@@ -173,11 +309,11 @@ pipeline {
             echo 'I succeeeded!'
         }
         unstable {
-            sh 'docker-compose down'
+            sh 'docker-compose -f docker-composeQA.yml down'
             echo 'I am unstable :/'
         }
         failure {
-            sh 'docker-compose down'
+            sh 'docker-compose -f docker-composeQA.yml down'
             echo 'I failed :('
         }
         changed {

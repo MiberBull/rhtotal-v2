@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   isLoading = false;
   response: LoginTO = new LoginTO();
   enable: boolean = true;
+  showPassword = false;
 
   constructor(
     private formBuilder: FormBuilder,

@@ -42,6 +42,7 @@ export class ClientFormComponent implements OnInit {
   loading = signal(false);
   saving = signal(false);
   isEdit = signal(false);
+  logoBase64 = signal<string>('');
 
   form = this.fb.nonNullable.group({
     idClient: [0],
@@ -70,6 +71,28 @@ export class ClientFormComponent implements OnInit {
     }
   }
 
+  onLogoSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    if (!file) return;
+    if (file.size > 200 * 1024) {
+      this.snackBar.open('El logo no debe superar 200 KB', 'Cerrar', {
+        duration: 3000,
+        horizontalPosition: 'end',
+        verticalPosition: 'top',
+      });
+      input.value = '';
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => this.logoBase64.set(reader.result as string);
+    reader.readAsDataURL(file);
+  }
+
+  clearLogo(): void {
+    this.logoBase64.set('');
+  }
+
   onSave(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
@@ -80,14 +103,19 @@ export class ClientFormComponent implements OnInit {
     const formValue = this.form.getRawValue();
 
     const payload: any = {
-      idClient: this.isEdit() ? this.clientId : undefined,
-      name: formValue.name,
-      rfc: formValue.rfc,
-      address: formValue.address,
-      phone: formValue.phone,
-      email: formValue.email,
-      contact: formValue.contactName,
-      status: formValue.status,
+      customer: {
+        idCliente: this.isEdit() ? this.clientId : undefined,
+        name: formValue.name,
+        additionalInformation: formValue.rfc,
+        address: formValue.address,
+        phone: formValue.phone,
+        email: formValue.email,
+        contact: formValue.contactName,
+        status: formValue.status,
+        dsLogo: this.logoBase64() || null,
+        lastUserModifier: 'sistema',
+      },
+      projectTOList: [],
     };
 
     this.http
@@ -121,12 +149,16 @@ export class ClientFormComponent implements OnInit {
     this.loading.set(true);
     this.http
       .get<any>(`${environment.gatewayUrl}/api/application/client/getClient/${id}`)
+      // backend returns CompoundCustomerTO { customer: {...}, projectTOList: [] }
+      // map to flat object for patchValue
       .subscribe({
-        next: (client) => {
+        next: (response) => {
+          // backend returns CompoundCustomerTO { customer: {...}, projectTOList: [] }
+          const client = response?.customer ?? response;
           this.form.patchValue({
-            idClient: client.idClient ?? id,
+            idClient: client.idCliente ?? client.idClient ?? id,
             name: client.name ?? '',
-            rfc: client.rfc ?? '',
+            rfc: client.additionalInformation ?? client.rfc ?? '',
             address: client.address ?? '',
             colony: client.colony ?? '',
             postalCode: client.postalCode ?? '',
@@ -137,6 +169,7 @@ export class ClientFormComponent implements OnInit {
             contactName: client.contact ?? '',
             status: client.status ?? 'A',
           });
+          this.logoBase64.set(client.dsLogo ?? client.logo ?? '');
           this.loading.set(false);
         },
         error: () => {

@@ -1,6 +1,7 @@
 package mx.com.axity.services.facade.impl;
 
 import mx.com.axity.commons.exceptions.BusinessException;
+import mx.com.axity.commons.to.CustomerTO;
 import mx.com.axity.commons.to.EmployeeTO;
 import mx.com.axity.commons.to.EmployeeUserTO;
 import mx.com.axity.commons.to.totree.ClientTableTO;
@@ -37,6 +38,11 @@ public class ClienteFacadeImpl implements IClienteFacade {
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
+    }
+
+    @Override
+    public List<CustomerTO> getAllClients() {
+        return this.clienteService.getAllClients();
     }
 
     @Override

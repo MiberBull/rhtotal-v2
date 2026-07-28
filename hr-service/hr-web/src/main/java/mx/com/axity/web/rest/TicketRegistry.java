@@ -22,24 +22,24 @@ public class TicketRegistry {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TicketTO> getById(@PathVariable Long id) {
+    public ResponseEntity<TicketTO> getById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(ticketFacade.getById(id));
     }
 
     @GetMapping("/employee/{employeeId}")
-    public ResponseEntity<List<TicketTO>> getByEmployee(@PathVariable Long employeeId) {
+    public ResponseEntity<List<TicketTO>> getByEmployee(@PathVariable("employeeId") Long employeeId) {
         return ResponseEntity.ok(ticketFacade.getByEmployee(employeeId, TenantContext.getCurrentTenant()));
     }
 
     @GetMapping("/status/{status}")
-    public ResponseEntity<List<TicketTO>> getByStatus(@PathVariable String status) {
+    public ResponseEntity<List<TicketTO>> getByStatus(@PathVariable("status") String status) {
         return ResponseEntity.ok(ticketFacade.getByStatus(TenantContext.getCurrentTenant(), status));
     }
 
     @PutMapping("/{id}/status")
-    public ResponseEntity<TicketTO> updateStatus(@PathVariable Long id,
-                                                 @RequestParam String newStatus,
-                                                 @RequestParam(required = false) String assignedTo) {
+    public ResponseEntity<TicketTO> updateStatus(@PathVariable("id") Long id,
+                                                 @RequestParam(name = "newStatus") String newStatus,
+                                                 @RequestParam(name = "assignedTo", required = false) String assignedTo) {
         return ResponseEntity.ok(ticketFacade.updateStatus(id, newStatus, assignedTo));
     }
 
@@ -49,7 +49,7 @@ public class TicketRegistry {
     }
 
     @GetMapping("/{idTicket}/comments")
-    public ResponseEntity<List<TicketCommentTO>> getComments(@PathVariable Long idTicket) {
+    public ResponseEntity<List<TicketCommentTO>> getComments(@PathVariable("idTicket") Long idTicket) {
         return ResponseEntity.ok(ticketFacade.getComments(idTicket, TenantContext.getCurrentTenant()));
     }
 }

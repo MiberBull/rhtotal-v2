@@ -1,39 +1,74 @@
-// DCH Know Who — Global Styles
+// DCH Total — Global Styles
+// Brand identity: docs/BRAND-IDENTITY-DCH-TOTAL.md
 @use '@angular/material' as mat;
 
-// Custom DCH theme using Angular Material 19 theming API
+// Material M3 theme — base palettes (overridden below with DCH brand tokens)
 html {
-  @include mat.theme((
-    color: (
-      theme-type: light,
-      primary: mat.$blue-palette,
-      tertiary: mat.$violet-palette,
-    ),
-    typography: Inter,
-    density: 0,
-  ));
+  @include mat.theme(
+    (
+      color: (
+        theme-type: light,
+        primary: mat.$blue-palette,
+        tertiary: mat.$orange-palette,
+      ),
+      typography: Inter,
+      density: 0,
+    )
+  );
+
+  // ── Override M3 system color tokens with DCH brand colors ──
+  // Primary: DCH Blue #005696
+  --mat-sys-primary: #005696;
+  --mat-sys-on-primary: #ffffff;
+  --mat-sys-primary-container: #cce4ff;
+  --mat-sys-on-primary-container: #001c37;
+  --mat-sys-primary-fixed: #cce4ff;
+  --mat-sys-primary-fixed-dim: #90caff;
+  --mat-sys-on-primary-fixed: #001c37;
+  --mat-sys-on-primary-fixed-variant: #003f72;
+  --mat-sys-inverse-primary: #90caff;
+
+  // Filled button explicit override (MDC)
+  --mdc-filled-button-container-color: #005696;
+  --mdc-filled-button-label-text-color: #ffffff;
+  --mdc-protected-button-container-color: #005696;
+  --mdc-protected-button-label-text-color: #ffffff;
 }
 
-// CSS custom properties for DCH brand
+// ── DCH brand CSS custom properties ──────────────────────────
 :root {
-  --dch-primary: #1565c0;
-  --dch-primary-light: #42a5f5;
-  --dch-primary-dark: #0d4788;
-  --dch-accent: #e91e63;
-  --dch-success: #4caf50;
-  --dch-warning: #ff9800;
-  --dch-error: #f44336;
-  --dch-info: #2196f3;
+  // Colors
+  --dch-blue: #005696; // DCH Blue — primary
+  --dch-blue-light: #3a87c8;
+  --dch-blue-dark: #003d6b;
+  --dch-orange: #f18a21; // DCH Orange — accent
+  --dch-orange-light: #f5a84d;
+
+  // Semantic aliases
+  --dch-primary: var(--dch-blue);
+  --dch-accent: var(--dch-orange);
+  --dch-success: #2e7d32;
+  --dch-warning: #f18a21;
+  --dch-error: #c62828;
+  --dch-info: #0288d1;
+
+  // Surfaces
   --dch-bg-primary: #ffffff;
-  --dch-bg-secondary: #f8f9fa;
-  --dch-text-primary: #212121;
+  --dch-bg-secondary: #f5f7fa; // Brand background
+
+  // Text
+  --dch-text-primary: #1a1a2e; // Brand text
   --dch-text-secondary: #757575;
+
+  // Misc
   --dch-radius: 8px;
-  --dch-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+  --dch-shadow: 0 2px 8px rgba(0, 86, 150, 0.08);
   --dch-font-family: 'Inter', 'Roboto', sans-serif;
 }
 
-html, body {
+// ── Base ─────────────────────────────────────────────────────
+html,
+body {
   height: 100%;
 }
 
@@ -44,20 +79,17 @@ body {
   color: var(--dch-text-primary);
 }
 
-// Scrollbar styling
+// ── Scrollbar ─────────────────────────────────────────────────
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
-
 ::-webkit-scrollbar-track {
   background: var(--dch-bg-secondary);
 }
-
 ::-webkit-scrollbar-thumb {
-  background: #bdbdbd;
-  border-radius: 4px;
+  background: #b0c4d8;
+  border-radius: 3px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
-  background: #9e9e9e;
+  background: #7da6c8;
 }
