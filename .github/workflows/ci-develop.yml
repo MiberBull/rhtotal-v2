@@ -1,0 +1,71 @@
+# CI — Pull Requests a develop
+# Valida que todos los servicios compilan antes de hacer merge.
+# No despliega ni corre tests de integración.
+name: CI — develop
+
+on:
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  # ─── Backend: 9 microservicios en paralelo ───────────────────────────────
+  build-backend:
+    name: Build ${{ matrix.service }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        service:
+          - eureka-service
+          - gateway-service
+          - security-service
+          - application-service
+          - user-service
+          - onboarding-service
+          - attendance-service
+          - hr-service
+          - document-service
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      - name: Build ${{ matrix.service }}
+        run: mvn clean package -DskipTests -q
+        working-directory: ${{ matrix.service }}
+
+  # ─── Frontend: web-admin Angular 19 ──────────────────────────────────────
+  build-web-admin:
+    name: Build web-admin
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: apps/web-admin/package-lock.json
+
+      # AES key placeholder — no se necesita valor real para compilar
+      - name: Inject AES placeholder
+        run: |
+          sed -i "s/REPLACE_WITH_AES_SECRET/ci-placeholder/g" apps/web-admin/src/environments/environment.ts
+          sed -i "s/REPLACE_WITH_AES_SECRET/ci-placeholder/g" apps/web-admin/src/environments/environment.prod.ts
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: apps/web-admin
+
+      - name: Build production
+        run: npm run build
+        working-directory: apps/web-admin
