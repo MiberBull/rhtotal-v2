@@ -107,7 +107,6 @@
   color: #f18a21;
   font-weight: 800;
   font-size: 1.3rem;
-  font-family: 'Inter', sans-serif;
   line-height: 1;
 }
 
@@ -115,7 +114,6 @@
   color: #fff;
   font-weight: 800;
   font-size: 1.3rem;
-  font-family: 'Inter', sans-serif;
   line-height: 1;
 }
 
@@ -133,7 +131,6 @@
   font-weight: 600;
   font-size: 0.95rem;
   text-align: center;
-  font-family: 'Inter', sans-serif;
 }
 
 .menu-divider {
@@ -148,8 +145,8 @@
 
 .menu-item {
   color: #fff;
-  font-size: 1.1rem;
-  font-family: 'Inter', sans-serif;
+  font-size: 18px;
+  font-weight: bold;
   padding: 14px 24px;
   background-color: transparent;
   border-bottom: none;
@@ -162,7 +159,8 @@
 
 .menu-item--secondary {
   color: rgba(255, 255, 255, 0.7);
-  font-size: 1.05rem;
+  font-size: 16px;
+  font-weight: normal;
 }
 
 .logo {
@@ -433,20 +431,18 @@ ion-footer {
 
 .footer-brand {
   display: block;
-  font-size: 0.6875rem;
+  font-size: 11px;
   color: rgba(255, 255, 255, 0.35);
   text-align: center;
   padding: 0 8px 4px;
   letter-spacing: 0.01em;
-  font-family: 'Inter', sans-serif;
 }
 
 .footer-dev {
   display: block;
-  font-size: 0.625rem;
+  font-size: 10px;
   color: rgba(255, 255, 255, 0.2);
   text-align: center;
   padding: 0 8px 8px;
   letter-spacing: 0.01em;
-  font-family: 'Inter', sans-serif;
 }
