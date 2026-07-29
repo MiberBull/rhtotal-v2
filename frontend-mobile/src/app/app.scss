@@ -436,6 +436,16 @@ ion-footer {
   font-size: 0.6875rem;
   color: rgba(255, 255, 255, 0.35);
   text-align: center;
+  padding: 0 8px 4px;
+  letter-spacing: 0.01em;
+  font-family: 'Inter', sans-serif;
+}
+
+.footer-dev {
+  display: block;
+  font-size: 0.625rem;
+  color: rgba(255, 255, 255, 0.2);
+  text-align: center;
   padding: 0 8px 8px;
   letter-spacing: 0.01em;
   font-family: 'Inter', sans-serif;
