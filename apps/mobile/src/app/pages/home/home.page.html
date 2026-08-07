@@ -5,7 +5,7 @@
         <ion-icon name="menu-outline" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title>DCH Know Who</ion-title>
+    <ion-title>DCH Total</ion-title>
     <ion-buttons slot="end">
       <ion-button routerLink="/notifications">
         <ion-icon name="notifications-outline" slot="icon-only"></ion-icon>
@@ -17,8 +17,64 @@
 <ion-content>
   <!-- Welcome -->
   <div class="welcome-section">
-    <h2>Hola, {{ userName }}</h2>
-    <p>Bienvenido de vuelta</p>
+    <h2>Bienvenido, {{ userName }}</h2>
+    <p>Gestion integral de talento</p>
+  </div>
+
+  <!-- KPIs del colaborador -->
+  <div class="kpi-section">
+    <h3 class="kpi-title">Tu resumen</h3>
+    <ion-grid>
+      <ion-row>
+        <!-- Dias de vacaciones -->
+        <ion-col size="12" size-sm="4">
+          <div class="kpi-card" (click)="navigateTo('/vacaciones')">
+            <div class="kpi-icon-wrap kpi-blue">
+              <ion-icon name="sunny-outline" class="kpi-icon"></ion-icon>
+            </div>
+            <div class="kpi-body">
+              <span class="kpi-value" *ngIf="!loadingKpis; else spinner">
+                {{ resumen.diasVacaciones }}
+              </span>
+              <ng-template #spinner>
+                <ion-spinner name="dots" class="kpi-spinner"></ion-spinner>
+              </ng-template>
+              <span class="kpi-label">Dias de vacaciones</span>
+            </div>
+          </div>
+        </ion-col>
+
+        <!-- Tickets abiertos -->
+        <ion-col size="12" size-sm="4">
+          <div class="kpi-card" (click)="navigateTo('/tickets')">
+            <div class="kpi-icon-wrap kpi-green">
+              <ion-icon name="help-buoy-outline" class="kpi-icon"></ion-icon>
+            </div>
+            <div class="kpi-body">
+              <span class="kpi-value" *ngIf="!loadingKpis"> {{ resumen.ticketsAbiertos }} </span>
+              <ion-spinner name="dots" class="kpi-spinner" *ngIf="loadingKpis"></ion-spinner>
+              <span class="kpi-label">Tickets abiertos</span>
+            </div>
+          </div>
+        </ion-col>
+
+        <!-- Comunicados por leer -->
+        <ion-col size="12" size-sm="4">
+          <div class="kpi-card" (click)="navigateTo('/comunicados')">
+            <div class="kpi-icon-wrap kpi-orange">
+              <ion-icon name="mail-unread-outline" class="kpi-icon"></ion-icon>
+            </div>
+            <div class="kpi-body">
+              <span class="kpi-value" *ngIf="!loadingKpis">
+                {{ resumen.comunicadosPendientes }}
+              </span>
+              <ion-spinner name="dots" class="kpi-spinner" *ngIf="loadingKpis"></ion-spinner>
+              <span class="kpi-label">Comunicados por leer</span>
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </div>
 
   <!-- Banner Carousel -->
@@ -42,11 +98,7 @@
   <div class="tiles-section">
     <h3>Acceso rapido</h3>
     <div class="tiles-grid">
-      <div
-        class="tile"
-        *ngFor="let tile of tiles"
-        (click)="navigateTo(tile.route)"
-      >
+      <div class="tile" *ngFor="let tile of tiles" (click)="navigateTo(tile.route)">
         <div class="tile-icon" [style.background]="tile.color + '15'">
           <ion-icon [name]="tile.icon" [style.color]="tile.color"></ion-icon>
         </div>

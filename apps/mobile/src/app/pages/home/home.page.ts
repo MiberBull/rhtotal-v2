@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';
+import { forkJoin, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { AuthService } from '../../core/services/auth.service';
 import { environment } from '../../../environments/environment';
 
@@ -19,6 +21,12 @@ interface QuickTile {
   route: string;
 }
 
+interface ResumenPersonal {
+  diasVacaciones: number;
+  ticketsAbiertos: number;
+  comunicadosPendientes: number;
+}
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
@@ -28,6 +36,13 @@ interface QuickTile {
 export class HomePage implements OnInit {
   banners: Banner[] = [];
   userName = '';
+  loadingKpis = true;
+
+  resumen: ResumenPersonal = {
+    diasVacaciones: 0,
+    ticketsAbiertos: 0,
+    comunicadosPendientes: 0,
+  };
 
   tiles: QuickTile[] = [
     { icon: 'gift-outline', label: 'Beneficios', color: '#e91e63', route: '/benefits' },
@@ -49,6 +64,7 @@ export class HomePage implements OnInit {
     const user = this.authService.currentUser;
     this.userName = user?.email?.split('@')[0] ?? '';
     this.loadBanners();
+    this.loadResumen();
   }
 
   openMenu(): void {
@@ -65,5 +81,42 @@ export class HomePage implements OnInit {
       next: (data) => (this.banners = data),
       error: () => (this.banners = []),
     });
+  }
+
+  private loadResumen(): void {
+    const user = this.authService.currentUser;
+    const idEmpleado = user?.id ?? 0;
+    const gw = environment.gatewayUrl;
+
+    // 1. Dias de vacaciones disponibles
+    const vacaciones$ = this.http
+      .get<{ nbDaysAvailable: number }>(`${gw}/api/hr/vacation/balance/${idEmpleado}`)
+      .pipe(
+        map((res) => res?.nbDaysAvailable ?? 0),
+        catchError(() => of(0))
+      );
+
+    // 2. Tickets abiertos del empleado
+    const tickets$ = this.http.get<any[]>(`${gw}/api/hr/ticket/employee/${idEmpleado}`).pipe(
+      map((list) =>
+        Array.isArray(list) ? list.filter((t) => t?.dsStatus === 'ABIERTO').length : 0
+      ),
+      catchError(() => of(0))
+    );
+
+    // 3. Comunicados no leidos
+    const comunicados$ = this.http
+      .get<any[]>(`${gw}/api/application/comunicado/list?idUser=${idEmpleado}`)
+      .pipe(
+        map((list) => (Array.isArray(list) ? list.filter((c) => c?.fgLeido === false).length : 0)),
+        catchError(() => of(0))
+      );
+
+    forkJoin([vacaciones$, tickets$, comunicados$]).subscribe(
+      ([diasVacaciones, ticketsAbiertos, comunicadosPendientes]) => {
+        this.resumen = { diasVacaciones, ticketsAbiertos, comunicadosPendientes };
+        this.loadingKpis = false;
+      }
+    );
   }
 }
