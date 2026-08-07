@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="0.0.16-1" author="dch-sprint18">
+        <createTable tableName="k_buzon_confidencial" schemaName="public">
+            <column name="id_buzon" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="tenant_id" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_categoria" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_descripcion" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fg_anonimo" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_usuario" type="BIGINT"/>
+            <column name="ds_nombre_reportante" type="VARCHAR(200)"/>
+            <column name="ds_estatus" type="VARCHAR(20)" defaultValue="NUEVO">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ds_comentario_rh" type="TEXT"/>
+            <column name="dt_creacion" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_actualizacion" type="TIMESTAMP"/>
+        </createTable>
+        <createIndex indexName="idx_buzon_tenant" tableName="k_buzon_confidencial">
+            <column name="tenant_id"/>
+        </createIndex>
+        <createIndex indexName="idx_buzon_estatus" tableName="k_buzon_confidencial">
+            <column name="ds_estatus"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>
