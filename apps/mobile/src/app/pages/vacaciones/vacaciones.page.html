@@ -1,12 +1,76 @@
-<ion-header
-  ><ion-toolbar color="primary"
-    ><ion-buttons slot="start"><ion-menu-button></ion-menu-button></ion-buttons
-    ><ion-title>Vacaciones</ion-title></ion-toolbar
-  ></ion-header
->
-<ion-content class="ion-padding"
-  ><div style="text-align: center; padding: 48px 16px; color: #999">
-    <ion-icon name="calendar-outline" style="font-size: 64px"></ion-icon>
-    <p>Módulo en desarrollo — Sprint 18</p>
-  </div></ion-content
->
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start"><ion-menu-button></ion-menu-button></ion-buttons>
+    <ion-title>Vacaciones</ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="segmento">
+      <ion-segment-button value="solicitudes">
+        <ion-label>Mis Solicitudes</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="nueva">
+        <ion-label>Nueva Solicitud</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- MIS SOLICITUDES -->
+  <ng-container *ngIf="segmento === 'solicitudes'">
+    <ion-refresher slot="fixed" (ionRefresh)="loadSolicitudes($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+
+    <div
+      *ngIf="!loading && solicitudes.length === 0"
+      style="text-align: center; padding: 48px 16px; color: #999"
+    >
+      <ion-icon name="calendar-outline" style="font-size: 64px"></ion-icon>
+      <p>Sin solicitudes registradas</p>
+    </div>
+
+    <ion-list>
+      <ion-item *ngFor="let s of solicitudes">
+        <ion-label>
+          <h2>{{ s.fechaInicio | date:'dd MMM' }} — {{ s.fechaFin | date:'dd MMM yyyy' }}</h2>
+          <p>{{ s.diasSolicitados }} día(s) · {{ s.motivo }}</p>
+          <p *ngIf="s.comentario" style="font-style: italic">{{ s.comentario }}</p>
+        </ion-label>
+        <ion-badge slot="end" [color]="getColor(s.estatus)">{{ s.estatus }}</ion-badge>
+      </ion-item>
+    </ion-list>
+  </ng-container>
+
+  <!-- NUEVA SOLICITUD -->
+  <div *ngIf="segmento === 'nueva'" class="ion-padding">
+    <ion-list>
+      <ion-item>
+        <ion-label position="stacked">Fecha de inicio</ion-label>
+        <ion-input type="date" [(ngModel)]="form.fechaInicio"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Fecha de regreso</ion-label>
+        <ion-input type="date" [(ngModel)]="form.fechaFin"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Motivo (opcional)</ion-label>
+        <ion-textarea
+          [(ngModel)]="form.motivo"
+          rows="3"
+          placeholder="Describe el motivo"
+        ></ion-textarea>
+      </ion-item>
+    </ion-list>
+    <ion-button
+      expand="block"
+      color="primary"
+      style="margin-top: 16px"
+      [disabled]="enviando"
+      (click)="enviarSolicitud()"
+    >
+      <ion-spinner *ngIf="enviando" name="crescent" slot="start"></ion-spinner>
+      {{ enviando ? 'Enviando...' : 'Enviar Solicitud' }}
+    </ion-button>
+  </div>
+</ion-content>

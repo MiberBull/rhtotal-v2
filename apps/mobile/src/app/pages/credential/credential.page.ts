@@ -33,8 +33,21 @@ export class CredentialPage implements OnInit {
     photoUrl: '',
   };
 
+  qrUrl = '';
+
   get fullName(): string {
     return `${this.credential.name} ${this.credential.lastName} ${this.credential.middleName}`.trim();
+  }
+
+  generateQr(): void {
+    const data = JSON.stringify({
+      id: this.credential.employeeId,
+      nombre: this.fullName,
+      empresa: this.credential.company,
+      tenant: this.authService.tenantId,
+      ts: Date.now(),
+    });
+    this.qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(data)}`;
   }
 
   constructor(
@@ -66,11 +79,13 @@ export class CredentialPage implements OnInit {
           company: data.companyName || 'DCH Know Who',
           photoUrl: data.photoUrl || '',
         };
+        this.generateQr();
         loading.dismiss();
       },
       error: () => {
         this.credential.email = this.authService.currentUser?.email || '';
         this.credential.employeeId = String(userId);
+        this.generateQr();
         loading.dismiss();
       },
     });
