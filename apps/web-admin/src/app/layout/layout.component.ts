@@ -66,6 +66,8 @@ export class LayoutComponent {
     { icon: 'event_busy', label: 'Incidencias', route: '/incidencias', permission: 'incidencias' },
     { icon: 'support_agent', label: 'Mesa de Ayuda', route: '/tickets', permission: 'tickets' },
     { icon: 'poll', label: 'Encuestas', route: '/encuestas', permission: 'encuestas' },
+    { icon: 'rule', label: 'Aprobaciones', route: '/approvals', permission: 'approvals' },
+    { icon: 'lock', label: 'Buzón Confidencial', route: '/buzon', permission: 'buzon' },
     // REPSE
     { icon: 'verified', label: 'REPSE', route: '/repse', permission: 'repse' },
     // Attendance
