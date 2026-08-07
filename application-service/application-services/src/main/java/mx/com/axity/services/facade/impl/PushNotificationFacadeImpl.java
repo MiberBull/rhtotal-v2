@@ -1,14 +1,11 @@
 package mx.com.axity.services.facade.impl;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import mx.com.axity.commons.exceptions.BusinessException;
 import mx.com.axity.commons.to.EmailTO;
 import mx.com.axity.commons.to.NotificationMobileTO;
-import mx.com.axity.commons.to.NotificationRepositoryTO;
 import mx.com.axity.commons.util.Constants;
 import mx.com.axity.commons.util.Convertions;
 import mx.com.axity.model.NotificationRepositoryDO;
-import mx.com.axity.model.UserDO;
 import mx.com.axity.services.facade.IPushNotificationFacade;
 import mx.com.axity.services.service.INotificationService;
 import mx.com.axity.services.service.IPushNotificationService;
@@ -23,11 +20,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.function.LongFunction;
-import java.util.stream.Collectors;
 
 @Service
 public class PushNotificationFacadeImpl implements IPushNotificationFacade {
@@ -79,17 +72,19 @@ public class PushNotificationFacadeImpl implements IPushNotificationFacade {
                 return;
             }
             LOG.info(String.format("Sen enviara a: [%d] tokens", tokens.size()));
-            var request = pushNotificationService.createRequestToSendFireBase(notification.getTitle(), notification.getDescriptionSmall(), tokens);
-            try {
 
-                var result = restTemplateService.post(request.get(Constants.FIREBASE_REQUEST_URL).toString(), (ObjectNode) request.get(Constants.FIREBASE_REQUEST_BODY), (HttpHeaders) request.get(Constants.FIREBASE_REQUEST_HEADERS), ObjectNode.class);
-                if (result.getStatusCode().equals(HttpStatus.OK)) {
+            try {
+                boolean sent = pushNotificationService.sendPushToTokens(
+                        notification.getTitle(),
+                        notification.getDescriptionSmall(),
+                        tokens);
+                if (sent) {
                     notification.setStatus(Constants.NOTIFICATION_STATUS_ENVIADO);
                     pushNotificationService.updateNotification(notification);
-
-                    LOG.info(String.format("Notificacion: [%d] enviada", notification.getIdNotificationRepo()));
+                    LOG.info(String.format("Notificacion: [%d] enviada via FCM v1", notification.getIdNotificationRepo()));
+                } else {
+                    LOG.warn(String.format("Notificacion: [%d] no pudo enviarse (FCM v1)", notification.getIdNotificationRepo()));
                 }
-
             } catch (Exception e) {
                 LOG.error(String.format("No se pudo enviar la notificacion: [%d]", notification.getIdNotificationRepo()));
                 LOG.error("Error "+e);

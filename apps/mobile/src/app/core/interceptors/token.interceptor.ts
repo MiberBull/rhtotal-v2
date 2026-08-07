@@ -16,12 +16,14 @@ export class TokenInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = this.authService.token;
+    const tenantId = this.authService.tenantId;
 
     let authReq = req;
     if (token) {
-      authReq = req.clone({
-        setHeaders: { Authorization: `Bearer ${token}` },
-      });
+      authReq = authReq.clone({ setHeaders: { Authorization: `Bearer ${token}` } });
+    }
+    if (tenantId) {
+      authReq = authReq.clone({ setHeaders: { 'X-Tenant-ID': tenantId } });
     }
 
     return next.handle(authReq).pipe(

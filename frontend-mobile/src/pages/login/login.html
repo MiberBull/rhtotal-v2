@@ -1,23 +1,50 @@
 <ion-header class="wrapper-header">
-  <img src="assets/imgs/img-login.svg" height="130px" class="image-header">
-  <ion-label class="title">Anticipo de nómina y beneficios</ion-label>
+  <img src="assets/imgs/dch-total-logo.svg" class="isologo" alt="DCH Total" />
+  <div class="dch-login-brand">
+    <span class="brand-d">D</span><span class="brand-ch">CH Total</span>
+  </div>
+  <ion-label class="title">Gestión integral de talento</ion-label>
 </ion-header>
 <ion-content>
   <form [formGroup]="loginForm" class="wrapper-form">
     <ion-item>
-      <ion-input [formControl]="loginForm.controls['email']"  type="email" (ionChange)="resetIntents()" placeholder="Correo electrónico" style="text-transform: lowercase;"></ion-input>
+      <ion-input
+        [formControl]="loginForm.controls['email']"
+        type="email"
+        (ionChange)="resetIntents()"
+        placeholder="Correo electrónico"
+        style="text-transform: lowercase"
+      ></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input [formControl]="loginForm.controls['password']" type="password" max="12" placeholder="Contraseña"></ion-input>
+      <ion-input
+        [formControl]="loginForm.controls['password']"
+        [type]="showPassword ? 'text' : 'password'"
+        max="12"
+        placeholder="Contraseña"
+      ></ion-input>
+      <button ion-button icon-only clear item-end (click)="toggleShowPassword()">
+        <ion-icon [name]="showPassword ? 'eye-off' : 'eye'" class="eye-icon"></ion-icon>
+      </button>
     </ion-item>
-    <button ion-button color="light" (click)="onLogin()" [disabled]="!loginForm.valid" class="buttons" style="margin-top: 10%;">Entrar</button>
+    <button
+      ion-button
+      color="secondary"
+      (click)="onLogin()"
+      [disabled]="!loginForm.valid"
+      class="btn-entrar"
+      style="margin-top: 10%"
+    >
+      Entrar
+    </button>
   </form>
   <div class="content-first-visit">
     <ion-label style="color: #fff">¿Primera vez aquí?</ion-label>
-    <button ion-button color="light" (click)="goCreateAccount()" class="buttons">Crear cuenta</button>
+    <button ion-button color="light" (click)="goCreateAccount()" class="buttons">
+      Crear cuenta
+    </button>
   </div>
   <div class="wrapper-forget-password">
     <label class="labels" (click)="goRecoveryPassword()">Olvidé mi contraseña</label>
   </div>
 </ion-content>
-

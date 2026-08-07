@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from '../providers/auth-interceptor/auth-interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -283,6 +284,7 @@ export const MATERIAL_COMPONENTS = [MatProgressBarModule];
     AppVersion,
     ServiceValidator,
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     TenantProvider,
     AttendanceProvider,
     HrEmployeeProvider,

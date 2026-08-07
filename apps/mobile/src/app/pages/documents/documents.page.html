@@ -1,0 +1,78 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Mis Documentos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <!-- Filtros -->
+  <div class="filtros-container">
+    <ion-chip
+      *ngFor="let f of filtros"
+      [color]="filtroActivo === f ? 'primary' : ''"
+      [outline]="filtroActivo !== f"
+      (click)="aplicarFiltro(f)"
+      >{{ f }}</ion-chip
+    >
+  </div>
+
+  <!-- Skeleton loading -->
+  @if (loading) {
+  <ion-list>
+    @for (_ of [1,2,3]; track $index) {
+    <ion-item>
+      <ion-skeleton-text animated style="width: 100%; height: 60px"></ion-skeleton-text>
+    </ion-item>
+    }
+  </ion-list>
+  }
+
+  <!-- Empty state -->
+  @else if (documentosFiltrados.length === 0) {
+  <div class="empty-state">
+    <ion-icon name="folder-open-outline" class="empty-icon"></ion-icon>
+    <p>No tienes documentos disponibles</p>
+  </div>
+  }
+
+  <!-- Lista -->
+  @else {
+  <ion-list>
+    @for (doc of documentosFiltrados; track doc.id) {
+    <ion-card class="doc-card">
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon [name]="getTipoIcon(doc.tipo)" class="tipo-icon"></ion-icon>
+          {{ doc.nombre }}
+        </ion-card-title>
+        <ion-card-subtitle>{{ doc.periodo }}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="doc-meta">
+          <ion-chip color="medium" outline>{{ doc.tipo }}</ion-chip>
+          <span class="fecha">{{ doc.fechaEmision | date:'dd/MM/yyyy' }}</span>
+        </div>
+        <ion-button
+          expand="block"
+          fill="outline"
+          color="primary"
+          (click)="descargar(doc)"
+          [disabled]="doc.estado === 'PROCESANDO'"
+          class="download-btn"
+        >
+          <ion-icon name="download-outline" slot="start"></ion-icon>
+          {{ doc.estado === 'PROCESANDO' ? 'Procesando...' : 'Descargar' }}
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+    }
+  </ion-list>
+  }
+</ion-content>

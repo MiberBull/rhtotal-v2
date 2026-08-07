@@ -240,6 +240,35 @@ export const routes: Routes = [
             (m) => m.ColaboradorDetalleComponent
           ),
       },
+      // Comunicados (M5)
+      {
+        path: 'comunicados',
+        loadComponent: () =>
+          import('./pages/comunicados/comunicados-list.component').then(
+            (m) => m.ComunicadosListComponent
+          ),
+      },
+      {
+        path: 'comunicados/new',
+        loadComponent: () =>
+          import('./pages/comunicados/comunicado-form/comunicado-form.component').then(
+            (m) => m.ComunicadoFormComponent
+          ),
+      },
+      {
+        path: 'comunicados/:id/lecturas',
+        loadComponent: () =>
+          import('./pages/comunicados/comunicado-lecturas/comunicado-lecturas.component').then(
+            (m) => m.ComunicadoLecturasComponent
+          ),
+      },
+      {
+        path: 'comunicados/:id',
+        loadComponent: () =>
+          import('./pages/comunicados/comunicado-form/comunicado-form.component').then(
+            (m) => m.ComunicadoFormComponent
+          ),
+      },
       // Multi-tenant admin
       {
         path: 'tenants',

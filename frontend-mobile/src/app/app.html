@@ -1,60 +1,139 @@
-<ion-menu *ngIf="isLogged" side="left" (ionOpen)="menuOpened()" [content]="content" persistent="true" type="overlay">
-    <ion-content class="ion-content" >
-            <div class="img-logo">
-                <img src="assets/imgs/rhthorizontal.svg"  height="20%" width="50%">
-            </div>
-            <div class="fullWidth box">
-                <img [src]="base64 | defaultImage:'assets/imgs/icon.svg'" class="logo" (click)="saveImage()"> <!--  -->
-            </div>
-            <div class="fullWidth box1">
-                <div class="wrapper-option-menu">
-                    <div class="content-frist-options">
-                        <div class="wrapper-name">
-                            {{nombreUser}}
-                        </div>
-                        <p class="options-wrapper" menuClose ion-item  no-lines 
-                            *ngFor="let p of pages" 
-                            (click)="openPage(p)">{{p.title}}</p>
-                        <p class="second-options-wrapper" menuClose ion-item no-lines 
-                            *ngFor="let p of pagesInfo" 
-                            (click)="openPage(p)">{{p.title}}</p>
-                    </div>
-                </div>
-            </div>
-    </ion-content>
+<ion-menu
+  *ngIf="isLogged"
+  side="left"
+  (ionOpen)="menuOpened()"
+  [content]="content"
+  persistent="true"
+  type="overlay"
+>
+  <ion-content class="ion-content">
+    <!-- Header del menú: logo + foto + nombre -->
+    <div class="menu-header">
+      <div class="menu-logo-row">
+        <img src="assets/imgs/dch-total-logo.svg" class="menu-isologo" alt="∞" />
+        <div class="menu-brand">
+          <span class="menu-brand-d">D</span><span class="menu-brand-ch">CH Total</span>
+        </div>
+      </div>
+      <img
+        [src]="base64 | defaultImage:'assets/imgs/icon.svg'"
+        class="menu-avatar"
+        (click)="saveImage()"
+      />
+      <div class="menu-username">{{nombreUser}}</div>
+    </div>
+
+    <!-- Separador -->
+    <div class="menu-divider"></div>
+
+    <!-- Opciones principales -->
+    <div class="menu-nav">
+      <p
+        class="menu-item"
+        menuClose
+        ion-item
+        no-lines
+        *ngFor="let p of pages"
+        (click)="openPage(p)"
+      >
+        {{p.title}}
+      </p>
+    </div>
+
+    <!-- Separador -->
+    <div class="menu-divider"></div>
+
+    <!-- Opciones secundarias -->
+    <div class="menu-nav">
+      <p
+        class="menu-item menu-item--secondary"
+        menuClose
+        ion-item
+        no-lines
+        *ngFor="let p of pagesInfo"
+        (click)="openPage(p)"
+      >
+        {{p.title}}
+      </p>
+    </div>
+
+    <!-- Footer — homologado con web-admin -->
+    <div class="sidebar-footer">
+      <span class="footer-brand">Un servicio de DCH</span>
+      <span class="footer-dev">Desarrollada por board-ai.mx</span>
+    </div>
+  </ion-content>
 </ion-menu>
 <ion-menu *ngIf="isLogged" side="right" [content]="content" persistent="true" type="overlay">
-    <ion-header>
-        <ion-navbar class="img-logo-notifications">
-            <img src="assets/imgs/img-login.svg">
-        </ion-navbar>
-    </ion-header>
-    <ion-content class="ion-content">
-        <ion-list class="ion-item-notification-list">
-
-            <ion-item *ngFor="let notification of notificationsTop"> 
-                <span *ngIf="notification.unRead" item-start class="dot"></span>
-                <div text-wrap (click)="SetViewNotify(notification)">{{notification.descriptionSmall}}</div>
-                <ion-icon *ngIf="notification.type === 'D' || notification.type == 'I'" class="arrow" item-end name="arrow-forward"></ion-icon>
-            </ion-item>
-<!--
+  <ion-header>
+    <ion-navbar class="img-logo-notifications">
+      <div style="padding: 8px 16px">
+        <span
+          style="
+            color: #f18a21;
+            font-weight: 800;
+            font-size: 1.2rem;
+            font-family: 'Inter', sans-serif;
+          "
+          >D</span
+        ><span
+          style="color: #fff; font-weight: 800; font-size: 1.2rem; font-family: 'Inter', sans-serif"
+          >CH Total</span
+        >
+      </div>
+    </ion-navbar>
+  </ion-header>
+  <ion-content class="ion-content">
+    <ion-list class="ion-item-notification-list">
+      <ion-item *ngFor="let notification of notificationsTop">
+        <span *ngIf="notification.unRead" item-start class="dot"></span>
+        <div text-wrap (click)="SetViewNotify(notification)">{{notification.descriptionSmall}}</div>
+        <ion-icon
+          *ngIf="notification.type === 'D' || notification.type == 'I'"
+          class="arrow"
+          item-end
+          name="arrow-forward"
+        ></ion-icon>
+      </ion-item>
+      <!--
             <ion-item *ngFor="let notification of notificationsTop"> 
                 <span *ngIf="notification.unRead" item-start class="dot"></span>
                 <div text-wrap (click)="setReadNotification(notification)">{{notification.descriptionSmall}}</div>
                 <ion-icon *ngIf="notification.type === 'D' || notification.type == 'I'" class="arrow" item-end name="arrow-forward" (click)="getDiscountByid(notification)"></ion-icon>
             </ion-item>
 -->
-        </ion-list>
-    </ion-content>
+    </ion-list>
+  </ion-content>
 </ion-menu>
 <ion-footer *ngIf="isLogged && !visivility">
-    <ion-toolbar>
-        <img src="assets/imgs/perfil.svg"  alt="" (click)= "openMenuPrincipal()" style="width: 30px;  position: absolute; left: 17%; bottom: 4px;">
-        <img src="assets/imgs/home.svg" alt=""   (click)="goHome()" style="width: 30px; position: absolute; left: 46%; bottom: 4px;">
-        <img src="assets/imgs/notificaciones.svg" alt="" style="width: 30px; position: absolute; left: 73%; bottom: 4px;" (click)= "openNotifications()">
-        <ion-badge id="cart-badge" style="margin: 0px; padding: 0px; position: absolute; left: 78%; bottom: 15px;" (click)= "openNotifications()" color="danger" *ngIf="numNotifications > 0">{{numNotifications}}</ion-badge>
-    </ion-toolbar>
+  <ion-toolbar>
+    <img
+      src="assets/imgs/perfil.svg"
+      alt=""
+      (click)="openMenuPrincipal()"
+      style="width: 30px; position: absolute; left: 17%; bottom: 4px"
+    />
+    <img
+      src="assets/imgs/home.svg"
+      alt=""
+      (click)="goHome()"
+      style="width: 30px; position: absolute; left: 46%; bottom: 4px"
+    />
+    <img
+      src="assets/imgs/notificaciones.svg"
+      alt=""
+      style="width: 30px; position: absolute; left: 73%; bottom: 4px"
+      (click)="openNotifications()"
+    />
+    <ion-badge
+      id="cart-badge"
+      style="margin: 0px; padding: 0px; position: absolute; left: 78%; bottom: 15px"
+      (click)="openNotifications()"
+      color="danger"
+      *ngIf="numNotifications > 0"
+      >{{numNotifications}}</ion-badge
+    >
+  </ion-toolbar>
 </ion-footer>
 
 <ion-nav #content [root]="rootPage"></ion-nav>
-

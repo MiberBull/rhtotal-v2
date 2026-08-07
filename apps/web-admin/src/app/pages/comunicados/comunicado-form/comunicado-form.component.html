@@ -1,0 +1,73 @@
+<div class="page-container">
+  <div class="page-header">
+    <h1 class="page-title">{{ isEdit() ? 'Editar comunicado' : 'Nuevo comunicado' }}</h1>
+    <a mat-button routerLink="/comunicados"><mat-icon>arrow_back</mat-icon> Volver</a>
+  </div>
+
+  @if (loading()) {
+    <div class="loading-container"><mat-spinner diameter="40" /></div>
+  } @else {
+    <form [formGroup]="form" (ngSubmit)="onSave()" class="form-grid">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Título</mat-label>
+        <input matInput formControlName="titulo" maxlength="120" />
+        @if (form.controls.titulo.hasError('required')) {
+          <mat-error>El título es obligatorio</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Contenido</mat-label>
+        <textarea matInput formControlName="contenido" rows="6"></textarea>
+        @if (form.controls.contenido.hasError('required')) {
+          <mat-error>El contenido es obligatorio</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Fecha de publicación</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="fechaPublicacion" />
+        <mat-hint>Vacío = publicar de inmediato</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>URL de imagen (opcional)</mat-label>
+        <input matInput formControlName="imagen" placeholder="https://..." />
+      </mat-form-field>
+
+      <div class="destinatarios-section full-width">
+        <label class="section-label">Destinatarios</label>
+        <mat-radio-group formControlName="destinatarios" class="radio-group">
+          <mat-radio-button value="todos">Todos los colaboradores</mat-radio-button>
+          <mat-radio-button value="seleccion">Selección manual</mat-radio-button>
+        </mat-radio-group>
+
+        @if (modoSeleccion) {
+          <div class="employee-list">
+            @for (emp of allEmployees(); track emp.idEmployee) {
+              <mat-checkbox
+                [checked]="isAssigned(emp.idEmployee)"
+                (change)="toggleEmployee(emp.idEmployee)"
+              >
+                {{ emp.name }} {{ emp.lastName }} <span class="emp-email">{{ emp.email }}</span>
+              </mat-checkbox>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="form-actions full-width">
+        <button mat-button type="button" (click)="onCancel()">Cancelar</button>
+        <button mat-flat-button color="primary" type="submit" [disabled]="saving()">
+          @if (saving()) {
+            <mat-spinner diameter="20" />
+          } @else {
+            {{ isEdit() ? 'Actualizar' : 'Guardar borrador' }}
+          }
+        </button>
+      </div>
+    </form>
+  }
+</div>
