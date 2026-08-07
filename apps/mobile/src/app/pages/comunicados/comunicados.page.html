@@ -1,12 +1,62 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-buttons slot="start"><ion-menu-button></ion-menu-button></ion-buttons>
-    <ion-title>Comunicados</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button *ngIf="!selected"></ion-menu-button>
+      <ion-back-button *ngIf="selected" (click)="volver()"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ selected ? selected.titulo : 'Comunicados' }}</ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content class="ion-padding">
-  <div style="text-align: center; padding: 48px 16px; color: #999">
-    <ion-icon name="megaphone-outline" style="font-size: 64px"></ion-icon>
-    <p>Módulo en desarrollo — Sprint 18</p>
+
+<ion-content>
+  <!-- LISTA -->
+  <ng-container *ngIf="!selected">
+    <ion-refresher slot="fixed" (ionRefresh)="load($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+
+    <div
+      *ngIf="comunicados.length === 0"
+      style="text-align: center; padding: 48px 16px; color: #999"
+    >
+      <ion-icon name="mail-open-outline" style="font-size: 64px"></ion-icon>
+      <p>Sin comunicados por el momento</p>
+    </div>
+
+    <ion-list>
+      <ion-item *ngFor="let c of comunicados" button (click)="verDetalle(c)" detail="true">
+        <ion-icon name="megaphone-outline" slot="start" color="primary"></ion-icon>
+        <ion-label>
+          <h2>{{ c.titulo }}</h2>
+          <p>{{ c.fechaPublicacion | date:'dd MMM yyyy' }}</p>
+        </ion-label>
+        <ion-badge *ngIf="!c.leido" color="danger" slot="end">NUEVO</ion-badge>
+        <ion-badge *ngIf="c.leido" color="medium" slot="end">LEÍDO</ion-badge>
+      </ion-item>
+    </ion-list>
+  </ng-container>
+
+  <!-- DETALLE -->
+  <div *ngIf="selected" class="ion-padding">
+    <p style="color: #666; font-size: 13px; margin-bottom: 16px">
+      {{ selected.fechaPublicacion | date:'dd MMMM yyyy' }}
+    </p>
+    <div [innerHTML]="selected.contenido" style="line-height: 1.6; font-size: 15px"></div>
+
+    <ion-button
+      *ngIf="!selected.leido"
+      expand="block"
+      color="primary"
+      style="margin-top: 32px"
+      [disabled]="marking"
+      (click)="marcarLeido(selected)"
+    >
+      <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
+      Marcar como leído
+    </ion-button>
+    <p *ngIf="selected.leido" style="text-align: center; color: #4caf50; margin-top: 24px">
+      <ion-icon name="checkmark-circle"></ion-icon>
+      Leído el {{ selected.fechaLectura | date:'dd MMM yyyy' }}
+    </p>
   </div>
 </ion-content>

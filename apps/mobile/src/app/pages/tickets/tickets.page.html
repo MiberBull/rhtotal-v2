@@ -1,12 +1,82 @@
-<ion-header
-  ><ion-toolbar color="primary"
-    ><ion-buttons slot="start"><ion-menu-button></ion-menu-button></ion-buttons
-    ><ion-title>Mesa de Ayuda</ion-title></ion-toolbar
-  ></ion-header
->
-<ion-content class="ion-padding"
-  ><div style="text-align: center; padding: 48px 16px; color: #999">
-    <ion-icon name="help-buoy-outline" style="font-size: 64px"></ion-icon>
-    <p>Módulo en desarrollo — Sprint 18</p>
-  </div></ion-content
->
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start"><ion-menu-button></ion-menu-button></ion-buttons>
+    <ion-title>Mesa de Ayuda</ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="segmento">
+      <ion-segment-button value="tickets">
+        <ion-label>Mis Tickets</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="nuevo">
+        <ion-label>Nuevo Ticket</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- MIS TICKETS -->
+  <ng-container *ngIf="segmento === 'tickets'">
+    <ion-refresher slot="fixed" (ionRefresh)="loadTickets($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+
+    <div
+      *ngIf="!loading && tickets.length === 0"
+      style="text-align: center; padding: 48px 16px; color: #999"
+    >
+      <ion-icon name="help-buoy-outline" style="font-size: 64px"></ion-icon>
+      <p>Sin tickets registrados</p>
+    </div>
+
+    <ion-list>
+      <ion-item *ngFor="let t of tickets">
+        <ion-label>
+          <h2>{{ t.dsSubject }}</h2>
+          <p>{{ t.dsCategory }}</p>
+        </ion-label>
+        <ion-badge slot="end" [color]="getColor(t.dsStatus)">{{ t.dsStatus }}</ion-badge>
+      </ion-item>
+    </ion-list>
+  </ng-container>
+
+  <!-- NUEVO TICKET -->
+  <div *ngIf="segmento === 'nuevo'" class="ion-padding">
+    <ion-list>
+      <ion-item>
+        <ion-label position="stacked">Categoría</ion-label>
+        <ion-select [(ngModel)]="form.dsCategory" placeholder="Selecciona categoría">
+          <ion-select-option *ngFor="let cat of categorias" [value]="cat"
+            >{{ cat }}</ion-select-option
+          >
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Asunto</ion-label>
+        <ion-input
+          [(ngModel)]="form.dsSubject"
+          placeholder="Describe brevemente tu problema"
+        ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Descripción</ion-label>
+        <ion-textarea
+          [(ngModel)]="form.dsDescription"
+          rows="4"
+          placeholder="Explica el detalle de tu solicitud"
+        ></ion-textarea>
+      </ion-item>
+    </ion-list>
+    <ion-button
+      expand="block"
+      color="primary"
+      style="margin-top: 16px"
+      [disabled]="enviando"
+      (click)="crearTicket()"
+    >
+      <ion-spinner *ngIf="enviando" name="crescent" slot="start"></ion-spinner>
+      {{ enviando ? 'Enviando...' : 'Crear Ticket' }}
+    </ion-button>
+  </div>
+</ion-content>
