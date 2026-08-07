@@ -1,0 +1,102 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start"><ion-menu-button></ion-menu-button></ion-buttons>
+    <ion-title>Buzón Confidencial</ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="segmento">
+      <ion-segment-button value="mis-reportes">
+        <ion-label>Mis Reportes</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="nuevo">
+        <ion-label>Nuevo Reporte</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- MIS REPORTES -->
+  <ng-container *ngIf="segmento === 'mis-reportes'">
+    <ion-refresher slot="fixed" (ionRefresh)="loadReportes($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+
+    <div *ngIf="loading" style="text-align: center; padding: 32px">
+      <ion-spinner name="crescent"></ion-spinner>
+    </div>
+
+    <div
+      *ngIf="!loading && reportes.length === 0"
+      style="text-align: center; padding: 48px 16px; color: #999"
+    >
+      <ion-icon name="lock-closed-outline" style="font-size: 64px"></ion-icon>
+      <p>No tienes reportes enviados</p>
+    </div>
+
+    <ion-list *ngIf="!loading && reportes.length > 0">
+      <ion-item *ngFor="let r of reportes">
+        <ion-label>
+          <h2>{{ r.dsCategoria }}</h2>
+          <p>{{ r.dsDescripcion }}</p>
+          <p *ngIf="r.dtFecha" style="font-size: 11px; color: #aaa">{{ r.dtFecha }}</p>
+        </ion-label>
+        <ion-badge slot="end" [color]="getColorEstatus(r.dsEstatus)">
+          {{ r.dsEstatus || 'ENVIADO' }}
+        </ion-badge>
+      </ion-item>
+    </ion-list>
+  </ng-container>
+
+  <!-- NUEVO REPORTE -->
+  <div *ngIf="segmento === 'nuevo'" class="ion-padding">
+    <ion-list>
+      <ion-item>
+        <ion-label position="stacked">Categoría *</ion-label>
+        <ion-select [(ngModel)]="form.dsCategoria" placeholder="Selecciona una categoría">
+          <ion-select-option *ngFor="let cat of categorias" [value]="cat"
+            >{{ cat }}</ion-select-option
+          >
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Descripción *</ion-label>
+        <ion-textarea
+          [(ngModel)]="form.dsDescripcion"
+          rows="5"
+          placeholder="Describe detalladamente tu reporte"
+        ></ion-textarea>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Enviar de forma anónima</ion-label>
+        <ion-toggle [(ngModel)]="form.fgAnonimo" slot="end"></ion-toggle>
+      </ion-item>
+
+      <ion-item *ngIf="!form.fgAnonimo">
+        <ion-label position="stacked">Tu nombre</ion-label>
+        <ion-input
+          [(ngModel)]="form.dsNombreReportante"
+          placeholder="Ingresa tu nombre completo"
+        ></ion-input>
+      </ion-item>
+    </ion-list>
+
+    <ion-button
+      expand="block"
+      color="primary"
+      style="margin-top: 16px"
+      [disabled]="enviando"
+      (click)="enviarReporte()"
+    >
+      <ion-spinner *ngIf="enviando" name="crescent" slot="start"></ion-spinner>
+      {{ enviando ? 'Enviando...' : 'Enviar Reporte' }}
+    </ion-button>
+
+    <p style="text-align: center; font-size: 12px; color: #aaa; margin-top: 12px">
+      <ion-icon name="shield-checkmark-outline"></ion-icon>
+      Tu reporte es tratado con total confidencialidad
+    </p>
+  </div>
+</ion-content>

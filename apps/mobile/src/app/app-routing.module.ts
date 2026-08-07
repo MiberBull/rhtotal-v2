@@ -172,6 +172,11 @@ const routes: Routes = [
     loadChildren: () => import('./pages/repse/repse.module').then((m) => m.RepsePageModule),
     canActivate: [AuthGuard],
   },
+  {
+    path: 'buzon',
+    loadChildren: () => import('./pages/buzon/buzon.module').then((m) => m.BuzonPageModule),
+    canActivate: [AuthGuard],
+  },
 
   // Default
   { path: '', redirectTo: 'login', pathMatch: 'full' },

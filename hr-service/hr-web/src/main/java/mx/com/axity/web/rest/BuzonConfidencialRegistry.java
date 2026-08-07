@@ -33,8 +33,8 @@ public class BuzonConfidencialRegistry {
     public ResponseEntity<BuzonConfidencialTO> updateEstatus(
             @PathVariable("id") Long id,
             @RequestBody Map<String, String> body) {
-        String estatus = body.get("estatus");
-        String comentario = body.get("comentario");
+        String estatus = body.get("dsEstatus");
+        String comentario = body.get("dsComentarioRh");
         return ResponseEntity.ok(buzonFacade.updateEstatus(id, estatus, comentario));
     }
 }
