@@ -87,8 +87,8 @@ export class DashboardComponent implements OnInit {
   private loadKpis(): void {
     const gw = environment.gatewayUrl;
 
-    // 1. Headcount: GET /api/user/employee/list → array
-    const colaboradores$ = this.http.get<any[]>(`${gw}/api/user/employee/list`).pipe(
+    // 1. Headcount: GET /api/user/user/getAllEmployees → array
+    const colaboradores$ = this.http.get<any[]>(`${gw}/api/user/user/getAllEmployees`).pipe(
       map((list) => (Array.isArray(list) ? list.length : ((list as any)?.count ?? 0))),
       catchError(() => of(0))
     );
