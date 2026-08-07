@@ -73,6 +73,7 @@ export class LayoutComponent {
     // Onboarding
     { icon: 'person_add', label: 'Onboarding', route: '/onboarding', permission: 'onboarding' },
     // Content
+    { icon: 'campaign', label: 'Comunicados', route: '/comunicados', permission: 'comunicados' },
     {
       icon: 'notifications',
       label: 'Notificaciones',

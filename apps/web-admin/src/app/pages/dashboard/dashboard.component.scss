@@ -35,10 +35,28 @@
   border-radius: 12px;
   padding: 24px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-  transition: box-shadow 0.2s ease;
+  transition:
+    box-shadow 0.2s ease,
+    transform 0.15s ease;
+  text-decoration: none;
+  cursor: pointer;
+
+  .metric-arrow {
+    margin-left: auto;
+    color: #bdbdbd;
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    transition: color 0.15s ease;
+  }
 
   &:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-1px);
+
+    .metric-arrow {
+      color: #757575;
+    }
   }
 }
 
@@ -101,10 +119,11 @@
   border-radius: 10px;
   border: 1px solid #e5e7eb;
   cursor: pointer;
+  text-decoration: none;
   transition: all 0.15s ease;
 
   mat-icon {
-    color: var(--dch-primary, #1565c0);
+    color: #005696;
     font-size: 20px;
     width: 20px;
     height: 20px;
@@ -117,7 +136,11 @@
   }
 
   &:hover {
-    border-color: var(--dch-primary, #1565c0);
-    box-shadow: 0 2px 8px rgba(21, 101, 192, 0.1);
+    border-color: #005696;
+    box-shadow: 0 2px 8px rgba(0, 86, 150, 0.12);
+
+    mat-icon {
+      color: #f18a21;
+    }
   }
 }

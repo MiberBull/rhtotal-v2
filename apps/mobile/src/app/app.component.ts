@@ -10,6 +10,11 @@ interface MenuItem {
   url: string;
 }
 
+interface MenuGroup {
+  label: string;
+  items: MenuItem[];
+}
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -17,19 +22,53 @@ interface MenuItem {
   standalone: false,
 })
 export class AppComponent implements OnInit {
-  menuItems: MenuItem[] = [
-    { title: 'Inicio', icon: 'home-outline', url: '/home' },
-    { title: 'Mi Perfil', icon: 'person-outline', url: '/my-data' },
-    { title: 'Mi Credencial', icon: 'card-outline', url: '/credential' },
-    { title: 'Mi CV', icon: 'document-attach-outline', url: '/my-cv' },
-    { title: 'Beneficios', icon: 'gift-outline', url: '/benefits' },
-    { title: 'RH', icon: 'briefcase-outline', url: '/rh' },
-    { title: 'Seguros', icon: 'shield-checkmark-outline', url: '/insurance' },
-    { title: 'Ayuda', icon: 'help-circle-outline', url: '/help' },
-    { title: 'Quienes somos', icon: 'information-circle-outline', url: '/about' },
-  ];
-
   userEmail = '';
+
+  menuGroups: MenuGroup[] = [
+    {
+      label: '',
+      items: [{ title: 'Inicio', icon: 'home-outline', url: '/home' }],
+    },
+    {
+      label: 'Mi espacio',
+      items: [
+        { title: 'Mi Información', icon: 'person-outline', url: '/my-data' },
+        { title: 'Mi Credencial', icon: 'card-outline', url: '/credential' },
+        { title: 'Mi CV', icon: 'document-attach-outline', url: '/my-cv' },
+      ],
+    },
+    {
+      label: 'Contenido',
+      items: [
+        { title: 'Comunicados', icon: 'megaphone-outline', url: '/comunicados' },
+        { title: 'Biblioteca', icon: 'library-outline', url: '/biblioteca' },
+        { title: 'Documentos', icon: 'folder-outline', url: '/documents' },
+      ],
+    },
+    {
+      label: 'Beneficios',
+      items: [
+        { title: 'Beneficios', icon: 'gift-outline', url: '/benefits' },
+        { title: 'Seguros', icon: 'shield-checkmark-outline', url: '/insurance' },
+      ],
+    },
+    {
+      label: 'RH',
+      items: [
+        { title: 'Vacaciones', icon: 'calendar-outline', url: '/vacaciones' },
+        { title: 'Mesa de Ayuda', icon: 'help-buoy-outline', url: '/tickets' },
+        { title: 'Encuestas', icon: 'bar-chart-outline', url: '/encuestas' },
+      ],
+    },
+    {
+      label: 'Más',
+      items: [
+        { title: 'Onboarding', icon: 'rocket-outline', url: '/onboarding' },
+        { title: 'REPSE', icon: 'document-lock-outline', url: '/repse' },
+        { title: 'Ayuda', icon: 'help-circle-outline', url: '/help' },
+      ],
+    },
+  ];
 
   constructor(
     private authService: AuthService,

@@ -3,7 +3,6 @@ package mx.com.axity.services.service;
 import mx.com.axity.model.NotificationRepositoryDO;
 
 import java.util.List;
-import java.util.Map;
 
 public interface IPushNotificationService {
     List<NotificationRepositoryDO> getAvailableNotifications();
@@ -12,7 +11,7 @@ public interface IPushNotificationService {
 
     List<String> getUserTokensByIdUserList(List<Long> idUsers);
 
-    Map<String,Object> createRequestToSendFireBase(String title, String msg, List<String> tokens);
+    boolean sendPushToTokens(String title, String body, List<String> tokens);
 
     void updateNotification(NotificationRepositoryDO currentNotification);
 
