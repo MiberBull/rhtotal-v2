@@ -33,11 +33,11 @@
     <ion-list>
       <ion-item *ngFor="let s of solicitudes">
         <ion-label>
-          <h2>{{ s.fechaInicio | date:'dd MMM' }} — {{ s.fechaFin | date:'dd MMM yyyy' }}</h2>
-          <p>{{ s.diasSolicitados }} día(s) · {{ s.motivo }}</p>
-          <p *ngIf="s.comentario" style="font-style: italic">{{ s.comentario }}</p>
+          <h2>{{ s.dtStartDate | date:'dd MMM' }} — {{ s.dtEndDate | date:'dd MMM yyyy' }}</h2>
+          <p>{{ s.nbDaysRequested }} día(s) · {{ s.dsNotes }}</p>
+          <p *ngIf="s.dsRejectionReason" style="font-style: italic">{{ s.dsRejectionReason }}</p>
         </ion-label>
-        <ion-badge slot="end" [color]="getColor(s.estatus)">{{ s.estatus }}</ion-badge>
+        <ion-badge slot="end" [color]="getColor(s.dsStatus)">{{ s.dsStatus }}</ion-badge>
       </ion-item>
     </ion-list>
   </ng-container>

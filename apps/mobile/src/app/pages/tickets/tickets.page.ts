@@ -4,15 +4,12 @@ import { ToastController } from '@ionic/angular';
 import { AuthService } from '../../core/services/auth.service';
 import { environment } from '../../../environments/environment';
 
-interface Ticket {
+interface TicketTO {
   idTicket: number;
-  asunto: string;
-  descripcion: string;
-  categoria: string;
-  estatus: 'ABIERTO' | 'EN_PROCESO' | 'CERRADO';
-  fechaCreacion: string;
-  fechaActualizacion?: string;
-  respuesta?: string;
+  dsSubject: string;
+  dsDescription: string;
+  dsCategory: string;
+  dsStatus: 'ABIERTO' | 'EN_PROGRESO' | 'RESUELTO' | 'CERRADO';
 }
 
 @Component({
@@ -22,16 +19,16 @@ interface Ticket {
 })
 export class TicketsPage implements OnInit {
   segmento: 'tickets' | 'nuevo' = 'tickets';
-  tickets: Ticket[] = [];
+  tickets: TicketTO[] = [];
   loading = false;
   enviando = false;
 
   categorias = ['IT', 'NOMINA', 'BENEFICIOS', 'REPSE', 'GENERAL'];
 
   form = {
-    categoria: '',
-    asunto: '',
-    descripcion: '',
+    dsCategory: '',
+    dsSubject: '',
+    dsDescription: '',
   };
 
   constructor(
@@ -48,7 +45,7 @@ export class TicketsPage implements OnInit {
     this.loading = true;
     const idEmpleado = this.authService.currentUser?.id;
     this.http
-      .get<Ticket[]>(`${environment.gatewayUrl}/api/hr/tickets/byEmpleado/${idEmpleado}`)
+      .get<TicketTO[]>(`${environment.gatewayUrl}/api/hr/ticket/employee/${idEmpleado}`)
       .subscribe({
         next: (data) => {
           this.tickets = data || [];
@@ -63,21 +60,21 @@ export class TicketsPage implements OnInit {
   }
 
   crearTicket(): void {
-    if (!this.form.categoria || !this.form.asunto || !this.form.descripcion) {
+    if (!this.form.dsCategory || !this.form.dsSubject || !this.form.dsDescription) {
       this.showToast('Completa todos los campos');
       return;
     }
     this.enviando = true;
     const payload = {
-      idEmpleado: this.authService.currentUser?.id,
-      categoria: this.form.categoria,
-      asunto: this.form.asunto,
-      descripcion: this.form.descripcion,
+      idEmployee: this.authService.currentUser?.id,
+      dsCategory: this.form.dsCategory,
+      dsSubject: this.form.dsSubject,
+      dsDescription: this.form.dsDescription,
     };
-    this.http.post(`${environment.gatewayUrl}/api/hr/tickets/crear`, payload).subscribe({
+    this.http.post(`${environment.gatewayUrl}/api/hr/ticket`, payload).subscribe({
       next: () => {
         this.enviando = false;
-        this.form = { categoria: '', asunto: '', descripcion: '' };
+        this.form = { dsCategory: '', dsSubject: '', dsDescription: '' };
         this.segmento = 'tickets';
         this.loadTickets();
         this.showToast('Ticket creado exitosamente');
@@ -91,8 +88,9 @@ export class TicketsPage implements OnInit {
 
   getColor(estatus: string): string {
     const map: Record<string, string> = {
+      RESUELTO: 'success',
       CERRADO: 'success',
-      EN_PROCESO: 'warning',
+      EN_PROGRESO: 'warning',
       ABIERTO: 'primary',
     };
     return map[estatus] || 'medium';

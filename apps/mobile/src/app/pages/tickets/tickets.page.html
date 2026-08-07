@@ -33,11 +33,10 @@
     <ion-list>
       <ion-item *ngFor="let t of tickets">
         <ion-label>
-          <h2>{{ t.asunto }}</h2>
-          <p>{{ t.categoria }} · {{ t.fechaCreacion | date:'dd MMM yyyy' }}</p>
-          <p *ngIf="t.respuesta" style="font-style: italic; color: #005696">{{ t.respuesta }}</p>
+          <h2>{{ t.dsSubject }}</h2>
+          <p>{{ t.dsCategory }}</p>
         </ion-label>
-        <ion-badge slot="end" [color]="getColor(t.estatus)">{{ t.estatus }}</ion-badge>
+        <ion-badge slot="end" [color]="getColor(t.dsStatus)">{{ t.dsStatus }}</ion-badge>
       </ion-item>
     </ion-list>
   </ng-container>
@@ -47,7 +46,7 @@
     <ion-list>
       <ion-item>
         <ion-label position="stacked">Categoría</ion-label>
-        <ion-select [(ngModel)]="form.categoria" placeholder="Selecciona categoría">
+        <ion-select [(ngModel)]="form.dsCategory" placeholder="Selecciona categoría">
           <ion-select-option *ngFor="let cat of categorias" [value]="cat"
             >{{ cat }}</ion-select-option
           >
@@ -56,14 +55,14 @@
       <ion-item>
         <ion-label position="stacked">Asunto</ion-label>
         <ion-input
-          [(ngModel)]="form.asunto"
+          [(ngModel)]="form.dsSubject"
           placeholder="Describe brevemente tu problema"
         ></ion-input>
       </ion-item>
       <ion-item>
         <ion-label position="stacked">Descripción</ion-label>
         <ion-textarea
-          [(ngModel)]="form.descripcion"
+          [(ngModel)]="form.dsDescription"
           rows="4"
           placeholder="Explica el detalle de tu solicitud"
         ></ion-textarea>

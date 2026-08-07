@@ -4,14 +4,14 @@ import { ToastController } from '@ionic/angular';
 import { AuthService } from '../../core/services/auth.service';
 import { environment } from '../../../environments/environment';
 
-interface SolicitudVacaciones {
-  idSolicitud: number;
-  fechaInicio: string;
-  fechaFin: string;
-  diasSolicitados: number;
-  motivo: string;
-  estatus: 'PENDIENTE' | 'APROBADA' | 'RECHAZADA';
-  comentario?: string;
+interface VacationRequestTO {
+  idRequest: number;
+  dtStartDate: string;
+  dtEndDate: string;
+  nbDaysRequested: number;
+  dsNotes: string;
+  dsStatus: 'PENDIENTE' | 'APROBADA' | 'RECHAZADA' | 'CANCELADA';
+  dsRejectionReason?: string;
 }
 
 @Component({
@@ -21,7 +21,7 @@ interface SolicitudVacaciones {
 })
 export class VacacionesPage implements OnInit {
   segmento: 'solicitudes' | 'nueva' = 'solicitudes';
-  solicitudes: SolicitudVacaciones[] = [];
+  solicitudes: VacationRequestTO[] = [];
   loading = false;
   enviando = false;
 
@@ -46,8 +46,8 @@ export class VacacionesPage implements OnInit {
     const idEmpleado = this.authService.currentUser?.id;
     this.http
       .get<
-        SolicitudVacaciones[]
-      >(`${environment.gatewayUrl}/api/hr/vacaciones/byEmpleado/${idEmpleado}`)
+        VacationRequestTO[]
+      >(`${environment.gatewayUrl}/api/hr/vacation/request/employee/${idEmpleado}`)
       .subscribe({
         next: (data) => {
           this.solicitudes = data || [];
@@ -68,12 +68,12 @@ export class VacacionesPage implements OnInit {
     }
     this.enviando = true;
     const payload = {
-      idEmpleado: this.authService.currentUser?.id,
-      fechaInicio: this.form.fechaInicio,
-      fechaFin: this.form.fechaFin,
-      motivo: this.form.motivo,
+      idEmployee: this.authService.currentUser?.id,
+      dtStartDate: this.form.fechaInicio,
+      dtEndDate: this.form.fechaFin,
+      dsNotes: this.form.motivo,
     };
-    this.http.post(`${environment.gatewayUrl}/api/hr/vacaciones/solicitar`, payload).subscribe({
+    this.http.post(`${environment.gatewayUrl}/api/hr/vacation/request`, payload).subscribe({
       next: () => {
         this.enviando = false;
         this.form = { fechaInicio: '', fechaFin: '', motivo: '' };
@@ -92,6 +92,7 @@ export class VacacionesPage implements OnInit {
     const map: Record<string, string> = {
       APROBADA: 'success',
       RECHAZADA: 'danger',
+      CANCELADA: 'danger',
       PENDIENTE: 'warning',
     };
     return map[estatus] || 'medium';
