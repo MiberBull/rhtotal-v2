@@ -9,7 +9,7 @@ import { catchError, map } from 'rxjs/operators';
 import { AuthService } from '../../core/auth/auth.service';
 import { environment } from '../../../environments/environment';
 
-interface MetricCard {
+interface KpiCard {
   icon: string;
   label: string;
   value: number | string;
@@ -38,7 +38,7 @@ export class DashboardComponent implements OnInit {
   loading = signal(true);
   currentUser = this.authService.currentUser;
 
-  metrics = signal<MetricCard[]>([
+  kpis = signal<KpiCard[]>([
     {
       icon: 'people',
       label: 'Colaboradores activos',
@@ -46,14 +46,6 @@ export class DashboardComponent implements OnInit {
       color: '#005696',
       bgColor: '#e3f0fa',
       route: '/colaboradores',
-    },
-    {
-      icon: 'beach_access',
-      label: 'Vacaciones pendientes',
-      value: '—',
-      color: '#F18A21',
-      bgColor: '#fff5e6',
-      route: '/vacaciones',
     },
     {
       icon: 'support_agent',
@@ -64,12 +56,20 @@ export class DashboardComponent implements OnInit {
       route: '/tickets',
     },
     {
-      icon: 'business',
-      label: 'Clientes activos',
+      icon: 'beach_access',
+      label: 'Vacaciones pendientes',
+      value: '—',
+      color: '#F18A21',
+      bgColor: '#fff5e6',
+      route: '/vacaciones',
+    },
+    {
+      icon: 'mark_email_unread',
+      label: 'Reportes buzon nuevos',
       value: '—',
       color: '#6a1b9a',
       bgColor: '#f3e5f5',
-      route: '/clients',
+      route: '/buzon',
     },
   ]);
 
@@ -81,37 +81,45 @@ export class DashboardComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    this.loadMetrics();
+    this.loadKpis();
   }
 
-  private loadMetrics(): void {
+  private loadKpis(): void {
     const gw = environment.gatewayUrl;
 
-    const headcount$ = this.http
-      .get<{ count: number }>(`${gw}/api/user/user/getNumberRow`)
-      .pipe(catchError(() => of(null)));
-
-    const vacaciones$ = this.http.get<any[]>(`${gw}/api/hr/vacation/request/pending`).pipe(
-      map((list) => ({ count: list?.length ?? 0 })),
-      catchError(() => of(null))
+    // 1. Headcount: GET /api/user/employee/list → array
+    const colaboradores$ = this.http.get<any[]>(`${gw}/api/user/employee/list`).pipe(
+      map((list) => (Array.isArray(list) ? list.length : ((list as any)?.count ?? 0))),
+      catchError(() => of(0))
     );
 
+    // 2. Tickets abiertos: GET /api/hr/ticket/status/ABIERTO → array
     const tickets$ = this.http.get<any[]>(`${gw}/api/hr/ticket/status/ABIERTO`).pipe(
-      map((list) => ({ count: list?.length ?? 0 })),
-      catchError(() => of(null))
+      map((list) => (Array.isArray(list) ? list.length : 0)),
+      catchError(() => of(0))
     );
 
-    const clientes$ = this.http
-      .get<{ count: number }>(`${gw}/api/application/client/getNumberRow`)
-      .pipe(catchError(() => of(null)));
+    // 3. Vacaciones pendientes: GET /api/hr/vacation/request/status/PENDIENTE → array
+    const vacaciones$ = this.http.get<any[]>(`${gw}/api/hr/vacation/request/status/PENDIENTE`).pipe(
+      map((list) => (Array.isArray(list) ? list.length : 0)),
+      catchError(() => of(0))
+    );
 
-    forkJoin([headcount$, vacaciones$, tickets$, clientes$]).subscribe(
-      ([headcount, vacaciones, tickets, clientes]) => {
-        this.metrics.update((cards) => [
-          { ...cards[0], value: headcount?.count ?? '—' },
-          { ...cards[1], value: vacaciones?.count ?? '—' },
-          { ...cards[2], value: tickets?.count ?? '—' },
-          { ...cards[3], value: clientes?.count ?? '—' },
+    // 4. Buzon nuevos: GET /api/hr/buzon/list → array, filtrar dsEstatus === 'NUEVO'
+    const buzon$ = this.http.get<any[]>(`${gw}/api/hr/buzon/list`).pipe(
+      map((list) =>
+        Array.isArray(list) ? list.filter((r) => r?.dsEstatus === 'NUEVO').length : 0
+      ),
+      catchError(() => of(0))
+    );
+
+    forkJoin([colaboradores$, tickets$, vacaciones$, buzon$]).subscribe(
+      ([colaboradores, tickets, vacaciones, buzonNuevos]) => {
+        this.kpis.update((cards) => [
+          { ...cards[0], value: colaboradores },
+          { ...cards[1], value: tickets },
+          { ...cards[2], value: vacaciones },
+          { ...cards[3], value: buzonNuevos },
         ]);
         this.loading.set(false);
       }
@@ -126,7 +134,7 @@ export class DashboardComponent implements OnInit {
 
   getGreeting(): string {
     const hour = new Date().getHours();
-    if (hour < 12) return 'Buenos días';
+    if (hour < 12) return 'Buenos dias';
     if (hour < 18) return 'Buenas tardes';
     return 'Buenas noches';
   }

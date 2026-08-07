@@ -19,15 +19,29 @@
   }
 }
 
-// ─── Metrics grid ────────────────────────────
-.metrics-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 20px;
+// ─── KPI section ────────────────────────────
+.kpi-section {
   margin-bottom: 40px;
 }
 
-.metric-card {
+.section-title {
+  margin: 0 0 16px;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1a1a2e;
+}
+
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.kpi-card {
   display: flex;
   align-items: center;
   gap: 16px;
@@ -35,60 +49,64 @@
   border-radius: 12px;
   padding: 24px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  text-decoration: none;
+  cursor: pointer;
   transition:
     box-shadow 0.2s ease,
     transform 0.15s ease;
-  text-decoration: none;
-  cursor: pointer;
 
-  .metric-arrow {
+  .kpi-arrow {
     margin-left: auto;
     color: #bdbdbd;
     font-size: 20px;
     width: 20px;
     height: 20px;
     transition: color 0.15s ease;
+    flex-shrink: 0;
   }
 
   &:hover {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     transform: translateY(-1px);
 
-    .metric-arrow {
+    .kpi-arrow {
       color: #757575;
     }
   }
 }
 
-.metric-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
+.kpi-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
 
   mat-icon {
-    font-size: 24px;
-    width: 24px;
-    height: 24px;
+    font-size: 26px;
+    width: 26px;
+    height: 26px;
   }
 }
 
-.metric-info {
+.kpi-body {
   display: flex;
   flex-direction: column;
+  gap: 2px;
 }
 
-.metric-value {
-  font-size: 1.5rem;
+.kpi-value {
+  font-size: 2rem;
   font-weight: 700;
-  color: #1a1a2e;
-  line-height: 1.2;
+  line-height: 1.1;
+  display: flex;
+  align-items: center;
+  min-height: 2rem;
 }
 
-.metric-label {
+.kpi-label {
   font-size: 0.8125rem;
   color: #9e9e9e;
   margin-top: 2px;
