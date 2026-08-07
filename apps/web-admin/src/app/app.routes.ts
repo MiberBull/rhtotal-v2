@@ -269,6 +269,17 @@ export const routes: Routes = [
             (m) => m.ComunicadoFormComponent
           ),
       },
+      // Aprobaciones de cambios de datos
+      {
+        path: 'approvals',
+        loadComponent: () =>
+          import('./pages/approvals/approvals.component').then((m) => m.ApprovalsComponent),
+      },
+      // Buzón Confidencial (M10)
+      {
+        path: 'buzon',
+        loadComponent: () => import('./pages/buzon/buzon.component').then((m) => m.BuzonComponent),
+      },
       // Multi-tenant admin
       {
         path: 'tenants',
