@@ -45,6 +45,10 @@ const ROLE_PERMISSIONS: Record<DchRole, string[]> = {
     'onboarding.write',
     'biblioteca',
     'biblioteca.write',
+    'buzon',
+    'buzon.write',
+    'comunicados',
+    'comunicados.write',
     // Admin
     'tenants',
     'tenants.write',
@@ -71,6 +75,10 @@ const ROLE_PERMISSIONS: Record<DchRole, string[]> = {
     'onboarding',
     'biblioteca',
     'biblioteca.write',
+    'buzon',
+    'buzon.write',
+    'comunicados',
+    'comunicados.write',
   ],
   DCH_VIEWER: ['dashboard', 'users', 'clients', 'documents'],
 };
@@ -96,6 +104,8 @@ const ROUTE_PERMISSION_MAP: Record<string, string> = {
   '/biblioteca': 'biblioteca',
   '/colaboradores': 'users',
   '/tenants': 'tenants',
+  '/buzon': 'buzon',
+  '/comunicados': 'comunicados',
 };
 
 @Injectable({ providedIn: 'root' })
