@@ -3,7 +3,6 @@ package mx.com.axity.services.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import mx.com.axity.commons.util.Constants;
 import mx.com.axity.model.NotificationAssignmentDO;
 import mx.com.axity.model.NotificationRepositoryDO;
 import mx.com.axity.model.TokenNotificationDO;
@@ -12,13 +11,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.List;
-import java.util.Map;
 
 public class PushNotificationServiceTest extends BaseTest {
     @Disabled
@@ -129,30 +125,27 @@ public class PushNotificationServiceTest extends BaseTest {
     }
 
     @Test
-    public void should_create_a_json_with_token_to_send() {
+    public void should_return_false_when_firebase_not_configured() {
 
         String title = "Notificacion";
         String msg = "Texto notificacion";
         List<String> tokens = new ArrayList<>();
         tokens.add("fyMP_8geqgo:APA91bFRADzJoQt1w1mXmeIbKMpsKKWjeEGU44nlHARCIXBpc-QCTEe7W4Gl32eJdTNy-8nWDA_8aFaalvZnYf7xlNKbCoBTiDfq6yoQZLw0boSuMR6gayway6GFcKLRMYfT38huubTI");
-        Map<String, Object> result = pushNotificationService.createRequestToSendFireBase(title, msg, tokens);
-        Assertions.assertNotNull(result);
+        // FirebaseMessaging is null in test context (no service account configured) — degraded mode returns false
+        boolean result = pushNotificationService.sendPushToTokens(title, msg, tokens);
+        Assertions.assertFalse(result);
     }
 
     @Test
-    @Disabled(value = "validacion ssl")
+    @Disabled(value = "requiere Firebase project configurado con service account real")
     public void should_response_ok_when_invoke_service() throws URISyntaxException {
 
         String title = "Notificacion";
         String msg = "Texto notificacion";
         var tokens = new ArrayList<String>();
         tokens.add("fyMP_8geqgo:APA91bFRADzJoQt1w1mXmeIbKMpsKKWjeEGU44nlHARCIXBpc-QCTEe7W4Gl32eJdTNy-8nWDA_8aFaalvZnYf7xlNKbCoBTiDfq6yoQZLw0boSuMR6gayway6GFcKLRMYfT38huubTI");
-
-        Map<String, Object> request = pushNotificationService.createRequestToSendFireBase(title, msg, tokens);
-
-        var result = restTemplateService.post(request.get(Constants.FIREBASE_REQUEST_URL).toString(), (ObjectNode) request.get(Constants.FIREBASE_REQUEST_BODY), (HttpHeaders) request.get(Constants.FIREBASE_REQUEST_HEADERS), ObjectNode.class);
-        Assertions.assertNotNull(result);
-        Assertions.assertEquals(HttpStatus.OK, result.getStatusCode());
+        boolean result = pushNotificationService.sendPushToTokens(title, msg, tokens);
+        Assertions.assertTrue(result);
     }
 
     @Test
