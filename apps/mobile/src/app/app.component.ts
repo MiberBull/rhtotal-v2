@@ -58,6 +58,7 @@ export class AppComponent implements OnInit {
         { title: 'Vacaciones', icon: 'calendar-outline', url: '/vacaciones' },
         { title: 'Mesa de Ayuda', icon: 'help-buoy-outline', url: '/tickets' },
         { title: 'Encuestas', icon: 'bar-chart-outline', url: '/encuestas' },
+        { title: 'Buzón Confidencial', icon: 'lock-closed-outline', url: '/buzon' },
       ],
     },
     {

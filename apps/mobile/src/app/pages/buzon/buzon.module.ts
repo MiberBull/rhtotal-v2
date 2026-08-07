@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
-import { BibliotecaPage } from './biblioteca.page';
+import { BuzonPage } from './buzon.page';
 
 @NgModule({
   imports: [
@@ -12,8 +12,8 @@ import { BibliotecaPage } from './biblioteca.page';
     FormsModule,
     HttpClientModule,
     IonicModule,
-    RouterModule.forChild([{ path: '', component: BibliotecaPage }]),
+    RouterModule.forChild([{ path: '', component: BuzonPage }]),
   ],
-  declarations: [BibliotecaPage],
+  declarations: [BuzonPage],
 })
-export class BibliotecaPageModule {}
+export class BuzonPageModule {}

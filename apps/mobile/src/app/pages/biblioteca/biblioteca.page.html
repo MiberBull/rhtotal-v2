@@ -1,12 +1,69 @@
-<ion-header
-  ><ion-toolbar color="primary"
-    ><ion-buttons slot="start"><ion-menu-button></ion-menu-button></ion-buttons
-    ><ion-title>Biblioteca</ion-title></ion-toolbar
-  ></ion-header
->
-<ion-content class="ion-padding"
-  ><div style="text-align: center; padding: 48px 16px; color: #999">
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start"><ion-menu-button></ion-menu-button></ion-buttons>
+    <ion-title>Biblioteca</ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar
+      placeholder="Buscar documento..."
+      (ionInput)="buscar($event)"
+      debounce="300"
+    ></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="loadDocumentos($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <!-- Filtro por categoría -->
+  <div
+    *ngIf="categorias.length > 0"
+    style="padding: 8px 12px; overflow-x: auto; white-space: nowrap"
+  >
+    <ion-chip
+      *ngFor="let cat of categorias"
+      [color]="categoriaSeleccionada === cat ? 'primary' : 'medium'"
+      (click)="filtrarCategoria(cat)"
+      style="cursor: pointer"
+    >
+      {{ cat }}
+    </ion-chip>
+  </div>
+
+  <!-- Cargando -->
+  <div *ngIf="loading" style="text-align: center; padding: 32px">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+
+  <!-- Estado vacío -->
+  <div
+    *ngIf="!loading && documentosFiltrados.length === 0"
+    style="text-align: center; padding: 48px 16px; color: #999"
+  >
     <ion-icon name="library-outline" style="font-size: 64px"></ion-icon>
-    <p>Módulo en desarrollo — Sprint 18</p>
-  </div></ion-content
->
+    <p>No se encontraron documentos</p>
+  </div>
+
+  <!-- Lista de documentos -->
+  <ion-list *ngIf="!loading && documentosFiltrados.length > 0">
+    <ion-item *ngFor="let doc of documentosFiltrados">
+      <ion-icon name="document-text-outline" slot="start" color="primary"></ion-icon>
+      <ion-label>
+        <h2>{{ doc.dsNombre }}</h2>
+        <p>{{ doc.dsCategoria }}</p>
+        <p *ngIf="doc.dtFecha" style="font-size: 11px; color: #aaa">{{ doc.dtFecha }}</p>
+      </ion-label>
+      <ion-button
+        slot="end"
+        fill="clear"
+        [disabled]="!doc.dsUrl"
+        (click)="descargar(doc.dsUrl)"
+        title="Descargar"
+      >
+        <ion-icon name="cloud-download-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>
