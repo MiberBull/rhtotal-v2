@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal, DestroyRef } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
@@ -10,17 +10,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import {
-  MatDialog,
-  MatDialogModule,
-  MatDialogRef,
-  MAT_DIALOG_DATA,
-} from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { environment } from '../../../environments/environment';
+import { AuthService } from '../../core/auth/auth.service';
 
 @Component({
   selector: 'app-reject-dialog',
@@ -75,7 +70,7 @@ export class VacacionesComponent implements OnInit {
   private http = inject(HttpClient);
   private snackBar = inject(MatSnackBar);
   private dialog = inject(MatDialog);
-  private destroyRef = inject(DestroyRef);
+  private authService = inject(AuthService);
 
   activeTab = signal<'PENDIENTE' | 'APROBADA' | 'RECHAZADA'>('PENDIENTE');
   requests = signal<any[]>([]);
@@ -104,9 +99,10 @@ export class VacacionesComponent implements OnInit {
   }
 
   approve(request: any): void {
+    const approvedBy = this.authService.currentUser()?.email ?? 'sistema';
     this.http
       .put(`${environment.gatewayUrl}/api/hr/vacation/request/${request.idRequest}/approve`, null, {
-        params: { approvedBy: 'sistema' },
+        params: { approvedBy },
       })
       .subscribe({
         next: () => {
@@ -127,6 +123,7 @@ export class VacacionesComponent implements OnInit {
   }
 
   reject(request: any): void {
+    const approvedBy = this.authService.currentUser()?.email ?? 'sistema';
     const ref = this.dialog.open(RejectDialogComponent, { width: '400px' });
     ref.afterClosed().subscribe((comment) => {
       if (comment === undefined) return;
@@ -135,7 +132,7 @@ export class VacacionesComponent implements OnInit {
           `${environment.gatewayUrl}/api/hr/vacation/request/${request.idRequest}/reject`,
           null,
           {
-            params: { approvedBy: 'sistema', reason: comment || 'Sin comentario' },
+            params: { approvedBy, reason: comment || 'Sin comentario' },
           }
         )
         .subscribe({
