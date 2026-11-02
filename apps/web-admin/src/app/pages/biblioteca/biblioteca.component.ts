@@ -122,7 +122,7 @@ export class BibliotecaComponent implements OnInit {
   }
 
   get tenantId(): string {
-    return 'demo';
+    return this.authService.tenantId();
   }
 
   loadAll(): void {

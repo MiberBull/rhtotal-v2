@@ -29,7 +29,7 @@ export class CredentialPage implements OnInit {
     email: '',
     rfc: '',
     employeeId: '',
-    company: 'DCH Know Who',
+    company: 'DCH Total',
     photoUrl: '',
   };
 
@@ -76,7 +76,7 @@ export class CredentialPage implements OnInit {
           email: data.email || this.authService.currentUser?.email || '',
           rfc: data.rfc || '',
           employeeId: data.employeeNumber || String(userId),
-          company: data.companyName || 'DCH Know Who',
+          company: data.companyName || 'DCH Total',
           photoUrl: data.photoUrl || '',
         };
         this.generateQr();

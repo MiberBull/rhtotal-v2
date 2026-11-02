@@ -1,0 +1,4253 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Propuesta Comercial — DCH Total · board-ai.mx</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --blue: #005696;
+        --blue-dark: #003d6b;
+        --blue-light: #e8f2fb;
+        --orange: #f18a21;
+        --orange-light: #fef3e2;
+        --bg: #f5f7fa;
+        --card: #ffffff;
+        --text: #1a1a2e;
+        --muted: #64748b;
+        --border: #e2e8f0;
+        --green: #059669;
+        --green-bg: rgba(5, 150, 105, 0.1);
+        --purple: #7c3aed;
+        --purple-bg: rgba(124, 58, 237, 0.1);
+        --r: 12px;
+        --shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 8px 24px rgba(0, 86, 150, 0.08);
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: 'Inter', system-ui, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+        font-size: 15px;
+        -webkit-font-smoothing: antialiased;
+      }
+      a {
+        color: var(--blue);
+        text-decoration: none;
+      }
+
+      /* ── PRINT ── */
+      @media print {
+        /* Base */
+        * {
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+        }
+        body {
+          background: #fff !important;
+          font-size: 12.5px;
+          orphans: 3;
+          widows: 3;
+        }
+        html {
+          font-size: 14px;
+        }
+        .no-print {
+          display: none !important;
+        }
+        a {
+          color: inherit !important;
+          text-decoration: none !important;
+        }
+
+        /* Page setup */
+        @page {
+          size: A4;
+          margin: 0;
+        }
+
+        /* Avoid page breaks inside any card/block */
+        .card,
+        .exec-card,
+        .module-card,
+        .pricing-card,
+        .sla-card,
+        .phase-card,
+        .kpi,
+        .step,
+        .arch-node,
+        .gantt-row,
+        .sig-box,
+        .meta-item,
+        .wa-metric,
+        .phone,
+        .web-admin,
+        blockquote,
+        table tr,
+        thead {
+          page-break-inside: avoid;
+          break-inside: avoid;
+        }
+
+        /* Force page breaks at logical section boundaries */
+        .hero {
+          page-break-after: always;
+          break-after: page;
+          min-height: 0;
+        }
+        #platform {
+          page-break-before: always;
+          break-before: page;
+        }
+        #arch {
+          page-break-before: always;
+          break-before: page;
+        }
+        #modules {
+          page-break-before: always;
+          break-before: page;
+        }
+        #timeline {
+          page-break-before: always;
+          break-before: page;
+        }
+        #pricing {
+          page-break-before: always;
+          break-before: page;
+        }
+        #sla {
+          page-break-before: always;
+          break-before: page;
+        }
+        #signature {
+          page-break-before: always;
+          break-before: page;
+        }
+
+        /* Hero on cover: fix height */
+        .hero {
+          min-height: 100vh;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+        }
+        .hero-body {
+          flex: 1;
+          padding: 2rem 2.5rem;
+        }
+        .hero-top,
+        .hero-bottom {
+          padding: 1.2rem 2.5rem;
+        }
+
+        /* ─── LAYOUT GLOBAL ─────────────────────────────────── */
+        section {
+          padding: 1.5rem 0 !important;
+        }
+        .wrap {
+          padding: 0 1.4rem;
+        }
+        .section-header {
+          margin-bottom: 1rem !important;
+        }
+        .section-header h2 {
+          font-size: 1.3rem !important;
+        }
+        .section-header p {
+          font-size: 0.79rem !important;
+        }
+        .section-tag {
+          font-size: 0.63rem !important;
+          padding: 0.18rem 0.65rem !important;
+        }
+
+        /* ─── PÁG 2 · EXEC SUMMARY ──────────────────────────── */
+        .exec-grid {
+          grid-template-columns: 1fr 1fr;
+          gap: 0.9rem;
+        }
+        .exec-card {
+          padding: 1rem 1.2rem !important;
+        }
+        .exec-val {
+          font-size: 1.8rem !important;
+        }
+        .exec-list li {
+          font-size: 0.76rem !important;
+          padding: 0.18rem 0 !important;
+        }
+        .exec-note {
+          font-size: 0.7rem !important;
+        }
+
+        /* ─── PÁG 3 · PLATAFORMA / MOCKUPS ─────────────────── */
+        #platform,
+        .mockups-section {
+          padding: 1.3rem 0 !important;
+        }
+        .mockup-wrap {
+          grid-template-columns: 1.6fr 1fr;
+          gap: 0.9rem;
+          align-items: start;
+        }
+        .mockup-label {
+          font-size: 0.6rem !important;
+          margin-bottom: 0.35rem !important;
+        }
+        .wa-topbar {
+          background: var(--blue) !important;
+          padding: 0.45rem 0.7rem !important;
+        }
+        .wa-logo {
+          font-size: 0.72rem !important;
+        }
+        .wa-sidebar {
+          background: #003d6b !important;
+          width: 40px !important;
+          padding: 0.45rem 0.3rem !important;
+          gap: 0.3rem !important;
+        }
+        .wa-nav-icon {
+          width: 24px !important;
+          height: 24px !important;
+          font-size: 0.7rem !important;
+        }
+        .wa-main {
+          padding: 0.55rem !important;
+        }
+        .wa-tenant {
+          font-size: 0.5rem !important;
+          padding: 0.15rem 0.38rem !important;
+          margin-bottom: 0.45rem !important;
+        }
+        .wa-greeting {
+          font-size: 0.62rem !important;
+          margin-bottom: 0.45rem !important;
+        }
+        .wa-metrics {
+          gap: 0.28rem !important;
+          margin-bottom: 0.45rem !important;
+        }
+        .wa-metric {
+          padding: 0.38rem 0.45rem !important;
+        }
+        .wa-metric-ico {
+          width: 20px !important;
+          height: 20px !important;
+          font-size: 0.65rem !important;
+        }
+        .wa-metric-val {
+          font-size: 0.82rem !important;
+        }
+        .wa-metric-lab {
+          font-size: 0.5rem !important;
+        }
+        .wa-quick-label {
+          font-size: 0.55rem !important;
+          margin-bottom: 0.3rem !important;
+        }
+        .wa-quick {
+          gap: 0.28rem !important;
+        }
+        .wa-qbtn {
+          padding: 0.3rem 0.25rem !important;
+          font-size: 0.48rem !important;
+        }
+        .wa-qbtn span {
+          font-size: 0.8rem !important;
+        }
+        .mobile-stack {
+          flex-direction: row !important;
+          justify-content: center !important;
+          gap: 0.65rem !important;
+        }
+        .phone {
+          width: 130px !important;
+          border-width: 2px !important;
+        }
+        .phone-notch {
+          height: 14px !important;
+        }
+        .notch-bar {
+          width: 44px !important;
+          height: 5px !important;
+        }
+        .phone-login {
+          padding: 0.9rem 0.7rem !important;
+          gap: 0.45rem !important;
+        }
+        .phone-logo-big {
+          font-size: 1.2rem !important;
+        }
+        .phone-tagline {
+          font-size: 0.5rem !important;
+        }
+        .phone-field,
+        .phone-btn {
+          font-size: 0.55rem !important;
+          padding: 0.32rem 0.5rem !important;
+          border-radius: 5px !important;
+        }
+        .phone-footer {
+          font-size: 0.42rem !important;
+        }
+        .phone-home {
+          padding: 0.5rem !important;
+        }
+        .phone-topbar-home {
+          margin-bottom: 0.45rem !important;
+        }
+        .phone-user {
+          font-size: 0.52rem !important;
+        }
+        .phone-user span {
+          font-size: 0.44rem !important;
+        }
+        .phone-avatar {
+          width: 18px !important;
+          height: 18px !important;
+          font-size: 0.44rem !important;
+        }
+        .phone-banner {
+          border-radius: 6px !important;
+          padding: 0.5rem !important;
+          margin-bottom: 0.4rem !important;
+        }
+        .phone-banner-txt {
+          font-size: 0.5rem !important;
+        }
+        .phone-banner-sub {
+          font-size: 0.44rem !important;
+        }
+        .phone-grid {
+          gap: 0.3rem !important;
+        }
+        .phone-module {
+          border-radius: 5px !important;
+          padding: 0.32rem !important;
+        }
+        .phone-module-ico {
+          font-size: 0.85rem !important;
+        }
+        .phone-module-txt {
+          font-size: 0.41rem !important;
+        }
+        .feat-grid {
+          grid-template-columns: 1fr 1fr 1fr 1fr;
+          gap: 0.55rem;
+          margin-top: 1rem !important;
+          page-break-inside: avoid !important;
+          break-inside: avoid !important;
+        }
+        .feat-card {
+          padding: 0.75rem !important;
+          page-break-inside: avoid !important;
+          break-inside: avoid !important;
+        }
+        .feat-card--orange {
+          background: var(--orange-light) !important;
+          border-color: var(--orange) !important;
+        }
+        .feat-icon {
+          font-size: 1.3rem !important;
+          margin-bottom: 0.25rem !important;
+        }
+        .feat-title {
+          font-size: 0.72rem !important;
+        }
+        .feat-desc {
+          font-size: 0.62rem !important;
+        }
+
+        /* ─── PÁG 4 · ARQUITECTURA ─────────────────────────── */
+        .arch-section {
+          background: var(--blue) !important;
+          color: #fff !important;
+          padding: 1.5rem 0 !important;
+        }
+        .arch-section .section-header {
+          margin-bottom: 0.8rem !important;
+        }
+        .arch-tier {
+          padding: 0.38rem 0 !important;
+        }
+        .arch-node {
+          padding: 0.45rem 0.7rem !important;
+          min-width: 90px !important;
+        }
+        .arch-node.gateway {
+          min-width: 170px !important;
+        }
+        .arch-node.primary {
+          background: rgba(241, 138, 33, 0.2) !important;
+        }
+        .arch-node.db {
+          background: rgba(5, 150, 105, 0.2) !important;
+        }
+        .arch-node.gateway {
+          background: rgba(255, 255, 255, 0.15) !important;
+        }
+        .arch-section .arch-node {
+          background: rgba(255, 255, 255, 0.1) !important;
+          border: 1px solid rgba(255, 255, 255, 0.22) !important;
+        }
+        .arch-node-icon {
+          font-size: 0.95rem !important;
+          margin-bottom: 0.15rem !important;
+        }
+        .arch-node-title {
+          font-size: 0.68rem !important;
+        }
+        .arch-node-port {
+          font-size: 0.55rem !important;
+        }
+        .arch-node-tag {
+          font-size: 0.5rem !important;
+          padding: 0.06rem 0.3rem !important;
+        }
+        .arch-arrow {
+          font-size: 0.85rem !important;
+          padding: 0.03rem 0 !important;
+        }
+        .arch-services-row {
+          gap: 0.45rem !important;
+        }
+        .arch-legend {
+          margin-top: 0.9rem !important;
+          gap: 1rem !important;
+        }
+        .arch-legend-item {
+          font-size: 0.65rem !important;
+        }
+        .stack-grid {
+          grid-template-columns: 1fr 1fr 1fr;
+          gap: 0.7rem;
+          margin-top: 1.1rem !important;
+          page-break-inside: avoid !important;
+          break-inside: avoid !important;
+        }
+        .stack-card {
+          padding: 0.8rem !important;
+          page-break-inside: avoid !important;
+          break-inside: avoid !important;
+          background: rgba(255, 255, 255, 0.1) !important;
+          border-color: rgba(255, 255, 255, 0.2) !important;
+        }
+        .stack-label {
+          font-size: 0.62rem !important;
+          margin-bottom: 0.45rem !important;
+        }
+        .stack-items {
+          font-size: 0.7rem !important;
+          line-height: 1.65 !important;
+        }
+
+        /* ─── PÁG 5 · MÓDULOS ──────────────────────────────── */
+        #modules {
+          padding: 1.5rem 0 !important;
+        }
+        .modules-grid {
+          grid-template-columns: 1fr 1fr 1fr;
+          gap: 0.7rem !important;
+        }
+        .module-card {
+          padding: 0.85rem !important;
+        }
+        .module-card.value-add {
+          background: var(--orange-light) !important;
+          border-color: var(--orange) !important;
+        }
+        .module-icon {
+          font-size: 1.25rem !important;
+          margin-bottom: 0.25rem !important;
+        }
+        .module-title {
+          font-size: 0.77rem !important;
+        }
+        .module-desc {
+          font-size: 0.68rem !important;
+        }
+        .module-tag {
+          font-size: 0.58rem !important;
+          padding: 0.13rem 0.45rem !important;
+        }
+
+        /* ─── PÁG 6 · COMPARATIVA ──────────────────────────── */
+        .comp-table th {
+          font-size: 0.66rem !important;
+          padding: 0.5rem 0.7rem !important;
+        }
+        .comp-table td {
+          padding: 0.42rem 0.7rem !important;
+          font-size: 0.73rem !important;
+        }
+        .comp-table,
+        .sla-table {
+          page-break-inside: auto;
+          break-inside: auto;
+        }
+        .comp-table tr,
+        .sla-table tr {
+          page-break-inside: avoid;
+          break-inside: avoid;
+        }
+        .comp-table tr.bonus-row {
+          background: var(--orange-light) !important;
+        }
+        .comp-table tr.bonus-row td:first-child {
+          color: var(--orange) !important;
+        }
+
+        /* ─── PÁG 7 · CRONOGRAMA ───────────────────────────── */
+        #timeline {
+          padding: 1.5rem 0 !important;
+        }
+        .gantt {
+          page-break-inside: avoid;
+          break-inside: avoid;
+        }
+        .gantt-header div {
+          padding: 0.45rem 0.55rem !important;
+          font-size: 0.63rem !important;
+        }
+        .gantt-label {
+          padding: 0.45rem 0.55rem !important;
+          font-size: 0.7rem !important;
+        }
+        .gantt-cell {
+          padding: 0.25rem 0.22rem !important;
+        }
+        .timeline-bar {
+          height: 16px !important;
+          font-size: 0.52rem !important;
+          border-radius: 5px !important;
+        }
+        .phases-grid {
+          grid-template-columns: 1fr 1fr 1fr;
+          gap: 0.7rem !important;
+          margin-top: 1.1rem !important;
+        }
+        .phase-card {
+          padding: 0.9rem !important;
+        }
+        .phase-num {
+          font-size: 2.8rem !important;
+          top: -0.5rem !important;
+        }
+        .phase-title {
+          font-size: 0.68rem !important;
+          margin-bottom: 0.18rem !important;
+        }
+        .phase-period {
+          font-size: 0.82rem !important;
+          margin-bottom: 0.45rem !important;
+        }
+        .phase-amount {
+          font-size: 1.4rem !important;
+          margin-bottom: 0.45rem !important;
+        }
+        .phase-items li {
+          font-size: 0.7rem !important;
+          padding: 0.16rem 0 !important;
+        }
+        .phase-card.p1 {
+          background: var(--blue) !important;
+          color: #fff !important;
+        }
+        .phase-card.p2 {
+          background: var(--orange) !important;
+          color: #fff !important;
+        }
+        .phase-card.p3 {
+          background: var(--green) !important;
+          color: #fff !important;
+        }
+
+        /* ─── PÁG 8 · INVERSIÓN ────────────────────────────── */
+        #pricing {
+          padding: 1.5rem 0 !important;
+        }
+        .pricing-grid {
+          grid-template-columns: 1fr 1fr 1fr;
+          gap: 0.8rem !important;
+          margin-bottom: 0.9rem !important;
+        }
+        .pricing-card {
+          padding: 1.1rem !important;
+        }
+        .pricing-name {
+          font-size: 0.68rem !important;
+          margin-bottom: 0.3rem !important;
+        }
+        .pricing-price {
+          font-size: 1.65rem !important;
+        }
+        .pricing-period {
+          font-size: 0.68rem !important;
+          margin-bottom: 0.75rem !important;
+        }
+        .pricing-items li {
+          font-size: 0.72rem !important;
+          padding: 0.27rem 0 !important;
+        }
+        .pricing-total-box {
+          background: var(--blue) !important;
+          color: #fff !important;
+          padding: 1rem 1.4rem !important;
+          gap: 1rem !important;
+          flex-wrap: nowrap !important;
+        }
+        .pt-amount {
+          font-size: 1.8rem !important;
+        }
+        .pt-main {
+          font-size: 0.8rem !important;
+        }
+        .pt-label {
+          font-size: 0.78rem !important;
+        }
+        .pt-rec-val {
+          font-size: 1.25rem !important;
+        }
+        .pt-rec-label {
+          font-size: 0.75rem !important;
+        }
+
+        /* ─── PÁG 9 · SOPORTE SLA ──────────────────────────── */
+        #sla {
+          padding: 1.5rem 0 !important;
+        }
+        .sla-grid {
+          grid-template-columns: 1fr 1fr;
+          gap: 0.9rem !important;
+        }
+        .sla-card {
+          padding: 0.95rem !important;
+        }
+        .sla-card h3 {
+          font-size: 0.8rem !important;
+          margin-bottom: 0.6rem !important;
+        }
+        .sla-table td,
+        .sla-table th {
+          padding: 0.32rem 0.48rem !important;
+          font-size: 0.72rem !important;
+        }
+
+        /* ─── PÁG 11 · FIRMA ───────────────────────────────── */
+        #signature {
+          padding: 1.3rem 0 !important;
+        }
+        .sig-intro {
+          padding: 0.8rem 1rem !important;
+          margin-bottom: 1.1rem !important;
+        }
+        .sig-intro p {
+          font-size: 0.78rem !important;
+          line-height: 1.45 !important;
+        }
+        .sig-grid {
+          grid-template-columns: 1fr 1fr;
+          gap: 1.2rem !important;
+        }
+        .sig-box {
+          padding: 0.95rem !important;
+        }
+        .sig-box h3 {
+          font-size: 0.76rem !important;
+          margin-bottom: 0.8rem !important;
+        }
+        .sig-label {
+          font-size: 0.62rem !important;
+          margin-bottom: 0.18rem !important;
+        }
+        .sig-row {
+          margin-bottom: 0.75rem !important;
+        }
+        .sig-line {
+          height: 20px !important;
+        }
+        .sig-footer {
+          font-size: 0.66rem !important;
+          margin-top: 1rem !important;
+        }
+
+        /* ─── COLORES GLOBALES ──────────────────────────────── */
+        .exec-card.blue {
+          background: var(--blue) !important;
+          color: #fff !important;
+        }
+        .exec-card.orange {
+          background: var(--orange) !important;
+          color: #fff !important;
+        }
+        .timeline-bar.blue {
+          background: var(--blue) !important;
+        }
+        .timeline-bar.orange {
+          background: var(--orange) !important;
+        }
+        .timeline-bar.green {
+          background: var(--green) !important;
+        }
+        .timeline-bar.purple {
+          background: var(--purple) !important;
+        }
+        .step-num {
+          background: var(--blue) !important;
+          box-shadow: 0 0 0 5px var(--blue-light) !important;
+        }
+        .phone-login {
+          background: linear-gradient(160deg, var(--blue) 0%, var(--blue-dark) 100%) !important;
+        }
+        .phone-banner {
+          background: linear-gradient(135deg, var(--blue) 0%, #0070c0 100%) !important;
+        }
+        .phone-btn {
+          background: var(--orange) !important;
+        }
+        .hero-kpis .kpi {
+          background: rgba(255, 255, 255, 0.1) !important;
+          border-color: rgba(255, 255, 255, 0.2) !important;
+        }
+        section[style*='background:var(--blue)'] {
+          background: var(--blue) !important;
+        }
+        .pricing-total-box {
+          background: var(--blue) !important;
+          color: #fff !important;
+        }
+
+        /* ─── ORPHANS / WIDOWS ──────────────────────────────── */
+        p,
+        li,
+        td,
+        th {
+          orphans: 3;
+          widows: 3;
+        }
+        h1,
+        h2,
+        h3,
+        h4 {
+          page-break-after: avoid;
+          break-after: avoid;
+          orphans: 4;
+          widows: 4;
+        }
+
+        /* ─── SOMBRAS ───────────────────────────────────────── */
+        * {
+          box-shadow: none !important;
+          text-shadow: none !important;
+        }
+        .card,
+        .exec-card.white,
+        .module-card,
+        .pricing-card,
+        .sla-card,
+        .web-admin,
+        .phone {
+          box-shadow: 0 0 0 1px #e2e8f0 !important;
+        }
+
+        /* ─── TOC ───────────────────────────────────────────── */
+        .toc {
+          display: none !important;
+        }
+
+        /* ─── FOOTER ────────────────────────────────────────── */
+        .footer {
+          background: var(--blue-dark) !important;
+          padding: 0.8rem 1.4rem !important;
+        }
+      }
+
+      /* ── COVER / HERO ── */
+      .hero {
+        background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue) 60%, #0070c0 100%);
+        color: #fff;
+        padding: 0;
+        position: relative;
+        overflow: hidden;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .hero-deco {
+        position: absolute;
+        top: -80px;
+        right: -80px;
+        width: 480px;
+        height: 480px;
+        border-radius: 50%;
+        background: rgba(241, 138, 33, 0.12);
+        pointer-events: none;
+      }
+      .hero-deco2 {
+        position: absolute;
+        bottom: -120px;
+        left: -60px;
+        width: 320px;
+        height: 320px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.05);
+        pointer-events: none;
+      }
+      .hero-top {
+        padding: 2.5rem 3rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .brand-logo {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+      .logo-inf {
+        font-size: 2.2rem;
+        font-weight: 900;
+        letter-spacing: -2px;
+        background: linear-gradient(90deg, var(--blue-light) 50%, var(--orange) 50%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .brand-name {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #fff;
+        letter-spacing: 0.02em;
+      }
+      .brand-sub {
+        font-size: 0.75rem;
+        color: rgba(255, 255, 255, 0.6);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .badge-boardai {
+        background: rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        border-radius: 20px;
+        padding: 0.35rem 1rem;
+        font-size: 0.78rem;
+        color: rgba(255, 255, 255, 0.85);
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+      }
+      .dot-boardai {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--orange);
+        flex-shrink: 0;
+      }
+
+      .hero-body {
+        padding: 3rem 3rem 2rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .hero-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: rgba(241, 138, 33, 0.2);
+        border: 1px solid rgba(241, 138, 33, 0.4);
+        border-radius: 20px;
+        padding: 0.3rem 0.9rem;
+        font-size: 0.78rem;
+        color: var(--orange);
+        margin-bottom: 1.5rem;
+        width: fit-content;
+      }
+      .hero h1 {
+        font-size: clamp(2.4rem, 5vw, 3.8rem);
+        font-weight: 900;
+        line-height: 1.05;
+        letter-spacing: -0.03em;
+        margin-bottom: 1rem;
+        color: #fff;
+      }
+      .hero h1 span {
+        color: var(--orange);
+      }
+      .hero-tagline {
+        font-size: 1.15rem;
+        color: rgba(255, 255, 255, 0.75);
+        margin-bottom: 2.5rem;
+        max-width: 560px;
+        font-weight: 400;
+      }
+
+      .hero-kpis {
+        display: flex;
+        gap: 2rem;
+        flex-wrap: wrap;
+        margin-bottom: 3rem;
+      }
+      .kpi {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: var(--r);
+        padding: 1.25rem 1.75rem;
+        min-width: 140px;
+      }
+      .kpi-val {
+        font-size: 1.9rem;
+        font-weight: 900;
+        color: #fff;
+        letter-spacing: -0.03em;
+      }
+      .kpi-val span {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--orange);
+      }
+      .kpi-lab {
+        font-size: 0.78rem;
+        color: rgba(255, 255, 255, 0.6);
+        margin-top: 0.2rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+
+      .hero-meta {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 1rem;
+        margin-top: auto;
+      }
+      .meta-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+      }
+      .meta-lab {
+        font-size: 0.7rem;
+        color: rgba(255, 255, 255, 0.45);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+      .meta-val {
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.9);
+        font-weight: 500;
+      }
+
+      .hero-bottom {
+        background: rgba(0, 0, 0, 0.2);
+        padding: 1rem 3rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .hero-bottom-txt {
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.5);
+      }
+      .validity-chip {
+        background: rgba(241, 138, 33, 0.25);
+        border: 1px solid rgba(241, 138, 33, 0.5);
+        border-radius: 20px;
+        padding: 0.3rem 0.9rem;
+        font-size: 0.8rem;
+        color: var(--orange);
+        font-weight: 600;
+      }
+
+      /* ── SECTIONS ── */
+      .wrap {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 0 2rem;
+      }
+      section {
+        padding: 4rem 0;
+      }
+      .section-header {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+      .section-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        background: var(--blue-light);
+        border-radius: 20px;
+        padding: 0.3rem 0.9rem;
+        font-size: 0.75rem;
+        color: var(--blue);
+        font-weight: 600;
+        margin-bottom: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+      .section-header h2 {
+        font-size: clamp(1.6rem, 3vw, 2.2rem);
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        color: var(--text);
+      }
+      .section-header p {
+        color: var(--muted);
+        margin-top: 0.5rem;
+        max-width: 560px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      /* ── CARDS ── */
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--r);
+        box-shadow: var(--shadow);
+      }
+
+      /* ── EXEC SUMMARY ── */
+      .exec-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+      }
+      .exec-card {
+        padding: 1.75rem 2rem;
+        border-radius: var(--r);
+      }
+      .exec-card.blue {
+        background: var(--blue);
+        color: #fff;
+      }
+      .exec-card.orange {
+        background: var(--orange);
+        color: #fff;
+      }
+      .exec-card.white {
+        background: var(--card);
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+      }
+      .exec-card h3 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        opacity: 0.9;
+      }
+      .exec-val {
+        font-size: 2.4rem;
+        font-weight: 900;
+        letter-spacing: -0.03em;
+        line-height: 1;
+      }
+      .exec-val sup {
+        font-size: 1rem;
+        vertical-align: super;
+        letter-spacing: 0;
+        opacity: 0.8;
+      }
+      .exec-val span {
+        font-size: 1rem;
+        font-weight: 500;
+        opacity: 0.8;
+      }
+      .exec-note {
+        font-size: 0.8rem;
+        margin-top: 0.5rem;
+        opacity: 0.7;
+      }
+      .exec-list {
+        list-style: none;
+        margin-top: 0.75rem;
+      }
+      .exec-list li {
+        font-size: 0.88rem;
+        padding: 0.3rem 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        display: flex;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+      .exec-list li:last-child {
+        border-bottom: none;
+      }
+      .exec-list li::before {
+        content: '✓';
+        color: var(--green);
+        font-weight: 700;
+        flex-shrink: 0;
+        margin-top: 0.05rem;
+      }
+      .exec-full {
+        grid-column: 1/-1;
+      }
+
+      /* ── MOCKUPS ── */
+      .mockups-section {
+        background: linear-gradient(180deg, #fff 0%, var(--bg) 100%);
+        padding: 5rem 0;
+      }
+      .mockup-wrap {
+        display: grid;
+        grid-template-columns: 1.6fr 1fr;
+        gap: 2rem;
+        align-items: start;
+      }
+      .mockup-label {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: 0.75rem;
+      }
+
+      /* Web Admin Mockup */
+      .web-admin {
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow:
+          0 4px 6px rgba(0, 0, 0, 0.05),
+          0 20px 60px rgba(0, 86, 150, 0.2);
+        border: 1px solid var(--border);
+      }
+      .wa-topbar {
+        background: var(--blue);
+        padding: 0.7rem 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+      .wa-logo {
+        font-size: 0.85rem;
+        font-weight: 800;
+        color: #fff;
+        letter-spacing: -0.01em;
+      }
+      .wa-logo span {
+        color: var(--orange);
+      }
+      .wa-dots {
+        display: flex;
+        gap: 0.35rem;
+        margin-left: auto;
+      }
+      .wa-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.3);
+      }
+      .wa-dot.green {
+        background: #34d399;
+      }
+      .wa-body {
+        display: flex;
+      }
+      .wa-sidebar {
+        width: 52px;
+        background: #003d6b;
+        padding: 0.75rem 0.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: center;
+      }
+      .wa-nav-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.85rem;
+        cursor: pointer;
+        color: rgba(255, 255, 255, 0.5);
+      }
+      .wa-nav-icon.active {
+        background: rgba(241, 138, 33, 0.25);
+        color: var(--orange);
+      }
+      .wa-main {
+        flex: 1;
+        padding: 1rem;
+        background: #f8fafc;
+      }
+      .wa-greeting {
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--text);
+        margin-bottom: 0.75rem;
+      }
+      .wa-greeting span {
+        color: var(--blue);
+      }
+      .wa-metrics {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
+        margin-bottom: 0.75rem;
+      }
+      .wa-metric {
+        background: #fff;
+        border-radius: 8px;
+        padding: 0.6rem 0.75rem;
+        border: 1px solid #e8effa;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .wa-metric-ico {
+        width: 28px;
+        height: 28px;
+        border-radius: 7px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.85rem;
+        flex-shrink: 0;
+      }
+      .wa-metric-val {
+        font-size: 1rem;
+        font-weight: 800;
+        color: var(--text);
+        line-height: 1;
+      }
+      .wa-metric-lab {
+        font-size: 0.6rem;
+        color: var(--muted);
+        margin-top: 0.1rem;
+      }
+      .wa-quick-label {
+        font-size: 0.62rem;
+        font-weight: 600;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin-bottom: 0.4rem;
+      }
+      .wa-quick {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 0.4rem;
+      }
+      .wa-qbtn {
+        background: #fff;
+        border-radius: 7px;
+        padding: 0.5rem 0.4rem;
+        text-align: center;
+        border: 1px solid #e8effa;
+        font-size: 0.58rem;
+        color: var(--blue);
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .wa-qbtn span {
+        display: block;
+        font-size: 1rem;
+        margin-bottom: 0.15rem;
+      }
+      .wa-tenant {
+        background: var(--orange-light);
+        border-radius: 6px;
+        padding: 0.3rem 0.5rem;
+        font-size: 0.6rem;
+        color: var(--orange);
+        font-weight: 600;
+        margin-bottom: 0.75rem;
+        display: inline-block;
+      }
+
+      /* Mobile Mockup */
+      .mobile-stack {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .phone {
+        border-radius: 28px;
+        overflow: hidden;
+        box-shadow:
+          0 4px 6px rgba(0, 0, 0, 0.08),
+          0 20px 50px rgba(0, 86, 150, 0.18);
+        border: 3px solid #1a1a2e;
+        background: #fff;
+        width: 180px;
+        margin: 0 auto;
+      }
+      .phone-notch {
+        background: #1a1a2e;
+        height: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .notch-bar {
+        background: #000;
+        width: 60px;
+        height: 8px;
+        border-radius: 10px;
+      }
+      .phone-screen {
+        background: var(--bg);
+      }
+
+      /* Login screen */
+      .phone-login {
+        padding: 1.5rem 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+        background: linear-gradient(160deg, var(--blue) 0%, var(--blue-dark) 100%);
+      }
+      .phone-logo-big {
+        font-size: 1.6rem;
+        font-weight: 900;
+        color: #fff;
+        letter-spacing: -0.03em;
+        text-align: center;
+      }
+      .phone-logo-big span {
+        color: var(--orange);
+      }
+      .phone-tagline {
+        font-size: 0.6rem;
+        color: rgba(255, 255, 255, 0.65);
+        text-align: center;
+        margin-top: -0.5rem;
+      }
+      .phone-field {
+        background: rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        padding: 0.45rem 0.7rem;
+        font-size: 0.65rem;
+        color: rgba(255, 255, 255, 0.7);
+        width: 100%;
+        text-align: left;
+      }
+      .phone-btn {
+        background: var(--orange);
+        border-radius: 8px;
+        padding: 0.45rem;
+        font-size: 0.65rem;
+        font-weight: 700;
+        color: #fff;
+        width: 100%;
+        text-align: center;
+      }
+      .phone-footer {
+        font-size: 0.5rem;
+        color: rgba(255, 255, 255, 0.4);
+        text-align: center;
+      }
+
+      /* Home screen */
+      .phone-home {
+        padding: 0.75rem;
+      }
+      .phone-topbar-home {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 0.75rem;
+      }
+      .phone-user {
+        font-size: 0.62rem;
+        font-weight: 700;
+        color: var(--text);
+      }
+      .phone-user span {
+        display: block;
+        font-size: 0.52rem;
+        color: var(--muted);
+        font-weight: 400;
+      }
+      .phone-avatar {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: var(--blue);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.55rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      .phone-banner {
+        background: linear-gradient(135deg, var(--blue) 0%, #0070c0 100%);
+        border-radius: 10px;
+        padding: 0.75rem;
+        margin-bottom: 0.6rem;
+      }
+      .phone-banner-txt {
+        font-size: 0.6rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      .phone-banner-sub {
+        font-size: 0.52rem;
+        color: rgba(255, 255, 255, 0.7);
+      }
+      .phone-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.4rem;
+      }
+      .phone-module {
+        background: #fff;
+        border-radius: 8px;
+        padding: 0.5rem;
+        text-align: center;
+        border: 1px solid #e8effa;
+      }
+      .phone-module-ico {
+        font-size: 1.1rem;
+        display: block;
+        margin-bottom: 0.2rem;
+      }
+      .phone-module-txt {
+        font-size: 0.5rem;
+        color: var(--text);
+        font-weight: 600;
+      }
+
+      /* ── ARCHITECTURE ── */
+      .arch-section {
+        background: var(--blue);
+        color: #fff;
+        padding: 5rem 0;
+      }
+      .arch-section .section-tag {
+        background: rgba(255, 255, 255, 0.15);
+        color: rgba(255, 255, 255, 0.9);
+      }
+      .arch-section .section-header h2 {
+        color: #fff;
+      }
+      .arch-section .section-header p {
+        color: rgba(255, 255, 255, 0.7);
+      }
+      .arch-diagram {
+        display: grid;
+        grid-template-rows: auto auto auto auto;
+        gap: 0;
+        position: relative;
+      }
+      .arch-tier {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        position: relative;
+        padding: 0.75rem 0;
+      }
+      .arch-tier::before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateX(-50%);
+        z-index: 0;
+      }
+      .arch-node {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: var(--r);
+        padding: 0.75rem 1.25rem;
+        min-width: 130px;
+        text-align: center;
+        position: relative;
+        z-index: 1;
+        transition: all 0.2s;
+      }
+      .arch-node:hover {
+        background: rgba(255, 255, 255, 0.18);
+      }
+      .arch-node.primary {
+        background: rgba(241, 138, 33, 0.2);
+        border-color: rgba(241, 138, 33, 0.5);
+      }
+      .arch-node.gateway {
+        background: rgba(255, 255, 255, 0.15);
+        border-color: rgba(255, 255, 255, 0.35);
+        min-width: 220px;
+      }
+      .arch-node.db {
+        background: rgba(5, 150, 105, 0.2);
+        border-color: rgba(5, 150, 105, 0.5);
+      }
+      .arch-node-icon {
+        font-size: 1.2rem;
+        margin-bottom: 0.3rem;
+      }
+      .arch-node-title {
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      .arch-node-port {
+        font-size: 0.65rem;
+        color: rgba(255, 255, 255, 0.55);
+        margin-top: 0.15rem;
+      }
+      .arch-node-tag {
+        display: inline-block;
+        background: rgba(241, 138, 33, 0.3);
+        border-radius: 10px;
+        padding: 0.1rem 0.45rem;
+        font-size: 0.6rem;
+        color: var(--orange);
+        margin-top: 0.25rem;
+        font-weight: 600;
+      }
+      .arch-arrow {
+        text-align: center;
+        font-size: 1.2rem;
+        color: rgba(255, 255, 255, 0.4);
+        padding: 0.1rem 0;
+      }
+      .arch-services-row {
+        display: flex;
+        justify-content: center;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+      }
+      .arch-legend {
+        display: flex;
+        gap: 2rem;
+        justify-content: center;
+        margin-top: 2rem;
+        flex-wrap: wrap;
+      }
+      .arch-legend-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.78rem;
+        color: rgba(255, 255, 255, 0.65);
+      }
+      .arch-legend-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 3px;
+      }
+
+      /* ── MODULES ── */
+      .modules-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 1rem;
+      }
+      .module-card {
+        padding: 1.25rem;
+        border-radius: var(--r);
+        background: var(--card);
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+        transition:
+          transform 0.15s,
+          box-shadow 0.15s;
+      }
+      .module-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 32px rgba(0, 86, 150, 0.12);
+      }
+      .module-card.value-add {
+        border-color: var(--orange);
+        background: var(--orange-light);
+      }
+      .module-icon {
+        font-size: 1.6rem;
+        margin-bottom: 0.5rem;
+      }
+      .module-title {
+        font-size: 0.88rem;
+        font-weight: 700;
+        color: var(--text);
+        margin-bottom: 0.3rem;
+      }
+      .module-desc {
+        font-size: 0.75rem;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+      .module-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        border-radius: 20px;
+        padding: 0.2rem 0.6rem;
+        font-size: 0.65rem;
+        font-weight: 600;
+        margin-top: 0.5rem;
+      }
+      .module-tag.included {
+        background: var(--green-bg);
+        color: var(--green);
+      }
+      .module-tag.bonus {
+        background: var(--orange-light);
+        color: var(--orange);
+      }
+
+      /* ── TIMELINE / GANTT ── */
+      .timeline-section {
+        background: #fff;
+        padding: 5rem 0;
+      }
+      .gantt {
+        width: 100%;
+        border-radius: var(--r);
+        overflow: hidden;
+        border: 1px solid var(--border);
+      }
+      .gantt-header {
+        display: grid;
+        grid-template-columns: 180px repeat(6, 1fr);
+        background: var(--blue);
+        color: #fff;
+        font-size: 0.72rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      .gantt-header div {
+        padding: 0.65rem 0.75rem;
+        border-right: 1px solid rgba(255, 255, 255, 0.15);
+      }
+      .gantt-row {
+        display: grid;
+        grid-template-columns: 180px repeat(6, 1fr);
+        border-bottom: 1px solid var(--border);
+      }
+      .gantt-row:last-child {
+        border-bottom: none;
+      }
+      .gantt-row:nth-child(odd) {
+        background: #f8fafc;
+      }
+      .gantt-label {
+        padding: 0.65rem 0.75rem;
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: var(--text);
+        border-right: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+      }
+      .gantt-label .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+      .gantt-cell {
+        padding: 0.35rem 0.3rem;
+        border-right: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+      }
+      .gantt-cell:last-child {
+        border-right: none;
+      }
+      .timeline-bar {
+        height: 20px;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.58rem;
+        font-weight: 700;
+        color: #fff;
+        white-space: nowrap;
+        padding: 0 0.5rem;
+        width: 100%;
+      }
+      .timeline-bar.blue {
+        background: var(--blue);
+      }
+      .timeline-bar.orange {
+        background: var(--orange);
+      }
+      .timeline-bar.green {
+        background: var(--green);
+      }
+      .timeline-bar.purple {
+        background: var(--purple);
+      }
+      .timeline-bar.half-blue {
+        background: linear-gradient(90deg, var(--blue) 50%, transparent 50%);
+        border: 1px solid var(--border);
+      }
+
+      .phases-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 1.25rem;
+        margin-top: 2.5rem;
+      }
+      .phase-card {
+        border-radius: var(--r);
+        padding: 1.5rem;
+        position: relative;
+        overflow: hidden;
+      }
+      .phase-card.p1 {
+        background: var(--blue);
+        color: #fff;
+      }
+      .phase-card.p2 {
+        background: var(--orange);
+        color: #fff;
+      }
+      .phase-card.p3 {
+        background: linear-gradient(135deg, var(--green), #047857);
+        color: #fff;
+      }
+      .phase-num {
+        font-size: 4rem;
+        font-weight: 900;
+        opacity: 0.12;
+        position: absolute;
+        top: -1rem;
+        right: 0.5rem;
+        line-height: 1;
+      }
+      .phase-title {
+        font-size: 0.78rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        opacity: 0.8;
+        margin-bottom: 0.3rem;
+      }
+      .phase-period {
+        font-size: 1rem;
+        font-weight: 800;
+        margin-bottom: 0.75rem;
+      }
+      .phase-amount {
+        font-size: 1.8rem;
+        font-weight: 900;
+        letter-spacing: -0.03em;
+        margin-bottom: 0.75rem;
+      }
+      .phase-amount sup {
+        font-size: 0.9rem;
+        vertical-align: super;
+      }
+      .phase-items {
+        list-style: none;
+      }
+      .phase-items li {
+        font-size: 0.78rem;
+        padding: 0.25rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        opacity: 0.9;
+        display: flex;
+        gap: 0.4rem;
+      }
+      .phase-items li:last-child {
+        border-bottom: none;
+      }
+      .phase-items li::before {
+        content: '→';
+        opacity: 0.7;
+        flex-shrink: 0;
+      }
+
+      /* ── PRICING TABLE ── */
+      .pricing-section {
+        background: var(--bg);
+        padding: 5rem 0;
+      }
+      .pricing-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 1.25rem;
+        margin-bottom: 2rem;
+      }
+      .pricing-card {
+        background: var(--card);
+        border-radius: var(--r);
+        padding: 2rem;
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+        position: relative;
+      }
+      .pricing-card.featured {
+        border-color: var(--blue);
+        border-width: 2px;
+      }
+      .pricing-card.featured::before {
+        content: 'Recurrente';
+        position: absolute;
+        top: -1px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--blue);
+        color: #fff;
+        font-size: 0.68rem;
+        font-weight: 700;
+        padding: 0.25rem 0.75rem;
+        border-radius: 0 0 8px 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      .pricing-name {
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin-bottom: 0.5rem;
+      }
+      .pricing-price {
+        font-size: 2.2rem;
+        font-weight: 900;
+        color: var(--text);
+        letter-spacing: -0.03em;
+        line-height: 1;
+      }
+      .pricing-price sup {
+        font-size: 1rem;
+        vertical-align: super;
+        font-weight: 600;
+      }
+      .pricing-price sub {
+        font-size: 0.9rem;
+        color: var(--muted);
+        font-weight: 400;
+      }
+      .pricing-period {
+        font-size: 0.78rem;
+        color: var(--muted);
+        margin-top: 0.2rem;
+        margin-bottom: 1.25rem;
+      }
+      .pricing-items {
+        list-style: none;
+      }
+      .pricing-items li {
+        font-size: 0.82rem;
+        padding: 0.4rem 0;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: flex-start;
+        gap: 0.5rem;
+        color: var(--text);
+      }
+      .pricing-items li:last-child {
+        border-bottom: none;
+      }
+      .pricing-items li::before {
+        content: '✓';
+        color: var(--green);
+        font-weight: 700;
+        flex-shrink: 0;
+      }
+      .pricing-total-box {
+        background: var(--blue);
+        border-radius: var(--r);
+        padding: 1.5rem 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: #fff;
+        gap: 2rem;
+        flex-wrap: wrap;
+      }
+      .pt-label {
+        font-size: 0.85rem;
+        opacity: 0.75;
+      }
+      .pt-main {
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin: 0.2rem 0;
+      }
+      .pt-amount {
+        font-size: 2.4rem;
+        font-weight: 900;
+        letter-spacing: -0.03em;
+      }
+      .pt-amount sup {
+        font-size: 1rem;
+        vertical-align: super;
+        font-weight: 600;
+      }
+      .pt-note {
+        font-size: 0.72rem;
+        opacity: 0.6;
+        margin-top: 0.2rem;
+      }
+      .pt-recurrent {
+        text-align: right;
+      }
+      .pt-rec-label {
+        font-size: 0.8rem;
+        opacity: 0.7;
+      }
+      .pt-rec-val {
+        font-size: 1.6rem;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        color: var(--orange);
+      }
+      .pt-rec-val sup {
+        font-size: 0.8rem;
+        vertical-align: super;
+      }
+
+      /* ── COMPARISON TABLE ── */
+      .comp-table {
+        width: 100%;
+        border-collapse: collapse;
+        border-radius: var(--r);
+        overflow: hidden;
+        border: 1px solid var(--border);
+      }
+      .comp-table th {
+        background: var(--blue);
+        color: #fff;
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 0.75rem 1rem;
+        text-align: left;
+        border-right: 1px solid rgba(255, 255, 255, 0.15);
+      }
+      .comp-table th:last-child {
+        border-right: none;
+        text-align: center;
+      }
+      .comp-table td {
+        padding: 0.6rem 1rem;
+        font-size: 0.82rem;
+        border-bottom: 1px solid var(--border);
+        border-right: 1px solid var(--border);
+        vertical-align: middle;
+      }
+      .comp-table td:last-child {
+        border-right: none;
+        text-align: center;
+      }
+      .comp-table tr:last-child td {
+        border-bottom: none;
+      }
+      .comp-table tr:nth-child(even) {
+        background: #f8fafc;
+      }
+      .comp-table tr.bonus-row {
+        background: var(--orange-light);
+      }
+      .comp-table tr.bonus-row td:first-child {
+        font-weight: 700;
+        color: var(--orange);
+      }
+      .check {
+        color: var(--green);
+        font-weight: 700;
+        font-size: 1rem;
+      }
+      .check-partial {
+        color: var(--orange);
+        font-weight: 700;
+        font-size: 0.9rem;
+      }
+      .check-no {
+        color: #cbd5e1;
+        font-size: 0.9rem;
+      }
+      .badge-bonus {
+        background: var(--orange);
+        color: #fff;
+        font-size: 0.6rem;
+        font-weight: 700;
+        border-radius: 10px;
+        padding: 0.1rem 0.45rem;
+        margin-left: 0.4rem;
+        vertical-align: middle;
+      }
+
+      /* ── FEATURE CARDS (diferenciadores) ── */
+      .feat-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        gap: 1rem;
+        margin-top: 3rem;
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+      .feat-card {
+        border-radius: var(--r);
+        padding: 1.25rem;
+        text-align: center;
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+      .feat-card--white {
+        background: var(--card);
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+      }
+      .feat-card--orange {
+        background: var(--orange-light);
+        border: 1px solid var(--orange);
+        box-shadow: var(--shadow);
+      }
+      .feat-icon {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+      }
+      .feat-title {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: var(--text);
+        margin-bottom: 0.3rem;
+      }
+      .feat-desc {
+        font-size: 0.75rem;
+        color: var(--muted);
+      }
+
+      /* ── STACK CARDS (arquitectura) ── */
+      .stack-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 1rem;
+        margin-top: 2.5rem;
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+      .stack-card {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: var(--r);
+        padding: 1.25rem;
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+      .stack-label {
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: rgba(255, 255, 255, 0.65);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin-bottom: 0.75rem;
+      }
+      .stack-items {
+        font-size: 0.82rem;
+        color: #fff;
+        line-height: 2;
+      }
+
+      /* ── SLA / SUPPORT ── */
+      .sla-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+      }
+      .sla-card {
+        padding: 1.5rem;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--r);
+        box-shadow: var(--shadow);
+      }
+      .sla-card h3 {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--text);
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .sla-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .sla-table td,
+      .sla-table th {
+        padding: 0.45rem 0.6rem;
+        font-size: 0.8rem;
+        border-bottom: 1px solid var(--border);
+      }
+      .sla-table th {
+        font-weight: 600;
+        color: var(--muted);
+        font-size: 0.72rem;
+        text-align: left;
+      }
+      .sla-table tr:last-child td {
+        border-bottom: none;
+      }
+      .sla-highlight {
+        color: var(--blue);
+        font-weight: 700;
+      }
+
+      /* ── STEPS ── */
+      .steps {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        gap: 1rem;
+        margin-top: 1.5rem;
+      }
+      .step {
+        text-align: center;
+        position: relative;
+      }
+      .step::after {
+        content: '';
+        position: absolute;
+        top: 24px;
+        left: 60%;
+        width: 80%;
+        height: 2px;
+        background: var(--border);
+      }
+      .step:last-child::after {
+        display: none;
+      }
+      .step-num {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: var(--blue);
+        color: #fff;
+        font-size: 1.1rem;
+        font-weight: 800;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 0.75rem;
+        position: relative;
+        z-index: 1;
+        box-shadow: 0 0 0 6px var(--blue-light);
+      }
+      .step-title {
+        font-size: 0.82rem;
+        font-weight: 700;
+        color: var(--text);
+        margin-bottom: 0.3rem;
+      }
+      .step-desc {
+        font-size: 0.73rem;
+        color: var(--muted);
+      }
+
+      /* ── SIGNATURE ── */
+      .signature-section {
+        background: #fff;
+        padding: 5rem 0;
+      }
+      .sig-intro {
+        text-align: center;
+        margin-bottom: 2.5rem;
+        padding: 1.5rem 2rem;
+        background: var(--blue-light);
+        border-radius: var(--r);
+        border-left: 4px solid var(--blue);
+      }
+      .sig-intro p {
+        color: var(--text);
+        font-size: 0.88rem;
+        line-height: 1.7;
+      }
+      .sig-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+      }
+      .sig-box {
+        border: 1px solid var(--border);
+        border-radius: var(--r);
+        padding: 1.5rem;
+      }
+      .sig-box h3 {
+        font-size: 0.88rem;
+        font-weight: 700;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin-bottom: 1.25rem;
+      }
+      .sig-row {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 1.25rem;
+      }
+      .sig-label {
+        font-size: 0.72rem;
+        color: var(--muted);
+        margin-bottom: 0.3rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .sig-line {
+        border-bottom: 2px solid var(--border);
+        height: 28px;
+        margin-bottom: 0.2rem;
+      }
+      .sig-footer {
+        text-align: center;
+        padding: 1.5rem 0 0;
+        font-size: 0.75rem;
+        color: var(--muted);
+      }
+      .sig-footer strong {
+        color: var(--blue);
+      }
+
+      /* ── FOOTER ── */
+      .footer {
+        background: var(--blue-dark);
+        color: rgba(255, 255, 255, 0.6);
+        padding: 1.5rem 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 0.78rem;
+      }
+      .footer strong {
+        color: #fff;
+      }
+      .footer-logo {
+        font-size: 0.9rem;
+        font-weight: 800;
+        color: #fff;
+      }
+      .footer-logo span {
+        color: var(--orange);
+      }
+
+      /* ── NAV ── */
+      .toc {
+        position: fixed;
+        top: 50%;
+        right: 1.5rem;
+        transform: translateY(-50%);
+        z-index: 100;
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+      }
+      .toc-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: rgba(0, 86, 150, 0.3);
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .toc-dot:hover,
+      .toc-dot.active {
+        background: var(--blue);
+        transform: scale(1.3);
+      }
+      @media (max-width: 700px) {
+        .toc {
+          display: none;
+        }
+      }
+      @media print {
+        .toc {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- TOC dots -->
+    <nav class="toc no-print" aria-label="Secciones">
+      <div class="toc-dot active" title="Portada"></div>
+      <div class="toc-dot" title="Resumen Ejecutivo"></div>
+      <div class="toc-dot" title="La Plataforma"></div>
+      <div class="toc-dot" title="Arquitectura"></div>
+      <div class="toc-dot" title="Módulos"></div>
+      <div class="toc-dot" title="Cronograma"></div>
+      <div class="toc-dot" title="Inversión"></div>
+      <div class="toc-dot" title="Soporte"></div>
+      <div class="toc-dot" title="Aceptación"></div>
+    </nav>
+
+    <!-- ═══════════════════════════════════════ COVER ═══════════════════════════════════════ -->
+    <div class="hero" id="cover">
+      <div class="hero-deco"></div>
+      <div class="hero-deco2"></div>
+
+      <div class="hero-top">
+        <div class="brand-logo">
+          <div>
+            <div class="brand-name">DCH Total</div>
+            <div class="brand-sub">Gestión integral de talento</div>
+          </div>
+        </div>
+        <div class="badge-boardai">
+          <div class="dot-boardai"></div>
+          Desarrollado por board-ai.mx
+        </div>
+      </div>
+
+      <div class="hero-body">
+        <div class="hero-tag">
+          <span>📋</span>
+          Propuesta Comercial · Agosto 2026
+        </div>
+        <h1>Plataforma HR<br /><span>todo en uno</span> para DCH</h1>
+        <p class="hero-tagline">
+          Portal web de administración + App iOS/Android para colaboradores + API de microservicios
+          + infraestructura AWS. Multitenant por razón social.
+        </p>
+
+        <div class="hero-kpis">
+          <div class="kpi">
+            <div class="kpi-val">17<span> módulos</span></div>
+            <div class="kpi-lab">Funcionales incluidos</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-val">3<span> apps</span></div>
+            <div class="kpi-lab">Web admin + iOS + Android</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-val">1,000<span> emp</span></div>
+            <div class="kpi-lab">Capacidad incluida</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-val">$550<span>k</span></div>
+            <div class="kpi-lab">Inversión fija total</div>
+          </div>
+        </div>
+
+        <div class="hero-meta">
+          <div class="meta-item">
+            <span class="meta-lab">Cliente</span>
+            <span class="meta-val">DCH Servicios Especializados</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-lab">Proveedor</span>
+            <span class="meta-val">board-ai.mx</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-lab">Fecha</span>
+            <span class="meta-val">Agosto 2026</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-bottom">
+        <span class="hero-bottom-txt">app.dchkw.com.mx · api.dchkw.com.mx · board-ai.mx</span>
+        <span class="validity-chip">Válida 30 días</span>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ EXEC SUMMARY ═══════════════════════════════════════ -->
+    <section id="exec" style="background: #fff">
+      <div class="wrap">
+        <div class="section-header">
+          <div class="section-tag">01 · Resumen Ejecutivo</div>
+          <h2>Lo que DCH obtiene</h2>
+          <p>
+            board-ai.mx implementa, integra y opera DCH Total como plataforma de gestión integral de
+            talento: una sola inversión, todos los módulos que DCH solicitó y más.
+          </p>
+        </div>
+
+        <div class="exec-grid">
+          <div class="exec-card blue">
+            <h3>Setup (puesta en marcha)</h3>
+            <div class="exec-val"><sup>$</sup>350,000</div>
+            <div class="exec-note">3 pagos mensuales · Agosto – Octubre 2026</div>
+            <ul class="exec-list" style="margin-top: 1rem">
+              <li>Admin web operativo con todos los módulos</li>
+              <li>App móvil iOS/Android completa</li>
+              <li>Branding DCH Total aplicado</li>
+              <li>Ambiente staging en AWS</li>
+              <li>Release Candidate listo para go-live</li>
+            </ul>
+          </div>
+          <div class="exec-card orange">
+            <h3>Integración + Go-live</h3>
+            <div class="exec-val"><sup>$</sup>200,000</div>
+            <div class="exec-note">Nov 2026 – Ene 2027 (estimado)</div>
+            <ul class="exec-list" style="margin-top: 1rem">
+              <li>Conexión con sistema de nómina DCH</li>
+              <li>Publicación App Store + Google Play</li>
+              <li>DNS: app.dchkw.com.mx / api.dchkw.com.mx</li>
+              <li>Deploy en producción AWS</li>
+              <li>Capacitación de equipos RH</li>
+            </ul>
+          </div>
+          <div class="exec-card white" style="grid-column: 1/-1">
+            <div
+              style="display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: start"
+            >
+              <div>
+                <h3 style="font-size: 1rem; margin-bottom: 0.75rem">
+                  Fee mensual de plataforma (a perpetuidad desde go-live)
+                </h3>
+                <p style="font-size: 0.85rem; color: var(--muted); margin-bottom: 1rem">
+                  Un solo fee que incluye todo: licencia de uso, soporte L2 y operación de
+                  infraestructura AWS. Sin costos ocultos mientras el headcount no supere 1,000
+                  empleados activos.
+                </p>
+                <ul class="exec-list">
+                  <li>Licencia de uso hasta 1,000 empleados activos</li>
+                  <li>Soporte L2 correctivo (8 h/mes): incidencias, bugs del alcance, monitoreo</li>
+                  <li>AWS: RDS PostgreSQL, cómputo, backups automáticos, SSL, staging liviano</li>
+                  <li>Hasta 5 razones sociales (tenants) incluidas</li>
+                  <li>Parches de seguridad críticos</li>
+                </ul>
+              </div>
+              <div style="text-align: right; min-width: 160px">
+                <div style="font-size: 0.78rem; color: var(--muted); margin-bottom: 0.3rem">
+                  Por mes
+                </div>
+                <div
+                  style="
+                    font-size: 3rem;
+                    font-weight: 900;
+                    color: var(--blue);
+                    letter-spacing: -0.04em;
+                    line-height: 1;
+                  "
+                >
+                  <sup style="font-size: 1.2rem; vertical-align: super">$</sup>55,000
+                </div>
+                <div style="font-size: 0.75rem; color: var(--muted); margin-top: 0.3rem">
+                  + IVA · facturación anticipada
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-top: 1.5rem"
+        >
+          <div
+            style="
+              background: var(--blue-light);
+              border-radius: var(--r);
+              padding: 1.25rem;
+              border-left: 4px solid var(--blue);
+            "
+          >
+            <div
+              style="
+                font-size: 0.72rem;
+                font-weight: 700;
+                color: var(--blue);
+                text-transform: uppercase;
+                letter-spacing: 0.06em;
+                margin-bottom: 0.5rem;
+              "
+            >
+              Inversión fija total
+            </div>
+            <div style="font-size: 2rem; font-weight: 900; color: var(--blue)">$550,000</div>
+            <div style="font-size: 0.78rem; color: var(--muted)">
+              Setup + Integración · pago en hitos
+            </div>
+          </div>
+          <div
+            style="
+              background: var(--orange-light);
+              border-radius: var(--r);
+              padding: 1.25rem;
+              border-left: 4px solid var(--orange);
+            "
+          >
+            <div
+              style="
+                font-size: 0.72rem;
+                font-weight: 700;
+                color: var(--orange);
+                text-transform: uppercase;
+                letter-spacing: 0.06em;
+                margin-bottom: 0.5rem;
+              "
+            >
+              Año 1 orientativo
+            </div>
+            <div style="font-size: 2rem; font-weight: 900; color: var(--orange)">~$1.15M</div>
+            <div style="font-size: 0.78rem; color: var(--muted)">
+              Setup + Integración + 11 meses fee
+            </div>
+          </div>
+          <div
+            style="
+              background: var(--green-bg);
+              border-radius: var(--r);
+              padding: 1.25rem;
+              border-left: 4px solid var(--green);
+            "
+          >
+            <div
+              style="
+                font-size: 0.72rem;
+                font-weight: 700;
+                color: var(--green);
+                text-transform: uppercase;
+                letter-spacing: 0.06em;
+                margin-bottom: 0.5rem;
+              "
+            >
+              Módulos comprometidos
+            </div>
+            <div style="font-size: 2rem; font-weight: 900; color: var(--green)">100%</div>
+            <div style="font-size: 0.78rem; color: var(--muted)">
+              Todo lo solicitado por DCH + 2 extras
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════ PLATFORM MOCKUPS ═══════════════════════════════════════ -->
+    <section id="platform" class="mockups-section">
+      <div class="wrap">
+        <div class="section-header">
+          <div class="section-tag">02 · La Plataforma</div>
+          <h2>Así se ve DCH Total</h2>
+          <p>
+            Portal web de administración para RH + app nativa para colaboradores. Un ecosistema
+            completo con tu marca.
+          </p>
+        </div>
+
+        <div class="mockup-wrap">
+          <!-- Web Admin -->
+          <div>
+            <div class="mockup-label">Portal web administrador — app.dchkw.com.mx</div>
+            <div class="web-admin">
+              <div class="wa-topbar">
+                <div class="wa-logo"><span>D</span>CH Total</div>
+                <div
+                  style="font-size: 0.65rem; color: rgba(255, 255, 255, 0.5); margin-left: 0.5rem"
+                >
+                  Gestión integral de talento
+                </div>
+                <div class="wa-dots">
+                  <div class="wa-dot"></div>
+                  <div class="wa-dot"></div>
+                  <div class="wa-dot green"></div>
+                </div>
+              </div>
+              <div class="wa-body">
+                <div class="wa-sidebar">
+                  <div class="wa-nav-icon active">🏠</div>
+                  <div class="wa-nav-icon">👥</div>
+                  <div class="wa-nav-icon">📄</div>
+                  <div class="wa-nav-icon">🏖️</div>
+                  <div class="wa-nav-icon">🎫</div>
+                  <div class="wa-nav-icon">📢</div>
+                  <div class="wa-nav-icon">📚</div>
+                  <div class="wa-nav-icon">📊</div>
+                  <div class="wa-nav-icon">⚙️</div>
+                </div>
+                <div class="wa-main">
+                  <div class="wa-tenant">tenant: AEISA</div>
+                  <div class="wa-greeting">Buenos días, <span>Admin RH</span></div>
+                  <div class="wa-metrics">
+                    <div class="wa-metric">
+                      <div class="wa-metric-ico" style="background: #e8f2fb">👥</div>
+                      <div>
+                        <div class="wa-metric-val">248</div>
+                        <div class="wa-metric-lab">Colaboradores</div>
+                      </div>
+                    </div>
+                    <div class="wa-metric">
+                      <div class="wa-metric-ico" style="background: #fef3e2">🏖️</div>
+                      <div>
+                        <div class="wa-metric-val">14</div>
+                        <div class="wa-metric-lab">Vac. pendientes</div>
+                      </div>
+                    </div>
+                    <div class="wa-metric">
+                      <div class="wa-metric-ico" style="background: #f0fdf4">🎫</div>
+                      <div>
+                        <div class="wa-metric-val">7</div>
+                        <div class="wa-metric-lab">Tickets abiertos</div>
+                      </div>
+                    </div>
+                    <div class="wa-metric">
+                      <div class="wa-metric-ico" style="background: #fef3e2">📄</div>
+                      <div>
+                        <div class="wa-metric-val">32</div>
+                        <div class="wa-metric-lab">Docs pendientes</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="wa-quick-label">Acciones rápidas</div>
+                  <div class="wa-quick">
+                    <div class="wa-qbtn"><span>➕</span>Nuevo colaborador</div>
+                    <div class="wa-qbtn"><span>📤</span>Subir recibos</div>
+                    <div class="wa-qbtn"><span>📢</span>Comunicado</div>
+                    <div class="wa-qbtn"><span>📋</span>Reporte</div>
+                    <div class="wa-qbtn"><span>🔍</span>Expediente</div>
+                    <div class="wa-qbtn"><span>⏱️</span>Asistencia</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              style="
+                margin-top: 1rem;
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 0.75rem;
+              "
+            >
+              <div
+                style="
+                  background: var(--card);
+                  border: 1px solid var(--border);
+                  border-radius: 10px;
+                  padding: 0.9rem;
+                  box-shadow: var(--shadow);
+                "
+              >
+                <div
+                  style="
+                    font-size: 0.65rem;
+                    color: var(--muted);
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    letter-spacing: 0.05em;
+                    margin-bottom: 0.4rem;
+                  "
+                >
+                  Tenants activos
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 0.3rem">
+                  <div style="font-size: 0.72rem; display: flex; align-items: center; gap: 0.4rem">
+                    <span
+                      style="
+                        width: 8px;
+                        height: 8px;
+                        border-radius: 50%;
+                        background: var(--blue);
+                        flex-shrink: 0;
+                      "
+                    ></span
+                    >AEISA
+                  </div>
+                  <div style="font-size: 0.72rem; display: flex; align-items: center; gap: 0.4rem">
+                    <span
+                      style="
+                        width: 8px;
+                        height: 8px;
+                        border-radius: 50%;
+                        background: var(--orange);
+                        flex-shrink: 0;
+                      "
+                    ></span
+                    >RGA
+                  </div>
+                  <div style="font-size: 0.72rem; display: flex; align-items: center; gap: 0.4rem">
+                    <span
+                      style="
+                        width: 8px;
+                        height: 8px;
+                        border-radius: 50%;
+                        background: var(--green);
+                        flex-shrink: 0;
+                      "
+                    ></span
+                    >Staffing
+                  </div>
+                </div>
+              </div>
+              <div
+                style="
+                  background: var(--card);
+                  border: 1px solid var(--border);
+                  border-radius: 10px;
+                  padding: 0.9rem;
+                  box-shadow: var(--shadow);
+                "
+              >
+                <div
+                  style="
+                    font-size: 0.65rem;
+                    color: var(--muted);
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    letter-spacing: 0.05em;
+                    margin-bottom: 0.4rem;
+                  "
+                >
+                  Módulos activos
+                </div>
+                <div style="font-size: 0.72rem; color: var(--text); line-height: 1.6">
+                  Expediente · Vacaciones<br />Tickets · Comunicados<br />Biblioteca · REPSE
+                </div>
+              </div>
+              <div
+                style="background: var(--blue); border-radius: 10px; padding: 0.9rem; color: #fff"
+              >
+                <div
+                  style="
+                    font-size: 0.65rem;
+                    color: rgba(255, 255, 255, 0.65);
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    letter-spacing: 0.05em;
+                    margin-bottom: 0.4rem;
+                  "
+                >
+                  Stack
+                </div>
+                <div style="font-size: 0.72rem; line-height: 1.7; color: rgba(255, 255, 255, 0.85)">
+                  Angular 19<br />Java/Spring Boot<br />AWS · PostgreSQL
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mobile -->
+          <div>
+            <div class="mockup-label">App colaborador — iOS &amp; Android</div>
+            <div class="mobile-stack">
+              <!-- Login Screen -->
+              <div>
+                <div
+                  style="
+                    font-size: 0.65rem;
+                    color: var(--muted);
+                    text-align: center;
+                    margin-bottom: 0.5rem;
+                  "
+                >
+                  Pantalla de acceso
+                </div>
+                <div class="phone">
+                  <div class="phone-notch"><div class="notch-bar"></div></div>
+                  <div class="phone-login">
+                    <div style="font-size: 2rem; margin-bottom: -0.5rem">∞</div>
+                    <div class="phone-logo-big"><span>D</span>CH Total</div>
+                    <div class="phone-tagline">Gestión integral de talento</div>
+                    <div
+                      style="
+                        width: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        gap: 0.5rem;
+                        margin-top: 0.5rem;
+                      "
+                    >
+                      <div class="phone-field">usuario@aeisa.dch.mx</div>
+                      <div class="phone-field">••••••••</div>
+                      <div class="phone-btn">Ingresar</div>
+                    </div>
+                    <div class="phone-footer">
+                      Un servicio de DCH Servicios Especializados<br />Desarrollado por board-ai.mx
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Home Screen -->
+              <div>
+                <div
+                  style="
+                    font-size: 0.65rem;
+                    color: var(--muted);
+                    text-align: center;
+                    margin-bottom: 0.5rem;
+                  "
+                >
+                  Inicio del colaborador
+                </div>
+                <div class="phone">
+                  <div class="phone-notch"><div class="notch-bar"></div></div>
+                  <div class="phone-screen">
+                    <div class="phone-home">
+                      <div class="phone-topbar-home">
+                        <div class="phone-user">
+                          Hola, María López
+                          <span>AEISA · Almacén</span>
+                        </div>
+                        <div class="phone-avatar">ML</div>
+                      </div>
+                      <div class="phone-banner">
+                        <div class="phone-banner-txt">📢 Comunicado importante</div>
+                        <div class="phone-banner-sub">Actualización de políticas · Ago 2026</div>
+                      </div>
+                      <div
+                        style="
+                          font-size: 0.58rem;
+                          font-weight: 600;
+                          color: var(--muted);
+                          text-transform: uppercase;
+                          letter-spacing: 0.05em;
+                          margin-bottom: 0.4rem;
+                        "
+                      >
+                        Mi espacio
+                      </div>
+                      <div class="phone-grid">
+                        <div class="phone-module">
+                          <span class="phone-module-ico">👤</span>
+                          <div class="phone-module-txt">Mi Perfil</div>
+                        </div>
+                        <div class="phone-module">
+                          <span class="phone-module-ico">🪪</span>
+                          <div class="phone-module-txt">Credencial</div>
+                        </div>
+                        <div class="phone-module">
+                          <span class="phone-module-ico">📄</span>
+                          <div class="phone-module-txt">Recibos</div>
+                        </div>
+                        <div class="phone-module">
+                          <span class="phone-module-ico">🏖️</span>
+                          <div class="phone-module-txt">Vacaciones</div>
+                        </div>
+                        <div class="phone-module">
+                          <span class="phone-module-ico">⏱️</span>
+                          <div class="phone-module-txt">Checador</div>
+                        </div>
+                        <div class="phone-module">
+                          <span class="phone-module-ico">🎫</span>
+                          <div class="phone-module-txt">Tickets</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Value Differentiators -->
+        <div class="feat-grid">
+          <div class="feat-card feat-card--white">
+            <div class="feat-icon">🏢</div>
+            <div class="feat-title">Multitenant</div>
+            <div class="feat-desc">
+              AEISA, RGA y Staffing en una sola plataforma, aislados por razón social
+            </div>
+          </div>
+          <div class="feat-card feat-card--white">
+            <div class="feat-icon">📱</div>
+            <div class="feat-title">App nativa</div>
+            <div class="feat-desc">
+              iOS y Android publicadas en tiendas. Push notifications reales.
+            </div>
+          </div>
+          <div class="feat-card feat-card--orange">
+            <div class="feat-icon">📋</div>
+            <div class="feat-title" style="color: var(--orange)">REPSE incluido</div>
+            <div class="feat-desc">
+              Módulo de cumplimiento REPSE. Diferenciador vs Buk y Humand.
+            </div>
+          </div>
+          <div class="feat-card feat-card--orange">
+            <div class="feat-icon">⏱️</div>
+            <div class="feat-title" style="color: var(--orange)">Checador virtual</div>
+            <div class="feat-desc">
+              Reloj checador con geolocalización desde la app. Sin hardware adicional.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════ ARCHITECTURE ═══════════════════════════════════════ -->
+    <section id="arch" class="arch-section">
+      <div class="wrap">
+        <div class="section-header">
+          <div class="section-tag">03 · Arquitectura Técnica</div>
+          <h2>Infraestructura de microservicios</h2>
+          <p>
+            8 microservicios Spring Boot independientes + Gateway API. Desplegados en AWS con Docker
+            y PostgreSQL en RDS.
+          </p>
+        </div>
+
+        <div class="arch-diagram">
+          <!-- Tier 1: Clients -->
+          <div class="arch-tier">
+            <div class="arch-node primary">
+              <div class="arch-node-icon">🌐</div>
+              <div class="arch-node-title">Web Admin</div>
+              <div class="arch-node-port">Angular 19 · Puerto 80</div>
+              <div class="arch-node-tag">app.dchkw.com.mx</div>
+            </div>
+            <div class="arch-node primary">
+              <div class="arch-node-icon">📱</div>
+              <div class="arch-node-title">App Móvil</div>
+              <div class="arch-node-port">Ionic 8 · iOS / Android</div>
+              <div class="arch-node-tag">mx.boardai.dchtotal</div>
+            </div>
+          </div>
+
+          <div class="arch-arrow">↓</div>
+
+          <!-- Tier 2: Gateway -->
+          <div class="arch-tier">
+            <div class="arch-node gateway">
+              <div class="arch-node-icon">🚪</div>
+              <div class="arch-node-title">API Gateway</div>
+              <div class="arch-node-port">Spring Cloud Gateway · Puerto 8000</div>
+              <div class="arch-node-tag">api.dchkw.com.mx</div>
+            </div>
+          </div>
+
+          <div class="arch-arrow">↓</div>
+
+          <!-- Tier 3: Services -->
+          <div class="arch-tier">
+            <div class="arch-services-row">
+              <div class="arch-node">
+                <div class="arch-node-icon">🔐</div>
+                <div class="arch-node-title">Security</div>
+                <div class="arch-node-port">:8090 · /security/*</div>
+              </div>
+              <div class="arch-node">
+                <div class="arch-node-icon">👤</div>
+                <div class="arch-node-title">User</div>
+                <div class="arch-node-port">:8092 · /user/*</div>
+              </div>
+              <div class="arch-node">
+                <div class="arch-node-icon">📦</div>
+                <div class="arch-node-title">Application</div>
+                <div class="arch-node-port">:8091 · /application/*</div>
+                <div class="arch-node-tag">REPSE · Biblioteca · Comunicados</div>
+              </div>
+              <div class="arch-node">
+                <div class="arch-node-icon">📋</div>
+                <div class="arch-node-title">HR Service</div>
+                <div class="arch-node-port">:8095 · /hr/*</div>
+                <div class="arch-node-tag">Vacaciones · Tickets · Buzón</div>
+              </div>
+              <div class="arch-node">
+                <div class="arch-node-icon">📄</div>
+                <div class="arch-node-title">Document</div>
+                <div class="arch-node-port">:8096 · /doc/*</div>
+              </div>
+              <div class="arch-node">
+                <div class="arch-node-icon">⏱️</div>
+                <div class="arch-node-title">Attendance</div>
+                <div class="arch-node-port">:8094 · /attend/*</div>
+              </div>
+              <div class="arch-node">
+                <div class="arch-node-icon">🚀</div>
+                <div class="arch-node-title">Onboarding</div>
+                <div class="arch-node-port">:8093 · /onboard/*</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Integration note: external payroll -->
+          <div
+            style="
+              margin: 0.5rem auto 0;
+              max-width: 680px;
+              background: rgba(241, 138, 33, 0.08);
+              border: 1px dashed rgba(241, 138, 33, 0.5);
+              border-radius: 8px;
+              padding: 0.6rem 1rem;
+              font-size: 0.78rem;
+              color: var(--muted);
+              text-align: center;
+            "
+          >
+            🔗 <strong style="color: var(--orange)">Integración: Sistema de Nómina DCH</strong> —
+            API externa (NOI / Aspel / SAP). Cotización adicional: $200,000 MXN.
+          </div>
+
+          <div class="arch-arrow">↓</div>
+
+          <!-- Tier 4: DB -->
+          <div class="arch-tier">
+            <div class="arch-node db">
+              <div class="arch-node-icon">🐘</div>
+              <div class="arch-node-title">PostgreSQL (AWS RDS)</div>
+              <div class="arch-node-port">
+                us-east-1 · Backups 7 días · Aislamiento por X-Tenant-ID
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="arch-legend">
+          <div class="arch-legend-item">
+            <div class="arch-legend-dot" style="background: rgba(241, 138, 33, 0.5)"></div>
+            Frontend / Clientes
+          </div>
+          <div class="arch-legend-item">
+            <div class="arch-legend-dot" style="background: rgba(255, 255, 255, 0.3)"></div>
+            Microservicios Spring Boot
+          </div>
+          <div class="arch-legend-item">
+            <div class="arch-legend-dot" style="background: rgba(5, 150, 105, 0.5)"></div>
+            Base de datos RDS
+          </div>
+          <div class="arch-legend-item">
+            <div class="arch-legend-dot" style="background: rgba(255, 255, 255, 0.12)"></div>
+            + Eureka (Service Discovery)
+          </div>
+        </div>
+
+        <div class="stack-grid">
+          <div class="stack-card">
+            <div class="stack-label">Stack backend</div>
+            <div class="stack-items">
+              Java 21 · Spring Boot 3.2<br />Spring Cloud + Eureka<br />PostgreSQL + Liquibase<br />Docker
+              + AWS ECR + EC2
+            </div>
+          </div>
+          <div class="stack-card">
+            <div class="stack-label">Stack frontend</div>
+            <div class="stack-items">
+              Angular 19 · TypeScript<br />Ionic 8 (iOS/Android)<br />Firebase Cloud Messaging<br />Autenticación
+              cifrada
+            </div>
+          </div>
+          <div class="stack-card">
+            <div class="stack-label">Infraestructura AWS</div>
+            <div class="stack-items">
+              EC2 (cómputo)<br />RDS PostgreSQL (datos)<br />ECR (registry Docker)<br />SSL · DNS ·
+              Backups 7 días
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════ MODULES ═══════════════════════════════════════ -->
+    <section id="modules" style="background: #fff; padding: 5rem 0">
+      <div class="wrap">
+        <div class="section-header">
+          <div class="section-tag">04 · Módulos Funcionales</div>
+          <h2>17 módulos comprometidos en Setup + Integración</h2>
+          <p>
+            Todo lo que DCH solicitó, más 2 módulos de valor agregado que ningun competidor ofrece
+            de forma nativa.
+          </p>
+        </div>
+
+        <div class="modules-grid">
+          <div class="module-card">
+            <div class="module-icon">🏠</div>
+            <div class="module-title">Dashboard</div>
+            <div class="module-desc">
+              Resumen ejecutivo: headcount, pendientes, alertas de vencimiento, acciones rápidas
+              para admin y colaborador.
+            </div>
+            <span class="module-tag included">✓ Incluido en Setup</span>
+          </div>
+          <div class="module-card">
+            <div class="module-icon">👥</div>
+            <div class="module-title">Colaboradores / Ficha</div>
+            <div class="module-desc">
+              Expediente digital completo: datos personales, historial laboral, datos de
+              contratación, compensación, IMSS, RFC, CURP.
+            </div>
+            <span class="module-tag included">✓ Incluido en Setup</span>
+          </div>
+          <div class="module-card">
+            <div class="module-icon">📄</div>
+            <div class="module-title">Documentos &amp; CFDI</div>
+            <div class="module-desc">
+              Carga de documentos (INE, contratos, recibos de nómina). Flujo: pendiente → validado →
+              rechazado → vencido.
+            </div>
+            <span class="module-tag included">✓ Incluido en Setup</span>
+          </div>
+          <div class="module-card">
+            <div class="module-icon">🏖️</div>
+            <div class="module-title">Vacaciones y Permisos</div>
+            <div class="module-desc">
+              Solicitud, aprobación a 2 niveles (jefe / RH), calendario, saldo por colaborador.
+              Alineado a FO-DGA-URM-001.
+            </div>
+            <span class="module-tag included">✓ Incluido en Setup</span>
+          </div>
+          <div class="module-card">
+            <div class="module-icon">⚠️</div>
+            <div class="module-title">Incidencias</div>
+            <div class="module-desc">
+              Retardos, faltas, horas extra, actas administrativas. Reportes y exportación
+              Excel/PDF.
+            </div>
+            <span class="module-tag included">✓ Incluido en Setup</span>
+          </div>
+          <div class="module-card">
+            <div class="module-icon">🎫</div>
+            <div class="module-title">Tickets / Mesa de Ayuda</div>
+            <div class="module-desc">
+              Categorías: nómina, documentos, CH, soporte técnico. Asignación, estados, historial y
+              encuesta de satisfacción.
+            </div>
+            <span class="module-tag included">✓ Incluido en Setup</span>
+          </div>
+          <div class="module-card">
+            <div class="module-icon">📢</div>
+            <div class="module-title">Comunicados &amp; Banners</div>
+            <div class="module-desc">
+              Avisos segmentados por cliente/proyecto, push notifications via Firebase. Confirmación
+              de lectura.
+            </div>
+            <span class="module-tag included">✓ Incluido en Setup</span>
+          </div>
+          <div class="module-card">
+            <div class="module-icon">📚</div>
+            <div class="module-title">Biblioteca de Recursos</div>
+            <div class="module-desc">
+              Manuales, políticas y formatos organizados por razón social (AEISA, RGA, Staffing).
+              Búsqueda y descarga.
+            </div>
+            <span class="module-tag included">✓ Incluido en Setup</span>
+          </div>
+          <div class="module-card">
+            <div class="module-icon">🔒</div>
+            <div class="module-title">Buzón Confidencial</div>
+            <div class="module-desc">
+              Canal anónimo y restringido para quejas y denuncias. Permisos acotados a roles
+              específicos RH.
+            </div>
+            <span class="module-tag included">✓ Incluido en Setup</span>
+          </div>
+          <div class="module-card">
+            <div class="module-icon">🚀</div>
+            <div class="module-title">Onboarding &amp; Reinducción</div>
+            <div class="module-desc">
+              Checklist de ingreso para candidato→empleado. Acuses de entrega, avance por etapa,
+              reinducción periódica.
+            </div>
+            <span class="module-tag included">✓ Incluido en Setup</span>
+          </div>
+          <div class="module-card">
+            <div class="module-icon">📊</div>
+            <div class="module-title">Encuestas &amp; Clima</div>
+            <div class="module-desc">
+              Encuestas NOM-035 y de clima laboral segmentables por razón social. Reportes y
+              exportación.
+            </div>
+            <span class="module-tag included">✓ Incluido en Setup</span>
+          </div>
+          <div class="module-card">
+            <div class="module-icon">🎓</div>
+            <div class="module-title">Capacitación (base)</div>
+            <div class="module-desc">
+              Cursos, manuales y constancias vía biblioteca. Historial de capacitación por
+              colaborador. LMS avanzado cotizable.
+            </div>
+            <span class="module-tag included">✓ Incluido en Setup</span>
+          </div>
+          <div class="module-card">
+            <div class="module-icon">⭐</div>
+            <div class="module-title">Evaluación de Desempeño (base)</div>
+            <div class="module-desc">
+              Evaluación por periodo para staff DCH. Versión base incluida; evaluación 360 y
+              ampliaciones son cotizables.
+            </div>
+            <span class="module-tag included">✓ Incluido en Setup</span>
+          </div>
+          <div class="module-card">
+            <div class="module-icon">🌳</div>
+            <div class="module-title">Organigrama</div>
+            <div class="module-desc">
+              Estructura interna de DCH y vista por cliente/proyecto asignado. Navegable y
+              exportable.
+            </div>
+            <span class="module-tag included">✓ Incluido en Setup</span>
+          </div>
+          <div class="module-card">
+            <div class="module-icon">🪪</div>
+            <div class="module-title">Credencial Digital</div>
+            <div class="module-desc">
+              Credencial virtual con foto, QR de verificación, cliente asignado y vigencia. Acceso
+              desde app móvil.
+            </div>
+            <span class="module-tag included">✓ Incluido en Setup</span>
+          </div>
+          <div class="module-card value-add">
+            <div class="module-icon">📋</div>
+            <div class="module-title">
+              Módulo REPSE
+              <span
+                style="
+                  font-size: 0.7rem;
+                  background: var(--orange);
+                  color: #fff;
+                  border-radius: 8px;
+                  padding: 0.1rem 0.4rem;
+                  margin-left: 0.3rem;
+                "
+                >EXTRA</span
+              >
+            </div>
+            <div class="module-desc">
+              Perfil REPSE por razón social, cumplimiento IMSS/SAT, alertas de vencimiento,
+              exportación regulatoria. Buk y Humand no lo ofrecen nativo.
+            </div>
+            <span class="module-tag bonus">★ Valor agregado board-ai.mx</span>
+          </div>
+          <div class="module-card value-add">
+            <div class="module-icon">⏱️</div>
+            <div class="module-title">
+              Checador Virtual
+              <span
+                style="
+                  font-size: 0.7rem;
+                  background: var(--orange);
+                  color: #fff;
+                  border-radius: 8px;
+                  padding: 0.1rem 0.4rem;
+                  margin-left: 0.3rem;
+                "
+                >EXTRA</span
+              >
+            </div>
+            <div class="module-desc">
+              Reloj checador con geolocalización desde la app móvil. Control de asistencia sin
+              hardware. Admin con mapa y reportes de entrada/salida.
+            </div>
+            <span class="module-tag bonus">★ Valor agregado board-ai.mx</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════ COMPARISON ═══════════════════════════════════════ -->
+    <section style="background: var(--bg); padding: 5rem 0">
+      <div class="wrap">
+        <div class="section-header">
+          <div class="section-tag">05 · Comparativa vs Mercado</div>
+          <h2>DCH Total vs la competencia</h2>
+          <p>
+            Todo lo que DCH pidió, adaptado a staffing REPSE multi-cliente — algo que Buk y Humand
+            no hacen de forma nativa.
+          </p>
+        </div>
+
+        <table class="comp-table">
+          <thead>
+            <tr>
+              <th>Módulo / Característica</th>
+              <th style="text-align: center">Solicitado por DCH</th>
+              <th style="text-align: center">DCH Total</th>
+              <th style="text-align: center">Buk / Humand</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Dashboard / inicio</td>
+              <td style="text-align: center"><span class="check">✓</span></td>
+              <td style="text-align: center"><span class="check">✓</span></td>
+              <td style="text-align: center"><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td>Expediente digital del colaborador</td>
+              <td style="text-align: center"><span class="check">✓</span></td>
+              <td style="text-align: center"><span class="check">✓</span></td>
+              <td style="text-align: center"><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td>Documentos &amp; CFDI</td>
+              <td style="text-align: center"><span class="check">✓</span></td>
+              <td style="text-align: center"><span class="check">✓</span></td>
+              <td style="text-align: center"><span class="check-partial">◐</span></td>
+            </tr>
+            <tr>
+              <td>Vacaciones y permisos (2 niveles)</td>
+              <td style="text-align: center"><span class="check">✓</span></td>
+              <td style="text-align: center"><span class="check">✓</span></td>
+              <td style="text-align: center"><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td>Incidencias</td>
+              <td style="text-align: center"><span class="check">✓</span></td>
+              <td style="text-align: center"><span class="check">✓</span></td>
+              <td style="text-align: center"><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td>Tickets / mesa de ayuda</td>
+              <td style="text-align: center"><span class="check">✓</span></td>
+              <td style="text-align: center"><span class="check">✓</span></td>
+              <td style="text-align: center"><span class="check-partial">◐</span></td>
+            </tr>
+            <tr>
+              <td>Comunicados + push notifications</td>
+              <td style="text-align: center"><span class="check">✓</span></td>
+              <td style="text-align: center"><span class="check">✓</span></td>
+              <td style="text-align: center"><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td>Biblioteca de recursos</td>
+              <td style="text-align: center"><span class="check">✓</span></td>
+              <td style="text-align: center"><span class="check">✓</span></td>
+              <td style="text-align: center"><span class="check-partial">◐</span></td>
+            </tr>
+            <tr>
+              <td>Buzón confidencial</td>
+              <td style="text-align: center"><span class="check">✓</span></td>
+              <td style="text-align: center"><span class="check">✓</span></td>
+              <td style="text-align: center"><span class="check-partial">◐</span></td>
+            </tr>
+            <tr>
+              <td>Onboarding &amp; reinducción</td>
+              <td style="text-align: center"><span class="check">✓</span></td>
+              <td style="text-align: center"><span class="check">✓</span></td>
+              <td style="text-align: center"><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td>Encuestas NOM-035 / clima</td>
+              <td style="text-align: center"><span class="check">✓</span></td>
+              <td style="text-align: center"><span class="check">✓</span></td>
+              <td style="text-align: center"><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td>Credencial digital + QR</td>
+              <td style="text-align: center"><span class="check">✓</span></td>
+              <td style="text-align: center"><span class="check">✓</span></td>
+              <td style="text-align: center"><span class="check-no">—</span></td>
+            </tr>
+            <tr>
+              <td>Multi-cliente / multi-razón social</td>
+              <td style="text-align: center"><span class="check">✓</span></td>
+              <td style="text-align: center"><span class="check">✓</span></td>
+              <td style="text-align: center"><span class="check-no">—</span></td>
+            </tr>
+            <tr>
+              <td>App iOS + Android (empleados)</td>
+              <td style="text-align: center"><span class="check">✓</span></td>
+              <td style="text-align: center"><span class="check">✓</span></td>
+              <td style="text-align: center"><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td>Integración nómina / recibos</td>
+              <td style="text-align: center"><span class="check">✓</span></td>
+              <td style="text-align: center"><span class="check">✓</span></td>
+              <td style="text-align: center"><span class="check">✓</span></td>
+            </tr>
+            <tr class="bonus-row">
+              <td>Módulo REPSE nativo <span class="badge-bonus">EXTRA</span></td>
+              <td style="text-align: center"><span class="check-no">—</span></td>
+              <td style="text-align: center"><span class="check">✓</span></td>
+              <td style="text-align: center"><span class="check-no">—</span></td>
+            </tr>
+            <tr class="bonus-row">
+              <td>Checador virtual + geolocalización <span class="badge-bonus">EXTRA</span></td>
+              <td style="text-align: center"><span class="check-no">—</span></td>
+              <td style="text-align: center"><span class="check">✓</span></td>
+              <td style="text-align: center"><span class="check-partial">◐</span></td>
+            </tr>
+            <tr style="background: var(--blue-light); font-weight: 700">
+              <td style="color: var(--blue)">Adaptación REPSE + multitenancy staffing MX</td>
+              <td style="text-align: center"><span class="check-no">—</span></td>
+              <td style="text-align: center"><span class="check">✓</span></td>
+              <td style="text-align: center"><span class="check-no">—</span></td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="font-size: 0.72rem; color: var(--muted); margin-top: 0.75rem">
+          ✓ Incluido · ◐ Parcial / add-on · — No disponible de forma nativa
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════ TIMELINE ═══════════════════════════════════════ -->
+    <section id="timeline" class="timeline-section">
+      <div class="wrap">
+        <div class="section-header">
+          <div class="section-tag">06 · Cronograma</div>
+          <h2>De kickoff a go-live en 6 meses</h2>
+          <p>Agenda realista con entregables claros por mes y criterios de aceptación definidos.</p>
+        </div>
+
+        <div class="gantt">
+          <div class="gantt-header">
+            <div>Entregable</div>
+            <div>Ago</div>
+            <div>Sep</div>
+            <div>Oct</div>
+            <div>Nov</div>
+            <div>Dic</div>
+            <div>Ene</div>
+          </div>
+          <div class="gantt-row">
+            <div class="gantt-label">
+              <div class="dot" style="background: var(--blue)"></div>
+              Admin web — branding &amp; base
+            </div>
+            <div class="gantt-cell"><div class="timeline-bar blue">$120k</div></div>
+            <div class="gantt-cell"></div>
+            <div class="gantt-cell"></div>
+            <div class="gantt-cell"></div>
+            <div class="gantt-cell"></div>
+            <div class="gantt-cell"></div>
+          </div>
+          <div class="gantt-row">
+            <div class="gantt-label">
+              <div class="dot" style="background: var(--blue)"></div>
+              App móvil — vacaciones, tickets
+            </div>
+            <div class="gantt-cell"></div>
+            <div class="gantt-cell"><div class="timeline-bar blue">$115k</div></div>
+            <div class="gantt-cell"></div>
+            <div class="gantt-cell"></div>
+            <div class="gantt-cell"></div>
+            <div class="gantt-cell"></div>
+          </div>
+          <div class="gantt-row">
+            <div class="gantt-label">
+              <div class="dot" style="background: var(--blue)"></div>
+              App: encuestas + recibos + staging
+            </div>
+            <div class="gantt-cell"></div>
+            <div class="gantt-cell"></div>
+            <div class="gantt-cell"><div class="timeline-bar blue">$115k</div></div>
+            <div class="gantt-cell"></div>
+            <div class="gantt-cell"></div>
+            <div class="gantt-cell"></div>
+          </div>
+          <div class="gantt-row">
+            <div class="gantt-label">
+              <div class="dot" style="background: var(--orange)"></div>
+              Integración nómina (kickoff)
+            </div>
+            <div class="gantt-cell"></div>
+            <div class="gantt-cell"></div>
+            <div class="gantt-cell"></div>
+            <div class="gantt-cell"><div class="timeline-bar orange">$80k</div></div>
+            <div class="gantt-cell"></div>
+            <div class="gantt-cell"></div>
+          </div>
+          <div class="gantt-row">
+            <div class="gantt-label">
+              <div class="dot" style="background: var(--orange)"></div>
+              Publicación tiendas + DNS + UAT
+            </div>
+            <div class="gantt-cell"></div>
+            <div class="gantt-cell"></div>
+            <div class="gantt-cell"></div>
+            <div class="gantt-cell"></div>
+            <div class="gantt-cell">
+              <div class="timeline-bar orange" style="background: #e07010">UAT</div>
+            </div>
+            <div class="gantt-cell"></div>
+          </div>
+          <div class="gantt-row">
+            <div class="gantt-label">
+              <div class="dot" style="background: var(--green)"></div>
+              Go-live producción + capacitación
+            </div>
+            <div class="gantt-cell"></div>
+            <div class="gantt-cell"></div>
+            <div class="gantt-cell"></div>
+            <div class="gantt-cell"></div>
+            <div class="gantt-cell"></div>
+            <div class="gantt-cell"><div class="timeline-bar green">$120k · 🚀</div></div>
+          </div>
+          <div class="gantt-row" style="background: var(--blue-light)">
+            <div class="gantt-label" style="color: var(--blue); font-weight: 700">
+              <div class="dot" style="background: var(--purple)"></div>
+              Fee mensual (desde go-live)
+            </div>
+            <div class="gantt-cell"></div>
+            <div class="gantt-cell"></div>
+            <div class="gantt-cell"></div>
+            <div class="gantt-cell"></div>
+            <div class="gantt-cell"></div>
+            <div class="gantt-cell"><div class="timeline-bar purple">$55k/mes</div></div>
+          </div>
+        </div>
+
+        <div class="phases-grid">
+          <div class="phase-card p1">
+            <div class="phase-num">1</div>
+            <div class="phase-title">Fase 1 — Setup</div>
+            <div class="phase-period">Agosto – Octubre 2026</div>
+            <div class="phase-amount"><sup>$</sup>350,000</div>
+            <ul class="phase-items">
+              <li>Branding DCH Total aplicado</li>
+              <li>Admin web con 17 módulos</li>
+              <li>App móvil iOS + Android</li>
+              <li>Ambiente staging en AWS</li>
+              <li>Release Candidate</li>
+            </ul>
+          </div>
+          <div class="phase-card p2">
+            <div class="phase-num">2</div>
+            <div class="phase-title">Fase 2 — Integración</div>
+            <div class="phase-period">Noviembre 2026 – Enero 2027</div>
+            <div class="phase-amount"><sup>$</sup>200,000</div>
+            <ul class="phase-items">
+              <li>Integración nómina DCH</li>
+              <li>App Store + Google Play</li>
+              <li>DNS prod + SSL</li>
+              <li>Deploy producción AWS</li>
+              <li>Capacitación equipo RH</li>
+            </ul>
+          </div>
+          <div class="phase-card p3">
+            <div class="phase-num">∞</div>
+            <div class="phase-title">Fase 3 — Operación</div>
+            <div class="phase-period">Desde go-live · Indefinido</div>
+            <div class="phase-amount">
+              <sup>$</sup>55,000<span style="font-size: 1rem">/mes</span>
+            </div>
+            <ul class="phase-items">
+              <li>Licencia de uso plataforma</li>
+              <li>Soporte L2 correctivo (8 h/mes)</li>
+              <li>Infra AWS (hasta 1,000 emp)</li>
+              <li>Backups y monitoreo</li>
+              <li>Parches de seguridad</li>
+            </ul>
+          </div>
+        </div>
+
+        <div
+          style="
+            margin-top: 2rem;
+            background: var(--blue-light);
+            border-radius: var(--r);
+            padding: 1.5rem;
+            border-left: 4px solid var(--blue);
+          "
+        >
+          <div
+            style="font-size: 0.85rem; font-weight: 700; color: var(--blue); margin-bottom: 0.75rem"
+          >
+            Criterio de aceptación del Setup (Fase 1)
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem">
+            <div style="font-size: 0.78rem; color: var(--text)">
+              ✅ Demo E2E funcional en staging (admin + empleado)
+            </div>
+            <div style="font-size: 0.78rem; color: var(--text)">
+              ✅ Branding DCH Total visible, sin referencias legacy
+            </div>
+            <div style="font-size: 0.78rem; color: var(--text)">
+              ✅ Checklist firmado por DCH y board-ai.mx
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════ PRICING ═══════════════════════════════════════ -->
+    <section id="pricing" class="pricing-section">
+      <div class="wrap">
+        <div class="section-header">
+          <div class="section-tag">07 · Estructura de Inversión</div>
+          <h2>Inversión clara, sin sorpresas</h2>
+          <p>
+            Tres componentes: setup fijo, integración por hitos y fee mensual todo-incluido. Sin
+            tarifa por empleado dentro del rango.
+          </p>
+        </div>
+
+        <div class="pricing-grid">
+          <div class="pricing-card">
+            <div class="pricing-name">Setup</div>
+            <div class="pricing-price"><sup>$</sup>350,000</div>
+            <div class="pricing-period">Pago en 3 hitos mensuales (Ago–Oct)</div>
+            <ul class="pricing-items">
+              <li>$120,000 en Agosto (kickoff)</li>
+              <li>$115,000 en Septiembre</li>
+              <li>$115,000 en Octubre</li>
+              <li>Módulos web admin completos</li>
+              <li>App iOS + Android</li>
+              <li>Staging AWS</li>
+            </ul>
+          </div>
+          <div class="pricing-card">
+            <div class="pricing-name">Integración</div>
+            <div class="pricing-price"><sup>$</sup>200,000</div>
+            <div class="pricing-period">40% kickoff / 60% contra aceptación</div>
+            <ul class="pricing-items">
+              <li>$80,000 al kickoff técnico</li>
+              <li>$120,000 contra go-live aceptado</li>
+              <li>Integración nómina DCH</li>
+              <li>App Store + Google Play</li>
+              <li>DNS + SSL producción</li>
+              <li>Capacitación equipos RH</li>
+            </ul>
+          </div>
+          <div class="pricing-card featured">
+            <div class="pricing-name">Plataforma mensual</div>
+            <div class="pricing-price"><sup>$</sup>55,000<sub>/mes</sub></div>
+            <div class="pricing-period">Desde el mes de go-live · Indefinido</div>
+            <ul class="pricing-items">
+              <li>Licencia de uso plataforma</li>
+              <li>Hasta 1,000 empleados activos</li>
+              <li>Hasta 5 razones sociales</li>
+              <li>Soporte L2 correctivo (8 h/mes)</li>
+              <li>AWS: cómputo, RDS, SSL, backups</li>
+              <li>Parches de seguridad críticos</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="pricing-total-box">
+          <div>
+            <div class="pt-label">Inversión fija de arranque</div>
+            <div class="pt-main">Setup + Integración (todos los módulos comprometidos)</div>
+            <div class="pt-amount"><sup>$</sup>550,000</div>
+            <div class="pt-note">+ IVA · pagos en hitos según entregables aceptados</div>
+          </div>
+          <div style="width: 2px; background: rgba(255, 255, 255, 0.2); height: 80px"></div>
+          <div class="pt-recurrent">
+            <div class="pt-rec-label">Operación continua</div>
+            <div class="pt-rec-val"><sup>$</sup>55,000</div>
+            <div style="font-size: 0.72rem; color: rgba(255, 255, 255, 0.6); margin-top: 0.2rem">
+              por mes + IVA · desde go-live
+            </div>
+          </div>
+          <div style="width: 2px; background: rgba(255, 255, 255, 0.2); height: 80px"></div>
+          <div>
+            <div style="font-size: 0.78rem; color: rgba(255, 255, 255, 0.7)">Año 1 orientativo</div>
+            <div style="font-size: 1.8rem; font-weight: 900; color: #fff; letter-spacing: -0.03em">
+              ~$1.15M
+            </div>
+            <div style="font-size: 0.72rem; color: rgba(255, 255, 255, 0.55)">
+              Setup + Int. + 11 meses fee
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 1.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem">
+          <div
+            style="
+              background: var(--card);
+              border: 1px solid var(--border);
+              border-radius: var(--r);
+              padding: 1.25rem;
+              box-shadow: var(--shadow);
+            "
+          >
+            <div
+              style="
+                font-size: 0.82rem;
+                font-weight: 700;
+                color: var(--text);
+                margin-bottom: 0.75rem;
+              "
+            >
+              💳 Condiciones de pago
+            </div>
+            <table style="width: 100%; font-size: 0.78rem; border-collapse: collapse">
+              <tr>
+                <td
+                  style="
+                    padding: 0.3rem 0;
+                    border-bottom: 1px solid var(--border);
+                    color: var(--muted);
+                    width: 140px;
+                  "
+                >
+                  Moneda
+                </td>
+                <td
+                  style="
+                    padding: 0.3rem 0;
+                    border-bottom: 1px solid var(--border);
+                    font-weight: 500;
+                  "
+                >
+                  MXN + IVA
+                </td>
+              </tr>
+              <tr>
+                <td
+                  style="
+                    padding: 0.3rem 0;
+                    border-bottom: 1px solid var(--border);
+                    color: var(--muted);
+                  "
+                >
+                  Forma de pago
+                </td>
+                <td
+                  style="
+                    padding: 0.3rem 0;
+                    border-bottom: 1px solid var(--border);
+                    font-weight: 500;
+                  "
+                >
+                  Transferencia SPEI contra factura
+                </td>
+              </tr>
+              <tr>
+                <td
+                  style="
+                    padding: 0.3rem 0;
+                    border-bottom: 1px solid var(--border);
+                    color: var(--muted);
+                  "
+                >
+                  Fee mensual
+                </td>
+                <td
+                  style="
+                    padding: 0.3rem 0;
+                    border-bottom: 1px solid var(--border);
+                    font-weight: 500;
+                  "
+                >
+                  Anticipado, días 1–5 del mes
+                </td>
+              </tr>
+              <tr>
+                <td
+                  style="
+                    padding: 0.3rem 0;
+                    border-bottom: 1px solid var(--border);
+                    color: var(--muted);
+                  "
+                >
+                  Terminación
+                </td>
+                <td
+                  style="
+                    padding: 0.3rem 0;
+                    border-bottom: 1px solid var(--border);
+                    font-weight: 500;
+                  "
+                >
+                  Aviso escrito 60 días
+                </td>
+              </tr>
+              <tr>
+                <td style="padding: 0.3rem 0; color: var(--muted)">Datos al cierre</td>
+                <td style="padding: 0.3rem 0; font-weight: 500">Exportables en formato estándar</td>
+              </tr>
+            </table>
+          </div>
+          <div
+            style="
+              background: var(--card);
+              border: 1px solid var(--border);
+              border-radius: var(--r);
+              padding: 1.25rem;
+              box-shadow: var(--shadow);
+            "
+          >
+            <div
+              style="
+                font-size: 0.82rem;
+                font-weight: 700;
+                color: var(--text);
+                margin-bottom: 0.75rem;
+              "
+            >
+              🔒 Propiedad y garantías
+            </div>
+            <table style="width: 100%; font-size: 0.78rem; border-collapse: collapse">
+              <tr>
+                <td
+                  style="
+                    padding: 0.3rem 0;
+                    border-bottom: 1px solid var(--border);
+                    color: var(--muted);
+                    width: 140px;
+                  "
+                >
+                  Código plataforma
+                </td>
+                <td
+                  style="
+                    padding: 0.3rem 0;
+                    border-bottom: 1px solid var(--border);
+                    font-weight: 500;
+                  "
+                >
+                  board-ai.mx (licencia uso a DCH)
+                </td>
+              </tr>
+              <tr>
+                <td
+                  style="
+                    padding: 0.3rem 0;
+                    border-bottom: 1px solid var(--border);
+                    color: var(--muted);
+                  "
+                >
+                  Datos de DCH
+                </td>
+                <td
+                  style="
+                    padding: 0.3rem 0;
+                    border-bottom: 1px solid var(--border);
+                    font-weight: 500;
+                  "
+                >
+                  Propiedad de DCH en todo momento
+                </td>
+              </tr>
+              <tr>
+                <td
+                  style="
+                    padding: 0.3rem 0;
+                    border-bottom: 1px solid var(--border);
+                    color: var(--muted);
+                  "
+                >
+                  Garantía Setup
+                </td>
+                <td
+                  style="
+                    padding: 0.3rem 0;
+                    border-bottom: 1px solid var(--border);
+                    font-weight: 500;
+                  "
+                >
+                  30 días post-aceptación (defectos)
+                </td>
+              </tr>
+              <tr>
+                <td
+                  style="
+                    padding: 0.3rem 0;
+                    border-bottom: 1px solid var(--border);
+                    color: var(--muted);
+                  "
+                >
+                  Confidencialidad
+                </td>
+                <td
+                  style="
+                    padding: 0.3rem 0;
+                    border-bottom: 1px solid var(--border);
+                    font-weight: 500;
+                  "
+                >
+                  Mutua; NDA disponible
+                </td>
+              </tr>
+              <tr>
+                <td style="padding: 0.3rem 0; color: var(--muted)">Validez propuesta</td>
+                <td style="padding: 0.3rem 0; font-weight: 500; color: var(--orange)">
+                  30 días naturales
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════ SLA ═══════════════════════════════════════ -->
+    <section id="sla" style="background: #fff; padding: 5rem 0">
+      <div class="wrap">
+        <div class="section-header">
+          <div class="section-tag">08 · Soporte y SLA</div>
+          <h2>Soporte incluido en el fee mensual</h2>
+          <p>
+            Tiempos de respuesta comprometidos, canales definidos y niveles de severidad claros.
+          </p>
+        </div>
+
+        <div class="sla-grid">
+          <div class="sla-card">
+            <h3>⚡ Niveles de severidad</h3>
+            <table class="sla-table">
+              <thead>
+                <tr>
+                  <th>Severidad</th>
+                  <th>Descripción</th>
+                  <th>Respuesta inicial</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong style="color: #dc2626">P1 Crítico</strong></td>
+                  <td>Plataforma caída / acceso imposible</td>
+                  <td class="sla-highlight">&lt; 4 h hábiles</td>
+                </tr>
+                <tr>
+                  <td><strong style="color: var(--orange)">P2 Alto</strong></td>
+                  <td>Módulo clave no funciona, workaround disponible</td>
+                  <td class="sla-highlight">&lt; 8 h hábiles</td>
+                </tr>
+                <tr>
+                  <td><strong style="color: var(--blue)">P3 Medio</strong></td>
+                  <td>Bug que afecta parcialmente</td>
+                  <td class="sla-highlight">&lt; 2 días hábiles</td>
+                </tr>
+                <tr>
+                  <td><strong style="color: var(--muted)">P4 Bajo</strong></td>
+                  <td>Mejora menor, consulta operativa</td>
+                  <td class="sla-highlight">Agenda sprint</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="sla-card">
+            <h3>📋 Qué incluye el soporte mensual</h3>
+            <table class="sla-table">
+              <thead>
+                <tr>
+                  <th>Incluido</th>
+                  <th>No incluido (cotización aparte)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>✅ Incidencias de disponibilidad</td>
+                  <td>❌ Nuevos módulos o pantallas</td>
+                </tr>
+                <tr>
+                  <td>✅ Corrección de bugs del alcance</td>
+                  <td>❌ Rediseños UX/UI mayores</td>
+                </tr>
+                <tr>
+                  <td>✅ Dudas de uso RH (horario hábil)</td>
+                  <td>❌ Capacitación recurrente masiva</td>
+                </tr>
+                <tr>
+                  <td>✅ Parches de seguridad críticos</td>
+                  <td>❌ Integraciones adicionales</td>
+                </tr>
+                <tr>
+                  <td>✅ 8 h/mes soporte correctivo</td>
+                  <td>❌ Horas extra → cotización</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="sla-card">
+            <h3>🖥️ Infraestructura AWS incluida</h3>
+            <table class="sla-table">
+              <thead>
+                <tr>
+                  <th>Recurso</th>
+                  <th>Incluido</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Cómputo (API + front)</td>
+                  <td class="sla-highlight">Hasta 1,000 empleados activos</td>
+                </tr>
+                <tr>
+                  <td>Base de datos</td>
+                  <td class="sla-highlight">RDS PostgreSQL + backup 7 días</td>
+                </tr>
+                <tr>
+                  <td>Almacenamiento docs</td>
+                  <td class="sla-highlight">Cuota acordada (~100 GB)</td>
+                </tr>
+                <tr>
+                  <td>Red / SSL</td>
+                  <td class="sla-highlight">Certificados + balanceo</td>
+                </tr>
+                <tr>
+                  <td>Staging</td>
+                  <td class="sla-highlight">Ambiente de pruebas liviano</td>
+                </tr>
+                <tr>
+                  <td>Monitoreo</td>
+                  <td class="sla-highlight">Alertas caída / disco / CPU</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="sla-card">
+            <h3>📞 Canales y horario</h3>
+            <table class="sla-table">
+              <thead>
+                <tr>
+                  <th>Parámetro</th>
+                  <th>Valor</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Horario soporte</td>
+                  <td class="sla-highlight">Lun–Vie, 9:00–18:00 CDMX</td>
+                </tr>
+                <tr>
+                  <td>Canal principal</td>
+                  <td>Correo / chat acordado en kickoff</td>
+                </tr>
+                <tr>
+                  <td>Cuenta AWS</td>
+                  <td>DCH con acceso board-ai.mx (o gestionada)</td>
+                </tr>
+                <tr>
+                  <td>Tarifa extra horas</td>
+                  <td>$1,400 MXN/hr · mín. 4 h</td>
+                </tr>
+                <tr>
+                  <td>Tenants incluidos</td>
+                  <td class="sla-highlight">Hasta 5 razones sociales</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div
+          style="
+            margin-top: 2rem;
+            background: var(--orange-light);
+            border-radius: var(--r);
+            padding: 1.5rem;
+            border-left: 4px solid var(--orange);
+          "
+        >
+          <div
+            style="
+              font-size: 0.85rem;
+              font-weight: 700;
+              color: var(--orange);
+              margin-bottom: 0.5rem;
+            "
+          >
+            Cambios y mejoras fuera del alcance (cotización aparte)
+          </div>
+          <div
+            style="
+              display: grid;
+              grid-template-columns: 1fr 1fr 1fr;
+              gap: 0.75rem;
+              font-size: 0.78rem;
+              color: var(--text);
+            "
+          >
+            <div>💸 Módulo Fintech / Mi Adelanto</div>
+            <div>🏢 Portal RH completo cliente contratante</div>
+            <div>💼 Portal público de vacantes</div>
+            <div>🎓 LMS avanzado / evaluación 360 ampliada</div>
+            <div>📈 Reportes custom / BI</div>
+            <div>📡 Integraciones adicionales (IMSS, SAT, CFDI avanzado)</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════ NEXT STEPS ═══════════════════════════════════════ -->
+    <section style="background: var(--blue); color: #fff; padding: 4rem 0">
+      <div class="wrap">
+        <div class="section-header">
+          <div
+            class="section-tag"
+            style="background: rgba(255, 255, 255, 0.15); color: rgba(255, 255, 255, 0.9)"
+          >
+            09 · Próximos pasos
+          </div>
+          <h2 style="color: #fff">Arranquemos en agosto</h2>
+          <p style="color: rgba(255, 255, 255, 0.7)">
+            4 pasos simples del acuerdo al primer entregable.
+          </p>
+        </div>
+
+        <div class="steps">
+          <div class="step">
+            <div
+              class="step-num"
+              style="background: var(--orange); box-shadow: 0 0 0 6px rgba(241, 138, 33, 0.2)"
+            >
+              1
+            </div>
+            <div class="step-title" style="color: #fff">Firma / Carta de Intención</div>
+            <div class="step-desc" style="color: rgba(255, 255, 255, 0.65)">
+              Aceptación de esta propuesta o carta de intención del Setup ($350k)
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-title" style="color: #fff">Kickoff Agosto</div>
+            <div class="step-desc" style="color: rgba(255, 255, 255, 0.65)">
+              Reunión técnica: accesos, branding final, calendario de sprints
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-title" style="color: #fff">Primer pago $120k</div>
+            <div class="step-desc" style="color: rgba(255, 255, 255, 0.65)">
+              Transferencia SPEI contra factura. Iniciamos desarrollo inmediatamente
+            </div>
+          </div>
+          <div class="step">
+            <div
+              class="step-num"
+              style="background: var(--green); box-shadow: 0 0 0 6px rgba(5, 150, 105, 0.2)"
+            >
+              4
+            </div>
+            <div class="step-title" style="color: #fff">Demo agosto →</div>
+            <div class="step-desc" style="color: rgba(255, 255, 255, 0.65)">
+              Admin web estable, branding DCH Total, smoke tests OK
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════ SIGNATURE ═══════════════════════════════════════ -->
+    <section id="signature" class="signature-section page-break">
+      <div class="wrap">
+        <div class="section-header">
+          <div class="section-tag">10 · Aceptación</div>
+          <h2>Firma de aceptación</h2>
+          <p>
+            Con la firma de este documento, ambas partes aceptan las condiciones comerciales
+            descritas en esta propuesta.
+          </p>
+        </div>
+
+        <div class="sig-intro">
+          <p>
+            Esta propuesta tiene una vigencia de <strong>30 días naturales</strong> a partir del
+            <strong>6 de agosto de 2026</strong>. La aceptación puede darse mediante la firma de
+            este documento o mediante una carta de intención por el monto del Setup ($350,000 MXN +
+            IVA). El inicio formal del proyecto se produce al recibir el primer pago y el kickoff
+            acordado.
+          </p>
+        </div>
+
+        <div class="sig-grid">
+          <div class="sig-box">
+            <h3>Cliente</h3>
+            <div class="sig-row">
+              <span class="sig-label">Razón social</span>
+              <div class="sig-line"></div>
+              <span style="font-size: 0.7rem; color: var(--muted)"
+                >DCH Servicios Especializados</span
+              >
+            </div>
+            <div class="sig-row">
+              <span class="sig-label">Nombre completo</span>
+              <div class="sig-line"></div>
+            </div>
+            <div class="sig-row">
+              <span class="sig-label">Cargo</span>
+              <div class="sig-line"></div>
+            </div>
+            <div class="sig-row">
+              <span class="sig-label">Firma</span>
+              <div class="sig-line" style="height: 56px"></div>
+            </div>
+            <div class="sig-row" style="margin-bottom: 0">
+              <span class="sig-label">Fecha</span>
+              <div class="sig-line"></div>
+            </div>
+          </div>
+          <div class="sig-box" style="border-color: var(--blue)">
+            <h3 style="color: var(--blue)">Proveedor</h3>
+            <div class="sig-row">
+              <span class="sig-label">Razón social</span>
+              <div class="sig-line"></div>
+              <span style="font-size: 0.7rem; color: var(--muted)"
+                >board-ai.mx · Roberto Esparza</span
+              >
+            </div>
+            <div class="sig-row">
+              <span class="sig-label">Nombre completo</span>
+              <div class="sig-line"></div>
+            </div>
+            <div class="sig-row">
+              <span class="sig-label">Cargo</span>
+              <div class="sig-line"></div>
+              <span style="font-size: 0.7rem; color: var(--muted)">Director / Fundador</span>
+            </div>
+            <div class="sig-row">
+              <span class="sig-label">Firma</span>
+              <div class="sig-line" style="height: 56px"></div>
+            </div>
+            <div class="sig-row" style="margin-bottom: 0">
+              <span class="sig-label">Fecha</span>
+              <div class="sig-line"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sig-footer">
+          Documento preparado por <strong>board-ai.mx</strong> · Producto
+          <strong>DCH Total</strong> · Agosto 2026<br />
+          <span style="color: var(--blue)">app.dchkw.com.mx</span> ·
+          <span style="color: var(--orange)">api.dchkw.com.mx</span> · board-ai.mx
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════ FOOTER ═══════════════════════════════════════ -->
+    <footer class="footer">
+      <div>
+        <div class="footer-logo"><span>D</span>CH Total</div>
+        <div style="font-size: 0.72rem; color: rgba(255, 255, 255, 0.4); margin-top: 0.2rem">
+          Gestión integral de talento · dchkw.com.mx
+        </div>
+      </div>
+      <div style="text-align: center; font-size: 0.72rem">
+        Propuesta Comercial · Agosto 2026<br />
+        <span style="color: rgba(255, 255, 255, 0.4)"
+          >Válida 30 días naturales · + IVA en todos los montos</span
+        >
+      </div>
+      <div style="text-align: right">
+        <div style="color: rgba(255, 255, 255, 0.7); font-size: 0.78rem">Desarrollado por</div>
+        <div style="font-weight: 700; color: #fff">board-ai.mx</div>
+      </div>
+    </footer>
+
+    <script>
+      // Simple scroll spy for TOC
+      const dots = document.querySelectorAll('.toc-dot');
+      const sections = [
+        'cover',
+        'exec',
+        'platform',
+        'arch',
+        'modules',
+        'timeline',
+        'pricing',
+        'sla',
+        'signature',
+      ];
+      function updateDots() {
+        const scrollY = window.scrollY + window.innerHeight / 3;
+        sections.forEach((id, i) => {
+          const el = document.getElementById(id);
+          if (!el) return;
+          if (el.offsetTop <= scrollY)
+            dots.forEach((d, j) => d.classList.toggle('active', j === i));
+        });
+      }
+      window.addEventListener('scroll', updateDots, { passive: true });
+      dots.forEach((d, i) => {
+        d.addEventListener('click', () => {
+          const el = document.getElementById(sections[i]);
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+        });
+      });
+    </script>
+  </body>
+</html>

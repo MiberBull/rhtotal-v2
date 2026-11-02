@@ -5,7 +5,7 @@
       <div class="brand-logo">
         <ion-icon name="shield-checkmark"></ion-icon>
       </div>
-      <h1>DCH Know Who</h1>
+      <h1>DCH Total</h1>
       <p>Gestion de capital humano</p>
     </div>
 
@@ -20,7 +20,10 @@
           autocomplete="email"
         ></ion-input>
       </ion-item>
-      <div class="error-text" *ngIf="loginForm.controls.email.touched && loginForm.controls.email.invalid">
+      <div
+        class="error-text"
+        *ngIf="loginForm.controls.email.touched && loginForm.controls.email.invalid"
+      >
         Ingresa un correo valido
       </div>
 
@@ -36,7 +39,10 @@
           <ion-icon [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
         </ion-button>
       </ion-item>
-      <div class="error-text" *ngIf="loginForm.controls.password.touched && loginForm.controls.password.invalid">
+      <div
+        class="error-text"
+        *ngIf="loginForm.controls.password.touched && loginForm.controls.password.invalid"
+      >
         Minimo 8 caracteres
       </div>
 

@@ -15,6 +15,69 @@
   }
 }
 
+// ─── Summary Cards ───────────────────────────
+.summary-section {
+  padding: 12px 20px 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.summary-card {
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 12px;
+  padding: 14px 16px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.summary-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  ion-icon {
+    font-size: 20px;
+  }
+}
+
+.summary-info {
+  flex: 1;
+  margin-left: 14px;
+  display: flex;
+  flex-direction: column;
+}
+
+.summary-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  line-height: 1.2;
+}
+
+.summary-label {
+  font-size: 0.8rem;
+  color: var(--ion-color-medium);
+  margin-top: 1px;
+}
+
+.summary-chevron {
+  font-size: 16px;
+  color: var(--ion-color-medium);
+  flex-shrink: 0;
+}
+
 // ─── Banners ────────────────────────────────
 .banner-section {
   padding: 16px 20px;
@@ -39,7 +102,7 @@
 
 // ─── Tiles ──────────────────────────────────
 .tiles-section {
-  padding: 8px 20px 32px;
+  padding: 8px 20px 40px;
 
   h3 {
     margin: 0 0 16px;
@@ -89,5 +152,6 @@
     font-weight: 500;
     color: #424242;
     text-align: center;
+    line-height: 1.2;
   }
 }

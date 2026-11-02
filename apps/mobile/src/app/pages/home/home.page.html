@@ -5,7 +5,7 @@
         <ion-icon name="menu-outline" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title>DCH Know Who</ion-title>
+    <ion-title>DCH Total</ion-title>
     <ion-buttons slot="end">
       <ion-button routerLink="/notifications">
         <ion-icon name="notifications-outline" slot="icon-only"></ion-icon>
@@ -17,8 +17,56 @@
 <ion-content>
   <!-- Welcome -->
   <div class="welcome-section">
-    <h2>Hola, {{ userName }}</h2>
+    <h2>Hola, {{ employeeName }}</h2>
     <p>Bienvenido de vuelta</p>
+  </div>
+
+  <!-- Summary Cards -->
+  <div class="summary-section">
+    <!-- Vacaciones disponibles -->
+    <div class="summary-card" (click)="navigateTo('/vacaciones')">
+      <div class="summary-icon" style="background: #e8f5e9">
+        <ion-icon name="calendar-outline" style="color: #2e7d32"></ion-icon>
+      </div>
+      <div class="summary-info">
+        <span class="summary-value" *ngIf="!loadingStats && summary.diasVacaciones !== null">
+          {{ summary.diasVacaciones }}
+        </span>
+        <span class="summary-value" *ngIf="loadingStats">—</span>
+        <span class="summary-label">Días de vacaciones</span>
+      </div>
+      <ion-icon name="chevron-forward-outline" class="summary-chevron"></ion-icon>
+    </div>
+
+    <!-- Tickets abiertos -->
+    <div class="summary-card" (click)="navigateTo('/tickets')">
+      <div class="summary-icon" style="background: #e0f7fa">
+        <ion-icon name="help-buoy-outline" style="color: #00838f"></ion-icon>
+      </div>
+      <div class="summary-info">
+        <span class="summary-value" *ngIf="!loadingStats && summary.ticketsAbiertos !== null">
+          {{ summary.ticketsAbiertos }}
+        </span>
+        <span class="summary-value" *ngIf="loadingStats">—</span>
+        <span class="summary-label">Tickets abiertos</span>
+      </div>
+      <ion-icon name="chevron-forward-outline" class="summary-chevron"></ion-icon>
+    </div>
+
+    <!-- Comunicados sin leer -->
+    <div class="summary-card" (click)="navigateTo('/comunicados')">
+      <div class="summary-icon" style="background: #e3f2fd">
+        <ion-icon name="megaphone-outline" style="color: #1565c0"></ion-icon>
+      </div>
+      <div class="summary-info">
+        <span class="summary-value" *ngIf="!loadingStats && summary.comunicadosSinLeer !== null">
+          {{ summary.comunicadosSinLeer }}
+        </span>
+        <span class="summary-value" *ngIf="loadingStats">—</span>
+        <span class="summary-label">Sin leer</span>
+      </div>
+      <ion-icon name="chevron-forward-outline" class="summary-chevron"></ion-icon>
+    </div>
   </div>
 
   <!-- Banner Carousel -->
@@ -40,14 +88,10 @@
 
   <!-- Quick Access Tiles -->
   <div class="tiles-section">
-    <h3>Acceso rapido</h3>
+    <h3>Acceso rápido</h3>
     <div class="tiles-grid">
-      <div
-        class="tile"
-        *ngFor="let tile of tiles"
-        (click)="navigateTo(tile.route)"
-      >
-        <div class="tile-icon" [style.background]="tile.color + '15'">
+      <div class="tile" *ngFor="let tile of tiles" (click)="navigateTo(tile.route)">
+        <div class="tile-icon" [style.background]="tile.color + '18'">
           <ion-icon [name]="tile.icon" [style.color]="tile.color"></ion-icon>
         </div>
         <span class="tile-label">{{ tile.label }}</span>
